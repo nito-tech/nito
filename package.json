@@ -10,7 +10,8 @@
 		"format": "biome format --write",
 		"check": "biome check --write",
 		"unit": "vitest",
-		"coverage": "vitest run --coverage"
+		"coverage": "vitest run --coverage",
+		"coverage:open": "vitest run --coverage && open coverage/index.html"
 	},
 	"dependencies": {
 		"@radix-ui/react-dropdown-menu": "^2.1.6",

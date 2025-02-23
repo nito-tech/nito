@@ -11,6 +11,7 @@ export default defineConfig({
 			reporter: ["text", "json", "html"],
 			include: ["**/*.{ts,tsx}"],
 			exclude: ["next.config.ts", "next-env.d.ts", "i18n/**/*.{ts,tsx}"],
+			reportsDirectory: "./coverage",
 		},
 	},
 });
