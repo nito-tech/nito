@@ -9,10 +9,17 @@ export default defineConfig({
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		coverage: {
 			provider: "v8",
-			reporter: ["text", "json", "html"],
+			reporter: ["text", "json", "html", "json-summary"],
 			include: ["**/*.{ts,tsx}"],
 			exclude: ["next.config.ts", "next-env.d.ts", "i18n/**/*.{ts,tsx}"],
 			reportsDirectory: "./coverage",
+			thresholds: {
+				// FIXME: Increase the threshold values to 80%.
+				statements: 30,
+				branches: 30,
+				functions: 30,
+				lines: 30,
+			},
 		},
 	},
 });
