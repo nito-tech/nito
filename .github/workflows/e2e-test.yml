@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: 🌐 E2E Test
 
 on:
   push:
@@ -17,8 +17,11 @@ jobs:
       with:
         node-version: lts/*
 
+    - name: Install pnpm
+      run: npm install -g pnpm
+
     - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
+      run: pnpm install --frozen-lockfile
 
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
