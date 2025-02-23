@@ -11,10 +11,10 @@ import { getUserLocale } from "@/services/locale";
  * @returns {Promise<{locale: string, messages: object}>} The locale and messages.
  */
 export default getRequestConfig(async () => {
-  const locale = await getUserLocale();
+	const locale = await getUserLocale();
 
-  return {
-    locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
-  };
+	return {
+		locale,
+		messages: (await import(`../messages/${locale}.json`)).default,
+	};
 });
