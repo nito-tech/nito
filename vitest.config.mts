@@ -6,6 +6,7 @@ export default defineConfig({
 	plugins: [tsconfigPaths(), react()],
 	test: {
 		environment: "jsdom",
+		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html"],
