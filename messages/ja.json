@@ -1,10 +1,10 @@
 {
-  "HomePage": {
-    "title": "こんにちは！"
-  },
-  "LocaleSwitcher": {
-    "label": "言語",
-    "ja": "日本語",
-    "en": "English"
-  }
+	"HomePage": {
+		"title": "こんにちは！"
+	},
+	"LocaleSwitcher": {
+		"label": "言語",
+		"ja": "日本語",
+		"en": "English"
+	}
 }
