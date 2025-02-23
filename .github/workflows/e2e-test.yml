@@ -20,15 +20,43 @@ jobs:
     - name: Install pnpm
       run: npm install -g pnpm
 
+    # ------------------------------------
+    # node_modules cache
+    # ------------------------------------
+    - name: Restore node_modules cache
+      id: restore-node-modules
+      uses: actions/cache/restore@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
     - name: Install dependencies
+      if: steps.restore-node-modules.outputs.cache-hit != 'true'
       run: pnpm install --frozen-lockfile
 
+    - name: Save node_modules cache
+      if: steps.restore-node-modules.outputs.cache-hit != 'false'
+      uses: actions/cache/save@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+
+    # ------------------------------------
+    # Playwright Browsers
+    # ------------------------------------
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
 
+    # ------------------------------------
+    # Run Playwright tests
+    # ------------------------------------
     - name: Run Playwright tests
       run: pnpm e2e
 
+    # ------------------------------------
+    # Upload report
+    # ------------------------------------
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
