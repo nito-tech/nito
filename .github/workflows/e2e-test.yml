@@ -20,14 +20,11 @@ jobs:
     - name: Install pnpm
       run: npm install -g pnpm
 
-    # ------------------------------------
-    # node_modules
-    # ------------------------------------
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
 
     # ------------------------------------
-    # Next.js build with cache
+    # Build Next.js using cache
     # ------------------------------------
     - name: Cache Next.js build
       id: cache-build
@@ -41,9 +38,18 @@ jobs:
       run: pnpm build
 
     # ------------------------------------
-    # Playwright Browsers
+    # Install Playwright Browsers using cache
     # ------------------------------------
+    - name: Cache Playwright Browsers
+      id: playwright-browsers-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright/
+        key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: playwright-browsers-${{ runner.os }}-
+
     - name: Install Playwright Browsers
+      if: steps.playwright-browsers-cache.outputs.cache-hit != 'true'
       run: pnpm exec playwright install --with-deps
 
     # ------------------------------------
