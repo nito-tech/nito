@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-import { Locale, defaultLocale } from "../i18n/config";
+import { type Locale, defaultLocale } from "../i18n/config";
 
 /**
  * The locale is read from a cookie.
@@ -12,9 +12,9 @@ import { Locale, defaultLocale } from "../i18n/config";
 const COOKIE_NAME = "NEXT_LOCALE";
 
 export async function getUserLocale() {
-  return (await cookies()).get(COOKIE_NAME)?.value || defaultLocale;
+	return (await cookies()).get(COOKIE_NAME)?.value || defaultLocale;
 }
 
 export async function setUserLocale(locale: Locale) {
-  (await cookies()).set(COOKIE_NAME, locale);
+	(await cookies()).set(COOKIE_NAME, locale);
 }
