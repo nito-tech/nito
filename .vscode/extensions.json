@@ -1,0 +1,24 @@
+{
+	"recommendations": [
+		// GitHub
+		"github.vscode-github-actions",
+		"GitHub.vscode-pull-request-github",
+
+		// Linter, Formatter
+		"biomejs.biome",
+
+		// Comment
+		"aaron-bond.better-comments",
+
+		// Typescript
+		"yoavbls.pretty-ts-errors",
+
+		// Tailwind CSS
+		"bradlc.vscode-tailwindcss"
+	],
+	"unwantedRecommendations": [
+		// Use VSCode's default features
+		// https://qiita.com/miruon/items/a45e13db9930dd429d12
+		"BracketPairColorDLW.bracket-pair-color-dlw"
+	]
+}
