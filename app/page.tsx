@@ -4,7 +4,7 @@ import Image from "next/image";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 
-export default function Home() {
+export default function HomePage() {
 	const t = useTranslations("HomePage");
 
 	return (
