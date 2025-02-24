@@ -6,12 +6,18 @@ export default defineConfig({
 	plugins: [tsconfigPaths(), react()],
 	test: {
 		environment: "jsdom",
+		include: ["__tests__/**/*.test.{ts,tsx}"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html", "json-summary"],
 			include: ["**/*.{ts,tsx}"],
-			exclude: ["next.config.ts", "next-env.d.ts", "i18n/**/*.{ts,tsx}"],
+			exclude: [
+				"next.config.ts",
+				"next-env.d.ts",
+				"i18n/**/*.{ts,tsx}",
+				"e2e/**/*.{ts,tsx}",
+			],
 			reportsDirectory: "./coverage",
 			thresholds: {
 				// FIXME: Increase the threshold values to 80%.

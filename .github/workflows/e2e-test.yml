@@ -1,0 +1,75 @@
+name: 🌐 E2E Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    # ------------------------------------
+    # Build Next.js using cache
+    # ------------------------------------
+    - name: Cache Next.js build
+      id: cache-build
+      uses: actions/cache@v4
+      with:
+        path: .next/cache
+        key: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+        restore-keys: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+    - name: Run Build
+      run: pnpm build
+
+    # ------------------------------------
+    # Install Playwright using cache
+    # ------------------------------------
+    - name: Cache Playwright Browsers
+      id: playwright-browsers-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright/
+        key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: playwright-browsers-${{ runner.os }}-
+
+    - name: Install Playwright Browsers
+      if: steps.playwright-browsers-cache.outputs.cache-hit != 'true'
+      run: pnpm exec playwright install --with-deps
+
+    # Install only dependencies
+    # Browser installation uses cache, but dependencies must be installed without using cache or the following error occurs
+    # `Error: browserType.launch: Target page, context or browser has been closed`
+    - name: Install Playwright dependencies
+      run: pnpm exec playwright install-deps
+
+    # ------------------------------------
+    # Run Playwright tests
+    # ------------------------------------
+    - name: Run Playwright tests
+      run: pnpm e2e
+
+    # ------------------------------------
+    # Upload report
+    # ------------------------------------
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
