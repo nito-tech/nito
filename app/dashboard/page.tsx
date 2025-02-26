@@ -4,10 +4,11 @@ import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
+import { createBrowserClient } from "@/lib/supabase/client";
 
 export default function Dashboard() {
 	const router = useRouter();
+	const supabase = createBrowserClient();
 
 	async function signOut() {
 		const { error } = await supabase.auth.signOut();
