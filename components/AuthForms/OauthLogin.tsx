@@ -7,6 +7,7 @@ import { useState } from "react";
 import githubSvg from "@/components/icon/github.svg";
 import { Button } from "@/components/ui/button";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { getSiteUrl } from "@/lib/utils";
 
 const redirectPath = "/dashboard";
 
@@ -20,8 +21,7 @@ export default function OauthLogin() {
 		const { error } = await supabase.auth.signInWithOAuth({
 			provider: "github",
 			options: {
-				// TODO: redirectTo は環境ごとに動的に変更する
-				redirectTo: `http://localhost:3000/auth/callback?next=${redirectPath}`,
+				redirectTo: `${getSiteUrl("/auth/callback")}?next=${redirectPath}`,
 			},
 		});
 
