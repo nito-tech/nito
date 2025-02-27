@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { supabaseKey, supabaseUrl } from "../supabase";
+import { supabaseKey, supabaseUrl } from "./config";
 
 // Routes accessible even without logging in
 const publicRoutes = ["/"];
