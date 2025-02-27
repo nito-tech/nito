@@ -6,6 +6,39 @@ import { supabaseKey, supabaseUrl } from "../supabase";
 // Routes accessible even without logging in
 const publicRoutes = ["/"];
 
+/**
+ * Generate a new response with the same cookies as the old response
+ *
+ * IMPORTANT: You *must* return the supabaseResponse object as it is.
+ * If you're creating a new response object with NextResponse.next() make sure to:
+ * 1. Pass the request in it, like so:
+ *   const myNewResponse = NextResponse.next({ request })
+ * 2. Copy over the cookies, like so:
+ * myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
+ * 3. Change the myNewResponse object to fit your needs, but avoid changing
+ *   the cookies!
+ * 4. Finally:
+ *    return myNewResponse
+ *
+ * If this is not done, you may be causing the browser and server to go out
+ * of sync and terminate the user's session prematurely!
+ */
+function generateNewResponse(
+	oldResponse: NextResponse,
+	request: NextRequest,
+	redirectUrl: string,
+) {
+	const newResponse = NextResponse.redirect(new URL(redirectUrl, request.url));
+
+	// Copy cookies from supabaseResponse
+	const allCookies = oldResponse.cookies.getAll();
+	for (const cookie of allCookies) {
+		newResponse.cookies.set(cookie);
+	}
+
+	return newResponse;
+}
+
 export async function updateSession(request: NextRequest) {
 	let supabaseResponse = NextResponse.next({ request });
 
@@ -29,41 +62,29 @@ export async function updateSession(request: NextRequest) {
 	});
 
 	const {
-		data: { session },
-	} = await supabase.auth.getSession();
+		data: { user },
+	} = await supabase.auth.getUser();
 
 	const pathname = request.nextUrl.pathname;
 
-	if (!session) {
-		if (publicRoutes.includes(pathname)) {
-			return supabaseResponse;
-		}
-
-		if (!pathname.startsWith("/login")) {
-			const url = request.nextUrl.clone();
-			url.pathname = "/login";
-			return NextResponse.redirect(url);
-		}
+	// If log in from the /login page
+	if (!user && pathname.startsWith("/auth/callback")) {
+		return supabaseResponse;
 	}
 
-	if (session && pathname.startsWith("/login")) {
-		const url = request.nextUrl.clone();
-		url.pathname = "/";
-		return NextResponse.redirect("/dashboard");
+	// Redirect to /login if non-logged-in and access to private page
+	if (
+		!user &&
+		!publicRoutes.includes(pathname) &&
+		!pathname.startsWith("/login")
+	) {
+		return generateNewResponse(supabaseResponse, request, "/login");
 	}
 
-	// IMPORTANT: You *must* return the supabaseResponse object as it is.
-	// If you're creating a new response object with NextResponse.next() make sure to:
-	// 1. Pass the request in it, like so:
-	//    const myNewResponse = NextResponse.next({ request })
-	// 2. Copy over the cookies, like so:
-	//    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-	// 3. Change the myNewResponse object to fit your needs, but avoid changing
-	//    the cookies!
-	// 4. Finally:
-	//    return myNewResponse
-	// If this is not done, you may be causing the browser and server to go out
-	// of sync and terminate the user's session prematurely!
+	// Redirect to /dashboard if already logged in and accessing /login
+	if (user && pathname.startsWith("/login")) {
+		return generateNewResponse(supabaseResponse, request, "/dashboard");
+	}
 
 	return supabaseResponse;
 }
