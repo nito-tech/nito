@@ -71,6 +71,7 @@ export default function LocaleSwitcher() {
 							key={item.value}
 							value={item.value}
 							className="hover:cursor-pointer"
+							aria-label={item.label}
 						>
 							{item.flag} {item.label}
 						</DropdownMenuRadioItem>
