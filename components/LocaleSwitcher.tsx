@@ -22,7 +22,7 @@ type Item = {
 	label: string;
 };
 
-export default function LocaleSwitcherSelect() {
+export default function LocaleSwitcher() {
 	const locale = useLocale();
 	const t = useTranslations("LocaleSwitcher");
 
