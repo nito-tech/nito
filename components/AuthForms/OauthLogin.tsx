@@ -36,11 +36,13 @@ export default function OauthLogin() {
 		<div>
 			<Button onClick={signInWithGithub} disabled={isSubmitting}>
 				<Image src={githubSvg} alt="GitHub Icon" width={24} height={24} />
-				{isSubmitting ? (
-					<Loader2 className="animate-spin" />
-				) : (
-					"Continue with GitHub"
-				)}
+				<div className="min-w-40 flex flex-items-center justify-center">
+					{isSubmitting ? (
+						<Loader2 className="animate-spin" />
+					) : (
+						"Continue with GitHub"
+					)}
+				</div>
 			</Button>
 		</div>
 	);
