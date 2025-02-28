@@ -22,7 +22,7 @@ type Item = {
 	label: string;
 };
 
-export default function LocaleSwitcherSelect() {
+export default function LocaleSwitcher() {
 	const locale = useLocale();
 	const t = useTranslations("LocaleSwitcher");
 
@@ -71,6 +71,7 @@ export default function LocaleSwitcherSelect() {
 							key={item.value}
 							value={item.value}
 							className="hover:cursor-pointer"
+							aria-label={item.label}
 						>
 							{item.flag} {item.label}
 						</DropdownMenuRadioItem>

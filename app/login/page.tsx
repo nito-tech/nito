@@ -1,30 +1,23 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import Image from "next/image";
+import OauthLogin from "@/components/AuthForms/OauthLogin";
+import { createServerClient } from "@/lib/supabase/server";
 
-import githubSvg from "@/components/icon/github.svg";
-import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
+export default async function LoginPage() {
+	const supabase = createServerClient();
 
-async function signInWithGithub() {
-	const { error } = await supabase.auth.signInWithOAuth({
-		provider: "github",
-	});
+	const {
+		data: { session },
+	} = await (await supabase).auth.getSession();
 
-	if (error) {
-		console.error("GitHub login error:", error);
+	if (session) {
+		return redirect("/dashboard");
 	}
-}
 
-export default function LoginPage() {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			<h1 className="text-3xl font-black mb-4">Login</h1>
-
-			<Button onClick={signInWithGithub}>
-				<Image src={githubSvg} alt="GitHub Icon" width={24} height={24} />
-				Continue with GitHub
-			</Button>
+			<OauthLogin />
 		</div>
 	);
 }
