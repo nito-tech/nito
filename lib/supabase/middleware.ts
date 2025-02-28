@@ -67,23 +67,27 @@ export async function updateSession(request: NextRequest) {
 
 	const pathname = request.nextUrl.pathname;
 
-	// If log in from the /login page
-	if (!user && pathname.startsWith("/auth/callback")) {
-		return supabaseResponse;
+	if (!user) {
+		// If log in from the /login page
+		if (pathname.startsWith("/auth/callback")) {
+			return supabaseResponse;
+		}
+
+		if (["/signup", "/login"].some((path) => pathname.startsWith(path))) {
+			return supabaseResponse;
+		}
+
+		// Redirect to /login if non-logged-in and access to private page
+		if (!publicRoutes.includes(pathname)) {
+			return generateNewResponse(supabaseResponse, request, "/login");
+		}
 	}
 
-	// Redirect to /login if non-logged-in and access to private page
-	if (
-		!user &&
-		!publicRoutes.includes(pathname) &&
-		!pathname.startsWith("/login")
-	) {
-		return generateNewResponse(supabaseResponse, request, "/login");
-	}
-
-	// Redirect to /dashboard if already logged in and accessing /login
-	if (user && pathname.startsWith("/login")) {
-		return generateNewResponse(supabaseResponse, request, "/dashboard");
+	// Redirect to /dashboard if already logged in and accessing /login or /signup
+	if (user) {
+		if (["/signup", "/login"].some((path) => pathname.startsWith(path))) {
+			return generateNewResponse(supabaseResponse, request, "/dashboard");
+		}
 	}
 
 	return supabaseResponse;
