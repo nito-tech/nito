@@ -1,30 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import * as v from "valibot";
 
+import { FormError } from "@/components/FormError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
+const schema = v.object({
+	email: v.pipe(
+		v.string("Your email must be a string."),
+		v.nonEmpty("Please enter your email."),
+		v.email("The email address is badly formatted."),
+	),
+	password: v.pipe(
+		v.string("Your password must be a string."),
+		v.nonEmpty("Please enter your password."),
+		v.minLength(8, "Your password must have 8 characters or more."),
+	),
+});
+
+type LoginData = v.InferOutput<typeof schema>;
 
 interface Props {
 	className?: string;
 }
 
 export default function EmailSignup({ className }: Props) {
-	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		setIsSubmitting(true);
-		// TODO: Handle form submission
-		setIsSubmitting(false);
+	const onSubmit: SubmitHandler<LoginData> = (data) => {
+		const loginData = v.parse(schema, data);
+		console.log(loginData);
 	};
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isSubmitting },
+	} = useForm<LoginData>({
+		mode: "onBlur",
+		resolver: valibotResolver(schema),
+	});
 
 	return (
 		<form
-			noValidate={true}
+			noValidate
 			className={cn("grid gap-6", className)}
-			onSubmit={(e) => handleSubmit(e)}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="grid gap-6">
 				<div className="grid gap-1">
@@ -33,12 +58,13 @@ export default function EmailSignup({ className }: Props) {
 						id="email"
 						placeholder="name@example.com"
 						type="email"
-						name="email"
+						disabled={isSubmitting}
+						{...register("email")}
 						autoCapitalize="none"
 						autoComplete="email"
 						autoCorrect="off"
-						className="w-full p-3 rounded-md bg-zinc-800"
 					/>
+					{errors.email && <FormError message={errors.email.message} />}
 				</div>
 
 				<div className="grid gap-1">
@@ -47,13 +73,14 @@ export default function EmailSignup({ className }: Props) {
 						id="password"
 						placeholder="Password"
 						type="password"
-						name="password"
+						disabled={isSubmitting}
+						{...register("password")}
 						autoComplete="current-password"
-						className="w-full rounded-md bg-zinc-800"
 					/>
+					{errors.password && <FormError message={errors.password.message} />}
 				</div>
 			</div>
-			<Button type="submit" className="mt-1">
+			<Button type="submit" className="mt-1" disabled={isSubmitting}>
 				Signup
 			</Button>
 		</form>
