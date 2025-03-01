@@ -1,6 +1,8 @@
 "use client";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
@@ -31,10 +33,7 @@ interface Props {
 }
 
 export default function EmailSignup({ className }: Props) {
-	const onSubmit: SubmitHandler<LoginData> = (data) => {
-		const loginData = v.parse(schema, data);
-		console.log(loginData);
-	};
+	const [showPassword, setShowPassword] = useState(false);
 
 	const {
 		register,
@@ -44,6 +43,11 @@ export default function EmailSignup({ className }: Props) {
 		mode: "onBlur",
 		resolver: valibotResolver(schema),
 	});
+
+	const onSubmit: SubmitHandler<LoginData> = async (data) => {
+		const loginData = v.parse(schema, data);
+		console.log(loginData);
+	};
 
 	return (
 		<form
@@ -69,14 +73,25 @@ export default function EmailSignup({ className }: Props) {
 
 				<div className="grid gap-1">
 					<Label htmlFor="password">Password</Label>
-					<Input
-						id="password"
-						placeholder="Password"
-						type="password"
-						disabled={isSubmitting}
-						{...register("password")}
-						autoComplete="current-password"
-					/>
+					<div className="relative">
+						<Input
+							id="password"
+							placeholder="Password"
+							type={showPassword ? "text" : "password"}
+							disabled={isSubmitting}
+							{...register("password")}
+							autoComplete="current-password"
+						/>
+						<button
+							type="button"
+							className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:cursor-pointer"
+							onClick={() => setShowPassword(!showPassword)}
+							tabIndex={-1}
+							aria-label={showPassword ? "Hide password" : "Show password"}
+						>
+							{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+						</button>
+					</div>
 					{errors.password && <FormError message={errors.password.message} />}
 				</div>
 			</div>

@@ -82,6 +82,39 @@ describe("Email input validation", () => {
 	});
 });
 
+describe("Password visibility toggle", () => {
+	test("toggles password visibility when eye icon is clicked", async () => {
+		const { passwordInput } = setup();
+		expect(passwordInput).toHaveAttribute("type", "password");
+
+		const toggleButton = screen.getByRole("button", { name: "Show password" });
+		fireEvent.click(toggleButton);
+		expect(passwordInput).toHaveAttribute("type", "text");
+
+		fireEvent.click(toggleButton);
+		expect(passwordInput).toHaveAttribute("type", "password");
+	});
+
+	test("changes icon when password visibility is toggled", async () => {
+		setup(); // Mounting DOM Components
+
+		const toggleButton = screen.getByRole("button", { name: "Show password" });
+		const hasEyeIcon = () =>
+			toggleButton.querySelector("svg")?.classList.contains("lucide-eye") ??
+			false;
+		const hasEyeOffIcon = () =>
+			toggleButton.querySelector("svg")?.classList.contains("lucide-eye-off") ??
+			false;
+
+		expect(hasEyeIcon()).toBe(true);
+		expect(hasEyeOffIcon()).toBe(false);
+
+		fireEvent.click(toggleButton);
+		expect(hasEyeIcon()).toBe(false);
+		expect(hasEyeOffIcon()).toBe(true);
+	});
+});
+
 describe("Form submission", () => {
 	test("submits form with valid data", async () => {
 		const { emailInput, passwordInput, submitButton } = setup();
