@@ -11,7 +11,11 @@ import { getSiteUrl } from "@/lib/utils";
 
 const redirectPath = "/dashboard";
 
-export default function OauthLogin() {
+interface Props {
+	className?: string;
+}
+
+export default function OauthLogin({ className }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	async function signInWithGithub() {
@@ -33,10 +37,14 @@ export default function OauthLogin() {
 	}
 
 	return (
-		<div>
-			<Button onClick={signInWithGithub} disabled={isSubmitting}>
+		<div className={className}>
+			<Button
+				onClick={signInWithGithub}
+				disabled={isSubmitting}
+				className="w-full"
+			>
 				<Image src={githubSvg} alt="GitHub Icon" width={24} height={24} />
-				<div className="min-w-40 flex flex-items-center justify-center">
+				<div className="flex flex-items-center justify-center">
 					{isSubmitting ? (
 						<Loader2 className="animate-spin" />
 					) : (
