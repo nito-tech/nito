@@ -38,7 +38,13 @@ export default function OauthLogin({ className }: Props) {
 				disabled={isSubmitting}
 				className="w-full"
 			>
-				<Image src={githubSvg} alt="GitHub Icon" width={24} height={24} />
+				<Image
+					src={githubSvg}
+					alt="GitHub Icon"
+					width={24}
+					height={24}
+					className="invert dark:invert-0"
+				/>
 				<div className="flex flex-items-center justify-center">
 					{isSubmitting ? (
 						<Loader2 className="animate-spin" />
