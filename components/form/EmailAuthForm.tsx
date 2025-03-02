@@ -8,7 +8,7 @@ import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
 import type { loginWithEmail } from "@/app/login/actions";
-import type { signupWithEmail } from "@/app/signup/action";
+import type { signupWithEmail } from "@/app/signup/actions";
 import {
 	type EmailSignupInput,
 	EmailSignupSchema,
@@ -28,6 +28,8 @@ interface Props {
 
 export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 	const [showPassword, setShowPassword] = useState(false);
+
+	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
 	const {
@@ -40,15 +42,20 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
+		setMessageType(null);
+		setMessage(null);
+
 		try {
 			const formData = v.parse(EmailSignupSchema, data);
 			await onSubmit(formData);
 
 			if (type === "signup") {
+				setMessageType("success");
 				setMessage("Check your email to verify your account.");
 			}
 		} catch (error) {
 			console.error("Email auth error:", error);
+			setMessageType("error");
 			setMessage("Failed to authenticate. Please try again.");
 		}
 	};
@@ -60,7 +67,12 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 			onSubmit={handleSubmit(onSubmitHandler)}
 		>
 			<div className="grid gap-6">
-				{message && <Notice variant="success" text={message} />}
+				{messageType === "success" && message && (
+					<Notice variant="success" text={message} />
+				)}
+				{messageType === "error" && message && (
+					<Notice variant="destructive" text={message} />
+				)}
 
 				<div className="grid gap-1">
 					<Label htmlFor="email">Email</Label>
