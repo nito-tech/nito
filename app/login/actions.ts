@@ -20,7 +20,7 @@ export async function loginWithEmail(formData: EmailSignupInput) {
 		throw new Error(`Login error: ${error.message}`);
 	}
 
-	return redirect(redirectPath);
+	// return null //redirect(redirectPath);
 }
 
 export async function loginWithOAuth(provider: Provider) {

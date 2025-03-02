@@ -2,6 +2,7 @@
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function EmailAuthForm({ type, onSubmit, className }: Props) {
+	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
 
 	const [messageType, setMessageType] = useState<string | null>(null);
@@ -52,9 +54,10 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 			if (type === "signup") {
 				setMessageType("success");
 				setMessage("Check your email to verify your account.");
+			} else {
+				router.push("/dashboard");
 			}
 		} catch (error) {
-			console.error("Email auth error:", error);
 			setMessageType("error");
 			setMessage("Failed to authenticate. Please try again.");
 		}
