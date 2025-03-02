@@ -1,6 +1,3 @@
-import { loginWithEmail } from "@/app/login/actions";
-import { signupWithEmail } from "@/app/signup/actions";
-import EmailAuthForm from "@/components/form/EmailAuthForm";
 import "@testing-library/jest-dom/vitest"; // Fix type error
 import {
 	cleanup,
@@ -10,6 +7,10 @@ import {
 	waitFor,
 } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
+
+import { loginWithEmail } from "@/app/login/actions";
+import { signupWithEmail } from "@/app/signup/actions";
+import EmailAuthForm from "@/components/form/EmailAuthForm";
 
 const routerPushMock = vi.fn();
 
@@ -239,6 +240,7 @@ describe("Email Login Form", () => {
 				password: "validpassword",
 			});
 
+			// 本当にリダイレクトしているかはわからないのでPlaywrightで確かめる
 			await waitFor(() => {
 				expect(routerPushMock).toHaveBeenCalledWith("/dashboard");
 			});
