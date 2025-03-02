@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import LocaleSwitcher from "@/components/LocaleSwitcher";
+import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +14,7 @@ export default function PublicHeader() {
 
 	return (
 		<header className="w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-			<div className="container flex h-16 items-center justify-between px-4 md:px-6 gap-4">
+			<div className="flex h-16 items-center justify-between px-4 md:px-6 gap-4">
 				<div className="flex items-center gap-24">
 					<Link href="/" className="flex items-center space-x-2">
 						{/* <Image
@@ -67,6 +69,9 @@ export default function PublicHeader() {
 					<Link href="/signup">
 						<Button className="text-sm">Sign up</Button>
 					</Link>
+
+					<LocaleSwitcher />
+					<ThemeToggleButton />
 				</div>
 			</div>
 		</header>
