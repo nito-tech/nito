@@ -17,7 +17,7 @@ export default async function SignupPage() {
 							href="/signin/password_signin"
 							className="font-light text-sm underline"
 						>
-							Login with GitHub
+							Login
 						</Link>
 					</p>
 				</div>
