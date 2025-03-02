@@ -1,4 +1,5 @@
 import { type Page, expect, test } from "@playwright/test";
+
 import { signOut } from "./utils";
 
 /**
@@ -71,6 +72,40 @@ test.describe("When signed out", () => {
 			await expect(page).toHaveURL("/signup");
 		});
 	});
+
+	test.describe("Responsive design", () => {
+		test("should hide navigation links on mobile view", async ({ page }) => {
+			// Set viewport to mobile size
+			await page.setViewportSize({ width: 375, height: 667 });
+
+			await page.goto("/");
+
+			// Navigation links should be hidden on mobile
+			const nav = page.locator("nav");
+			await expect(nav).toHaveClass(/hidden md:flex/);
+
+			// Specific nav links should not be visible on mobile
+			await expect(page.getByRole("link", { name: "Home" })).not.toBeVisible();
+			await expect(
+				page.getByRole("link", { name: "Features" }),
+			).not.toBeVisible();
+			await expect(
+				page.getByRole("link", { name: "Pricing" }),
+			).not.toBeVisible();
+		});
+
+		test("should show navigation links on desktop view", async ({ page }) => {
+			// Set viewport to desktop size
+			await page.setViewportSize({ width: 1280, height: 720 });
+
+			await page.goto("/");
+
+			// Nav links should be visible on desktop
+			await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+			await expect(page.getByRole("link", { name: "Features" })).toBeVisible();
+			await expect(page.getByRole("link", { name: "Pricing" })).toBeVisible();
+		});
+	});
 });
 
 test.describe("When logged in", () => {
@@ -85,43 +120,10 @@ test.describe("When logged in", () => {
 		page,
 	}) => {
 		await page.goto("/dashboard");
-		await page.waitForURL("/dashboard");
 
 		await page.getByRole("button", { name: "Logout" }).click();
 		await page.waitForURL("/login");
 
 		await expectPublicHeaderVisible(page);
-	});
-});
-
-test.describe("Responsive design", () => {
-	test("should hide navigation links on mobile view", async ({ page }) => {
-		// Set viewport to mobile size
-		await page.setViewportSize({ width: 375, height: 667 });
-
-		await page.goto("/");
-
-		// Navigation links should be hidden on mobile
-		const nav = page.locator("nav");
-		await expect(nav).toHaveClass(/hidden md:flex/);
-
-		// Specific nav links should not be visible on mobile
-		await expect(page.getByRole("link", { name: "Home" })).not.toBeVisible();
-		await expect(
-			page.getByRole("link", { name: "Features" }),
-		).not.toBeVisible();
-		await expect(page.getByRole("link", { name: "Pricing" })).not.toBeVisible();
-	});
-
-	test("should show navigation links on desktop view", async ({ page }) => {
-		// Set viewport to desktop size
-		await page.setViewportSize({ width: 1280, height: 720 });
-
-		await page.goto("/");
-
-		// Nav links should be visible on desktop
-		await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
-		await expect(page.getByRole("link", { name: "Features" })).toBeVisible();
-		await expect(page.getByRole("link", { name: "Pricing" })).toBeVisible();
 	});
 });
