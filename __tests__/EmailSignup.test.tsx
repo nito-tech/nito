@@ -1,3 +1,5 @@
+import { signupWithEmail } from "@/app/signup/action";
+import EmailAuthForm from "@/components/form/EmailAuthForm";
 import "@testing-library/jest-dom/vitest"; // Fix type error
 import {
 	cleanup,
@@ -8,11 +10,8 @@ import {
 } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { signup } from "@/app/signup/action";
-import EmailSignup from "@/app/signup/components/EmailSignup";
-
 vi.mock("@/app/signup/action", () => ({
-	signup: vi.fn().mockResolvedValue(undefined),
+	signupWithEmail: vi.fn().mockResolvedValue(undefined),
 }));
 
 beforeEach(() => {
@@ -21,7 +20,9 @@ beforeEach(() => {
 });
 
 const setup = () => {
-	const utils = render(<EmailSignup />);
+	const utils = render(
+		<EmailAuthForm type="signup" onSubmit={vi.mocked(signupWithEmail)} />,
+	);
 	const emailInput = utils.getByPlaceholderText("name@example.com");
 	const passwordInput = utils.getByPlaceholderText("Password");
 	const submitButton = utils.getByText("Signup");
@@ -137,7 +138,7 @@ describe("Form submission", () => {
 	});
 
 	test("shows error message when signup fails", async () => {
-		const signupMock = vi.mocked(signup);
+		const signupMock = vi.mocked(signupWithEmail);
 		signupMock.mockRejectedValueOnce(new Error("Signup failed"));
 
 		const { emailInput, passwordInput, submitButton } = setup();
@@ -147,7 +148,7 @@ describe("Form submission", () => {
 
 		await waitFor(() => {
 			expect(
-				screen.getByText("There was an error signing up. Please try again."),
+				screen.getByText("Failed to authenticate. Please try again."),
 			).toBeInTheDocument();
 		});
 	});

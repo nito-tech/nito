@@ -7,6 +7,12 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
+import type { loginWithEmail } from "@/app/login/actions";
+import type { signupWithEmail } from "@/app/signup/action";
+import {
+	type EmailSignupInput,
+	EmailSignupSchema,
+} from "@/app/signup/types/email-signup";
 import { Notice } from "@/components/Notice";
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -14,17 +20,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-import { signup } from "../action";
-import {
-	type EmailSignupInput,
-	EmailSignupSchema,
-} from "../types/email-signup";
-
 interface Props {
+	type: "signup" | "login";
+	onSubmit: typeof loginWithEmail | typeof signupWithEmail;
 	className?: string;
 }
 
-export default function EmailSignup({ className }: Props) {
+export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [message, setMessage] = useState<string | null>(null);
 
@@ -37,14 +39,17 @@ export default function EmailSignup({ className }: Props) {
 		resolver: valibotResolver(EmailSignupSchema),
 	});
 
-	const onSubmit: SubmitHandler<EmailSignupInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
 		try {
 			const formData = v.parse(EmailSignupSchema, data);
-			await signup(formData);
-			setMessage("Check your email to verify your account.");
+			await onSubmit(formData);
+
+			if (type === "signup") {
+				setMessage("Check your email to verify your account.");
+			}
 		} catch (error) {
-			console.error("Sign up error:", error);
-			setMessage("There was an error signing up. Please try again.");
+			console.error("Email auth error:", error);
+			setMessage("Failed to authenticate. Please try again.");
 		}
 	};
 
@@ -52,7 +57,7 @@ export default function EmailSignup({ className }: Props) {
 		<form
 			noValidate
 			className={cn("grid gap-6", className)}
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(onSubmitHandler)}
 		>
 			<div className="grid gap-6">
 				{message && <Notice variant="success" text={message} />}
@@ -97,7 +102,7 @@ export default function EmailSignup({ className }: Props) {
 				</div>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				Signup
+				{type === "signup" ? "Signup" : "Login"}
 			</Button>
 		</form>
 	);

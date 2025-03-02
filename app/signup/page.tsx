@@ -1,6 +1,8 @@
 import Link from "next/link";
 
-import EmailSignup from "./components/EmailSignup";
+import EmailAuthForm from "@/components/form/EmailAuthForm";
+
+import { signupWithEmail } from "./action";
 
 export default async function SignupPage() {
 	return (
@@ -8,7 +10,11 @@ export default async function SignupPage() {
 			<div className="w-72 flex flex-col items-center">
 				<h1 className="text-3xl font-black mb-4">Signup</h1>
 
-				<EmailSignup className="my-6 w-full" />
+				<EmailAuthForm
+					type="signup"
+					onSubmit={signupWithEmail}
+					className="my-6 w-full"
+				/>
 
 				<div className="w-full">
 					<p>Already have an account?</p>
