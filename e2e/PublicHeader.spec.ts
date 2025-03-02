@@ -28,7 +28,8 @@ async function expectPublicHeaderNotVisible(page: Page) {
 }
 
 test.describe("When signed out", () => {
-	test.beforeEach(async ({ context }) => await signOut(context));
+	// Sign out
+	test.use({ storageState: { cookies: [], origins: [] } });
 
 	test.describe("PublicHeader visibility on public pages", () => {
 		test("should display PublicHeader on home page", async ({ page }) => {
