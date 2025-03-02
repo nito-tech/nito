@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { signup } from "../action";
 
 const schema = v.object({
 	email: v.pipe(
@@ -26,7 +27,7 @@ const schema = v.object({
 	),
 });
 
-type LoginData = v.InferOutput<typeof schema>;
+export type LoginData = v.InferOutput<typeof schema>;
 
 interface Props {
 	className?: string;
@@ -45,8 +46,13 @@ export default function EmailSignup({ className }: Props) {
 	});
 
 	const onSubmit: SubmitHandler<LoginData> = async (data) => {
-		const loginData = v.parse(schema, data);
-		console.log(loginData);
+		try {
+			const formData = v.parse(schema, data);
+			await signup(formData);
+		} catch (error) {
+			console.error("Sign up error:", error);
+			// TODO: Show error message by Alert or Toast
+		}
 	};
 
 	return (
