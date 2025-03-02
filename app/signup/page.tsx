@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
-import { signupWithEmail } from "./action";
+import { signupWithEmail } from "./actions";
 
 export default async function SignupPage() {
 	return (
