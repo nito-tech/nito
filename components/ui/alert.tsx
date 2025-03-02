@@ -8,9 +8,22 @@ const alertVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-background text-foreground",
-				destructive:
-					"text-destructive-foreground [&>svg]:text-current *:data-[slot=alert-description]:text-destructive-foreground/80",
+				default: cn("text-muted-foreground", "bg-muted dark:bg-muted/70"),
+				info: cn(
+					"text-muted-foreground",
+					"bg-info dark:bg-info/70",
+					"border-info dark:border-info [&>svg]:text-info",
+				),
+				success: cn(
+					"text-muted-foreground",
+					"bg-success dark:bg-success/70",
+					"border-success/50 dark:border-success [&>svg]:text-success",
+				),
+				destructive: cn(
+					"text-muted-foreground",
+					"bg-destructive/40 dark:bg-destructive/70",
+					"[&>svg]:text-current *:data-[slot=alert-description]:text-destructive-foreground/80",
+				),
 			},
 		},
 		defaultVariants: {
@@ -55,12 +68,14 @@ function AlertDescription({
 		<div
 			data-slot="alert-description"
 			className={cn(
-				"text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+				"col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
 				className,
 			)}
 			{...props}
 		/>
 	);
 }
+
+export type Variant = VariantProps<typeof alertVariants>["variant"];
 
 export { Alert, AlertTitle, AlertDescription };
