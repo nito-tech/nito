@@ -13,22 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
 import { signup } from "../action";
-
-const schema = v.object({
-	email: v.pipe(
-		v.string("Your email must be a string."),
-		v.nonEmpty("Please enter your email."),
-		v.email("The email address is badly formatted."),
-	),
-	password: v.pipe(
-		v.string("Your password must be a string."),
-		v.nonEmpty("Please enter your password."),
-		v.minLength(8, "Your password must have 8 characters or more."),
-	),
-});
-
-export type LoginData = v.InferOutput<typeof schema>;
+import {
+	type EmailSignupInput,
+	EmailSignupSchema,
+} from "../types/email-signup";
 
 interface Props {
 	className?: string;
@@ -42,14 +32,14 @@ export default function EmailSignup({ className }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<LoginData>({
+	} = useForm<EmailSignupInput>({
 		mode: "onBlur",
-		resolver: valibotResolver(schema),
+		resolver: valibotResolver(EmailSignupSchema),
 	});
 
-	const onSubmit: SubmitHandler<LoginData> = async (data) => {
+	const onSubmit: SubmitHandler<EmailSignupInput> = async (data) => {
 		try {
-			const formData = v.parse(schema, data);
+			const formData = v.parse(EmailSignupSchema, data);
 			await signup(formData);
 			setMessage("Check your email to verify your account.");
 		} catch (error) {
