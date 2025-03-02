@@ -11,6 +11,14 @@ import {
 } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
+const routerPushMock = vi.fn();
+
+vi.mock("next/navigation", () => ({
+	useRouter: () => ({
+		push: routerPushMock,
+	}),
+}));
+
 vi.mock("@/app/signup/actions", () => ({
 	signupWithEmail: vi.fn().mockResolvedValue(undefined),
 }));
@@ -231,7 +239,9 @@ describe("Email Login Form", () => {
 				password: "validpassword",
 			});
 
-			// TODO: Check redirect
+			await waitFor(() => {
+				expect(routerPushMock).toHaveBeenCalledWith("/dashboard");
+			});
 		});
 
 		test("shows error message when login fails", async () => {
@@ -245,6 +255,11 @@ describe("Email Login Form", () => {
 			fireEvent.click(submitButton);
 
 			expect(submitButton).toBeDisabled();
+
+			await waitFor(() => {
+				const alertElement = screen.getByRole("alert");
+				expect(alertElement).toBeInTheDocument();
+			});
 
 			await waitFor(() => {
 				expect(
