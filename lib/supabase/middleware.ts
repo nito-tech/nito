@@ -1,10 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+import { isAuthPage, isAuthRequiredPage } from "../pathname";
 import { supabaseKey, supabaseUrl } from "./config";
-
-// Routes accessible even without logging in
-const publicRoutes = ["/"];
 
 /**
  * Generate a new response with the same cookies as the old response
@@ -68,24 +66,25 @@ export async function updateSession(request: NextRequest) {
 	const pathname = request.nextUrl.pathname;
 
 	if (!user) {
-		// If log in from the /login page
+		// If log in from the /login page, allow access to auth callback route
 		if (pathname.startsWith("/auth/callback")) {
 			return supabaseResponse;
 		}
 
-		if (["/signup", "/login"].some((path) => pathname.startsWith(path))) {
+		if (isAuthPage(pathname)) {
 			return supabaseResponse;
 		}
 
 		// Redirect to /login if non-logged-in and access to private page
-		if (!publicRoutes.includes(pathname)) {
+		if (isAuthRequiredPage(pathname)) {
 			return generateNewResponse(supabaseResponse, request, "/login");
 		}
 	}
 
 	// Redirect to /dashboard if already logged in and accessing /login or /signup
 	if (user) {
-		if (["/signup", "/login"].some((path) => pathname.startsWith(path))) {
+		// Redirect to /dashboard if already logged in and accessing /login or /signup
+		if (isAuthPage(pathname)) {
 			return generateNewResponse(supabaseResponse, request, "/dashboard");
 		}
 	}
