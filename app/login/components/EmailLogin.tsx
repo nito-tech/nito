@@ -11,8 +11,8 @@ import {
 	type EmailSignupInput,
 	EmailSignupSchema,
 } from "@/app/signup/types/email-signup";
-import { FormError } from "@/components/FormError";
 import { Notice } from "@/components/Notice";
+import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
