@@ -8,6 +8,7 @@ import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
 import { FormError } from "@/components/FormError";
+import { Notice } from "@/components/Notice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,6 +36,7 @@ interface Props {
 
 export default function EmailSignup({ className }: Props) {
 	const [showPassword, setShowPassword] = useState(false);
+	const [message, setMessage] = useState<string | null>(null);
 
 	const {
 		register,
@@ -49,9 +51,10 @@ export default function EmailSignup({ className }: Props) {
 		try {
 			const formData = v.parse(schema, data);
 			await signup(formData);
+			setMessage("Check your email to verify your account.");
 		} catch (error) {
 			console.error("Sign up error:", error);
-			// TODO: Show error message by Alert or Toast
+			setMessage("There was an error signing up. Please try again.");
 		}
 	};
 
@@ -62,6 +65,8 @@ export default function EmailSignup({ className }: Props) {
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="grid gap-6">
+				{message && <Notice variant="success" text={message} />}
+
 				<div className="grid gap-1">
 					<Label htmlFor="email">Email</Label>
 					<Input

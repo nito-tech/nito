@@ -8,10 +8,16 @@ import {
 } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
+import { signup } from "@/app/signup/action";
 import EmailSignup from "@/app/signup/components/EmailSignup";
+
+vi.mock("@/app/signup/action", () => ({
+	signup: vi.fn().mockResolvedValue(undefined),
+}));
 
 beforeEach(() => {
 	cleanup();
+	vi.clearAllMocks();
 });
 
 const setup = () => {
@@ -116,19 +122,33 @@ describe("Password visibility toggle", () => {
 });
 
 describe("Form submission", () => {
-	test("submits form with valid data", async () => {
+	test("calls signUp with valid data and shows success message", async () => {
 		const { emailInput, passwordInput, submitButton } = setup();
-		const consoleSpy = vi.spyOn(console, "log");
 
 		fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 		fireEvent.change(passwordInput, { target: { value: "validpassword" } });
 		fireEvent.click(submitButton);
 
 		await waitFor(() => {
-			expect(consoleSpy).toHaveBeenCalledWith({
-				email: "test@example.com",
-				password: "validpassword",
-			});
+			expect(
+				screen.getByText("Check your email to verify your account."),
+			).toBeInTheDocument();
+		});
+	});
+
+	test("shows error message when signup fails", async () => {
+		const signupMock = vi.mocked(signup);
+		signupMock.mockRejectedValueOnce(new Error("Signup failed"));
+
+		const { emailInput, passwordInput, submitButton } = setup();
+		fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+		fireEvent.change(passwordInput, { target: { value: "validpassword" } });
+		fireEvent.click(submitButton);
+
+		await waitFor(() => {
+			expect(
+				screen.getByText("There was an error signing up. Please try again."),
+			).toBeInTheDocument();
 		});
 	});
 });
