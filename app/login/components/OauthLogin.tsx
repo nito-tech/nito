@@ -6,10 +6,8 @@ import { useState } from "react";
 
 import githubSvg from "@/components/icon/github.svg";
 import { Button } from "@/components/ui/button";
-import { createBrowserClient } from "@/lib/supabase/client";
-import { getSiteUrl } from "@/lib/utils";
 
-const redirectPath = "/dashboard";
+import { loginWithOAuth } from "../actions";
 
 interface Props {
 	className?: string;
@@ -21,15 +19,12 @@ export default function OauthLogin({ className }: Props) {
 	async function signInWithGithub() {
 		setIsSubmitting(true);
 
-		const supabase = createBrowserClient();
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: "github",
-			options: {
-				redirectTo: `${getSiteUrl("/auth/callback")}?next=${redirectPath}`,
-			},
-		});
+		try {
+			const url = await loginWithOAuth("github");
 
-		if (error) {
+			// router.push cannot be used to redirect to an external site.
+			window.location.href = url;
+		} catch (error) {
 			console.error("GitHub login error:", error);
 		}
 
@@ -43,7 +38,13 @@ export default function OauthLogin({ className }: Props) {
 				disabled={isSubmitting}
 				className="w-full"
 			>
-				<Image src={githubSvg} alt="GitHub Icon" width={24} height={24} />
+				<Image
+					src={githubSvg}
+					alt="GitHub Icon"
+					width={24}
+					height={24}
+					className="invert dark:invert-0"
+				/>
 				<div className="flex flex-items-center justify-center">
 					{isSubmitting ? (
 						<Loader2 className="animate-spin" />

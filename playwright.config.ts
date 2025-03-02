@@ -13,6 +13,8 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
 	testDir: "./e2e",
+	timeout: 10 * 1000,
+
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,24 +33,42 @@ export default defineConfig({
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: "on-first-retry",
 
+		/**
+		 * Record a video
+		 *
+		 * The video is saved in /test-results/ and can be viewed at http://localhost:9323/ where it will be displayed in case of failure
+		 */
 		video: "on",
 	},
 
 	/* Configure projects for major browsers */
 	projects: [
+		// Setup project
+		{ name: "setup", testDir: "e2e", testMatch: /.*\.setup\.ts/ },
+
 		{
 			name: "chromium",
-			use: { ...devices["Desktop Chrome"] },
+			use: {
+				...devices["Desktop Chrome"],
+				storageState: "e2e/.auth/user.json",
+			},
+			dependencies: ["setup"],
 		},
 
 		{
 			name: "firefox",
-			use: { ...devices["Desktop Firefox"] },
+			use: {
+				...devices["Desktop Firefox"],
+				storageState: "e2e/.auth/user.json",
+			},
 		},
 
 		{
 			name: "webkit",
-			use: { ...devices["Desktop Safari"] },
+			use: {
+				...devices["Desktop Safari"],
+				storageState: "e2e/.auth/user.json",
+			},
 		},
 
 		/* Test against mobile viewports. */

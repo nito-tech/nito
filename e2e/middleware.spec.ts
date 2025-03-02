@@ -2,6 +2,16 @@ import { expect, test } from "@playwright/test";
 
 test.describe("page redirection testing by login status", () => {
 	test.describe("when not logged in", () => {
+		/**
+		 * Logout by deleting the cookie.
+		 *
+		 * The local environment is running tests in parallel, but conflicts occur when trying to
+		 * change the authentication state of multiple tests at the same time.
+		 * Therefore, instead of manipulating the UI and pressing the logout button,
+		 * we log out by deleting the cookie.
+		 */
+		test.use({ storageState: { cookies: [], origins: [] } });
+
 		test("redirects to /login when not logged in", async ({ page }) => {
 			await page.goto("/dashboard");
 			await page.waitForURL("/login");
@@ -27,7 +37,7 @@ test.describe("page redirection testing by login status", () => {
 		});
 	});
 
-	test.describe.skip("when logged in", () => {
+	test.describe("when logged in", () => {
 		test("redirects to /dashboard when accessing /logged", async ({ page }) => {
 			await page.goto("/login");
 			await page.waitForURL("/dashboard");
