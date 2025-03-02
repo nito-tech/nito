@@ -4,7 +4,7 @@ import { signOut } from "./utils";
 
 test.describe("page redirection testing by login status", () => {
 	test.describe("when not logged in", () => {
-		signOut();
+		test.beforeEach(async ({ context }) => await signOut(context));
 
 		test("redirects to /login when not logged in", async ({ page }) => {
 			await page.goto("/dashboard");

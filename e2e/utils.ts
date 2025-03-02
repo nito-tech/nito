@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import type { BrowserContext } from "@playwright/test";
 
 /**
  * Sign out by deleting the cookie.
@@ -8,6 +8,6 @@ import { test } from "@playwright/test";
  * Therefore, instead of manipulating the UI and pressing the sign out button,
  * we sign out by deleting the cookie.
  */
-export function signOut() {
-	test.use({ storageState: { cookies: [], origins: [] } });
+export async function signOut(context: BrowserContext) {
+	await context.clearCookies();
 }
