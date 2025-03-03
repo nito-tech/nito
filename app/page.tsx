@@ -1,9 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-import LocaleSwitcher from "@/components/LocaleSwitcher";
-import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
-
 export default function HomePage() {
 	const t = useTranslations("HomePage");
 
@@ -29,9 +26,6 @@ export default function HomePage() {
 					<li>Save and see your changes instantly.</li>
 				</ol>
 
-				<ThemeToggleButton />
-
-				<LocaleSwitcher />
 				<p>{t("title")}</p>
 
 				<div className="flex gap-4 items-center flex-col sm:flex-row">

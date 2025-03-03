@@ -4,8 +4,11 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 
+import PublicHeader from "@/components/header/PublicHeader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { isAuthPage, isPublicPage } from "@/lib/pathname";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,6 +34,10 @@ export default async function RootLayout({
 	const locale = await getLocale();
 	const messages = await getMessages({ locale });
 
+	const headersList = await headers();
+	const pathname = headersList.get("x-pathname") || "/";
+	const isPublicPath = isPublicPage(pathname) || isAuthPage(pathname);
+
 	return (
 		<html lang={locale} suppressHydrationWarning>
 			<body
@@ -43,6 +50,7 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<NextIntlClientProvider messages={messages}>
+						{isPublicPath && <PublicHeader />}
 						{children}
 					</NextIntlClientProvider>
 				</ThemeProvider>
