@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { Divider } from "@/components/Divider";
@@ -6,12 +7,14 @@ import EmailAuthForm from "@/components/form/EmailAuthForm";
 import { loginWithEmail } from "./actions";
 import OauthLogin from "./components/OauthLogin";
 
-export default async function LoginPage() {
+export default function LoginPage() {
+	const t = useTranslations("Auth");
+
 	return (
 		// Set minimum height to full viewport height minus header height
 		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
 			<div className="w-72 flex flex-col items-center">
-				<h1 className="text-3xl font-black mb-4">Login</h1>
+				<h1 className="text-3xl font-black mb-4">{t("logIn")}</h1>
 
 				<EmailAuthForm
 					type="login"
@@ -26,7 +29,7 @@ export default async function LoginPage() {
 				<div className="w-full">
 					<p>
 						<Link href="/signup" className="font-light text-sm underline">
-							Don't have an account? Sign up
+							{t("dontHaveAccount")} {t("signUp")}
 						</Link>
 					</p>
 				</div>

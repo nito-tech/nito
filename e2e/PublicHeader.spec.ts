@@ -10,8 +10,12 @@ async function expectPublicHeaderVisible(page: Page) {
 	await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
 	await expect(page.getByRole("link", { name: "Features" })).toBeVisible();
 	await expect(page.getByRole("link", { name: "Pricing" })).toBeVisible();
-	await expect(page.getByRole("button", { name: "Log in" })).toBeVisible();
-	await expect(page.getByRole("button", { name: "Sign up" })).toBeVisible();
+	await expect(
+		page.getByRole("button", { name: "Log in" }).first(),
+	).toBeVisible();
+	await expect(
+		page.getByRole("button", { name: "Sign up" }).first(),
+	).toBeVisible();
 }
 
 /**
@@ -20,8 +24,8 @@ async function expectPublicHeaderVisible(page: Page) {
 async function expectPublicHeaderNotVisible(page: Page) {
 	// Check for elements that should not be visible if PublicHeader is not present
 	// We check for the combination of login and signup buttons which only appear in PublicHeader
-	const loginButton = page.getByRole("button", { name: "Log in" });
-	const signupButton = page.getByRole("button", { name: "Sign up" });
+	const loginButton = page.getByRole("button", { name: "Log in" }).first();
+	const signupButton = page.getByRole("button", { name: "Sign up" }).first();
 
 	await expect(loginButton).not.toBeVisible();
 	await expect(signupButton).not.toBeVisible();

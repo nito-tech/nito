@@ -1,10 +1,28 @@
 {
 	"HomePage": {
-		"title": "こんにちは！"
+		"title": "ホーム"
+	},
+	"FeaturesPage": {
+		"title": "機能"
+	},
+	"PricingPage": {
+		"title": "料金"
 	},
 	"LocaleSwitcher": {
 		"label": "言語",
 		"ja": "日本語",
 		"en": "English"
+	},
+	"Auth": {
+		"logIn": "ログイン",
+		"signUp": "サインアップ",
+		"signOut": "サインアウト",
+		"dontHaveAccount": "アカウントを持っていないですか？",
+		"alreadyHaveAccount": "すでにアカウントを持っていますか？",
+		"logInWithGithub": "GitHubでログイン"
+	},
+	"UserInfo": {
+		"email": "メールアドレス",
+		"password": "パスワード"
 	}
 }

@@ -1,15 +1,18 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
 import { signupWithEmail } from "./actions";
 
-export default async function SignupPage() {
+export default function SignupPage() {
+	const t = useTranslations("Auth");
+
 	return (
 		// Set minimum height to full viewport height minus header height
 		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
 			<div className="w-72 flex flex-col items-center">
-				<h1 className="text-3xl font-black mb-4">Signup</h1>
+				<h1 className="text-3xl font-black mb-4">{t("signUp")}</h1>
 
 				<EmailAuthForm
 					type="signup"
@@ -18,13 +21,13 @@ export default async function SignupPage() {
 				/>
 
 				<div className="w-full">
-					<p>Already have an account?</p>
+					<p>{t("alreadyHaveAccount")}</p>
 					<p>
 						<Link
 							href="/signin/password_signin"
 							className="font-light text-sm underline"
 						>
-							Login
+							{t("logIn")}
 						</Link>
 					</p>
 				</div>

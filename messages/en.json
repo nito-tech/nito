@@ -1,10 +1,28 @@
 {
 	"HomePage": {
-		"title": "Hello!"
+		"title": "Home"
+	},
+	"FeaturesPage": {
+		"title": "Features"
+	},
+	"PricingPage": {
+		"title": "Pricing"
 	},
 	"LocaleSwitcher": {
 		"label": "Language",
 		"ja": "日本語",
 		"en": "English"
+	},
+	"Auth": {
+		"logIn": "Log in",
+		"signUp": "Sign up",
+		"signOut": "Sign out",
+		"dontHaveAccount": "Don't have an account?",
+		"alreadyHaveAccount": "Already have an account?",
+		"logInWithGithub": "Continue with GitHub"
+	},
+	"UserInfo": {
+		"email": "Email",
+		"password": "Password"
 	}
 }

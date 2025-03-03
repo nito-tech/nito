@@ -11,9 +11,10 @@ const authFile = path.join(__dirname, ".auth/user.json");
 setup("Login with email and password", async ({ page }) => {
 	await page.goto("/login");
 
-	const emailInput = page.getByPlaceholder("name@example.com");
-	const passwordInput = page.getByPlaceholder("Password");
-	const submitButton = page.getByRole("button", { name: "Login" });
+	const form = page.locator("form");
+	const emailInput = form.getByPlaceholder("name@example.com");
+	const passwordInput = form.getByPlaceholder("Password");
+	const submitButton = form.getByRole("button", { name: "Log in" });
 	await emailInput.fill("saneatsu.wakana@gmail.com");
 	await passwordInput.fill("testtest");
 	await submitButton.click();
