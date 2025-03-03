@@ -3,8 +3,9 @@ import type { BrowserContext } from "@playwright/test";
 /**
  * Sign out by deleting the cookie.
  *
- * The local environment is running tests in parallel, but conflicts occur when trying to
- * change the authentication state of multiple tests at the same time.
+ * If you run the Supabase client and sign out, the test fails
+ * because you are signed out for other tests.
+ *
  * Therefore, instead of manipulating the UI and pressing the sign out button,
  * we sign out by deleting the cookie.
  */

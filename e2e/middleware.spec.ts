@@ -4,8 +4,9 @@ import { signOut } from "./utils";
 
 test.describe("page redirection testing by login status", () => {
 	test.describe("when not logged in", () => {
-		// Sign out
-		test.use({ storageState: { cookies: [], origins: [] } });
+		test.beforeEach(async ({ page }) => {
+			await signOut(page.context());
+		});
 
 		test("redirects to /login when not logged in", async ({ page }) => {
 			await page.goto("/dashboard");
@@ -34,7 +35,7 @@ test.describe("page redirection testing by login status", () => {
 
 	test.describe("when logged in", () => {
 		test("redirects to /dashboard when accessing /login", async ({ page }) => {
-			await page.goto("/login", { waitUntil: "domcontentloaded" });
+			await page.goto("/login");
 			await page.waitForURL("/dashboard");
 
 			const currentPath = new URL(page.url()).pathname;
@@ -42,7 +43,7 @@ test.describe("page redirection testing by login status", () => {
 		});
 
 		test("redirects to /dashboard when accessing /signup", async ({ page }) => {
-			await page.goto("/signup", { waitUntil: "domcontentloaded" });
+			await page.goto("/signup");
 			await page.waitForURL("/dashboard");
 
 			const currentPath = new URL(page.url()).pathname;

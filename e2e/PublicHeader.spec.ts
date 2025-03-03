@@ -28,8 +28,9 @@ async function expectPublicHeaderNotVisible(page: Page) {
 }
 
 test.describe("When signed out", () => {
-	// Sign out
-	test.use({ storageState: { cookies: [], origins: [] } });
+	test.beforeEach(async ({ page }) => {
+		await signOut(page.context());
+	});
 
 	test.describe("PublicHeader visibility on public pages", () => {
 		test("should display PublicHeader on home page", async ({ page }) => {
@@ -114,6 +115,7 @@ test.describe("When logged in", () => {
 		page,
 	}) => {
 		await page.goto("/dashboard");
+		await page.waitForURL("/dashboard");
 		await expectPublicHeaderNotVisible(page);
 	});
 
@@ -121,10 +123,13 @@ test.describe("When logged in", () => {
 		page,
 	}) => {
 		await page.goto("/dashboard");
+		await page.waitForURL("/dashboard");
+		await expectPublicHeaderNotVisible(page);
 
-		await page.getByRole("button", { name: "Logout" }).click();
+		await signOut(page.context());
+
+		await page.goto("/dashboard");
 		await page.waitForURL("/login");
-
 		await expectPublicHeaderVisible(page);
 	});
 });
