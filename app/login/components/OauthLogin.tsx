@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export default function OauthLogin({ className }: Props) {
+	const t = useTranslations("Auth");
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	async function signInWithGithub() {
@@ -49,7 +52,7 @@ export default function OauthLogin({ className }: Props) {
 					{isSubmitting ? (
 						<Loader2 className="animate-spin" />
 					) : (
-						"Continue with GitHub"
+						t("loginWithGithub")
 					)}
 				</div>
 			</Button>

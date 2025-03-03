@@ -2,6 +2,7 @@
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,6 +29,8 @@ interface Props {
 }
 
 export default function EmailAuthForm({ type, onSubmit, className }: Props) {
+	const t = useTranslations();
+
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -78,7 +81,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 				)}
 
 				<div className="grid gap-1">
-					<Label htmlFor="email">Email</Label>
+					<Label htmlFor="email">{t("UserInfo.email")}</Label>
 					<Input
 						id="email"
 						placeholder="name@example.com"
@@ -93,7 +96,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 				</div>
 
 				<div className="grid gap-1">
-					<Label htmlFor="password">Password</Label>
+					<Label htmlFor="password">{t("UserInfo.password")}</Label>
 					<div className="relative">
 						<Input
 							id="password"
@@ -117,7 +120,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 				</div>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				{type === "signup" ? "Signup" : "Login"}
+				{type === "signup" ? t("Auth.signUp") : t("Auth.logIn")}
 			</Button>
 		</form>
 	);

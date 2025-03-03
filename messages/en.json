@@ -6,5 +6,16 @@
 		"label": "Language",
 		"ja": "日本語",
 		"en": "English"
+	},
+	"Auth": {
+		"logIn": "Log in",
+		"signUp": "Sign up",
+		"signOut": "Sign out",
+		"dontHaveAccount": "Don't have an account?",
+		"loginWithGithub": "Continue with GitHub"
+	},
+	"UserInfo": {
+		"email": "Email",
+		"password": "Password"
 	}
 }
