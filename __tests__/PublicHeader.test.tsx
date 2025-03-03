@@ -88,6 +88,21 @@ vi.mock("next/image", () => ({
 	),
 }));
 
+vi.mock("next-intl", () => ({
+	useTranslations: () => {
+		return (key: string): string => {
+			const translations: Record<string, string> = {
+				"HomePage.title": "Home",
+				"FeaturesPage.title": "Features",
+				"PricingPage.title": "Pricing",
+				"Auth.logIn": "Log in",
+				"Auth.signUp": "Sign up",
+			};
+			return translations[key] || key;
+		};
+	},
+}));
+
 beforeEach(() => {
 	cleanup();
 	vi.clearAllMocks();

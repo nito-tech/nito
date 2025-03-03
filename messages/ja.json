@@ -1,6 +1,12 @@
 {
 	"HomePage": {
-		"title": "こんにちは！"
+		"title": "ホーム"
+	},
+	"FeaturesPage": {
+		"title": "機能"
+	},
+	"PricingPage": {
+		"title": "料金"
 	},
 	"LocaleSwitcher": {
 		"label": "言語",

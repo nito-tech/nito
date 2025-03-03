@@ -1,6 +1,12 @@
 {
 	"HomePage": {
-		"title": "Hello!"
+		"title": "Home"
+	},
+	"FeaturesPage": {
+		"title": "Features"
+	},
+	"PricingPage": {
+		"title": "Pricing"
 	},
 	"LocaleSwitcher": {
 		"label": "Language",

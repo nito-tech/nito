@@ -14,7 +14,6 @@ import EmailAuthForm from "@/components/form/EmailAuthForm";
 
 const routerPushMock = vi.fn();
 
-// Mock next-intl useTranslations hook with proper typing
 vi.mock("next-intl", () => ({
 	useTranslations: () => {
 		return (key: string): string => {

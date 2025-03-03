@@ -7,8 +7,11 @@ import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function PublicHeader() {
+	const t = useTranslations();
+
 	const pathname = usePathname();
 	const isActive = (path: string) => pathname === path;
 
@@ -35,7 +38,7 @@ export default function PublicHeader() {
 								isActive("/") ? "text-primary" : "text-muted-foreground",
 							)}
 						>
-							Home
+							{t("HomePage.title")}
 						</Link>
 						<Link
 							href="/features"
@@ -46,7 +49,7 @@ export default function PublicHeader() {
 									: "text-muted-foreground",
 							)}
 						>
-							Features
+							{t("FeaturesPage.title")}
 						</Link>
 						<Link
 							href="/pricing"
@@ -55,7 +58,7 @@ export default function PublicHeader() {
 								isActive("/pricing") ? "text-primary" : "text-muted-foreground",
 							)}
 						>
-							Pricing
+							{t("PricingPage.title")}
 						</Link>
 					</nav>
 				</div>
@@ -63,13 +66,12 @@ export default function PublicHeader() {
 				<div className="flex items-center gap-2">
 					<Link href="/login">
 						<Button variant="ghost" className="text-sm">
-							Log in
+							{t("Auth.logIn")}
 						</Button>
 					</Link>
 					<Link href="/signup">
-						<Button className="text-sm">Sign up</Button>
+						<Button className="text-sm">{t("Auth.signUp")}</Button>
 					</Link>
-
 					<LocaleSwitcher />
 					<ThemeToggleButton />
 				</div>
