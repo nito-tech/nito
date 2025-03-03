@@ -12,7 +12,8 @@
 		"signUp": "Sign up",
 		"signOut": "Sign out",
 		"dontHaveAccount": "Don't have an account?",
-		"loginWithGithub": "Continue with GitHub"
+		"alreadyHaveAccount": "Already have an account?",
+		"logInWithGithub": "Continue with GitHub"
 	},
 	"UserInfo": {
 		"email": "Email",

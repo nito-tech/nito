@@ -52,7 +52,7 @@ export default function OauthLogin({ className }: Props) {
 					{isSubmitting ? (
 						<Loader2 className="animate-spin" />
 					) : (
-						t("loginWithGithub")
+						t("logInWithGithub")
 					)}
 				</div>
 			</Button>

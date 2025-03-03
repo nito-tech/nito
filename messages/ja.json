@@ -12,7 +12,8 @@
 		"signUp": "サインアップ",
 		"signOut": "サインアウト",
 		"dontHaveAccount": "アカウントを持っていないですか？",
-		"loginWithGithub": "GitHubでログイン"
+		"alreadyHaveAccount": "すでにアカウントを持っていますか？",
+		"logInWithGithub": "GitHubでログイン"
 	},
 	"UserInfo": {
 		"email": "メールアドレス",
