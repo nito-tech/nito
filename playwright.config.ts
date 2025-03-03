@@ -61,6 +61,7 @@ export default defineConfig({
 				...devices["Desktop Firefox"],
 				storageState: "e2e/.auth/user.json",
 			},
+			dependencies: ["setup"],
 		},
 
 		{
@@ -69,6 +70,7 @@ export default defineConfig({
 				...devices["Desktop Safari"],
 				storageState: "e2e/.auth/user.json",
 			},
+			dependencies: ["setup"],
 		},
 
 		/* Test against mobile viewports. */
