@@ -14,7 +14,7 @@ interface Props {
 	className?: string;
 }
 
-export default function OauthLogin({ className }: Props) {
+export default function OauthLogIn({ className }: Props) {
 	const t = useTranslations("Auth");
 
 	const [isSubmitting, setIsSubmitting] = useState(false);

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Divider } from "@/components/Divider";
 import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
-import OauthLogin from "@/features/auth/oauth/components/OauthLogin";
+import OauthLogIn from "@/features/auth/oauth/components/OauthLogIn";
 
 export default function LoginPage() {
 	const t = useTranslations("Auth");
@@ -15,10 +15,8 @@ export default function LoginPage() {
 				<h1 className="text-3xl font-black mb-4">{t("logIn")}</h1>
 
 				<EmailAuthForm type="logIn" className="my-6 w-full" />
-
 				<Divider className="px-1" />
-
-				<OauthLogin className="my-6 w-full" />
+				<OauthLogIn className="my-6 w-full" />
 
 				<div className="w-full">
 					<p>
