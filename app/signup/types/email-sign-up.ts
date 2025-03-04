@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-export const EmailSignupSchema = v.object({
+export const EmailSignUpSchema = v.object({
 	email: v.pipe(
 		v.string("Your email must be a string."),
 		v.nonEmpty("Please enter your email."),
@@ -13,4 +13,4 @@ export const EmailSignupSchema = v.object({
 	),
 });
 
-export type EmailSignupInput = v.InferOutput<typeof EmailSignupSchema>;
+export type EmailSignUpInput = v.InferOutput<typeof EmailSignUpSchema>;

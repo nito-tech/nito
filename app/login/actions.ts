@@ -4,11 +4,11 @@ import { createServerClient } from "@/lib/supabase/server";
 import type { Provider } from "@supabase/supabase-js";
 
 import { getSiteUrl } from "@/lib/utils";
-import type { EmailSignupInput } from "../signup/types/email-signup";
+import type { EmailSignUpInput } from "../signup/types/email-sign-up";
 
 const redirectPath = "/dashboard";
 
-export async function logInWithEmail(formData: EmailSignupInput) {
+export async function logInWithEmail(formData: EmailSignUpInput) {
 	const supabase = await createServerClient();
 	const { error } = await supabase.auth.signInWithPassword({
 		email: formData.email,
