@@ -1,9 +1,6 @@
 "use client";
 
-import { LogOut } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { logOut } from "./actions";
+import LogOutButton from "@/features/auth/logout/components/LogOutButton";
 
 export default function Dashboard() {
 	return (
@@ -14,16 +11,7 @@ export default function Dashboard() {
 					<li>Profile</li>
 					<li>Settings</li>
 					<li>
-						<form action={logOut}>
-							<Button
-								type="submit"
-								variant="outline"
-								style={{ display: "flex", alignItems: "center" }}
-							>
-								<LogOut style={{ marginRight: "8px" }} />
-								Log out
-							</Button>
-						</form>
+						<LogOutButton />
 					</li>
 				</ul>
 			</aside>
