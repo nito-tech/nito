@@ -260,6 +260,16 @@ describe("PublicHeader", () => {
 			expect(logoLinks[0]).toBeInTheDocument();
 			expect(logoLinks[0]).toHaveAttribute("href", "/");
 		});
+
+		test("hides login button on login page", () => {
+			const { elements } = setup({ path: "/login" });
+			expect(elements.authButtons.logIn).not.toBeInTheDocument();
+		});
+
+		test("hides signup button on signup page", () => {
+			const { elements } = setup({ path: "/signup" });
+			expect(elements.authButtons.signUp).not.toBeInTheDocument();
+		});
 	});
 
 	describe("Styling and accessibility", () => {
