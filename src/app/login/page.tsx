@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Divider } from "@/components/Divider";
 import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
-import OauthLogIn from "@/features/auth/oauth/components/OauthLogIn";
+import OauthLogInTemp from "@/features/auth/oauth/components/OauthLogInTemp";
 
 export default function LoginPage() {
 	const t = useTranslations("Auth");
@@ -16,7 +16,7 @@ export default function LoginPage() {
 
 				<EmailAuthForm type="logIn" className="my-6 w-full" />
 				<Divider className="px-1" />
-				<OauthLogIn className="my-6 w-full" />
+				<OauthLogInTemp className="my-6 w-full" />
 
 				<div className="w-full">
 					<p>
