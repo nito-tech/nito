@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { signOut } from "./utils";
+import { logOut } from "./utils";
 
 test.describe("page redirection testing by login status", () => {
 	test.describe("when not logged in", () => {
 		test.beforeEach(async ({ page }) => {
-			await signOut(page.context());
+			await logOut(page.context());
 		});
 
 		test("redirects to /login when not logged in", async ({ page }) => {

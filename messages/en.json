@@ -16,7 +16,7 @@
 	"Auth": {
 		"logIn": "Log in",
 		"signUp": "Sign up",
-		"signOut": "Sign out",
+		"logOut": "Log out",
 		"dontHaveAccount": "Don't have an account?",
 		"alreadyHaveAccount": "Already have an account?",
 		"logInWithGithub": "Continue with GitHub"

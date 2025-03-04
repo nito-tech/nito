@@ -8,7 +8,7 @@ import { useState } from "react";
 import githubSvg from "@/components/icon/github.svg";
 import { Button } from "@/components/ui/button";
 
-import { loginWithOAuth } from "../actions";
+import { logInWithOAuth } from "../actions";
 
 interface Props {
 	className?: string;
@@ -23,7 +23,7 @@ export default function OauthLogin({ className }: Props) {
 		setIsSubmitting(true);
 
 		try {
-			const url = await loginWithOAuth("github");
+			const url = await logInWithOAuth("github");
 
 			// router.push cannot be used to redirect to an external site.
 			window.location.href = url;

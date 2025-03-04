@@ -1,7 +1,7 @@
 import type { BrowserContext } from "@playwright/test";
 
 /**
- * Sign out by deleting the cookie.
+ * Log out by deleting the cookie.
  *
  * If you run the Supabase client and sign out, the test fails
  * because you are signed out for other tests.
@@ -9,6 +9,6 @@ import type { BrowserContext } from "@playwright/test";
  * Therefore, instead of manipulating the UI and pressing the sign out button,
  * we sign out by deleting the cookie.
  */
-export async function signOut(context: BrowserContext) {
+export async function logOut(context: BrowserContext) {
 	await context.clearCookies();
 }

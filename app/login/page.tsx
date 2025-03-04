@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Divider } from "@/components/Divider";
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
-import { loginWithEmail } from "./actions";
+import { logInWithEmail } from "./actions";
 import OauthLogin from "./components/OauthLogin";
 
 export default function LoginPage() {
@@ -17,8 +17,8 @@ export default function LoginPage() {
 				<h1 className="text-3xl font-black mb-4">{t("logIn")}</h1>
 
 				<EmailAuthForm
-					type="login"
-					onSubmit={loginWithEmail}
+					type="logIn"
+					onSubmit={logInWithEmail}
 					className="my-6 w-full"
 				/>
 

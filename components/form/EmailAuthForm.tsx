@@ -9,12 +9,12 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
-import type { loginWithEmail } from "@/app/login/actions";
-import type { signupWithEmail } from "@/app/signup/actions";
+import type { logInWithEmail } from "@/app/login/actions";
+import type { signUpWithEmail } from "@/app/signup/actions";
 import {
-	type EmailSignupInput,
-	EmailSignupSchema,
-} from "@/app/signup/types/email-signup";
+	type EmailAuthInput,
+	EmailAuthSchema,
+} from "@/app/signup/types/email-auth";
 import { Notice } from "@/components/Notice";
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -23,8 +23,8 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface Props {
-	type: "signup" | "login";
-	onSubmit: typeof loginWithEmail | typeof signupWithEmail;
+	type: "signUp" | "logIn";
+	onSubmit: typeof logInWithEmail | typeof signUpWithEmail;
 	className?: string;
 }
 
@@ -41,20 +41,20 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<EmailSignupInput>({
+	} = useForm<EmailAuthInput>({
 		mode: "onChange",
-		resolver: valibotResolver(EmailSignupSchema),
+		resolver: valibotResolver(EmailAuthSchema),
 	});
 
-	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<EmailAuthInput> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
 		try {
-			const formData = v.parse(EmailSignupSchema, data);
+			const formData = v.parse(EmailAuthSchema, data);
 			await onSubmit(formData);
 
-			if (type === "signup") {
+			if (type === "signUp") {
 				setMessageType("success");
 				setMessage("Check your email to verify your account.");
 			} else {
@@ -134,7 +134,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 				</div>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				{type === "signup" ? t("Auth.signUp") : t("Auth.logIn")}
+				{type === "signUp" ? t("Auth.signUp") : t("Auth.logIn")}
 			</Button>
 		</form>
 	);

@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
-import { signupWithEmail } from "./actions";
+import { signUpWithEmail } from "./actions";
 
-export default function SignupPage() {
+export default function SignUpPage() {
 	const t = useTranslations("Auth");
 
 	return (
@@ -15,8 +15,8 @@ export default function SignupPage() {
 				<h1 className="text-3xl font-black mb-4">{t("signUp")}</h1>
 
 				<EmailAuthForm
-					type="signup"
-					onSubmit={signupWithEmail}
+					type="signUp"
+					onSubmit={signUpWithEmail}
 					className="my-6 w-full"
 				/>
 
