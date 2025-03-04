@@ -9,7 +9,7 @@ import {
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 import { loginWithEmail } from "@/app/login/actions";
-import { signupWithEmail } from "@/app/signup/actions";
+import { signUpWithEmail } from "@/app/signup/actions";
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
 const routerPushMock = vi.fn();
@@ -20,8 +20,8 @@ vi.mock("next-intl", () => ({
 			const translations: Record<string, string> = {
 				"UserInfo.email": "Email",
 				"UserInfo.password": "Password",
-				"Auth.signUp": "Signup",
-				"Auth.logIn": "Login",
+				"Auth.signUp": "Sign up",
+				"Auth.logIn": "Log in",
 			};
 			return translations[key] || key;
 		};
@@ -35,7 +35,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 vi.mock("@/app/signup/actions", () => ({
-	signupWithEmail: vi.fn().mockResolvedValue(undefined),
+	signUpWithEmail: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock("@/app/login/actions", () => ({
@@ -47,20 +47,20 @@ beforeEach(() => {
 	vi.clearAllMocks();
 });
 
-const setup = (type: "signup" | "login") => {
+const setup = (type: "signUp" | "logIn") => {
 	const utils =
-		type === "signup"
+		type === "signUp"
 			? render(
-					<EmailAuthForm type="signup" onSubmit={vi.mocked(signupWithEmail)} />,
+					<EmailAuthForm type="signUp" onSubmit={vi.mocked(signUpWithEmail)} />,
 				)
 			: render(
-					<EmailAuthForm type="login" onSubmit={vi.mocked(loginWithEmail)} />,
+					<EmailAuthForm type="logIn" onSubmit={vi.mocked(loginWithEmail)} />,
 				);
 
 	const emailInput = utils.getByPlaceholderText("name@example.com");
 	const passwordInput = utils.getByPlaceholderText("Password");
 	const submitButton = utils.getByRole("button", {
-		name: type === "signup" ? "Signup" : "Login",
+		name: type === "signUp" ? "Sign up" : "Log in",
 	});
 
 	return {
@@ -73,7 +73,7 @@ const setup = (type: "signup" | "login") => {
 
 describe("Common EmailAuth functionality", () => {
 	test("renders the form with email and password inputs", () => {
-		const { emailInput, passwordInput, submitButton } = setup("signup");
+		const { emailInput, passwordInput, submitButton } = setup("signUp");
 		expect(emailInput).toBeInTheDocument();
 		expect(passwordInput).toBeInTheDocument();
 		expect(submitButton).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("Common EmailAuth functionality", () => {
 
 	describe("Email input validation", () => {
 		test("shows error message for empty email", async () => {
-			const { emailInput, submitButton } = setup("signup");
+			const { emailInput, submitButton } = setup("signUp");
 			fireEvent.blur(emailInput);
 			fireEvent.click(submitButton);
 			await waitFor(() => {
@@ -92,7 +92,7 @@ describe("Common EmailAuth functionality", () => {
 		});
 
 		test("shows error message for badly formatted email", async () => {
-			const { emailInput, submitButton } = setup("signup");
+			const { emailInput, submitButton } = setup("signUp");
 			fireEvent.change(emailInput, { target: { value: "invalid-email" } });
 			fireEvent.blur(emailInput);
 			fireEvent.click(submitButton);
@@ -106,7 +106,7 @@ describe("Common EmailAuth functionality", () => {
 
 	describe("Password input validation", () => {
 		test("shows error message for empty password", async () => {
-			const { passwordInput, submitButton } = setup("signup");
+			const { passwordInput, submitButton } = setup("signUp");
 			fireEvent.blur(passwordInput);
 			fireEvent.click(submitButton);
 			await waitFor(() => {
@@ -117,7 +117,7 @@ describe("Common EmailAuth functionality", () => {
 		});
 
 		test("shows error message for short password", async () => {
-			const { passwordInput, submitButton } = setup("signup");
+			const { passwordInput, submitButton } = setup("signUp");
 			fireEvent.change(passwordInput, { target: { value: "short" } });
 			fireEvent.blur(passwordInput);
 			fireEvent.click(submitButton);
@@ -131,7 +131,7 @@ describe("Common EmailAuth functionality", () => {
 
 	describe("Password visibility toggle", () => {
 		test("toggles password visibility when eye icon is clicked", async () => {
-			const { passwordInput } = setup("signup");
+			const { passwordInput } = setup("signUp");
 			expect(passwordInput).toHaveAttribute("type", "password");
 
 			const toggleButton = screen.getByRole("button", {
@@ -145,7 +145,7 @@ describe("Common EmailAuth functionality", () => {
 		});
 
 		test("changes icon when password visibility is toggled", async () => {
-			setup("signup"); // Mounting DOM Components
+			setup("signUp"); // Mounting DOM Components
 
 			const toggleButton = screen.getByRole("button", {
 				name: "Show password",
@@ -170,13 +170,13 @@ describe("Common EmailAuth functionality", () => {
 
 describe("Email Signup Form", () => {
 	test("renders with correct button text for signup", () => {
-		const { submitButton } = setup("signup");
-		expect(submitButton).toHaveTextContent("Signup");
+		const { submitButton } = setup("signUp");
+		expect(submitButton).toHaveTextContent("Sign up");
 	});
 
 	describe("Form submission", () => {
 		test("calls signup with valid data and shows success message", async () => {
-			const { emailInput, passwordInput, submitButton } = setup("signup");
+			const { emailInput, passwordInput, submitButton } = setup("signUp");
 
 			fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 			fireEvent.change(passwordInput, { target: { value: "validpassword" } });
@@ -195,17 +195,17 @@ describe("Email Signup Form", () => {
 				).toBeInTheDocument();
 			});
 
-			expect(signupWithEmail).toHaveBeenCalledWith({
+			expect(signUpWithEmail).toHaveBeenCalledWith({
 				email: "test@example.com",
 				password: "validpassword",
 			});
 		});
 
 		test("shows error message when signup fails", async () => {
-			const signupMock = vi.mocked(signupWithEmail);
+			const signupMock = vi.mocked(signUpWithEmail);
 			signupMock.mockRejectedValueOnce(new Error("Signup failed"));
 
-			const { emailInput, passwordInput, submitButton } = setup("signup");
+			const { emailInput, passwordInput, submitButton } = setup("signUp");
 			fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 			fireEvent.change(passwordInput, { target: { value: "validpassword" } });
 			fireEvent.click(submitButton);
@@ -228,13 +228,13 @@ describe("Email Signup Form", () => {
 
 describe("Email Login Form", () => {
 	test("renders with correct button text for login", () => {
-		const { submitButton } = setup("login");
-		expect(submitButton).toHaveTextContent("Login");
+		const { submitButton } = setup("logIn");
+		expect(submitButton).toHaveTextContent("Log in");
 	});
 
 	describe("Form submission", () => {
 		test("calls login with valid data and redirects to /dashboard", async () => {
-			const { emailInput, passwordInput, submitButton } = setup("login");
+			const { emailInput, passwordInput, submitButton } = setup("logIn");
 
 			fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 			fireEvent.change(passwordInput, { target: { value: "validpassword" } });
@@ -264,7 +264,7 @@ describe("Email Login Form", () => {
 			const loginMock = vi.mocked(loginWithEmail);
 			loginMock.mockRejectedValueOnce(new Error("Login failed"));
 
-			const { emailInput, passwordInput, submitButton } = setup("login");
+			const { emailInput, passwordInput, submitButton } = setup("logIn");
 
 			fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 			fireEvent.change(passwordInput, { target: { value: "validpassword" } });
