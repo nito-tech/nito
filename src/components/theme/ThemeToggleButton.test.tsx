@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
-import { beforeEach, expect, test, vi } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
@@ -8,7 +8,7 @@ import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
  * Unmounts rendered components and cleans up the test environment after each test.
  * Without this, components from the previous language would be displayed during subsequent test executions.
  */
-beforeEach(() => {
+afterEach(() => {
 	cleanup();
 });
 

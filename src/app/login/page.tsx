@@ -2,10 +2,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { Divider } from "@/components/Divider";
-import EmailAuthForm from "@/components/form/EmailAuthForm";
-
-import { logInWithEmail } from "./actions";
-import OauthLogin from "./components/OauthLogin";
+import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
+import OauthLogIn from "@/features/auth/oauth/components/OauthLogIn";
 
 export default function LoginPage() {
 	const t = useTranslations("Auth");
@@ -16,15 +14,9 @@ export default function LoginPage() {
 			<div className="w-72 flex flex-col items-center">
 				<h1 className="text-3xl font-black mb-4">{t("logIn")}</h1>
 
-				<EmailAuthForm
-					type="logIn"
-					onSubmit={logInWithEmail}
-					className="my-6 w-full"
-				/>
-
+				<EmailAuthForm type="logIn" className="my-6 w-full" />
 				<Divider className="px-1" />
-
-				<OauthLogin className="my-6 w-full" />
+				<OauthLogIn className="my-6 w-full" />
 
 				<div className="w-full">
 					<p>

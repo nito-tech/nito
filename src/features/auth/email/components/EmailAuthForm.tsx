@@ -9,12 +9,6 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
-import type { logInWithEmail } from "@/app/login/actions";
-import type { signUpWithEmail } from "@/app/signup/actions";
-import {
-	type EmailAuthInput,
-	EmailAuthSchema,
-} from "@/app/signup/types/email-auth";
 import { Notice } from "@/components/Notice";
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -22,13 +16,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
+import { logInWithEmail, signUpWithEmail } from "../actions";
+import { type EmailAuthInput, EmailAuthSchema } from "../types/email-auth";
+
 interface Props {
 	type: "signUp" | "logIn";
-	onSubmit: typeof logInWithEmail | typeof signUpWithEmail;
 	className?: string;
 }
 
-export default function EmailAuthForm({ type, onSubmit, className }: Props) {
+export default function EmailAuthForm({ type, className }: Props) {
 	const t = useTranslations();
 
 	const router = useRouter();
@@ -52,12 +48,13 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 
 		try {
 			const formData = v.parse(EmailAuthSchema, data);
-			await onSubmit(formData);
 
 			if (type === "signUp") {
+				await signUpWithEmail(formData);
 				setMessageType("success");
 				setMessage("Check your email to verify your account.");
 			} else {
+				await logInWithEmail(formData);
 				router.push("/dashboard");
 			}
 		} catch (error) {

@@ -6,13 +6,18 @@ import {
 	screen,
 	waitFor,
 } from "@testing-library/react";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { logInWithEmail } from "@/app/login/actions";
-import { signUpWithEmail } from "@/app/signup/actions";
-import EmailAuthForm from "@/components/form/EmailAuthForm";
+import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
 
 const routerPushMock = vi.fn();
+const signUpWithEmail = vi.fn().mockResolvedValue(undefined);
+const logInWithEmail = vi.fn().mockResolvedValue(undefined);
+
+vi.mock("@/features/auth/email/actions", () => ({
+	signUpWithEmail: (...args: unknown[]) => signUpWithEmail(...args),
+	logInWithEmail: (...args: unknown[]) => logInWithEmail(...args),
+}));
 
 vi.mock("next-intl", () => ({
 	useTranslations: () => {
@@ -34,28 +39,13 @@ vi.mock("next/navigation", () => ({
 	}),
 }));
 
-vi.mock("@/app/signup/actions", () => ({
-	signUpWithEmail: vi.fn().mockResolvedValue(undefined),
-}));
-
-vi.mock("@/app/login/actions", () => ({
-	logInWithEmail: vi.fn().mockResolvedValue(undefined),
-}));
-
-beforeEach(() => {
+afterEach(() => {
 	cleanup();
 	vi.clearAllMocks();
 });
 
 const setup = (type: "signUp" | "logIn") => {
-	const utils =
-		type === "signUp"
-			? render(
-					<EmailAuthForm type="signUp" onSubmit={vi.mocked(signUpWithEmail)} />,
-				)
-			: render(
-					<EmailAuthForm type="logIn" onSubmit={vi.mocked(logInWithEmail)} />,
-				);
+	const utils = render(<EmailAuthForm type={type} />);
 
 	const emailInput = utils.getByPlaceholderText("name@example.com");
 	const passwordInput = utils.getByPlaceholderText("Password");
@@ -202,8 +192,7 @@ describe("Email Signup Form", () => {
 		});
 
 		test("shows error message when signup fails", async () => {
-			const signupMock = vi.mocked(signUpWithEmail);
-			signupMock.mockRejectedValueOnce(new Error("Signup failed"));
+			signUpWithEmail.mockRejectedValueOnce(new Error("Signup failed"));
 
 			const { emailInput, passwordInput, submitButton } = setup("signUp");
 			fireEvent.change(emailInput, { target: { value: "test@example.com" } });
@@ -261,8 +250,7 @@ describe("Email Login Form", () => {
 		});
 
 		test("shows error message when login fails", async () => {
-			const loginMock = vi.mocked(logInWithEmail);
-			loginMock.mockRejectedValueOnce(new Error("Login failed"));
+			logInWithEmail.mockRejectedValueOnce(new Error("Login failed"));
 
 			const { emailInput, passwordInput, submitButton } = setup("logIn");
 
