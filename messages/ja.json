@@ -16,7 +16,7 @@
 	"Auth": {
 		"logIn": "ログイン",
 		"signUp": "サインアップ",
-		"signOut": "サインアウト",
+		"logOut": "ログアウト",
 		"dontHaveAccount": "アカウントを持っていないですか？",
 		"alreadyHaveAccount": "すでにアカウントを持っていますか？",
 		"logInWithGithub": "GitHubでログイン"

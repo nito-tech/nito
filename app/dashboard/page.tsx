@@ -3,7 +3,7 @@
 import { LogOut } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { signOut } from "./actions";
+import { logOut } from "./actions";
 
 export default function Dashboard() {
 	return (
@@ -14,14 +14,14 @@ export default function Dashboard() {
 					<li>Profile</li>
 					<li>Settings</li>
 					<li>
-						<form action={signOut}>
+						<form action={logOut}>
 							<Button
 								type="submit"
 								variant="outline"
 								style={{ display: "flex", alignItems: "center" }}
 							>
 								<LogOut style={{ marginRight: "8px" }} />
-								Logout
+								Log out
 							</Button>
 						</form>
 					</li>

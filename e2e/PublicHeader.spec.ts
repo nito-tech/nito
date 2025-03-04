@@ -1,6 +1,6 @@
 import { type Page, expect, test } from "@playwright/test";
 
-import { signOut } from "./utils";
+import { logOut } from "./utils";
 
 /**
  * Helper function to verify PublicHeader is present
@@ -33,7 +33,7 @@ async function expectPublicHeaderNotVisible(page: Page) {
 
 test.describe("When signed out", () => {
 	test.beforeEach(async ({ page }) => {
-		await signOut(page.context());
+		await logOut(page.context());
 	});
 
 	test.describe("PublicHeader visibility on public pages", () => {
@@ -130,7 +130,7 @@ test.describe("When logged in", () => {
 		await page.waitForURL("/dashboard");
 		await expectPublicHeaderNotVisible(page);
 
-		await signOut(page.context());
+		await logOut(page.context());
 
 		await page.goto("/dashboard");
 		await page.waitForURL("/login");
