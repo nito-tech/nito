@@ -10,7 +10,7 @@ import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
 import type { loginWithEmail } from "@/app/login/actions";
-import type { signupWithEmail } from "@/app/signup/actions";
+import type { signUpWithEmail } from "@/app/signup/actions";
 import {
 	type EmailSignupInput,
 	EmailSignupSchema,
@@ -23,8 +23,8 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface Props {
-	type: "signup" | "login";
-	onSubmit: typeof loginWithEmail | typeof signupWithEmail;
+	type: "signUp" | "logIn";
+	onSubmit: typeof loginWithEmail | typeof signUpWithEmail;
 	className?: string;
 }
 
@@ -54,7 +54,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 			const formData = v.parse(EmailSignupSchema, data);
 			await onSubmit(formData);
 
-			if (type === "signup") {
+			if (type === "signUp") {
 				setMessageType("success");
 				setMessage("Check your email to verify your account.");
 			} else {
@@ -134,7 +134,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 				</div>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				{type === "signup" ? t("Auth.signUp") : t("Auth.logIn")}
+				{type === "signUp" ? t("Auth.signUp") : t("Auth.logIn")}
 			</Button>
 		</form>
 	);

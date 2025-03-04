@@ -17,7 +17,7 @@ export default function LoginPage() {
 				<h1 className="text-3xl font-black mb-4">{t("logIn")}</h1>
 
 				<EmailAuthForm
-					type="login"
+					type="logIn"
 					onSubmit={loginWithEmail}
 					className="my-6 w-full"
 				/>

@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/supabase/server";
 
 import type { EmailSignupInput } from "./types/email-signup";
 
-export async function signupWithEmail(formData: EmailSignupInput) {
+export async function signUpWithEmail(formData: EmailSignupInput) {
 	const supabase = await createServerClient();
 
 	const { error } = await supabase.auth.signUp(formData);
