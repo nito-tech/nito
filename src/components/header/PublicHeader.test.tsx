@@ -6,7 +6,7 @@ import {
 	screen,
 } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import PublicHeader from "@/components/header/PublicHeader";
 
@@ -103,7 +103,7 @@ vi.mock("next-intl", () => ({
 	},
 }));
 
-beforeEach(() => {
+afterEach(() => {
 	cleanup();
 	vi.clearAllMocks();
 

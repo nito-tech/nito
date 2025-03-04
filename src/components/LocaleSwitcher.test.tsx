@@ -1,6 +1,6 @@
 import { cleanup, render } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import { beforeEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vitest";
 
 import HomePage from "@/app/page";
 import type { Locale } from "@/i18n/config";
@@ -22,7 +22,7 @@ async function renderHomePage(locale: Locale) {
  * Unmounts rendered components and cleans up the test environment after each test.
  * Without this, components from the previous language would be displayed during subsequent test executions.
  */
-beforeEach(() => {
+afterEach(() => {
 	cleanup();
 });
 

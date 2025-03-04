@@ -6,7 +6,7 @@ import {
 	screen,
 	waitFor,
 } from "@testing-library/react";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
 
@@ -39,7 +39,7 @@ vi.mock("next/navigation", () => ({
 	}),
 }));
 
-beforeEach(() => {
+afterEach(() => {
 	cleanup();
 	vi.clearAllMocks();
 });
