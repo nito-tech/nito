@@ -12,9 +12,9 @@ import * as v from "valibot";
 import type { logInWithEmail } from "@/app/login/actions";
 import type { signUpWithEmail } from "@/app/signup/actions";
 import {
-	type EmailSignUpInput,
-	EmailSignUpSchema,
-} from "@/app/signup/types/email-sign-up";
+	type EmailAuthInput,
+	EmailAuthSchema,
+} from "@/app/signup/types/email-auth";
 import { Notice } from "@/components/Notice";
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -41,17 +41,17 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<EmailSignUpInput>({
+	} = useForm<EmailAuthInput>({
 		mode: "onChange",
-		resolver: valibotResolver(EmailSignUpSchema),
+		resolver: valibotResolver(EmailAuthSchema),
 	});
 
-	const onSubmitHandler: SubmitHandler<EmailSignUpInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<EmailAuthInput> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
 		try {
-			const formData = v.parse(EmailSignUpSchema, data);
+			const formData = v.parse(EmailAuthSchema, data);
 			await onSubmit(formData);
 
 			if (type === "signUp") {
