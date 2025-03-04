@@ -42,7 +42,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<EmailSignupInput>({
-		mode: "onBlur",
+		mode: "onChange",
 		resolver: valibotResolver(EmailSignupSchema),
 	});
 
