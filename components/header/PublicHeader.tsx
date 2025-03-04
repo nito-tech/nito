@@ -66,7 +66,7 @@ export default function PublicHeader() {
 				<div className="flex items-center gap-2">
 					{pathname !== "/login" && (
 						<Link href="/login">
-							<Button variant="ghost" className="text-sm">
+							<Button variant="outline" className="text-sm">
 								{t("Auth.logIn")}
 							</Button>
 						</Link>
