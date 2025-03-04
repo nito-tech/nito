@@ -33,6 +33,8 @@ function NavLink({
 				isMobile ? "text-md" : "text-sm",
 			)}
 			onClick={onClick}
+			aria-label={`Navigate to ${title}`}
+			aria-current={isActive ? "page" : undefined}
 		>
 			{title}
 		</Link>
@@ -57,10 +59,12 @@ function AuthLink({
 			href={href}
 			onClick={onClick}
 			className={cn(isMobile ? "flex-1" : "")}
+			aria-label={title}
 		>
 			<Button
 				variant={type === "logIn" ? "outline" : "default"}
 				className={isMobile ? "w-full" : ""}
+				aria-label={title}
 			>
 				{title}
 			</Button>
@@ -81,15 +85,25 @@ export default function PublicHeader() {
 
 	return (
 		<>
-			<header className="w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 relative">
+			<header
+				className="w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 relative"
+				aria-label="Site header"
+			>
 				<div className="mx-auto max-w-7xl flex h-16 items-center justify-between px-8 sm:px-12 md:px-16 gap-4">
 					<div className="flex items-center gap-6 md:gap-24">
-						<Link href="/" className="flex items-center space-x-2">
+						<Link
+							href="/"
+							className="flex items-center space-x-2"
+							aria-label="Nito homepage"
+						>
 							<span className="font-bold text-xl">Nito</span>
 						</Link>
 
 						{/* Desktop Navigation */}
-						<nav className="hidden md:flex items-center gap-6">
+						<nav
+							className="hidden md:flex items-center gap-6"
+							aria-label="Main navigation"
+						>
 							<NavLink
 								href="/"
 								isActive={isActive("/")}
@@ -109,25 +123,25 @@ export default function PublicHeader() {
 					</div>
 
 					{/* Desktop Actions */}
-					<div className="hidden md:flex items-center gap-2">
+					<div
+						className="hidden md:flex items-center gap-2"
+						aria-label="Desktop actions"
+					>
 						{pathname !== "/login" && (
-							<Link href="/login">
-								<Button variant="outline" className="text-sm">
-									{t("Auth.logIn")}
-								</Button>
-							</Link>
+							<AuthLink type="logIn" href="/login" title={t("Auth.logIn")} />
 						)}
 						{pathname !== "/signup" && (
-							<Link href="/signup">
-								<Button className="text-sm">{t("Auth.signUp")}</Button>
-							</Link>
+							<AuthLink type="signUp" href="/signup" title={t("Auth.signUp")} />
 						)}
 						<LocaleSwitcher />
 						<ThemeToggleButton />
 					</div>
 
 					{/* Mobile Actions and Menu Button */}
-					<div className="md:hidden flex items-center gap-2">
+					<div
+						className="md:hidden flex items-center gap-2"
+						aria-label="Mobile actions"
+					>
 						<LocaleSwitcher />
 						<ThemeToggleButton />
 						<Button
@@ -136,6 +150,7 @@ export default function PublicHeader() {
 							className="p-2 focus:outline-none"
 							onClick={toggleMenu}
 							aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+							aria-expanded={isMenuOpen}
 						>
 							{isMenuOpen ? <X size={24} /> : <Menu size={24} />}
 						</Button>
@@ -144,7 +159,12 @@ export default function PublicHeader() {
 			</header>
 
 			{/* Mobile menu and overlay */}
-			<div className="fixed inset-0 top-16 md:hidden z-40 pointer-events-none">
+			<div
+				className="fixed inset-0 top-16 md:hidden z-40 pointer-events-none"
+				aria-modal="true"
+				aria-label="Navigation menu for mobile"
+				aria-hidden={!isMenuOpen}
+			>
 				{/* Overlay and blur background */}
 				<div
 					className={cn(
@@ -185,7 +205,10 @@ export default function PublicHeader() {
 							/>
 						</nav>
 
-						<div className="mt-8 flex flex-row gap-4 w-full">
+						<div
+							className="mt-8 flex flex-row gap-4 w-full"
+							aria-label="Authentication menu for mobile"
+						>
 							{pathname !== "/login" && (
 								<AuthLink
 									type="logIn"
