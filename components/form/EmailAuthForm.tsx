@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import * as v from "valibot";
 
-import type { loginWithEmail } from "@/app/login/actions";
+import type { logInWithEmail } from "@/app/login/actions";
 import type { signUpWithEmail } from "@/app/signup/actions";
 import {
 	type EmailSignupInput,
@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
 	type: "signUp" | "logIn";
-	onSubmit: typeof loginWithEmail | typeof signUpWithEmail;
+	onSubmit: typeof logInWithEmail | typeof signUpWithEmail;
 	className?: string;
 }
 

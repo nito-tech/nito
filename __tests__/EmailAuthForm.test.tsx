@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { loginWithEmail } from "@/app/login/actions";
+import { logInWithEmail } from "@/app/login/actions";
 import { signUpWithEmail } from "@/app/signup/actions";
 import EmailAuthForm from "@/components/form/EmailAuthForm";
 
@@ -39,7 +39,7 @@ vi.mock("@/app/signup/actions", () => ({
 }));
 
 vi.mock("@/app/login/actions", () => ({
-	loginWithEmail: vi.fn().mockResolvedValue(undefined),
+	logInWithEmail: vi.fn().mockResolvedValue(undefined),
 }));
 
 beforeEach(() => {
@@ -54,7 +54,7 @@ const setup = (type: "signUp" | "logIn") => {
 					<EmailAuthForm type="signUp" onSubmit={vi.mocked(signUpWithEmail)} />,
 				)
 			: render(
-					<EmailAuthForm type="logIn" onSubmit={vi.mocked(loginWithEmail)} />,
+					<EmailAuthForm type="logIn" onSubmit={vi.mocked(logInWithEmail)} />,
 				);
 
 	const emailInput = utils.getByPlaceholderText("name@example.com");
@@ -243,13 +243,13 @@ describe("Email Login Form", () => {
 			expect(submitButton).toBeDisabled();
 
 			await waitFor(() => {
-				expect(loginWithEmail).toHaveBeenCalledWith({
+				expect(logInWithEmail).toHaveBeenCalledWith({
 					email: "test@example.com",
 					password: "validpassword",
 				});
 			});
 
-			expect(loginWithEmail).toHaveBeenCalledWith({
+			expect(logInWithEmail).toHaveBeenCalledWith({
 				email: "test@example.com",
 				password: "validpassword",
 			});
@@ -261,7 +261,7 @@ describe("Email Login Form", () => {
 		});
 
 		test("shows error message when login fails", async () => {
-			const loginMock = vi.mocked(loginWithEmail);
+			const loginMock = vi.mocked(logInWithEmail);
 			loginMock.mockRejectedValueOnce(new Error("Login failed"));
 
 			const { emailInput, passwordInput, submitButton } = setup("logIn");

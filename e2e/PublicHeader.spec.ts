@@ -24,11 +24,11 @@ async function expectPublicHeaderVisible(page: Page) {
 async function expectPublicHeaderNotVisible(page: Page) {
 	// Check for elements that should not be visible if PublicHeader is not present
 	// We check for the combination of login and signup buttons which only appear in PublicHeader
-	const loginButton = page.getByRole("button", { name: "Log in" }).first();
-	const signupButton = page.getByRole("button", { name: "Sign up" }).first();
+	const logInButton = page.getByRole("button", { name: "Log in" }).first();
+	const signUpButton = page.getByRole("button", { name: "Sign up" }).first();
 
-	await expect(loginButton).not.toBeVisible();
-	await expect(signupButton).not.toBeVisible();
+	await expect(logInButton).not.toBeVisible();
+	await expect(signUpButton).not.toBeVisible();
 }
 
 test.describe("When signed out", () => {
