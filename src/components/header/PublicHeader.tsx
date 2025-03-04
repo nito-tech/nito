@@ -4,12 +4,69 @@ import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+function NavLink({
+	href,
+	isActive,
+	title,
+	isMobile = false,
+	onClick = () => {},
+}: {
+	href: string;
+	isActive: boolean;
+	title: string;
+	isMobile?: boolean;
+	onClick?: () => void;
+}) {
+	return (
+		<Link
+			href={href}
+			className={cn(
+				"font-medium transition-colors hover:text-primary",
+				isActive ? "text-primary" : "text-muted-foreground",
+				isMobile ? "text-md" : "text-sm",
+			)}
+			onClick={onClick}
+		>
+			{title}
+		</Link>
+	);
+}
+
+function AuthLink({
+	type,
+	href,
+	title,
+	isMobile = false,
+	onClick = () => {},
+}: {
+	type: "logIn" | "signUp";
+	href: string;
+	title: string;
+	isMobile?: boolean;
+	onClick?: () => void;
+}) {
+	return (
+		<Link
+			href={href}
+			onClick={onClick}
+			className={cn(isMobile ? "flex-1" : "")}
+		>
+			<Button
+				variant={type === "logIn" ? "outline" : "default"}
+				className={isMobile ? "w-full" : ""}
+			>
+				{title}
+			</Button>
+		</Link>
+	);
+}
 
 export default function PublicHeader() {
 	const t = useTranslations();
@@ -33,37 +90,21 @@ export default function PublicHeader() {
 
 						{/* Desktop Navigation */}
 						<nav className="hidden md:flex items-center gap-6">
-							<Link
+							<NavLink
 								href="/"
-								className={cn(
-									"text-sm font-medium transition-colors hover:text-primary",
-									isActive("/") ? "text-primary" : "text-muted-foreground",
-								)}
-							>
-								{t("HomePage.title")}
-							</Link>
-							<Link
+								isActive={isActive("/")}
+								title={t("HomePage.title")}
+							/>
+							<NavLink
 								href="/features"
-								className={cn(
-									"text-sm font-medium transition-colors hover:text-primary",
-									isActive("/features")
-										? "text-primary"
-										: "text-muted-foreground",
-								)}
-							>
-								{t("FeaturesPage.title")}
-							</Link>
-							<Link
+								isActive={isActive("/features")}
+								title={t("FeaturesPage.title")}
+							/>
+							<NavLink
 								href="/pricing"
-								className={cn(
-									"text-sm font-medium transition-colors hover:text-primary",
-									isActive("/pricing")
-										? "text-primary"
-										: "text-muted-foreground",
-								)}
-							>
-								{t("PricingPage.title")}
-							</Link>
+								isActive={isActive("/pricing")}
+								title={t("PricingPage.title")}
+							/>
 						</nav>
 					</div>
 
@@ -121,62 +162,47 @@ export default function PublicHeader() {
 				>
 					<div className="px-8 sm:px-12 py-6 h-full overflow-y-auto">
 						<nav className="flex flex-col space-y-6">
-							<Link
+							<NavLink
 								href="/"
-								className={cn(
-									"font-medium transition-colors hover:text-primary",
-									isActive("/") ? "text-primary" : "text-muted-foreground",
-								)}
+								isActive={isActive("/")}
+								title={t("HomePage.title")}
+								isMobile={true}
 								onClick={() => setIsMenuOpen(false)}
-							>
-								{t("HomePage.title")}
-							</Link>
-							<Link
+							/>
+							<NavLink
 								href="/features"
-								className={cn(
-									"font-medium transition-colors hover:text-primary",
-									isActive("/features")
-										? "text-primary"
-										: "text-muted-foreground",
-								)}
+								isActive={isActive("/features")}
+								title={t("FeaturesPage.title")}
+								isMobile={true}
 								onClick={() => setIsMenuOpen(false)}
-							>
-								{t("FeaturesPage.title")}
-							</Link>
-							<Link
+							/>
+							<NavLink
 								href="/pricing"
-								className={cn(
-									"font-medium transition-colors hover:text-primary",
-									isActive("/pricing")
-										? "text-primary"
-										: "text-muted-foreground",
-								)}
+								isActive={isActive("/pricing")}
+								title={t("PricingPage.title")}
+								isMobile={true}
 								onClick={() => setIsMenuOpen(false)}
-							>
-								{t("PricingPage.title")}
-							</Link>
+							/>
 						</nav>
 
 						<div className="mt-8 flex flex-row gap-4 w-full">
 							{pathname !== "/login" && (
-								<Link
+								<AuthLink
+									type="logIn"
 									href="/login"
+									title={t("Auth.logIn")}
+									isMobile={true}
 									onClick={() => setIsMenuOpen(false)}
-									className="flex-1"
-								>
-									<Button variant="outline" className="w-full">
-										{t("Auth.logIn")}
-									</Button>
-								</Link>
+								/>
 							)}
 							{pathname !== "/signup" && (
-								<Link
+								<AuthLink
+									type="signUp"
 									href="/signup"
+									title={t("Auth.signUp")}
+									isMobile={true}
 									onClick={() => setIsMenuOpen(false)}
-									className="flex-1"
-								>
-									<Button className="w-full">{t("Auth.signUp")}</Button>
-								</Link>
+								/>
 							)}
 						</div>
 					</div>
