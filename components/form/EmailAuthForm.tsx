@@ -97,7 +97,7 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 
 				<div className="grid gap-1">
 					<Label htmlFor="password">{t("UserInfo.password")}</Label>
-					<div className="relative">
+					<div className="flex">
 						<Input
 							id="password"
 							placeholder="Password"
@@ -105,16 +105,19 @@ export default function EmailAuthForm({ type, onSubmit, className }: Props) {
 							disabled={isSubmitting}
 							{...register("password")}
 							autoComplete="current-password"
+							className="rounded-r-none"
 						/>
-						<button
+						<Button
 							type="button"
-							className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:cursor-pointer"
-							onClick={() => setShowPassword(!showPassword)}
+							size="icon"
+							variant="outline"
 							tabIndex={-1}
 							aria-label={showPassword ? "Hide password" : "Show password"}
+							onClick={() => setShowPassword(!showPassword)}
+							className="h-9 rounded-l-none aspect-square border-l-0"
 						>
 							{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-						</button>
+						</Button>
 					</div>
 					{errors.password && <FormError message={errors.password.message} />}
 				</div>
