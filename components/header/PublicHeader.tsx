@@ -64,14 +64,18 @@ export default function PublicHeader() {
 				</div>
 
 				<div className="flex items-center gap-2">
-					<Link href="/login">
-						<Button variant="ghost" className="text-sm">
-							{t("Auth.logIn")}
-						</Button>
-					</Link>
-					<Link href="/signup">
-						<Button className="text-sm">{t("Auth.signUp")}</Button>
-					</Link>
+					{pathname !== "/login" && (
+						<Link href="/login">
+							<Button variant="outline" className="text-sm">
+								{t("Auth.logIn")}
+							</Button>
+						</Link>
+					)}
+					{pathname !== "/signup" && (
+						<Link href="/signup">
+							<Button className="text-sm">{t("Auth.signUp")}</Button>
+						</Link>
+					)}
 					<LocaleSwitcher />
 					<ThemeToggleButton />
 				</div>
