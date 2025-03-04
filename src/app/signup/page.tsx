@@ -1,9 +1,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import EmailAuthForm from "@/components/form/EmailAuthForm";
-
-import { signUpWithEmail } from "./actions";
+import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
 
 export default function SignUpPage() {
 	const t = useTranslations("Auth");
@@ -14,11 +12,7 @@ export default function SignUpPage() {
 			<div className="w-72 flex flex-col items-center">
 				<h1 className="text-3xl font-black mb-4">{t("signUp")}</h1>
 
-				<EmailAuthForm
-					type="signUp"
-					onSubmit={signUpWithEmail}
-					className="my-6 w-full"
-				/>
+				<EmailAuthForm type="signUp" className="my-6 w-full" />
 
 				<div className="w-full">
 					<p>{t("alreadyHaveAccount")}</p>
