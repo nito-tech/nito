@@ -4,9 +4,10 @@ import {
 	cleanup,
 	render,
 	screen,
+	within,
 } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import PublicHeader from "@/components/header/PublicHeader";
 
@@ -18,14 +19,22 @@ interface SetupResult extends RenderResult {
 	elements: {
 		logo: HTMLElement | null;
 		brandName: HTMLElement | null;
-		navLinks: Record<NavLinkKeys, HTMLElement | null>;
-		authButtons: Record<AuthButtonKeys, HTMLElement | null>;
-		utilities: {
-			localeSwitcher: HTMLElement | null;
-			themeToggle: HTMLElement | null;
+		desktop: {
+			navLinks: Record<NavLinkKeys, HTMLElement | null>;
+			authButtons: Record<AuthButtonKeys, HTMLElement | null>;
+			utilities: {
+				localeSwitcher: HTMLElement | null;
+				themeToggle: HTMLElement | null;
+			};
 		};
-		mobileMenu: {
-			button: HTMLElement | null;
+		mobile: {
+			navLinks: Record<NavLinkKeys, HTMLElement | null>;
+			authButtons: Record<AuthButtonKeys, HTMLElement | null>;
+			utilities: {
+				localeSwitcher: HTMLElement | null;
+				themeToggle: HTMLElement | null;
+			};
+			menuButton: HTMLElement | null;
 		};
 		getAllNavLinks: () => HTMLElement[];
 		getAllButtons: () => HTMLElement[];
@@ -123,55 +132,84 @@ vi.mock("@/components/theme/ThemeToggleButton", () => ({
 
 function setup({ path = "/" } = {}): SetupResult {
 	currentPath = path;
-
 	const user = userEvent.setup();
-
 	const result = render(<PublicHeader />);
+
+	const desktop = result.getByLabelText("Site header");
+	const desktopUtils = within(desktop);
+
+	const desktopNav =
+		desktopUtils.queryByLabelText("Main navigation") ||
+		desktopUtils.queryByRole("navigation");
+	const desktopNavUtils = desktopNav ? within(desktopNav) : null;
+
+	const desktopActions = desktopUtils.queryByLabelText("Desktop actions");
+	const desktopActionsUtils = desktopActions ? within(desktopActions) : null;
+
+	const mobile = result.getByLabelText("Mobile navigation");
+	const mobileUtils = within(mobile);
 
 	return {
 		user,
 		...result,
 		elements: {
-			// Logo and brand
-			logo: screen.queryByTestId("image-nito-logo"),
-			brandName: screen.getByText("Nito"),
-
-			// Navigation links
-			navLinks: {
-				home: screen.getByText("Home").closest("a"),
-				features: screen.getByText("Features").closest("a"),
-				pricing: screen.getByText("Pricing").closest("a"),
+			logo: desktopUtils.queryByLabelText("Nito homepage"),
+			brandName: desktopUtils.queryByText("Nito"),
+			desktop: {
+				navLinks: {
+					home: desktopNavUtils?.queryByLabelText("Navigate to Home") ?? null,
+					features:
+						desktopNavUtils?.queryByLabelText("Navigate to Features") ?? null,
+					pricing:
+						desktopNavUtils?.queryByLabelText("Navigate to Pricing") ?? null,
+				},
+				authButtons: {
+					logIn:
+						desktopActionsUtils?.queryByLabelText("Navigate to Log in") ?? null,
+					signUp:
+						desktopActionsUtils?.queryByLabelText("Navigate to Sign up") ??
+						null,
+				},
+				utilities: {
+					localeSwitcher: desktop.querySelector(
+						'.hidden.md\\:flex [data-testid="locale-switcher"]',
+					),
+					themeToggle: desktop.querySelector(
+						'.hidden.md\\:flex [data-testid="theme-toggle"]',
+					),
+				},
+			},
+			mobile: {
+				navLinks: {
+					home: mobileUtils?.queryByLabelText("Navigate to Home") ?? null,
+					features:
+						mobileUtils?.queryByLabelText("Navigate to Features") ?? null,
+					pricing: mobileUtils?.queryByLabelText("Navigate to Pricing") ?? null,
+				},
+				authButtons: {
+					logIn: mobileUtils?.queryByLabelText("Navigate to Log in") ?? null,
+					signUp: mobileUtils?.queryByLabelText("Navigate to Sign up") ?? null,
+				},
+				utilities: {
+					localeSwitcher: desktop.querySelector(
+						'.md\\:hidden [data-testid="locale-switcher"]',
+					),
+					themeToggle: desktop.querySelector(
+						'.md\\:hidden [data-testid="theme-toggle"]',
+					),
+				},
+				menuButton: desktopUtils.queryByLabelText("Open menu"),
 			},
 
-			// Authentication buttons
-			authButtons: {
-				logIn: screen.queryByRole("link", { name: "Log in" }),
-				signUp: screen.queryByRole("link", { name: "Sign up" }),
-			},
-
-			// Utility components
-			utilities: {
-				localeSwitcher: screen.queryByTestId("locale-switcher"),
-				themeToggle: screen.queryByTestId("theme-toggle"),
-			},
-
-			// Mobile menu elements (if applicable)
-			mobileMenu: {
-				button: screen.queryByRole("button", { name: /menu/i }),
-			},
-
-			// Helper for getting all nav links
+			// Helper methods
 			getAllNavLinks: () => screen.queryAllByRole("link"),
-
-			// Helper for getting all buttons
 			getAllButtons: () => screen.queryAllByRole("button"),
 		},
 	};
 }
-
 describe("PublicHeader", () => {
 	describe("Rendering", () => {
-		test("renders the brand and logo", () => {
+		test("renders the brand name and logo", () => {
 			const { elements } = setup();
 			expect(elements.brandName).toBeInTheDocument();
 
@@ -182,21 +220,31 @@ describe("PublicHeader", () => {
 
 		test("renders all navigation links", () => {
 			const { elements } = setup();
-			expect(elements.navLinks.home).toBeInTheDocument();
-			expect(elements.navLinks.features).toBeInTheDocument();
-			expect(elements.navLinks.pricing).toBeInTheDocument();
+			expect(elements.desktop.navLinks.home).toBeInTheDocument();
+			expect(elements.desktop.navLinks.features).toBeInTheDocument();
+			expect(elements.desktop.navLinks.pricing).toBeInTheDocument();
+
+			expect(elements.mobile.navLinks.home).toBeInTheDocument();
+			expect(elements.mobile.navLinks.features).toBeInTheDocument();
+			expect(elements.mobile.navLinks.pricing).toBeInTheDocument();
 		});
 
-		test("renders authentication buttons when not on auth pages", () => {
+		test("renders authentication buttons in / page", () => {
 			const { elements } = setup({ path: "/" });
-			expect(elements.authButtons.logIn).toBeInTheDocument();
-			expect(elements.authButtons.signUp).toBeInTheDocument();
+			expect(elements.desktop.authButtons.logIn).toBeInTheDocument();
+			expect(elements.desktop.authButtons.signUp).toBeInTheDocument();
+
+			expect(elements.mobile.authButtons.logIn).toBeInTheDocument();
+			expect(elements.mobile.authButtons.signUp).toBeInTheDocument();
 		});
 
 		test("renders utility components", () => {
 			const { elements } = setup();
-			expect(elements.utilities.localeSwitcher).toBeInTheDocument();
-			expect(elements.utilities.themeToggle).toBeInTheDocument();
+			expect(elements.desktop.utilities.localeSwitcher).toBeInTheDocument();
+			expect(elements.desktop.utilities.themeToggle).toBeInTheDocument();
+
+			expect(elements.mobile.utilities.localeSwitcher).toBeInTheDocument();
+			expect(elements.mobile.utilities.themeToggle).toBeInTheDocument();
 		});
 	});
 
@@ -211,13 +259,13 @@ describe("PublicHeader", () => {
 			"highlights $activeLink link when on $path page",
 			({ path, activeLink }) => {
 				const { elements } = setup({ path });
-				const activeNavLink = elements.navLinks[activeLink];
+				const activeNavLink = elements.desktop.navLinks[activeLink];
 
 				// Check active link has primary color
 				expect(activeNavLink).toHaveClass("text-primary");
 
 				// Check other links have muted color
-				for (const [key, link] of Object.entries(elements.navLinks)) {
+				for (const [key, link] of Object.entries(elements.desktop.navLinks)) {
 					if (key !== activeLink && link) {
 						expect(link).toHaveClass("text-muted-foreground");
 					}
@@ -244,12 +292,24 @@ describe("PublicHeader", () => {
 		test("all links have correct href attributes", () => {
 			const { elements } = setup();
 
-			expect(elements.navLinks.home).toHaveAttribute("href", "/");
-			expect(elements.navLinks.features).toHaveAttribute("href", "/features");
-			expect(elements.navLinks.pricing).toHaveAttribute("href", "/pricing");
+			expect(elements.desktop.navLinks.home).toHaveAttribute("href", "/");
+			expect(elements.desktop.navLinks.features).toHaveAttribute(
+				"href",
+				"/features",
+			);
+			expect(elements.desktop.navLinks.pricing).toHaveAttribute(
+				"href",
+				"/pricing",
+			);
 
-			expect(elements.authButtons.logIn).toHaveAttribute("href", "/login");
-			expect(elements.authButtons.signUp).toHaveAttribute("href", "/signup");
+			expect(elements.desktop.authButtons.logIn).toHaveAttribute(
+				"href",
+				"/login",
+			);
+			expect(elements.desktop.authButtons.signUp).toHaveAttribute(
+				"href",
+				"/signup",
+			);
 		});
 
 		test("logo links to homepage", () => {
@@ -263,12 +323,12 @@ describe("PublicHeader", () => {
 
 		test("hides login button on login page", () => {
 			const { elements } = setup({ path: "/login" });
-			expect(elements.authButtons.logIn).not.toBeInTheDocument();
+			expect(elements.desktop.authButtons.logIn).not.toBeInTheDocument();
 		});
 
 		test("hides signup button on signup page", () => {
 			const { elements } = setup({ path: "/signup" });
-			expect(elements.authButtons.signUp).not.toBeInTheDocument();
+			expect(elements.desktop.authButtons.signUp).not.toBeInTheDocument();
 		});
 	});
 
@@ -284,10 +344,12 @@ describe("PublicHeader", () => {
 		test("auth buttons have correct styling", () => {
 			const { elements } = setup();
 
-			const logInButton = elements.authButtons.logIn?.querySelector("button");
+			const logInButton =
+				elements.desktop.authButtons.logIn?.querySelector("button");
 			expect(logInButton).toHaveClass("text-sm");
 
-			const signUpButton = elements.authButtons.signUp?.querySelector("button");
+			const signUpButton =
+				elements.desktop.authButtons.signUp?.querySelector("button");
 			expect(signUpButton).toHaveClass("text-sm");
 		});
 
@@ -312,11 +374,7 @@ describe("PublicHeader", () => {
 		// This test depends on actual implementation
 		test("mobile menu button exists on small screens (if applicable)", () => {
 			const { elements } = setup();
-
-			// Skip if no mobile menu is implemented
-			if (elements.mobileMenu.button) {
-				expect(elements.mobileMenu.button).toBeInTheDocument();
-			}
+			expect(elements.mobile.menuButton).toBeInTheDocument();
 		});
 	});
 });
