@@ -59,12 +59,11 @@ function AuthLink({
 			href={href}
 			onClick={onClick}
 			className={cn(isMobile ? "flex-1" : "")}
-			aria-label={title}
+			aria-label={`Navigate to ${title}`}
 		>
 			<Button
 				variant={type === "logIn" ? "outline" : "default"}
 				className={isMobile ? "w-full" : ""}
-				aria-label={title}
 			>
 				{title}
 			</Button>
@@ -162,7 +161,8 @@ export default function PublicHeader() {
 			<div
 				className="fixed inset-0 top-16 md:hidden z-40 pointer-events-none"
 				aria-modal="true"
-				aria-label="Navigation menu for mobile"
+				role="menu"
+				aria-label="Mobile navigation"
 				aria-hidden={!isMenuOpen}
 			>
 				{/* Overlay and blur background */}
