@@ -15,6 +15,12 @@ const REDIRECT_URI = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI;
 // Specify the required scopes
 const scope = "repo user:email";
 
+/**
+ * GitHub authentication card component.
+ *
+ * When the button is clicked, you will be redirected to GitHub and authenticated there.
+ * If successful, you will be redirected to REDIRECT_URI.
+ */
 export default function GitHubAuthCard() {
 	const handleAuthorize = () => {
 		const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${scope}&redirect_uri=${REDIRECT_URI}`;

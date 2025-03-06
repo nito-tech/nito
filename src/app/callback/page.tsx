@@ -1,16 +1,23 @@
 "use client";
 
-import { GitBranch } from "lucide-react";
+import { GitBranch, GitCommit } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import { Divider } from "@/components/Divider";
 import { Notice } from "@/components/Notice";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { fetchUserRepositories } from "@/features/github/lib/github-api";
-import type { Repository } from "@/features/github/lib/github-api";
+import { CommitList } from "@/features/github/components/CommitList";
+import {
+	fetchRepositoryCommits,
+	fetchUserInfo,
+	fetchUserRepositories,
+} from "@/features/github/lib/github-api";
+import type { CommitInfo, Repository } from "@/features/github/lib/github-api";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();
@@ -24,6 +31,12 @@ export default function CallbackPage() {
 	const [repositories, setRepositories] = useState<Repository[]>([]);
 	const [showRepos, setShowRepos] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [selectedRepos, setSelectedRepos] = useState<string[]>([]);
+	const [username, setUsername] = useState<string>("");
+	const [commitData, setCommitData] = useState<Record<string, CommitInfo[]>>(
+		{},
+	);
+	const [fetchingCommits, setFetchingCommits] = useState<boolean>(false);
 
 	/**
 	 * Exchanges the authorization code for an access token.
@@ -55,6 +68,20 @@ export default function CallbackPage() {
 			console.log("Access Token:", data.access_token);
 			console.log("Token Type:", data.token_type);
 			console.log("Scope:", data.scope);
+
+			// Fetch user info
+			try {
+				const userInfo = await fetchUserInfo(data.access_token);
+
+				console.log("userInfo", userInfo);
+				if (!userInfo) {
+					throw new Error("Failed to fetch user info");
+				}
+
+				setUsername(userInfo.login);
+			} catch (userError) {
+				console.error("Error fetching user info:", userError);
+			}
 		} catch (err) {
 			console.error("Token exchange error:", err);
 			setError(err instanceof Error ? err.message : "Unknown error");
@@ -111,8 +138,64 @@ export default function CallbackPage() {
 		}).format(date);
 	};
 
+	/**
+	 * Handle repository selection
+	 *
+	 * @param repoName
+	 */
+	const toggleRepositorySelection = (repoName: string) => {
+		setSelectedRepos((prev) => {
+			if (prev.includes(repoName)) {
+				return prev.filter((name) => name !== repoName);
+			}
+
+			return [...prev, repoName];
+		});
+	};
+
+	/**
+	 * Fetch commits for selected repositories
+	 *
+	 * @returns {Promise<void>}
+	 */
+	const fetchCommitsForSelectedRepos = async () => {
+		if (!token || !username || selectedRepos.length === 0) return;
+
+		setFetchingCommits(true);
+		setCommitData({});
+
+		try {
+			const commitPromises = selectedRepos.map(async (repoName) => {
+				try {
+					const commits = await fetchRepositoryCommits(
+						token,
+						username,
+						repoName,
+					);
+					return { repoName, commits };
+				} catch (error) {
+					console.error(`Error fetching commits for ${repoName}:`, error);
+					return { repoName, commits: [] };
+				}
+			});
+
+			const results = await Promise.all(commitPromises);
+
+			const newCommitData: Record<string, CommitInfo[]> = {};
+			for (const { repoName, commits } of results) {
+				newCommitData[repoName] = commits;
+			}
+
+			setCommitData(newCommitData);
+		} catch (err) {
+			console.error("Error fetching commits:", err);
+			setError(err instanceof Error ? err.message : "Failed to fetch commits");
+		} finally {
+			setFetchingCommits(false);
+		}
+	};
+
 	return (
-		// min-h-screen
 		<div className="flex justify-center items-center p-4">
 			<Card className="w-full max-w-3xl">
 				<CardHeader>
@@ -141,7 +224,7 @@ export default function CallbackPage() {
 					{token && (
 						<div className="mt-4">
 							<p className="text-sm font-medium mb-1">Access Token:</p>
-							<div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-md overflow-auto text-xs">
+							<div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-md text-xs">
 								<code>
 									{/* {token.substring(0, 10)}...{token.substring(token.length - 5)} */}
 									{token}
@@ -161,27 +244,52 @@ export default function CallbackPage() {
 								<div className="mt-6">
 									<div className="flex items-center justify-between mb-4">
 										<h3 className="text-lg font-medium">Repositories</h3>
-										<Badge variant="outline">{repositories.length}件</Badge>
+										<div className="flex space-x-2 items-center">
+											<Badge variant="outline">
+												{repositories.length} repos
+											</Badge>
+											<Badge variant="outline">
+												{selectedRepos.length} selected
+											</Badge>
+										</div>
 									</div>
 
-									<Input
-										className="mb-4"
-										placeholder="Search repositories..."
-										value={searchQuery}
-										onChange={(e) => setSearchQuery(e.target.value)}
-									/>
+									<div className="flex space-x-2 mb-4">
+										<Input
+											className="flex-1"
+											placeholder="Search repositories..."
+											value={searchQuery}
+											onChange={(e) => setSearchQuery(e.target.value)}
+										/>
+										<Button
+											onClick={fetchCommitsForSelectedRepos}
+											disabled={selectedRepos.length === 0 || fetchingCommits}
+											className="bg-blue-600 hover:bg-blue-700 text-white flex-shrink-0"
+										>
+											<GitCommit className="mr-2 h-4 w-4" />
+											Fetch Commits
+										</Button>
+									</div>
 
 									{isLoading ? (
 										<div className="text-center py-4">Loading...</div>
 									) : (
-										<div className="space-y-4 max-h-96 overflow-y-auto">
+										<div className="space-y-4 max-h-64 overflow-y-auto mb-4">
 											{filteredRepositories.length > 0 ? (
 												filteredRepositories.map((repo) => (
 													<div
 														key={repo.id}
-														className="border rounded-lg p-4 bg-white dark:bg-gray-800"
+														className="border rounded-lg p-4 bg-white dark:bg-gray-800 flex items-start"
 													>
-														<div className="flex justify-between items-start">
+														<Checkbox
+															id={`repo-${repo.id}`}
+															checked={selectedRepos.includes(repo.name)}
+															onCheckedChange={() =>
+																toggleRepositorySelection(repo.name)
+															}
+															className="mr-3 mt-1"
+														/>
+														<div className="flex justify-between items-start flex-1">
 															<div>
 																<h4 className="font-medium text-blue-600 dark:text-blue-400">
 																	<a
@@ -197,23 +305,23 @@ export default function CallbackPage() {
 																		{repo.description}
 																	</p>
 																)}
+																<div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-2 space-x-4">
+																	{repo.language && (
+																		<span className="flex items-center">
+																			<span className="w-3 h-3 rounded-full bg-blue-500 mr-1" />
+																			{repo.language}
+																		</span>
+																	)}
+																	<span>
+																		Updated: {formatDate(repo.updated_at)}
+																	</span>
+																</div>
 															</div>
 															{repo.private ? (
 																<Badge className="bg-yellow-600">Private</Badge>
 															) : (
 																<Badge className="bg-green-600">Public</Badge>
 															)}
-														</div>
-														<div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-3 space-x-4">
-															{repo.language && (
-																<span className="flex items-center">
-																	<span className="w-3 h-3 rounded-full bg-blue-500 mr-1" />
-																	{repo.language}
-																</span>
-															)}
-															<span>
-																Updated: {formatDate(repo.updated_at)}
-															</span>
 														</div>
 													</div>
 												))
@@ -225,6 +333,27 @@ export default function CallbackPage() {
 												</div>
 											)}
 										</div>
+									)}
+
+									{/* Commits Section */}
+									{Object.keys(commitData).length > 0 && (
+										<>
+											{/* <Separator className="my-6" /> */}
+											<Divider className="my-6" />
+											<h2 className="text-xl font-bold mb-4">
+												Repository Commits
+											</h2>
+
+											{Object.entries(commitData).map(([repoName, commits]) => (
+												<div key={repoName} className="mb-8">
+													<CommitList
+														commits={commits}
+														repoName={repoName}
+														isLoading={fetchingCommits}
+													/>
+												</div>
+											))}
+										</>
 									)}
 								</div>
 							)}
