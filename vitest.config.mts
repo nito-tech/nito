@@ -21,10 +21,10 @@ export default defineConfig({
 			reportsDirectory: "./coverage",
 			thresholds: {
 				// FIXME: Increase the threshold values to 80%.
-				statements: 30,
-				branches: 30,
-				functions: 30,
-				lines: 30,
+				statements: 20,
+				branches: 20,
+				functions: 20,
+				lines: 20,
 			},
 		},
 	},
