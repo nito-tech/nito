@@ -24,5 +24,7 @@
 	"UserInfo": {
 		"email": "メールアドレス",
 		"password": "パスワード"
-	}
+	},
+	"commingSoon": "準備中...",
+	"connectToRepository": "リポジトリに接続"
 }
