@@ -40,7 +40,7 @@ export function Notice({
 		<Alert
 			variant={variant}
 			className={cn(
-				"flex items-center border-none",
+				"flex items-center border-none my-2",
 				animate && "animate-fade-in",
 				className,
 			)}
@@ -48,7 +48,7 @@ export function Notice({
 			aria-live={variant === "destructive" ? "assertive" : "polite"}
 		>
 			<div>{getVariantIcon(variant)}</div>
-			<div className={cn(variant !== "default" && "ml-2")}>
+			<div className={cn(variant !== "default" && "ml-2", "py-1")}>
 				{title && <AlertTitle>{title}</AlertTitle>}
 				<AlertDescription>{text}</AlertDescription>
 			</div>

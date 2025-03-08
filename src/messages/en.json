@@ -24,5 +24,7 @@
 	"UserInfo": {
 		"email": "Email",
 		"password": "Password"
-	}
+	},
+	"commingSoon": "Comming soon...",
+	"connectToRepository": "Connect to repository"
 }
