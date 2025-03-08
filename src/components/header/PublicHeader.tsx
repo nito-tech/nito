@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import LocaleSwitcher from "@/components/LocaleSwitcher";
-import ThemeToggleButton from "@/components/theme/ThemeToggleButton";
+import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

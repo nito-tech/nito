@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
 	/* config options here */
+	devIndicators: {
+		position: "bottom-right",
+	},
 };
 
 export default withNextIntl(nextConfig);

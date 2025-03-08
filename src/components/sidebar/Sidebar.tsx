@@ -1,0 +1,163 @@
+"use client";
+
+import {
+	BarChart,
+	Clock,
+	Code,
+	Command,
+	Database,
+	FileBox,
+	FileText,
+	Home,
+	Layers,
+	Lightbulb,
+	Lock,
+	Settings,
+} from "lucide-react";
+import React, { useState } from "react";
+
+import { Divider } from "@/components/Divider";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { cn } from "@/lib/utils";
+
+import { SidebarControl } from "./SidebarControl";
+import { SidebarItem } from "./SidebarItem";
+import UserProfile from "./UserProfile";
+import type { NavItem, SidebarState } from "./types";
+
+const mainNavItems: NavItem[] = [
+	{ icon: <Home size={20} />, label: "Project overview", href: "/dashboard" },
+	{ icon: <FileText size={20} />, label: "Table Editor", href: "/tables" },
+	{ icon: <Code size={20} />, label: "SQL Editor", href: "/sql" },
+];
+
+const resourceNavItems: NavItem[] = [
+	{ icon: <Database size={20} />, label: "Database", href: "/database" },
+	{ icon: <Lock size={20} />, label: "Authentication", href: "/auth" },
+	{ icon: <FileBox size={20} />, label: "Storage", href: "/storage" },
+	{ icon: <Code size={20} />, label: "Edge Functions", href: "/functions" },
+	{ icon: <Clock size={20} />, label: "Realtime", href: "/realtime" },
+];
+
+const utilityNavItems: NavItem[] = [
+	{ icon: <Lightbulb size={20} />, label: "Advisors", href: "/advisors" },
+	{ icon: <BarChart size={20} />, label: "Reports", href: "/reports" },
+	{ icon: <FileText size={20} />, label: "Logs", href: "/logs" },
+	{ icon: <FileText size={20} />, label: "API Docs", href: "/api-docs" },
+	{ icon: <Layers size={20} />, label: "Integrations", href: "/integrations" },
+];
+
+const footerNavItems: NavItem[] = [
+	{
+		icon: <Settings size={20} />,
+		label: "Project Settings",
+		href: "/settings",
+	},
+	{ icon: <Command size={20} />, label: "Command Menu", href: "/command" },
+];
+
+export const Sidebar = () => {
+	const [sidebarState, setSidebarState] = useLocalStorage<SidebarState>(
+		"sidebar-state",
+		"expanded",
+	);
+	const [isHovered, setIsHovered] = useState(false);
+
+	const isCollapsed =
+		sidebarState === "collapsed" || (sidebarState === "hover" && !isHovered);
+
+	// Sample User Info
+	const userInfo = {
+		username: "saneatsu",
+		email: "w.saneatsu@gmail.com",
+		avatarUrl: "https://github.com/shadcn.png",
+	};
+
+	return (
+		<div
+			className="relative"
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
+			<div
+				className={cn(
+					"bg-card text-card-foreground h-full border-r border-border flex flex-col",
+					"transition-[width] duration-300 pt-2 pb-4",
+					isCollapsed ? "w-16" : "w-64",
+				)}
+			>
+				<div className="flex-1 overflow-y-auto">
+					{/* Navigation Items */}
+					<nav className="flex flex-col gap-0.5 px-2 py-2">
+						{/* Main Navigation */}
+						{mainNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+
+						<Divider className="border-border" />
+
+						{/* Resource Navigation */}
+						{resourceNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+
+						<Divider className="border-border" />
+
+						{/* Utility Navigation */}
+						{utilityNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+					</nav>
+				</div>
+
+				<div className="mt-auto border-t border-border">
+					<nav className="flex flex-col gap-0.5 px-2 py-2">
+						{/* Footer Navigation Items */}
+						{footerNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+					</nav>
+
+					<UserProfile
+						username={userInfo.username}
+						email={userInfo.email}
+						avatarUrl={userInfo.avatarUrl}
+						isCollapsed={isCollapsed}
+					/>
+
+					<SidebarControl
+						sidebarState={sidebarState}
+						isCollapsed={isCollapsed}
+						onChange={setSidebarState}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default Sidebar;

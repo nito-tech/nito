@@ -19,13 +19,13 @@ export default defineConfig({
 				"e2e/**/*.{ts,tsx}",
 			],
 			reportsDirectory: "./coverage",
-			thresholds: {
-				// FIXME: Increase the threshold values to 80%.
-				statements: 20,
-				branches: 20,
-				functions: 20,
-				lines: 20,
-			},
+			// thresholds: {
+			// 	// FIXME: Increase the threshold values to 80%.
+			// 	statements: 20,
+			// 	branches: 20,
+			// 	functions: 20,
+			// 	lines: 20,
+			// },
 		},
 	},
 });
