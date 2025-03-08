@@ -40,7 +40,7 @@ const customRadioStyles = {
 	aspectRatio: "1 / 1",
 };
 
-export default function ThemeToggleButton() {
+export default function ThemeSwitcher() {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 	const [open, setOpen] = useState(false);

@@ -5,8 +5,8 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import type React from "react";
 
-import { themeOptions } from "@/components/theme/ThemeToggleButton";
-import type { Theme } from "@/components/theme/ThemeToggleButton";
+import { themeOptions } from "@/components/theme/ThemeSwitcher";
+import type { Theme } from "@/components/theme/ThemeSwitcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
