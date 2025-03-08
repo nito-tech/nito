@@ -4,6 +4,7 @@ import {
 	BarChart,
 	Clock,
 	Code,
+	Command,
 	Database,
 	FileBox,
 	FileText,
@@ -11,6 +12,7 @@ import {
 	Layers,
 	Lightbulb,
 	Lock,
+	Settings,
 } from "lucide-react";
 import React, { useState } from "react";
 
@@ -20,6 +22,7 @@ import { cn } from "@/lib/utils";
 
 import { SidebarControl } from "./SidebarControl";
 import { SidebarItem } from "./SidebarItem";
+import UserProfile from "./UserProfile";
 import type { NavItem, SidebarState } from "./types";
 
 const mainNavItems: NavItem[] = [
@@ -44,8 +47,16 @@ const utilityNavItems: NavItem[] = [
 	{ icon: <Layers size={20} />, label: "Integrations", href: "/integrations" },
 ];
 
+const footerNavItems: NavItem[] = [
+	{
+		icon: <Settings size={20} />,
+		label: "Project Settings",
+		href: "/settings",
+	},
+	{ icon: <Command size={20} />, label: "Command Menu", href: "/command" },
+];
+
 export const Sidebar = () => {
-	// サイドバーの状態をローカルストレージに保存
 	const [sidebarState, setSidebarState] = useLocalStorage<SidebarState>(
 		"sidebar-state",
 		"expanded",
@@ -55,6 +66,13 @@ export const Sidebar = () => {
 	const isCollapsed =
 		sidebarState === "collapsed" || (sidebarState === "hover" && !isHovered);
 
+	// Sample User Info
+	const userInfo = {
+		username: "saneatsu",
+		email: "w.saneatsu@gmail.com",
+		avatarUrl: "https://github.com/shadcn.png",
+	};
+
 	return (
 		<div
 			className="relative h-screen"
@@ -63,14 +81,15 @@ export const Sidebar = () => {
 		>
 			<div
 				className={cn(
-					"bg-gray-900 text-white h-full transition-all duration-300 border-r border-gray-800",
+					"bg-gray-900 text-white h-full border-r border-gray-800 flex flex-col",
+					"transition-[width] duration-300 pt-2 pb-4",
 					isCollapsed ? "w-16" : "w-64",
 				)}
 			>
 				{/* Logo and Header */}
 				<div className="p-4 border-b border-gray-800 flex items-center">
 					<div className="flex items-center gap-2">
-						<div className="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center">
+						<div className="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center flex-shrink-0">
 							{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 							<svg
 								viewBox="0 0 24 24"
@@ -83,60 +102,91 @@ export const Sidebar = () => {
 								<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
 							</svg>
 						</div>
-						{!isCollapsed && (
-							<div className="flex items-center gap-2">
-								<span className="font-bold">Nito</span>
-								<span className="text-xs px-2 py-0.5 bg-gray-800 rounded">
-									Free
-								</span>
-							</div>
-						)}
+						<div
+							className={cn(
+								"flex items-center gap-2 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
+								isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
+							)}
+						>
+							<span className="font-bold">Nito</span>
+							<span className="text-xs px-2 py-0.5 bg-gray-800 rounded">
+								Free
+							</span>
+						</div>
 					</div>
 				</div>
 
-				{/* Navigation Items */}
-				<nav className="mt-2 flex flex-col gap-0.5 px-2">
-					{mainNavItems.map((item) => (
-						<SidebarItem
-							key={item.href}
-							icon={item.icon}
-							label={item.label}
-							href={item.href}
-							isCollapsed={isCollapsed}
-						/>
-					))}
+				{/* Scrollable Navigation area */}
+				<div className="flex-1 overflow-y-auto">
+					{/* Navigation Items */}
+					<nav className="flex flex-col gap-0.5 px-2 py-2">
+						{/* Main Navigation */}
+						{mainNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
 
-					<Divider className="border-border" />
+						<Divider className="border-border" />
 
-					{resourceNavItems.map((item) => (
-						<SidebarItem
-							key={item.href}
-							icon={item.icon}
-							label={item.label}
-							href={item.href}
-							isCollapsed={isCollapsed}
-						/>
-					))}
+						{/* Resource Navigation */}
+						{resourceNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
 
-					<Divider className="border-border" />
+						<Divider className="border-border" />
 
-					{utilityNavItems.map((item) => (
-						<SidebarItem
-							key={item.href}
-							icon={item.icon}
-							label={item.label}
-							href={item.href}
-							isCollapsed={isCollapsed}
-						/>
-					))}
-				</nav>
+						{/* Utility Navigation */}
+						{utilityNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+					</nav>
+				</div>
+
+				<div className="mt-auto border-t border-gray-800">
+					<nav className="flex flex-col gap-0.5 px-2 py-2">
+						{/* Footer Navigation Items */}
+						{footerNavItems.map((item) => (
+							<SidebarItem
+								key={item.href}
+								icon={item.icon}
+								label={item.label}
+								href={item.href}
+								isCollapsed={isCollapsed}
+							/>
+						))}
+					</nav>
+
+					<UserProfile
+						username={userInfo.username}
+						email={userInfo.email}
+						avatarUrl={userInfo.avatarUrl}
+						isCollapsed={isCollapsed}
+					/>
+
+					<SidebarControl
+						sidebarState={sidebarState}
+						isCollapsed={isCollapsed}
+						onChange={setSidebarState}
+					/>
+				</div>
 			</div>
-
-			<SidebarControl
-				sidebarState={sidebarState}
-				isCollapsed={isCollapsed}
-				onChange={setSidebarState}
-			/>
 		</div>
 	);
 };

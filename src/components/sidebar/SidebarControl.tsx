@@ -36,7 +36,7 @@ export const SidebarControl = ({
 	return (
 		<div
 			className={cn(
-				"absolute bottom-4 left-0 right-0 transition-all duration-300",
+				"transition-all duration-300",
 				isCollapsed ? "mx-auto w-12" : "mx-4",
 			)}
 		>
