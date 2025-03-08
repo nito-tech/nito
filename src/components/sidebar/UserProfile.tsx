@@ -131,11 +131,11 @@ export const UserProfile = ({
 
 					<DropdownMenuSeparator />
 
-					<DropdownMenuItem className="cursor-pointer">
-						<form action={logOut}>
+					<DropdownMenuItem className="cursor-pointer p-0">
+						<form action={logOut} className="w-full">
 							<button
 								type="submit"
-								className="w-full flex items-center text-sm cursor-pointer"
+								className="w-full flex items-center text-sm cursor-pointer px-2 py-1.5 rounded"
 							>
 								<LogOut className="mr-4 h-4 w-4" />
 								<span>Log out</span>
