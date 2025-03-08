@@ -5,7 +5,7 @@ import { GitLabConnectRepositoryCard } from "@/features/gitlab/components/GitLab
 
 export default function DashboardPage() {
 	return (
-		<div style={{ display: "flex", height: "100vh" }}>
+		<div>
 			<aside style={{ width: "250px", padding: "20px" }}>
 				<ul>
 					<li>Dashboard</li>
