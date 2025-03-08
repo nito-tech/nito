@@ -64,13 +64,20 @@ export const SidebarControl = ({
 					<Button
 						variant="ghost"
 						aria-label="Sidebar settings"
-						className="w-full justify-start items-center py-5"
+						className={cn(
+							"w-full flex items-center py-2 px-3 rounded-md text-sm font-medium",
+							"transition-colors duration-200",
+							"text-muted-foreground hover:text-foreground hover:bg-secondary/80",
+							isCollapsed ? "justify-center" : "justify-start",
+						)}
 					>
-						<PanelLeftDashed size={isCollapsed ? 20 : 18} />
+						<span className="flex-shrink-0">
+							<PanelLeftDashed size={isCollapsed ? 20 : 20} />
+						</span>
 						{!isCollapsed && (
 							<span
 								className={cn(
-									"ml-2 text-sm whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
+									"ml-3 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
 									isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
 								)}
 							>
@@ -93,7 +100,7 @@ export const SidebarControl = ({
 								<Label
 									key={option.value}
 									htmlFor={`sidebar-${option.value}`}
-									className="flex items-center hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1.5 cursor-pointer w-full"
+									className="flex items-center hover:bg-secondary/80 hover:text-foreground rounded-md px-2 py-1.5 cursor-pointer w-full"
 								>
 									<RadioGroupItem
 										value={option.value}

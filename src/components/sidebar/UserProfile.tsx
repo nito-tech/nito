@@ -9,7 +9,8 @@ import {
 	Settings,
 	Sun,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useTheme } from "next-themes";
+import React, { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -24,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-type Theme = "dark" | "light" | "system";
+type Theme = "light" | "dark" | "system";
 
 interface UserProfileProps {
 	username: string;
@@ -39,7 +40,17 @@ export const UserProfile = ({
 	avatarUrl,
 	isCollapsed,
 }: UserProfileProps) => {
-	const [theme, setTheme] = useState<Theme>("system");
+	const { theme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	// next-themes only works on the client side,
+	// so only use theme information after mounting
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	// Get current theme value safely
+	const currentTheme = mounted ? (theme as Theme) : "system";
 
 	return (
 		<div className="px-3 py-3 border-t border-border">
@@ -108,17 +119,17 @@ export const UserProfile = ({
 					<DropdownMenuLabel>Theme</DropdownMenuLabel>
 
 					<DropdownMenuRadioGroup
-						value={theme}
+						value={currentTheme}
 						onValueChange={(value) => setTheme(value as Theme)}
 					>
-						<DropdownMenuRadioItem value="dark" className="cursor-pointer">
-							<Moon className="mr-2 h-4 w-4" />
-							<span>Dark</span>
-						</DropdownMenuRadioItem>
-
 						<DropdownMenuRadioItem value="light" className="cursor-pointer">
 							<Sun className="mr-2 h-4 w-4" />
 							<span>Light</span>
+						</DropdownMenuRadioItem>
+
+						<DropdownMenuRadioItem value="dark" className="cursor-pointer">
+							<Moon className="mr-2 h-4 w-4" />
+							<span>Dark</span>
 						</DropdownMenuRadioItem>
 
 						<DropdownMenuRadioItem value="system" className="cursor-pointer">
