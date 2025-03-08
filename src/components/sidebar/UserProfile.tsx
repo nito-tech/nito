@@ -18,6 +18,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logOut } from "@/features/auth/logout/actions";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -52,7 +53,8 @@ export const UserProfile = ({
 					<button
 						type="button"
 						className={cn(
-							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200 cursor-pointer border-0",
+							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200 cursor-pointer",
+							"focus:outline-none focus-visible:ring-0",
 							"hover:bg-secondary",
 							isCollapsed ? "justify-center" : "justify-start",
 						)}
@@ -130,8 +132,15 @@ export const UserProfile = ({
 					<DropdownMenuSeparator />
 
 					<DropdownMenuItem className="cursor-pointer">
-						<LogOut className="mr-2 h-4 w-4" />
-						<span>Log out</span>
+						<form action={logOut}>
+							<button
+								type="submit"
+								className="w-full flex items-center text-sm cursor-pointer"
+							>
+								<LogOut className="mr-4 h-4 w-4" />
+								<span>Log out</span>
+							</button>
+						</form>
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
