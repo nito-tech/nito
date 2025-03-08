@@ -52,7 +52,7 @@ export const UserProfile = ({
 					<button
 						type="button"
 						className={cn(
-							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200",
+							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200 cursor-pointer border-0",
 							"hover:bg-secondary",
 							isCollapsed ? "justify-center" : "justify-start",
 						)}

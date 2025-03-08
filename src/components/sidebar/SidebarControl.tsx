@@ -72,7 +72,7 @@ export const SidebarControl = ({
 						)}
 					>
 						<span className="flex-shrink-0">
-							<PanelLeftDashed size={isCollapsed ? 20 : 20} />
+							<PanelLeftDashed size={20} />
 						</span>
 						{!isCollapsed && (
 							<span
@@ -91,16 +91,12 @@ export const SidebarControl = ({
 						<h4 className="font-medium text-sm text-secondary-foreground">
 							Sidebar Control
 						</h4>
-						<RadioGroup
-							value={sidebarState}
-							onValueChange={handleValueChange}
-							className="space-y-1"
-						>
+						<RadioGroup value={sidebarState} onValueChange={handleValueChange}>
 							{sidebarOptions.map((option) => (
 								<Label
 									key={option.value}
 									htmlFor={`sidebar-${option.value}`}
-									className="flex items-center hover:bg-secondary/80 hover:text-foreground rounded-md px-2 py-1.5 cursor-pointer w-full"
+									className="flex items-center hover:bg-secondary/80 hover:text-foreground rounded-md p-2 cursor-pointer w-full"
 								>
 									<RadioGroupItem
 										value={option.value}
