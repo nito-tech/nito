@@ -62,13 +62,6 @@ export default function CallbackPage() {
 			setToken(data.access_token);
 			setMessage("Successfully exchanged code for token");
 
-			// Save the token to local storage (consider a more secure method in a real app)
-			// localStorage.setItem("github_token", data.access_token);
-
-			console.log("Access Token:", data.access_token);
-			console.log("Token Type:", data.token_type);
-			console.log("Scope:", data.scope);
-
 			// Fetch user info
 			try {
 				const userInfo = await fetchUserInfo(data.access_token);
