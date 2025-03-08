@@ -26,7 +26,7 @@ import UserProfile from "./UserProfile";
 import type { NavItem, SidebarState } from "./types";
 
 const mainNavItems: NavItem[] = [
-	{ icon: <Home size={20} />, label: "Project overview", href: "/" },
+	{ icon: <Home size={20} />, label: "Project overview", href: "/dashboard" },
 	{ icon: <FileText size={20} />, label: "Table Editor", href: "/tables" },
 	{ icon: <Code size={20} />, label: "SQL Editor", href: "/sql" },
 ];
@@ -75,7 +75,7 @@ export const Sidebar = () => {
 
 	return (
 		<div
-			className="relative h-screen"
+			className="relative"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
@@ -86,37 +86,6 @@ export const Sidebar = () => {
 					isCollapsed ? "w-16" : "w-64",
 				)}
 			>
-				{/* Logo and Header */}
-				<div className="p-4 border-b border-border flex items-center">
-					<div className="flex items-center gap-2">
-						<div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center flex-shrink-0 text-primary-foreground">
-							{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-							<svg
-								viewBox="0 0 24 24"
-								width="20"
-								height="20"
-								stroke="currentColor"
-								strokeWidth="2"
-								fill="none"
-							>
-								<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-							</svg>
-						</div>
-						<div
-							className={cn(
-								"flex items-center gap-2 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
-								isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
-							)}
-						>
-							<span className="font-bold">Nito</span>
-							<span className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground">
-								Free
-							</span>
-						</div>
-					</div>
-				</div>
-
-				{/* Scrollable Navigation area */}
 				<div className="flex-1 overflow-y-auto">
 					{/* Navigation Items */}
 					<nav className="flex flex-col gap-0.5 px-2 py-2">
