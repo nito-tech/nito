@@ -4,6 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
 
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -17,17 +23,17 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 	const pathname = usePathname();
 	const isActive = pathname === href;
 
-	return (
-		<Link
-			href={href}
-			className={cn(
-				"flex items-center py-2 px-3 rounded-md text-sm font-medium",
-				"transition-colors duration-200",
-				isActive
-					? "bg-secondary text-secondary-foreground"
-					: "text-muted-foreground hover:text-foreground hover:bg-secondary/80",
-			)}
-		>
+	const linkClass = cn(
+		"flex items-center py-2 px-3 rounded-md text-sm font-medium",
+		"transition-colors duration-200",
+		isActive
+			? "bg-secondary text-secondary-foreground"
+			: "text-muted-foreground hover:text-foreground hover:bg-secondary/80",
+	);
+
+	// リンク内容
+	const linkContent = (
+		<>
 			<span className="flex-shrink-0">{icon}</span>
 			<span
 				className={cn(
@@ -37,6 +43,29 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 			>
 				{label}
 			</span>
+		</>
+	);
+
+	if (isCollapsed) {
+		return (
+			<TooltipProvider>
+				<Tooltip delayDuration={0}>
+					<TooltipTrigger asChild>
+						<Link href={href} className={linkClass}>
+							<span className="flex-shrink-0">{icon}</span>
+						</Link>
+					</TooltipTrigger>
+					<TooltipContent side="right" sideOffset={10}>
+						{label}
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		);
+	}
+
+	return (
+		<Link href={href} className={linkClass}>
+			{linkContent}
 		</Link>
 	);
 };
