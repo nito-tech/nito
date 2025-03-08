@@ -15,6 +15,25 @@ import { cn } from "@/lib/utils";
 
 import type { SidebarState } from "./types";
 
+type SidebarControlOption = {
+	label: string;
+	value: SidebarState;
+};
+
+const sidebarOptions: SidebarControlOption[] = [
+	{ label: "Expanded", value: "expanded" },
+	{ label: "Collapsed", value: "collapsed" },
+	{ label: "Expand on hover", value: "hover" },
+];
+
+const customRadioStyles = {
+	width: "8px",
+	height: "8px",
+	minWidth: "8px",
+	minHeight: "8px",
+	aspectRatio: "1 / 1",
+};
+
 type Props = {
 	sidebarState: SidebarState;
 	isCollapsed: boolean;
@@ -47,7 +66,7 @@ export const SidebarControl = ({
 						aria-label="Sidebar settings"
 						className="w-full justify-start items-center py-5"
 					>
-						<PanelLeftDashed size={isCollapsed ? 20 : 18} />
+						<PanelLeftDashed size={20} />
 						{!isCollapsed && (
 							<span className="ml-2 text-sm">Sidebar Settings</span>
 						)}
@@ -61,29 +80,31 @@ export const SidebarControl = ({
 						<RadioGroup
 							value={sidebarState}
 							onValueChange={handleValueChange}
-							className="space-y-2"
+							className="space-y-1"
 						>
-							<div className="flex items-center space-x-2 hover:cursor-pointer">
-								<RadioGroupItem value="expanded" id="expanded" />
-								<Label htmlFor="expanded" className="text-secondary-foreground">
-									Expanded
-								</Label>
-							</div>
-							<div className="flex items-center space-x-2 hover:cursor-pointer">
-								<RadioGroupItem value="collapsed" id="collapsed" />
+							{sidebarOptions.map((option) => (
 								<Label
-									htmlFor="collapsed"
-									className="text-secondary-foreground"
+									key={option.value}
+									htmlFor={`sidebar-${option.value}`}
+									className="flex items-center hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1.5 cursor-pointer w-full"
 								>
-									Collapsed
+									<RadioGroupItem
+										value={option.value}
+										id={`sidebar-${option.value}`}
+										style={customRadioStyles}
+										className={cn(
+											"border-0", // Remove border
+											"data-[state=checked]:border-0", // No border when checked
+											"data-[state=checked]:bg-primary", // Background color when checked
+											"focus-visible:ring-0", // Remove focus ring
+											"focus-visible:ring-offset-0", // Remove ring offset
+										)}
+									/>
+									<div className="flex items-center ml-2 text-sm font-normal">
+										<span>{option.label}</span>
+									</div>
 								</Label>
-							</div>
-							<div className="flex items-center space-x-2 hover:cursor-pointer">
-								<RadioGroupItem value="hover" id="hover" />
-								<Label htmlFor="hover" className="text-secondary-foreground">
-									Expand on hover
-								</Label>
-							</div>
+							))}
 						</RadioGroup>
 					</div>
 				</PopoverContent>
