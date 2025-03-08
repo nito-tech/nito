@@ -1,19 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-
 import {
 	Beaker,
 	Command,
+	Laptop,
 	LogOut,
 	Moon,
 	Settings,
 	Sun,
-	SunMoon,
 } from "lucide-react";
+import React, { useState } from "react";
 
-import { cn } from "@/lib/utils";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -24,8 +22,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 type Theme = "dark" | "light" | "system";
 
@@ -45,19 +42,20 @@ export const UserProfile = ({
 	const [theme, setTheme] = useState<Theme>("system");
 
 	return (
-		<div className="px-3 py-3 border-t border-gray-800">
+		<div className="px-3 py-3 border-t border-border">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<button
 						type="button"
 						className={cn(
-							"w-full flex items-center gap-3 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200",
+							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200",
+							"hover:bg-secondary",
 							isCollapsed ? "justify-center" : "justify-start",
 						)}
 					>
 						<Avatar className="h-8 w-8 flex-shrink-0">
 							<AvatarImage src={avatarUrl} alt={username} />
-							<AvatarFallback className="bg-gray-700 text-gray-200">
+							<AvatarFallback className="bg-muted text-muted-foreground">
 								{username.substring(0, 2).toUpperCase()}
 							</AvatarFallback>
 						</Avatar>
@@ -69,20 +67,23 @@ export const UserProfile = ({
 									isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
 								)}
 							>
-								<p className="text-sm font-medium text-gray-200">{username}</p>
-								<p className="text-xs text-gray-400 truncate">{email}</p>
+								<p className="text-sm font-medium text-foreground">
+									{username}
+								</p>
+								<p className="text-xs text-muted-foreground truncate">
+									{email}
+								</p>
 							</div>
 						)}
 					</button>
 				</DropdownMenuTrigger>
 
-				<DropdownMenuContent
-					align="end"
-					className="w-56 bg-gray-900 border border-gray-800 text-gray-200"
-				>
+				<DropdownMenuContent align="end" className="w-56">
 					<DropdownMenuLabel className="flex flex-col space-y-1">
 						<span>{username}</span>
-						<span className="text-xs font-normal text-gray-400">{email}</span>
+						<span className="text-xs font-normal text-muted-foreground">
+							{email}
+						</span>
 					</DropdownMenuLabel>
 
 					<DropdownMenuSeparator />
@@ -121,14 +122,14 @@ export const UserProfile = ({
 						</DropdownMenuRadioItem>
 
 						<DropdownMenuRadioItem value="system" className="cursor-pointer">
-							<SunMoon className="mr-2 h-4 w-4" />
+							<Laptop className="mr-2 h-4 w-4" />
 							<span>System</span>
 						</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
 
 					<DropdownMenuSeparator />
 
-					<DropdownMenuItem className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-950">
+					<DropdownMenuItem className="cursor-pointer">
 						<LogOut className="mr-2 h-4 w-4" />
 						<span>Log out</span>
 					</DropdownMenuItem>

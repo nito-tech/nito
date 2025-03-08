@@ -1,24 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type React from "react";
 
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-type SidebarItemProps = {
+type Props = {
 	icon: React.ReactNode;
 	label: string;
 	href: string;
 	isCollapsed: boolean;
 };
 
-export const SidebarItem = ({
-	icon,
-	label,
-	href,
-	isCollapsed,
-}: SidebarItemProps) => {
+export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 	const pathname = usePathname();
 	const isActive = pathname === href;
 
@@ -29,8 +24,8 @@ export const SidebarItem = ({
 				"flex items-center py-2 px-3 rounded-md text-sm font-medium",
 				"transition-colors duration-200",
 				isActive
-					? "bg-gray-800 text-white"
-					: "text-gray-400 hover:text-white hover:bg-gray-800",
+					? "bg-secondary text-secondary-foreground"
+					: "text-muted-foreground hover:text-foreground hover:bg-secondary/80",
 			)}
 		>
 			<span className="flex-shrink-0">{icon}</span>

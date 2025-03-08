@@ -103,6 +103,18 @@
 	--chart-3: hsl(30 80% 55%);
 	--chart-4: hsl(280 65% 60%);
 	--chart-5: hsl(340 75% 55%);
+
+	--sidebar-bg: var(--card);
+  --sidebar-fg: var(--card-foreground);
+  --sidebar-hover: var(--accent);
+  --sidebar-active: var(--secondary);
+  --sidebar-active-fg: var(--secondary-foreground);
+  --sidebar-muted: var(--muted-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-icon: var(--muted-foreground);
+  --sidebar-icon-active: var(--foreground);
+  --sidebar-badge: var(--muted);
+  --sidebar-badge-fg: var(--muted-foreground);
 }
 /*
   ---break---
@@ -143,6 +155,18 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
+
+	--sidebar-bg: var(--card);
+  --sidebar-fg: var(--card-foreground);
+  --sidebar-hover: var(--accent);
+  --sidebar-active: var(--secondary);
+  --sidebar-active-fg: var(--secondary-foreground);
+  --sidebar-muted: var(--muted-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-icon: var(--muted-foreground);
+  --sidebar-icon-active: var(--foreground);
+  --sidebar-badge: var(--muted);
+  --sidebar-badge-fg: var(--muted-foreground);
 }
 /*
   ---break---

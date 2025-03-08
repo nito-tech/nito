@@ -66,9 +66,16 @@ export const SidebarControl = ({
 						aria-label="Sidebar settings"
 						className="w-full justify-start items-center py-5"
 					>
-						<PanelLeftDashed size={20} />
+						<PanelLeftDashed size={isCollapsed ? 20 : 18} />
 						{!isCollapsed && (
-							<span className="ml-2 text-sm">Sidebar Settings</span>
+							<span
+								className={cn(
+									"ml-2 text-sm whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
+									isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
+								)}
+							>
+								Sidebar Settings
+							</span>
 						)}
 					</Button>
 				</PopoverTrigger>

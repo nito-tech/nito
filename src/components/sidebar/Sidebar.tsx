@@ -81,15 +81,15 @@ export const Sidebar = () => {
 		>
 			<div
 				className={cn(
-					"bg-gray-900 text-white h-full border-r border-gray-800 flex flex-col",
+					"bg-card text-card-foreground h-full border-r border-border flex flex-col",
 					"transition-[width] duration-300 pt-2 pb-4",
 					isCollapsed ? "w-16" : "w-64",
 				)}
 			>
 				{/* Logo and Header */}
-				<div className="p-4 border-b border-gray-800 flex items-center">
+				<div className="p-4 border-b border-border flex items-center">
 					<div className="flex items-center gap-2">
-						<div className="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center flex-shrink-0">
+						<div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center flex-shrink-0 text-primary-foreground">
 							{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 							<svg
 								viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ export const Sidebar = () => {
 							)}
 						>
 							<span className="font-bold">Nito</span>
-							<span className="text-xs px-2 py-0.5 bg-gray-800 rounded">
+							<span className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground">
 								Free
 							</span>
 						</div>
@@ -159,7 +159,7 @@ export const Sidebar = () => {
 					</nav>
 				</div>
 
-				<div className="mt-auto border-t border-gray-800">
+				<div className="mt-auto border-t border-border">
 					<nav className="flex flex-col gap-0.5 px-2 py-2">
 						{/* Footer Navigation Items */}
 						{footerNavItems.map((item) => (
