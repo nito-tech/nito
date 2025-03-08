@@ -14,13 +14,15 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 
-type ThemeOption = {
+export type Theme = "light" | "dark" | "system";
+
+export type ThemeOption = {
 	label: string;
-	value: string;
+	value: Theme;
 	icon: React.ReactNode;
 };
 
-const themeOptions: ThemeOption[] = [
+export const themeOptions: ThemeOption[] = [
 	{ label: "Light", value: "light", icon: <Sun className="h-4 w-4" /> },
 	{ label: "Dark", value: "dark", icon: <Moon className="h-4 w-4" /> },
 	{

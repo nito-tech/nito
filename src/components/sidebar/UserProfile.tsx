@@ -1,17 +1,12 @@
 "use client";
 
-import {
-	Beaker,
-	Command,
-	Laptop,
-	LogOut,
-	Moon,
-	Settings,
-	Sun,
-} from "lucide-react";
+import { Beaker, Command, LogOut, Settings } from "lucide-react";
 import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type React from "react";
 
+import { themeOptions } from "@/components/theme/ThemeToggleButton";
+import type { Theme } from "@/components/theme/ThemeToggleButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -25,9 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-type Theme = "light" | "dark" | "system";
-
-interface UserProfileProps {
+interface Props {
 	username: string;
 	email: string;
 	avatarUrl?: string;
@@ -39,7 +32,7 @@ export const UserProfile = ({
 	email,
 	avatarUrl,
 	isCollapsed,
-}: UserProfileProps) => {
+}: Props) => {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
@@ -122,20 +115,16 @@ export const UserProfile = ({
 						value={currentTheme}
 						onValueChange={(value) => setTheme(value as Theme)}
 					>
-						<DropdownMenuRadioItem value="light" className="cursor-pointer">
-							<Sun className="mr-2 h-4 w-4" />
-							<span>Light</span>
-						</DropdownMenuRadioItem>
-
-						<DropdownMenuRadioItem value="dark" className="cursor-pointer">
-							<Moon className="mr-2 h-4 w-4" />
-							<span>Dark</span>
-						</DropdownMenuRadioItem>
-
-						<DropdownMenuRadioItem value="system" className="cursor-pointer">
-							<Laptop className="mr-2 h-4 w-4" />
-							<span>System</span>
-						</DropdownMenuRadioItem>
+						{themeOptions.map((option) => (
+							<DropdownMenuRadioItem
+								key={option.value}
+								value={option.value}
+								className="cursor-pointer"
+							>
+								{option.icon}
+								<span className="ml-2">{option.label}</span>
+							</DropdownMenuRadioItem>
+						))}
 					</DropdownMenuRadioGroup>
 
 					<DropdownMenuSeparator />
