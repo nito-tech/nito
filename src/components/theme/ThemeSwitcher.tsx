@@ -79,13 +79,12 @@ export default function ThemeSwitcher() {
 						setTheme(value);
 						setOpen(false);
 					}}
-					className="space-y-1"
 				>
 					{themeOptions.map((option) => (
 						<Label
 							key={option.value}
 							htmlFor={`theme-${option.value}`}
-							className="flex items-center hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1.5 cursor-pointer w-full"
+							className="flex items-center hover:bg-accent hover:text-accent-foreground rounded-md p-2 cursor-pointer w-full"
 						>
 							<RadioGroupItem
 								value={option.value}
@@ -93,6 +92,7 @@ export default function ThemeSwitcher() {
 								style={customRadioStyles}
 								className={cn(
 									"border-0", // Remove border
+									"data-[state=checked]:ml-1.5",
 									"data-[state=checked]:border-0", // No border when checked
 									"data-[state=checked]:bg-primary", // Background color when checked
 									"focus-visible:ring-0", // Remove focus ring
