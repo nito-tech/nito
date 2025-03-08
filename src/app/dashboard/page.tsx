@@ -6,18 +6,8 @@ import { GitLabConnectRepositoryCard } from "@/features/gitlab/components/GitLab
 export default function DashboardPage() {
 	return (
 		<div>
-			<aside style={{ width: "250px", padding: "20px" }}>
-				<ul>
-					<li>Dashboard</li>
-					<li>Profile</li>
-					<li>Settings</li>
-					<li>
-						<LogOutButton />
-					</li>
-				</ul>
-			</aside>
 			<main>
-				<h1>Dashboard Content</h1>
+				<LogOutButton />
 
 				<div>
 					<h3>アカウントと連携し、リポジトリのコミット情報を取得します。</h3>
