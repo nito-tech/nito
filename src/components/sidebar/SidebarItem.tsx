@@ -37,6 +37,7 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 			<TooltipProvider>
 				<Tooltip delayDuration={0}>
 					<TooltipTrigger asChild>
+						{/* FIXME: When the hover comes off, the icon comes to the center for a moment */}
 						<div className="flex justify-center rounded">
 							<Link href={href} className={linkClass}>
 								<Button variant="ghost" size="icon" className="rounded">
