@@ -17,7 +17,8 @@ function createOctokit(token: string): _Octokit & Api {
 	});
 }
 
-type GitHubUserRepository = Endpoints["GET /user/repos"]["response"]["data"][0];
+export type GitHubUserRepository =
+	Endpoints["GET /user/repos"]["response"]["data"][0];
 
 /**
  * Fetches the authenticated user's repositories from GitHub.
