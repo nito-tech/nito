@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
  * Get the full URL of the site.
  */
 export const getSiteUrl = (path = "") => {
-	let url = "http://localhost:3000/";
+	let url = "http://localhost:210/";
 
 	if (
 		process?.env?.NEXT_PUBLIC_SITE_URL &&
