@@ -40,12 +40,7 @@ export const SidebarControl = ({
 	onChange,
 }: Props) => {
 	return (
-		<div
-			className={cn(
-				"transition-all duration-300",
-				isCollapsed ? "mx-auto w-12" : "mx-2",
-			)}
-		>
+		<div className={cn("transition-all duration-300", !isCollapsed && "mx-2")}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					{/* Wrap with <span> to ensure the menu opens on click */}
@@ -59,7 +54,7 @@ export const SidebarControl = ({
 					</span>
 				</DropdownMenuTrigger>
 
-				<DropdownMenuContent align="end" className="w-56">
+				<DropdownMenuContent align="end" className="w-56 ml-3">
 					<DropdownMenuLabel>Sidebar Control</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuRadioGroup

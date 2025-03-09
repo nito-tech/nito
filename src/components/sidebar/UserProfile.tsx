@@ -47,7 +47,7 @@ export const UserProfile = ({
 	const currentTheme = mounted ? (theme as Theme) : "system";
 
 	return (
-		<div className="px-3 py-3 border-t border-border">
+		<div className="px-2 py-3 border-t border-border">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<button
@@ -55,8 +55,9 @@ export const UserProfile = ({
 						className={cn(
 							"w-full flex items-center gap-3 p-2 rounded-md transition-colors duration-200 cursor-pointer",
 							"focus:outline-none focus-visible:ring-0",
-							"hover:bg-secondary",
-							isCollapsed ? "justify-center" : "justify-start",
+							isCollapsed
+								? "justify-center"
+								: "justify-start hover:bg-secondary",
 						)}
 					>
 						<Avatar className="h-8 w-8 flex-shrink-0">
@@ -84,7 +85,7 @@ export const UserProfile = ({
 					</button>
 				</DropdownMenuTrigger>
 
-				<DropdownMenuContent align="end" className="w-56">
+				<DropdownMenuContent align="end" className="w-56 ml-3">
 					<DropdownMenuLabel className="flex flex-col space-y-1">
 						<span>{username}</span>
 						<span className="text-xs font-normal text-muted-foreground">
