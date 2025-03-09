@@ -79,16 +79,16 @@ export const Sidebar = () => {
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
-			<div
+			<nav
 				className={cn(
 					"bg-card text-card-foreground h-full border-r border-border flex flex-col",
 					"transition-[width] duration-300 pt-2 pb-4",
-					isCollapsed ? "w-16" : "w-64",
+					isCollapsed ? "w-16" : "w-56",
 				)}
 			>
 				<div className="flex-1 overflow-y-auto">
 					{/* Navigation Items */}
-					<nav className="flex flex-col gap-0.5 px-2 py-2">
+					<div className="flex flex-col gap-0.5 px-2">
 						{/* Main Navigation */}
 						{mainNavItems.map((item) => (
 							<SidebarItem
@@ -125,12 +125,12 @@ export const Sidebar = () => {
 								isCollapsed={isCollapsed}
 							/>
 						))}
-					</nav>
+					</div>
 				</div>
 
 				<div className="mt-auto border-t border-border">
+					{/* Footer Navigation Items */}
 					<nav className="flex flex-col gap-0.5 px-2 py-2">
-						{/* Footer Navigation Items */}
 						{footerNavItems.map((item) => (
 							<SidebarItem
 								key={item.href}
@@ -155,7 +155,7 @@ export const Sidebar = () => {
 						onChange={setSidebarState}
 					/>
 				</div>
-			</div>
+			</nav>
 		</div>
 	);
 };

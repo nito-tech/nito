@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type React from "react";
 
+import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -24,26 +25,11 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 	const isActive = pathname === href;
 
 	const linkClass = cn(
-		"flex items-center py-2 px-3 rounded-md text-sm font-medium",
+		"flex text-sm font-medium rounded",
 		"transition-colors duration-200",
 		isActive
 			? "bg-secondary text-secondary-foreground"
 			: "text-muted-foreground hover:text-foreground hover:bg-secondary/80",
-	);
-
-	// リンク内容
-	const linkContent = (
-		<>
-			<span className="flex-shrink-0">{icon}</span>
-			<span
-				className={cn(
-					"ml-3 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
-					isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
-				)}
-			>
-				{label}
-			</span>
-		</>
 	);
 
 	if (isCollapsed) {
@@ -51,9 +37,13 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 			<TooltipProvider>
 				<Tooltip delayDuration={0}>
 					<TooltipTrigger asChild>
-						<Link href={href} className={linkClass}>
-							<span className="flex-shrink-0">{icon}</span>
-						</Link>
+						<div className="flex justify-center rounded">
+							<Link href={href} className={linkClass}>
+								<Button variant="ghost" size="icon" className="rounded">
+									{icon}
+								</Button>
+							</Link>
+						</div>
 					</TooltipTrigger>
 					<TooltipContent side="right" sideOffset={10}>
 						{label}
@@ -65,7 +55,21 @@ export const SidebarItem = ({ icon, label, href, isCollapsed }: Props) => {
 
 	return (
 		<Link href={href} className={linkClass}>
-			{linkContent}
+			<Button
+				variant="ghost"
+				aria-label={label}
+				className="w-full justify-start"
+			>
+				<span className="flex-shrink-0">{icon}</span>
+				<span
+					className={cn(
+						"ml-2 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
+						isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
+					)}
+				>
+					{label}
+				</span>
+			</Button>
 		</Link>
 	);
 };

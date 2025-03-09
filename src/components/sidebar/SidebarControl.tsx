@@ -3,7 +3,6 @@
 import { PanelLeftDashed } from "lucide-react";
 import type React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -15,12 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
+import { SidebarItem } from "./SidebarItem";
 import type { SidebarState } from "./types";
 
 type SidebarControlOption = {
 	label: string;
 	value: SidebarState;
-	icon?: React.ReactNode;
 };
 
 const sidebarOptions: SidebarControlOption[] = [
@@ -44,36 +43,20 @@ export const SidebarControl = ({
 		<div
 			className={cn(
 				"transition-all duration-300",
-				isCollapsed ? "mx-auto w-12" : "mx-4",
+				isCollapsed ? "mx-auto w-12" : "mx-2",
 			)}
 		>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						variant="ghost"
-						aria-label="Sidebar settings"
-						className={cn(
-							"w-full flex items-center py-2 px-3 rounded-md text-sm font-medium",
-							"transition-colors duration-200",
-							"text-muted-foreground hover:text-foreground hover:bg-secondary/80",
-							"focus:outline-none focus-visible:ring-0",
-							isCollapsed ? "justify-center" : "justify-start",
-						)}
-					>
-						<span className="flex-shrink-0">
-							<PanelLeftDashed size={20} />
-						</span>
-						{!isCollapsed && (
-							<span
-								className={cn(
-									"ml-3 whitespace-nowrap overflow-hidden transition-[width,opacity] duration-300",
-									isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100",
-								)}
-							>
-								Sidebar Settings
-							</span>
-						)}
-					</Button>
+					{/* Wrap with <span> to ensure the menu opens on click */}
+					<span>
+						<SidebarItem
+							icon={<PanelLeftDashed size={20} />}
+							label="Sidebar settings"
+							href="#"
+							isCollapsed={isCollapsed}
+						/>
+					</span>
 				</DropdownMenuTrigger>
 
 				<DropdownMenuContent align="end" className="w-56">
@@ -89,10 +72,7 @@ export const SidebarControl = ({
 								value={option.value}
 								className="cursor-pointer"
 							>
-								{option.icon && option.icon}
-								<span className={option.icon ? "ml-2" : ""}>
-									{option.label}
-								</span>
+								<span>{option.label}</span>
 							</DropdownMenuRadioItem>
 						))}
 					</DropdownMenuRadioGroup>
