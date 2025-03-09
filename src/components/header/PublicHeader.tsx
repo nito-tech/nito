@@ -9,6 +9,7 @@ import { useState } from "react";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
+import { isAuthPage, isPublicPage } from "@/lib/pathname";
 import { cn } from "@/lib/utils";
 
 function NavLink({
@@ -81,6 +82,11 @@ export default function PublicHeader() {
 	const toggleMenu = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
+
+	const isPublicPath = isPublicPage(pathname) || isAuthPage(pathname);
+	if (!isPublicPath) {
+		return null;
+	}
 
 	return (
 		<>

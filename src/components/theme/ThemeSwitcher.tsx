@@ -5,14 +5,13 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type Theme = "light" | "dark" | "system";
 
@@ -32,18 +31,9 @@ export const themeOptions: ThemeOption[] = [
 	},
 ];
 
-const customRadioStyles = {
-	width: "8px",
-	height: "8px",
-	minWidth: "8px",
-	minHeight: "8px",
-	aspectRatio: "1 / 1",
-};
-
 export default function ThemeSwitcher() {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
-	const [open, setOpen] = useState(false);
 
 	// next-themes only works on the client side,
 	// so only use theme information after mounting
@@ -66,47 +56,35 @@ export default function ThemeSwitcher() {
 	};
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button variant="outline" size="icon" aria-label="Change theme">
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="outline"
+					size="icon"
+					aria-label="Change theme"
+					data-testid="theme-toggle"
+				>
 					{currentIcon()}
 				</Button>
-			</PopoverTrigger>
-			<PopoverContent className="w-40 p-2">
-				<RadioGroup
+			</DropdownMenuTrigger>
+
+			<DropdownMenuContent align="end" className="w-36">
+				<DropdownMenuRadioGroup
 					value={theme}
-					onValueChange={(value) => {
-						setTheme(value);
-						setOpen(false);
-					}}
+					onValueChange={(value) => setTheme(value as Theme)}
 				>
 					{themeOptions.map((option) => (
-						<Label
+						<DropdownMenuRadioItem
 							key={option.value}
-							htmlFor={`theme-${option.value}`}
-							className="flex items-center hover:bg-accent hover:text-accent-foreground rounded-md p-2 cursor-pointer w-full"
+							value={option.value}
+							className="cursor-pointer flex items-center"
 						>
-							<RadioGroupItem
-								value={option.value}
-								id={`theme-${option.value}`}
-								style={customRadioStyles}
-								className={cn(
-									"border-0", // Remove border
-									"data-[state=checked]:ml-1.5",
-									"data-[state=checked]:border-0", // No border when checked
-									"data-[state=checked]:bg-primary", // Background color when checked
-									"focus-visible:ring-0", // Remove focus ring
-									"focus-visible:ring-offset-0", // Remove ring offset
-								)}
-							/>
-							<div className="flex items-center ml-2 text-sm font-normal">
-								{option.icon}
-								<span className="ml-2">{option.label}</span>
-							</div>
-						</Label>
+							<span className="mr-2">{option.icon}</span>
+							{option.label}
+						</DropdownMenuRadioItem>
 					))}
-				</RadioGroup>
-			</PopoverContent>
-		</Popover>
+				</DropdownMenuRadioGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }

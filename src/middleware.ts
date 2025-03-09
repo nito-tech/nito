@@ -3,13 +3,7 @@ import type { NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-	const response = await updateSession(request);
-
-	// Add current pathname for use in layout.tsx
-	const pathname = new URL(request.url).pathname;
-	response.headers.set("x-pathname", pathname);
-
-	return response;
+	return await updateSession(request);
 }
 
 export const config = {
