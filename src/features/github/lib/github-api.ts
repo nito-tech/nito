@@ -1,4 +1,5 @@
-import { Octokit } from "octokit";
+import { Octokit as _Octokit } from "@octokit/core";
+import { restEndpointMethods } from "@octokit/plugin-rest-endpoint-methods";
 
 export type Repository = {
 	id: number;
@@ -10,6 +11,8 @@ export type Repository = {
 	updated_at: string;
 	language: string | null;
 };
+
+const Octokit = _Octokit.plugin(restEndpointMethods);
 
 /**
  * Creates an Octokit instance using the provided access token.
