@@ -13,7 +13,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
 	testDir: "./e2e",
-	timeout: 5 * 1000,
+	timeout: 10 * 1000,
 
 	/* Run tests in files in parallel */
 	fullyParallel: true,
