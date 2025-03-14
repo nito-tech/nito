@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Sparkles } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import {
 	Bar,
@@ -18,8 +20,9 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+// import { getCycleTimeSummary } from "../actions";
 
-type GitHubCommit = {
+export type GitHubCommit = {
 	sha: string;
 	commit: {
 		author: {
@@ -427,6 +430,27 @@ const COLORS = [
 	"#ffc658",
 ];
 
+interface DashboardData {
+	timeUnitData: {
+		daily: ChartDataItem[];
+		weekly: Array<{
+			week: string;
+			averageCycleTime: number;
+			commitCount: number;
+		}>;
+		monthly: Array<{
+			month: string;
+			averageCycleTime: number;
+			commitCount: number;
+		}>;
+	};
+	authorData: Array<{
+		author: string;
+		averageCycleTime: number;
+		commitCount: number;
+	}>;
+}
+
 /**
  * Main cycle time dashboard component
  *
@@ -439,7 +463,12 @@ export default function CycleTimeDashboard() {
 	const [timeUnit, setTimeUnit] = useState<"daily" | "weekly" | "monthly">(
 		"weekly",
 	);
-	const [dashboardData, setDashboardData] = useState(null);
+	const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+		null,
+	);
+	const [aiSummary, setAiSummary] = useState<string | null>(null);
+	const [aiLoading, setAiLoading] = useState(false);
+	const [aiError, setAiError] = useState<string | null>(null);
 
 	// Generate sample commit data (in real app, fetch from API)
 	useEffect(() => {
@@ -513,6 +542,22 @@ export default function CycleTimeDashboard() {
 		}
 	}, []);
 
+	const handleAskAI = async () => {
+		// setAiLoading(true);
+		// setAiError(null);
+		// setAiSummary(null);
+		// try {
+		// 	const summary = await getCycleTimeSummary(commits);
+		// 	setAiSummary(summary);
+		// } catch (err) {
+		// 	setAiError(
+		// 		err instanceof Error ? err.message : "予期せぬエラーが発生しました",
+		// 	);
+		// } finally {
+		// 	setAiLoading(false);
+		// }
+	};
+
 	if (loading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
@@ -566,6 +611,25 @@ export default function CycleTimeDashboard() {
 	return (
 		<div className="p-6 max-w-6xl mx-auto">
 			<h1 className="text-2xl font-bold mb-6">Cycle Time Analysis Dashboard</h1>
+
+			<div className="mb-6">
+				<Button onClick={handleAskAI} disabled={aiLoading}>
+					<Sparkles className="mr-2" />
+					{aiLoading ? "分析中..." : "AIに聞く"}
+				</Button>
+
+				{aiError && (
+					<div className="mt-2 p-4 bg-red-50 text-red-600 rounded">
+						{aiError}
+					</div>
+				)}
+
+				{aiSummary && (
+					<div className="mt-2 p-4 bg-blue-50 text-blue-800 rounded">
+						{aiSummary}
+					</div>
+				)}
+			</div>
 
 			{/* Time unit switch tabs */}
 			<div className="flex mb-4 border-b">
