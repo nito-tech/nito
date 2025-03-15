@@ -1,0 +1,16 @@
+{
+	/**
+	 * Editor
+	 */
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.minimap.enabled": false,
+	"editor.codeActionsOnSave": {
+		// Format on save
+		"source.fixAll.biome": "explicit",
+		// Imports Sorting
+		"source.organizeImports.biome": "explicit"
+	},
+	"editor.rulers": [80],
+	"editor.tabSize": 2
+}
