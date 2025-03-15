@@ -7,7 +7,7 @@ import {
 	within,
 } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import PublicHeader from "@/components/header/PublicHeader";
 

@@ -7,8 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-const DEFAULT_URL = "http://localhost:3210";
-
 /**
  * Type guard to check if a URL string is valid (not undefined and not empty after trimming)
  *
@@ -59,6 +57,7 @@ const ensureHttps = (url: string): string => {
 
 /**
  * Removes leading slashes from a path
+ *
  * @param path - The path to normalize
  * @returns Path without leading slashes
  * @example
@@ -77,34 +76,23 @@ const normalizePath = (path: string): string => {
  *
  * @param path - Optional path to append to the base URL
  * @returns The complete site URL with optional path
+ * @throws Error if NEXT_PUBLIC_VERCEL_URL is not set or is empty
  * @example
- * When NEXT_PUBLIC_SITE_URL is "https://example.com"
+ * When NEXT_PUBLIC_VERCEL_URL is "https://example.com"
  *
  * ```ts
  * getSiteUrl() // => "https://example.com"
  * getSiteUrl("api") // => "https://example.com/api"
  * getSiteUrl("/api/") // => "https://example.com/api"
  * ```
- *
- * When no environment variables are set
- *
- * ```ts
- * getSiteUrl() // => "http://localhost:3210"
- * getSiteUrl("api") // => "http://localhost:3210/api"
- * ```
  */
 export const getSiteUrl = (path = ""): string => {
-	let baseUrl = DEFAULT_URL;
-
-	if (isValidUrl(env.NEXT_PUBLIC_SITE_URL)) {
-		// NEXT_PUBLIC_SITE_URL is set only in local environment
-		baseUrl = env.NEXT_PUBLIC_SITE_URL;
-	} else if (isValidUrl(env.NEXT_PUBLIC_VERCEL_URL)) {
-		baseUrl = env.NEXT_PUBLIC_VERCEL_URL;
+	if (!isValidUrl(env.NEXT_PUBLIC_VERCEL_URL)) {
+		throw new Error("NEXT_PUBLIC_VERCEL_URL is not set or is empty");
 	}
 
+	const baseUrl = env.NEXT_PUBLIC_VERCEL_URL;
 	const normalizedUrl = normalizeUrl(baseUrl);
-
 	const secureUrl = ensureHttps(normalizedUrl);
 	const normalizedPath = normalizePath(path);
 
