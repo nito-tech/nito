@@ -5,11 +5,10 @@ import React from "react";
 
 import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
 import githubSvg from "@/components/icon/github.svg";
+import { env } from "@/env";
 
-const GITHUB_CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-
-// URI for redirecting after authentication
-const REDIRECT_URI = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI;
+const GITHUB_CLIENT_ID = env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+const REDIRECT_URI = env.NEXT_PUBLIC_GITHUB_REDIRECT_URI;
 
 // Specify the required scopes
 const scope = "repo user:email";
