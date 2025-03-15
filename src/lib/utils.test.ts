@@ -3,14 +3,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { env } from "@/env";
 import { getSiteUrl } from "@/lib/utils";
 
-vi.mock("@/env", () => {
-	return {
-		env: {
-			NEXT_PUBLIC_VERCEL_URL: undefined,
-		},
-	};
-});
-
 describe("getSiteUrl", () => {
 	// Reset environment variable stubs after each test
 	afterEach(() => {
