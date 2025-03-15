@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { env } from "@/env";
 import { getSiteUrl } from "@/lib/utils";
 
-const GITHUB_CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GITHUB_CLIENT_ID = env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
 const GITHUB_REDIRECT_URI = `${getSiteUrl("/dashboard/callback")}`;
 
 export async function POST(request: NextRequest) {
