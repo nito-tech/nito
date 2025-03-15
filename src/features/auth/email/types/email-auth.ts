@@ -1,16 +1,14 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-export const EmailAuthSchema = v.object({
-	email: v.pipe(
-		v.string("Your email must be a string."),
-		v.nonEmpty("Please enter your email."),
-		v.email("The email address is badly formatted."),
-	),
-	password: v.pipe(
-		v.string("Your password must be a string."),
-		v.nonEmpty("Please enter your password."),
-		v.minLength(8, "Your password must have 8 characters or more."),
-	),
+export const EmailAuthSchema = z.object({
+	email: z
+		.string({ required_error: "Your email must be a string." })
+		.min(1, "Please enter your email.")
+		.email("The email address is badly formatted."),
+	password: z
+		.string({ required_error: "Your password must be a string." })
+		.min(1, "Please enter your password.")
+		.min(8, "Your password must have 8 characters or more."),
 });
 
-export type EmailAuthInput = v.InferOutput<typeof EmailAuthSchema>;
+export type EmailAuthInput = z.infer<typeof EmailAuthSchema>;

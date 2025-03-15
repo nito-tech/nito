@@ -1,13 +1,12 @@
 "use client";
 
-import { valibotResolver } from "@hookform/resolvers/valibot";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import * as v from "valibot";
 
 import { Notice } from "@/components/Notice";
 import { FormError } from "@/components/form/FormError";
@@ -39,7 +38,7 @@ export default function EmailAuthForm({ type, className }: Props) {
 		formState: { errors, isSubmitting },
 	} = useForm<EmailAuthInput>({
 		mode: "onChange",
-		resolver: valibotResolver(EmailAuthSchema),
+		resolver: zodResolver(EmailAuthSchema),
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailAuthInput> = async (data) => {
@@ -47,7 +46,7 @@ export default function EmailAuthForm({ type, className }: Props) {
 		setMessage(null);
 
 		try {
-			const formData = v.parse(EmailAuthSchema, data);
+			const formData = EmailAuthSchema.parse(data);
 
 			if (type === "signUp") {
 				await signUpWithEmail(formData);

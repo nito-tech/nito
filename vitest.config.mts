@@ -27,5 +27,9 @@ export default defineConfig({
 			// 	lines: 20,
 			// },
 		},
+		env: {
+			NEXT_PUBLIC_SUPABASE_URL: "http://dummy-host:9999",
+			NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key-for-testing",
+		},
 	},
 });

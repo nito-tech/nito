@@ -35,6 +35,7 @@
 		"@radix-ui/react-tooltip": "^1.1.8",
 		"@supabase/ssr": "^0.5.2",
 		"@supabase/supabase-js": "^2.49.1",
+		"@t3-oss/env-nextjs": "^0.12.0",
 		"@vercel/analytics": "^1.5.0",
 		"@vercel/speed-insights": "^1.2.0",
 		"class-variance-authority": "^0.7.1",
@@ -50,7 +51,7 @@
 		"recharts": "^2.15.1",
 		"tailwind-merge": "^3.0.2",
 		"tailwindcss-animate": "^1.0.7",
-		"valibot": "1.0.0-rc.4"
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
