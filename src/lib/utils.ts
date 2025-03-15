@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { env } from "@/env";
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
@@ -11,18 +13,15 @@ export function cn(...inputs: ClassValue[]) {
 export const getSiteUrl = (path = "") => {
 	let url = "http://localhost:3210/";
 
-	if (
-		process?.env?.NEXT_PUBLIC_SITE_URL &&
-		process.env.NEXT_PUBLIC_SITE_URL.trim() !== ""
-	) {
+	if (env.NEXT_PUBLIC_SITE_URL && env.NEXT_PUBLIC_SITE_URL.trim() !== "") {
 		// If the environment variable NEXT_PUBLIC_SITE_URL is set
-		url = process.env.NEXT_PUBLIC_SITE_URL;
+		url = env.NEXT_PUBLIC_SITE_URL;
 	} else if (
-		process?.env?.NEXT_PUBLIC_VERCEL_URL &&
-		process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== ""
+		env.NEXT_PUBLIC_VERCEL_URL &&
+		env.NEXT_PUBLIC_VERCEL_URL.trim() !== ""
 	) {
 		// If the automatically set environment variable NEXT_PUBLIC_VERCEL_URL by Vercel is set
-		url = process.env.NEXT_PUBLIC_VERCEL_URL;
+		url = env.NEXT_PUBLIC_VERCEL_URL;
 	}
 
 	// Trim the URL and remove trailing slash if exists.
