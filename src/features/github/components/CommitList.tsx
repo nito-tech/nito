@@ -4,26 +4,26 @@ import React from "react";
 import { Divider } from "@/components/Divider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import type { CommitInfo } from "../lib/github-api";
+import type { GitHubCommit } from "../lib/github-api";
 
-interface CommitListProps {
-	commits: CommitInfo[];
+interface Props {
+	commits: GitHubCommit[];
 	repoName: string;
 	isLoading: boolean;
 }
 
-export function CommitList({ commits, repoName, isLoading }: CommitListProps) {
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		return new Intl.DateTimeFormat("ja-JP", {
-			year: "numeric",
-			month: "numeric",
-			day: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-		}).format(date);
-	};
+const formatDate = (dateString: string) => {
+	const date = new Date(dateString);
+	return new Intl.DateTimeFormat("ja-JP", {
+		year: "numeric",
+		month: "numeric",
+		day: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	}).format(date);
+};
 
+export function CommitList({ commits, repoName, isLoading }: Props) {
 	if (isLoading) {
 		return <div className="text-center py-4">Loading commits...</div>;
 	}
@@ -36,7 +36,9 @@ export function CommitList({ commits, repoName, isLoading }: CommitListProps) {
 
 	return (
 		<div className="space-y-4 max-h-96 overflow-y-auto">
-			<h3 className="text-lg font-medium">Commits for {repoName}</h3>
+			<h3 className="text-lg font-medium text-info bg-info-foreground px-4 py-2 rounded-lg">
+				Commits for {repoName}
+			</h3>
 			{commits.map((commit) => (
 				<div
 					key={commit.sha}
@@ -46,10 +48,10 @@ export function CommitList({ commits, repoName, isLoading }: CommitListProps) {
 						<Avatar className="h-10 w-10 mr-4">
 							<AvatarImage
 								src={commit.author?.avatar_url || ""}
-								alt={commit.author?.login || commit.commit.author.name}
+								alt={commit.author?.login || commit.commit.author?.name}
 							/>
 							<AvatarFallback>
-								{(commit.author?.login || commit.commit.author.name || "UN")
+								{(commit.author?.login || commit.commit.author?.name || "UN")
 									.substring(0, 2)
 									.toUpperCase()}
 							</AvatarFallback>
@@ -59,9 +61,9 @@ export function CommitList({ commits, repoName, isLoading }: CommitListProps) {
 							<div className="flex items-center text-sm text-gray-500 mt-1">
 								<p>
 									<span className="font-medium">
-										{commit.author?.login || commit.commit.author.name}
+										{commit.author?.login || commit.commit.author?.name}
 									</span>{" "}
-									committed on {formatDate(commit.commit.author.date)}
+									committed on {formatDate(commit.commit.author?.date ?? "")}
 								</p>
 							</div>
 						</div>

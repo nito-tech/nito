@@ -17,7 +17,10 @@ import {
 	fetchUserInfo,
 	fetchUserRepositories,
 } from "@/features/github/lib/github-api";
-import type { CommitInfo, Repository } from "@/features/github/lib/github-api";
+import type {
+	GitHubCommit,
+	GitHubUserRepository,
+} from "@/features/github/lib/github-api";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();
@@ -28,12 +31,12 @@ export default function CallbackPage() {
 	const [token, setToken] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [repositories, setRepositories] = useState<Repository[]>([]);
+	const [repositories, setRepositories] = useState<GitHubUserRepository[]>([]);
 	const [showRepos, setShowRepos] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [selectedRepos, setSelectedRepos] = useState<string[]>([]);
 	const [username, setUsername] = useState<string>("");
-	const [commitData, setCommitData] = useState<Record<string, CommitInfo[]>>(
+	const [commitData, setCommitData] = useState<Record<string, GitHubCommit[]>>(
 		{},
 	);
 	const [fetchingCommits, setFetchingCommits] = useState<boolean>(false);
@@ -174,7 +177,7 @@ export default function CallbackPage() {
 
 			const results = await Promise.all(commitPromises);
 
-			const newCommitData: Record<string, CommitInfo[]> = {};
+			const newCommitData: Record<string, GitHubCommit[]> = {};
 			for (const { repoName, commits } of results) {
 				newCommitData[repoName] = commits;
 			}
@@ -306,7 +309,7 @@ export default function CallbackPage() {
 																		</span>
 																	)}
 																	<span>
-																		Updated: {formatDate(repo.updated_at)}
+																		Updated: {formatDate(repo.updated_at ?? "")}
 																	</span>
 																</div>
 															</div>

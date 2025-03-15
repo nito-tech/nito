@@ -40,6 +40,7 @@ export const SidebarControl = ({
 	onChange,
 }: Props) => {
 	return (
+		// FIXME: When the hover disengages, it moves momentarily to the left.
 		<div className={cn("transition-all duration-300", !isCollapsed && "mx-2")}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>

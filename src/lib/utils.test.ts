@@ -15,7 +15,7 @@ describe("getSiteUrl", () => {
 		});
 
 		test("returns localhost URL", () => {
-			expect(getSiteUrl()).toBe("http://localhost:3000");
+			expect(getSiteUrl()).toBe("http://localhost:3210");
 		});
 	});
 
@@ -94,7 +94,7 @@ describe("getSiteUrl", () => {
 		});
 
 		test("uses localhost when environment variables are empty strings", () => {
-			expect(getSiteUrl()).toBe("http://localhost:3000");
+			expect(getSiteUrl()).toBe("http://localhost:3210");
 		});
 	});
 });

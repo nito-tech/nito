@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 
 import { SidebarControl } from "./SidebarControl";
 import { SidebarItem } from "./SidebarItem";
-import UserProfile from "./UserProfile";
+import SidebarUserProfile from "./SidebarUserProfile";
 import type { NavItem, SidebarState } from "./types";
 
 const mainNavItems: NavItem[] = [
@@ -69,7 +69,7 @@ export const Sidebar = () => {
 	// Sample User Info
 	const userInfo = {
 		username: "saneatsu",
-		email: "w.saneatsu@gmail.com",
+		email: "saneatsu@example.com",
 		avatarUrl: "https://github.com/shadcn.png",
 	};
 
@@ -142,7 +142,7 @@ export const Sidebar = () => {
 						))}
 					</nav>
 
-					<UserProfile
+					<SidebarUserProfile
 						username={userInfo.username}
 						email={userInfo.email}
 						avatarUrl={userInfo.avatarUrl}

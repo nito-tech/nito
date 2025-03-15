@@ -28,12 +28,12 @@ interface Props {
 	isCollapsed: boolean;
 }
 
-export const UserProfile = ({
+export default function SidebarUserProfile({
 	username,
 	email,
 	avatarUrl,
 	isCollapsed,
-}: Props) => {
+}: Props) {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
@@ -147,6 +147,4 @@ export const UserProfile = ({
 			</DropdownMenu>
 		</div>
 	);
-};
-
-export default UserProfile;
+}
