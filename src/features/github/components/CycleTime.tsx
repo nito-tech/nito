@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import {
@@ -20,7 +19,10 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-// import { getCycleTimeSummary } from "../actions";
+
+import { Button } from "@/components/ui/button";
+
+import { getCycleTimeSummary } from "../actions";
 
 export type GitHubCommit = {
 	sha: string;
@@ -543,19 +545,19 @@ export default function CycleTimeDashboard() {
 	}, []);
 
 	const handleAskAI = async () => {
-		// setAiLoading(true);
-		// setAiError(null);
-		// setAiSummary(null);
-		// try {
-		// 	const summary = await getCycleTimeSummary(commits);
-		// 	setAiSummary(summary);
-		// } catch (err) {
-		// 	setAiError(
-		// 		err instanceof Error ? err.message : "予期せぬエラーが発生しました",
-		// 	);
-		// } finally {
-		// 	setAiLoading(false);
-		// }
+		setAiLoading(true);
+		setAiError(null);
+		setAiSummary(null);
+		try {
+			const summary = await getCycleTimeSummary(commits);
+			setAiSummary(summary);
+		} catch (err) {
+			setAiError(
+				err instanceof Error ? err.message : "予期せぬエラーが発生しました",
+			);
+		} finally {
+			setAiLoading(false);
+		}
 	};
 
 	if (loading) {
