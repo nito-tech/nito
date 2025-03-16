@@ -1,6 +1,10 @@
 {
 	"recommendations": [
+		// AI
+		"saoudrizwan.claude-dev",
+
 		// GitHub
+		"GitHub.copilot", // for generate commit message
 		"github.vscode-github-actions",
 		"GitHub.vscode-pull-request-github",
 
@@ -14,7 +18,11 @@
 		"yoavbls.pretty-ts-errors",
 
 		// Tailwind CSS
-		"bradlc.vscode-tailwindcss"
+		"bradlc.vscode-tailwindcss",
+
+		// Test
+		"vitest.explorer",
+		"ms-playwright.playwright"
 	],
 	"unwantedRecommendations": [
 		// Use VSCode's default features
