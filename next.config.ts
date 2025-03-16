@@ -7,7 +7,7 @@ import "@/env";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-	/* config options here */
+	serverExternalPackages: ["@mastra/*"],
 	devIndicators: {
 		position: "bottom-right",
 	},
