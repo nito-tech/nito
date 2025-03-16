@@ -20,6 +20,7 @@ import {
 	YAxis,
 } from "recharts";
 
+import { MarkdownViewer } from "@/components/MarkdownViewer";
 import { Button } from "@/components/ui/button";
 
 import { getCycleTimeSummary } from "../actions";
@@ -627,8 +628,8 @@ export default function CycleTimeDashboard() {
 				)}
 
 				{aiSummary && (
-					<div className="mt-2 p-4 bg-blue-50 text-blue-800 rounded">
-						{aiSummary}
+					<div className="mt-2 p-4 bg-blue-50 rounded-lg">
+						<MarkdownViewer content={aiSummary} />
 					</div>
 				)}
 			</div>
