@@ -10,7 +10,6 @@ export const env = createEnv({
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 		NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
 		NEXT_PUBLIC_GITHUB_CLIENT_ID: z.string(),
-		NEXT_PUBLIC_GITHUB_REDIRECT_URI: z.string().url(),
 	},
 	runtimeEnv: {
 		/**
@@ -33,9 +32,6 @@ export const env = createEnv({
 		 */
 		NEXT_PUBLIC_GITHUB_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
 		GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-		// URI for redirecting after authentication
-		NEXT_PUBLIC_GITHUB_REDIRECT_URI:
-			process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI,
 	},
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 	emptyStringAsUndefined: true,

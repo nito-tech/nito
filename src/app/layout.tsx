@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 // import { Geist, Geist_Mono } from "next/font/google";
 
+import { Breakpoint } from "@/components/Breakpoint";
 import PublicHeader from "@/components/header/PublicHeader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
@@ -38,6 +39,7 @@ export default async function RootLayout({
 			<body
 			// className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<Breakpoint />
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

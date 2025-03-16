@@ -32,8 +32,6 @@ export default defineConfig({
 			NEXT_PUBLIC_SUPABASE_URL: "http://dummy-host:9999",
 			NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key-for-testing",
 			NEXT_PUBLIC_GITHUB_CLIENT_ID: "dummy-github-client-id",
-			NEXT_PUBLIC_GITHUB_REDIRECT_URI:
-				"http://localhost:3210/dashboard/callback",
 			SKIP_ENV_VALIDATION: "true", // Skip validation during tests
 		},
 	},
