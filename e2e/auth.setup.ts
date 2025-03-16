@@ -17,10 +17,19 @@ setup("Login with email and password", async ({ page }) => {
 	const submitButton = form.getByRole("button", { name: "Log in" });
 	await emailInput.fill("saneatsu.wakana@gmail.com");
 	await passwordInput.fill("testtest");
-	await submitButton.click();
 
-	await page.waitForURL("/dashboard", { timeout: 3 * 1000 });
-	await expect(page).toHaveURL("/dashboard");
+	try {
+		await submitButton.click();
+		await page.waitForURL("/dashboard", { timeout: 3 * 1000 });
+		await expect(page).toHaveURL("/dashboard");
 
-	await page.context().storageState({ path: authFile });
+		await page.context().storageState({ path: authFile });
+	} catch (error) {
+		// Verify that the user is registered in https://supabase.com/dashboard/project/fnounbnxrzddmcwoykpd/auth/users
+		console.error(
+			"Before running the test, make sure that a user is registered in Supabase by performing a Sign Up with the email address to be used in the test.",
+			error,
+		);
+		throw error;
+	}
 });
