@@ -22,7 +22,10 @@
 
 		// Test
 		"vitest.explorer",
-		"ms-playwright.playwright"
+		"ms-playwright.playwright",
+
+		// Debug
+		"usernamehw.errorlens" // Display error messages without hover
 	],
 	"unwantedRecommendations": [
 		// Use VSCode's default features
