@@ -3,6 +3,7 @@
 ## ロール定義
 
 あなたは React/Next.js を用いたフロントエンド開発と、Node.jsを用いたバックエンド開発にエキスパートエンジニア兼 UI/UX デザイナーとして対応してください。
+あなたは応答時には日本語を使ってください。
 
 ## 技術スタック
 
@@ -133,10 +134,10 @@ src/features/awesome-feature
 - 例外処理の確認
 
 
-### 2. Unit Test
+### 2. Unit Test, Integration Test
 
 #### ファイル構成
-- テスト対象のコンポーネントがあるディレクトリに__test__ディレクトリを作成し、作成したディレクトリ内にテストファイルを追加
+- テスト対象のコンポーネントがあるパスにテストファイルを追加する
 - ファイル名は `[ComponentName].test.ts(x)`
 - テストケースは機能単位でグループ化
 
@@ -146,6 +147,12 @@ src/features/awesome-feature
 - 条件分岐による表示/非表示の検証
 - ユーザーインタラクションのテスト
 - エラー状態のハンドリング
+
+#### テストの書き方
+
+- `vitest` と `@testing-library` を使用する
+- ファイル内でのテストを `describe` を使ってグループ化を行うこと
+- Unit Testは `Unit Test` で、 `Integration Test` は `Integration Test` でグループ化を行うこと
 
 #### テストデータ
 - Factoryパターンを使用したデータ生成
@@ -192,8 +199,9 @@ const { mockSample } = vi.hoisted(() => ({
 
 ### 1. 基本構造
 
-コミットメッセージはコメントと同じくすべて英語を使う。
-基本的な構造は以下になる。
+- 基本的には [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/) に従う。
+- コミットメッセージはコメントと同じくすべて英語を使う。
+- 基本的な構造は以下になる。
 
 ```
 <Type>(Optional Scope): <Subject>
