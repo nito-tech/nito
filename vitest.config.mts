@@ -7,6 +7,7 @@ export default defineConfig({
 	test: {
 		environment: "jsdom",
 		include: ["**/*.test.{ts,tsx}"],
+		setupFiles: ["./tests/vitest.setup.ts"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		coverage: {
 			provider: "v8",
