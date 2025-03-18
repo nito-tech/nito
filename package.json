@@ -17,6 +17,7 @@
 		"e2e:ui": "playwright test --ui",
 		"e2e:watch": "PWTEST_WATCH=1 playwright test",
 		"storybook": "storybook dev -p 6008",
+		"test-storybook": "test-storybook --url http://localhost:6008",
 		"build-storybook": "storybook build"
 	},
 	"dependencies": {
@@ -74,6 +75,7 @@
 		"@storybook/experimental-nextjs-vite": "8.6.7",
 		"@storybook/react": "^8.6.7",
 		"@storybook/test": "^8.6.7",
+		"@storybook/test-runner": "^0.22.0",
 		"@tailwindcss/postcss": "^4.0.14",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
