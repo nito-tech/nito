@@ -9,6 +9,7 @@ export default defineConfig({
 		include: ["**/*.test.{ts,tsx}"],
 		setupFiles: ["./tests/vitest.setup.ts"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
+		isolate: true,
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html", "json-summary"],
