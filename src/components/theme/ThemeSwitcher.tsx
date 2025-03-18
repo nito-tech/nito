@@ -58,12 +58,7 @@ export default function ThemeSwitcher() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button
-					variant="outline"
-					size="icon"
-					aria-label="Change theme"
-					data-testid="theme-toggle"
-				>
+				<Button variant="outline" size="icon" aria-label="Show theme options">
 					{currentIcon()}
 				</Button>
 			</DropdownMenuTrigger>

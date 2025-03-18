@@ -1,5 +1,10 @@
 {
 	/**
+	 * Window
+	 */
+	"window.zoomLevel": 0.35,
+
+	/**
 	 * Editor
 	 */
 	"editor.formatOnSave": true,
