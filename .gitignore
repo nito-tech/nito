@@ -48,4 +48,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 
+# Storybook
 *storybook.log
+src/components/__screenshots__
+storybook-static/
