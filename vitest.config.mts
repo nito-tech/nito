@@ -1,9 +1,14 @@
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { storybookTest } from "@storybook/experimental-addon-test/vitest-plugin";
+import { storybookNextJsPlugin } from "@storybook/experimental-nextjs-vite/vite-plugin";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-	plugins: [tsconfigPaths(), react()],
+	plugins: [
+		// See options at: https://storybook.js.org/docs/writing-tests/vitest-plugin#storybooktest
+		storybookTest(),
+		// More info at: https://github.com/storybookjs/vite-plugin-storybook-nextjs
+		storybookNextJsPlugin(),
+	],
 	define: {
 		"process.env": {
 			GITHUB_CLIENT_SECRET: "test_github_client_secret",
@@ -17,10 +22,10 @@ export default defineConfig({
 		__dirname: JSON.stringify(""),
 	},
 	test: {
-		name: "vitest",
+		name: "storybook",
 		environment: "jsdom",
-		include: ["**/*.test.{ts,tsx}"],
-		setupFiles: ["./tests/vitest.setup.ts"],
+		include: ["**/*.stories.?(m)[jt]s?(x)"],
+		setupFiles: ["./.storybook/vitest.setup.ts"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		isolate: true,
 		browser: {
