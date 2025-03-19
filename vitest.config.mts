@@ -17,7 +17,7 @@ export default defineConfig({
 		__dirname: JSON.stringify(""),
 	},
 	test: {
-		// name: "storybook",
+		name: "vitest",
 		environment: "jsdom",
 		include: ["**/*.test.{ts,tsx}"],
 		setupFiles: ["./tests/vitest.setup.ts"],
