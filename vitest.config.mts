@@ -4,12 +4,36 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
 	plugins: [tsconfigPaths(), react()],
+	define: {
+		"process.env": {
+			NODE_ENV: "test",
+			NEXT_PUBLIC_VERCEL_URL: "http://localhost:3210",
+			NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key-for-testing",
+			NEXT_PUBLIC_SUPABASE_URL: "http://dummy-host:9999",
+			NEXT_PUBLIC_GITHUB_CLIENT_ID: "dummy-github-client-id",
+			GITHUB_CLIENT_SECRET: "test_github_client_secret",
+			SKIP_ENV_VALIDATION: "true", // Skip validation during tests
+		},
+		__dirname: JSON.stringify(""),
+	},
 	test: {
+		name: "vitest",
 		environment: "jsdom",
 		include: ["**/*.test.{ts,tsx}"],
 		setupFiles: ["./tests/vitest.setup.ts"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		isolate: true,
+		browser: {
+			enabled: true,
+			headless: true, // Do not open http://localhost:63319/ to view test results
+			provider: "playwright",
+			instances: [
+				{
+					name: "vitest-chromium",
+					browser: "chromium",
+				},
+			],
+		},
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html", "json-summary"],
@@ -28,13 +52,6 @@ export default defineConfig({
 			// 	functions: 20,
 			// 	lines: 20,
 			// },
-		},
-		env: {
-			NEXT_PUBLIC_VERCEL_URL: "http://localhost:3210",
-			NEXT_PUBLIC_SUPABASE_URL: "http://dummy-host:9999",
-			NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key-for-testing",
-			NEXT_PUBLIC_GITHUB_CLIENT_ID: "dummy-github-client-id",
-			SKIP_ENV_VALIDATION: "true", // Skip validation during tests
 		},
 	},
 });

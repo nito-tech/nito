@@ -47,3 +47,8 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Storybook
+*storybook.log
+**/__screenshots__
+storybook-static/

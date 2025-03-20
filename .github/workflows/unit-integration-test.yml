@@ -1,4 +1,4 @@
-name: 🧪 Unit Test
+name: 🧪 Unit/Integration Test
 
 on:
   pull_request:
@@ -26,8 +26,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Vitest
-        run: pnpm unit --coverage.enabled true
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+
+      - name: Run Vitest and Storybook tests
+        run: pnpm test -- --coverage.enabled true
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2

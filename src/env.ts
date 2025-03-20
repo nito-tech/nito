@@ -3,6 +3,9 @@ import { z } from "zod";
 
 export const env = createEnv({
 	server: {
+		NODE_ENV: z
+			.enum(["development", "test", "production"])
+			.default("development"),
 		GITHUB_CLIENT_SECRET: z.string(),
 	},
 	client: {
@@ -12,6 +15,9 @@ export const env = createEnv({
 		NEXT_PUBLIC_GITHUB_CLIENT_ID: z.string(),
 	},
 	runtimeEnv: {
+		// Load .env.[NODE_ENV]
+		NODE_ENV: process.env.NODE_ENV,
+
 		/**
 		 * Base URL of the site
 		 */
@@ -33,6 +39,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_GITHUB_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
 		GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
 	},
-	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+	skipValidation:
+		!!process.env.SKIP_ENV_VALIDATION || process.env.NODE_ENV === "test",
 	emptyStringAsUndefined: true,
 });
