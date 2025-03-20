@@ -15,6 +15,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_GITHUB_CLIENT_ID: z.string(),
 	},
 	runtimeEnv: {
+		// Load .env.[NODE_ENV]
 		NODE_ENV: process.env.NODE_ENV,
 
 		/**
