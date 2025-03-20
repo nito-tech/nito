@@ -1,4 +1,4 @@
-name: 🧪 Unit Test
+name: 🧪 Unit/Integration Test
 
 on:
   pull_request:
