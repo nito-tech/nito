@@ -29,8 +29,8 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install chromium
 
-      - name: Run Vitest
-        run: pnpm unit --coverage.enabled true
+      - name: Run Vitest and Storybook tests
+        run: pnpm test -- --coverage.enabled true
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2

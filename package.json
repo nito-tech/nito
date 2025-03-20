@@ -10,7 +10,7 @@
 		"format": "biome format --write",
 		"check": "biome check --write",
 		"commitlint": "commitlint --edit $1",
-		"unit": "vitest",
+		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"coverage:open": "vitest run --coverage && open coverage/index.html",
 		"e2e": "playwright test",
