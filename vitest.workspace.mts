@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/experimental-addon-test/vitest-plugin";
 import { storybookNextJsPlugin } from "@storybook/experimental-nextjs-vite/vite-plugin";
-import { defineWorkspace } from "vitest/config";
+import { defineConfig, defineWorkspace } from "vitest/config";
 
 const dirname =
 	typeof __dirname !== "undefined"
@@ -12,7 +12,7 @@ const dirname =
 export default defineWorkspace([
 	// This is the path to your existing Vitest config file
 	"./vitest.config.mts",
-	{
+	defineConfig({
 		// This is the path to your existing Vite config file
 		// extends: "./vite.config.mts",
 		plugins: [
@@ -46,6 +46,15 @@ export default defineWorkspace([
 					},
 				],
 			},
+			coverage: {
+				exclude: [
+					"**/.storybook/**",
+					// 👇 This pattern must align with the `stories` property of your `.storybook/main.ts` config
+					"**/*.stories.*",
+					// 👇 This pattern must align with the output directory of `storybook build`
+					"**/storybook-static/**",
+				],
+			},
 		},
-	},
+	}),
 ]);
