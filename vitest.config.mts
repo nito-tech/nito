@@ -26,8 +26,13 @@ export default defineConfig({
 		browser: {
 			enabled: true,
 			headless: true, // Do not open http://localhost:63319/ to view test results
-			name: "chromium",
 			provider: "playwright",
+			instances: [
+				{
+					name: "vitest-chromium",
+					browser: "chromium",
+				},
+			],
 		},
 		coverage: {
 			provider: "v8",

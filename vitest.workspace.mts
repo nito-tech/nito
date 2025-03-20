@@ -37,10 +37,14 @@ export default defineWorkspace([
 			// Enable browser mode
 			browser: {
 				enabled: true,
-				name: "chromium",
-				// Make sure to install Playwright
 				provider: "playwright",
 				headless: true,
+				instances: [
+					{
+						name: "storybook-chromium",
+						browser: "chromium",
+					},
+				],
 			},
 		},
 	},
