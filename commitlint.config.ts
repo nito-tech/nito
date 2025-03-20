@@ -16,6 +16,12 @@ const config: UserConfig = {
 		 * fix: resolve issue with API
 		 */
 		"subject-case": [2, "always", ["pascal-case", "sentence-case"]],
+
+		/**
+		 * Allows commit body to have unlimited length
+		 * This enables writing detailed explanations in commit messages
+		 */
+		"body-max-line-length": [0, "always", 0],
 	},
 };
 
