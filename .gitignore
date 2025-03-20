@@ -50,5 +50,5 @@ node_modules/
 
 # Storybook
 *storybook.log
-src/components/__screenshots__
+**/__screenshots__
 storybook-static/
