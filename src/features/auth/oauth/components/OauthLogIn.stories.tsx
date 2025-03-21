@@ -47,6 +47,48 @@ export const Default: Story = {
 };
 
 /**
+ * OAuth login component with fixed width of 300px
+ */
+export const WithFixedWidth: Story = {
+	args: {
+		className: "w-[300px]",
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const container = canvas.getByRole("button").parentElement;
+		const button = canvas.getByRole("button");
+		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
+
+		// Test container width
+		await expect(container).toHaveClass("w-[300px]");
+
+		// Test button state and content
+		await expect(button).toBeEnabled();
+		await expect(button).toHaveTextContent("Log in with GitHub");
+		await expect(button).toHaveClass("w-full");
+
+		// Test GitHub icon
+		await expect(githubIcon).toBeInTheDocument();
+		await expect(githubIcon).toHaveClass("invert", "dark:invert-0");
+	},
+};
+
+/**
+ * OAuth login component with custom width and centered layout
+ */
+export const CenteredWithCustomWidth: Story = {
+	args: {
+		className: "max-w-md mx-auto",
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const container = canvas.getByRole("button").parentElement;
+		await expect(container).toHaveClass("max-w-md", "mx-auto");
+		await expect(canvas.getByRole("button")).toHaveClass("w-full");
+	},
+};
+
+/**
  * Interactive test of the OAuth login component
  */
 export const Interactive: Story = {
@@ -56,7 +98,7 @@ export const Interactive: Story = {
 		const button = canvas.getByRole("button");
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
-		// Test button is enabled and has correct text and icon
+		// Test initial state
 		await expect(button).toBeEnabled();
 		await expect(button).toHaveTextContent("Log in with GitHub");
 		await expect(button).toHaveClass("w-full");
@@ -65,6 +107,7 @@ export const Interactive: Story = {
 		// Test button click
 		await userEvent.click(button);
 		// Note: In development environment, it should show a warning toast
+		// but we can't test the toast in Storybook
 		await expect(button).toBeEnabled();
 	},
 };
