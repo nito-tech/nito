@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import githubSvg from "@/components/icon/github.svg";
 import { Button } from "@/components/ui/button";
@@ -20,18 +21,28 @@ export default function OauthLogIn({ className }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	async function signInWithGithub() {
-		setIsSubmitting(true);
+		// Since Supabase uses a free plan, only two projects (production and preview) can be created.
+		// Therefore, since the project in the development environment is not created,
+		// the callback URL cannot be set and the login function is not used.
+		if (process.env.NODE_ENV === "development") {
+			toast.warning("Not implemented in the local environment", {
+				description: "Please login with your Email and Password",
+				duration: 8000,
+			});
+			return;
+		}
 
 		try {
+			setIsSubmitting(true);
 			const url = await logInWithOAuth("github");
 
 			// router.push cannot be used to redirect to an external site.
 			window.location.href = url;
 		} catch (error) {
 			console.error("GitHub login error:", error);
+		} finally {
+			setIsSubmitting(false);
 		}
-
-		setIsSubmitting(false);
 	}
 
 	return (
