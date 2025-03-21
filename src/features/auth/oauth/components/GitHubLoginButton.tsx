@@ -23,7 +23,8 @@ export function GitHubLoginButton({ onClick, isSubmitting, label }: Props) {
 				height={24}
 				className="invert dark:invert-0"
 			/>
-			<div className="flex flex-items-center justify-center">
+			{/* Set minimum width to prevent button width from shrinking when showing loading icon */}
+			<div className="flex flex-items-center justify-center min-w-[140px]">
 				{isSubmitting ? (
 					<Loader2 className="animate-spin" aria-label="Loading icon" />
 				) : (
