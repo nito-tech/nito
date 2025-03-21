@@ -20,4 +20,7 @@ npx supabase@latest stop
 
 # Reset local DB
 npx supabase@latest db reset
+
+# Run migrate
+npx supabase migration up
 ```
