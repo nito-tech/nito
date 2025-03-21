@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [".next", "coverage", "playwright-report"]
+		"ignore": [".next", "coverage", "storybook-static/**", "playwright-report"]
 	},
 	"formatter": {
 		"enabled": true,
