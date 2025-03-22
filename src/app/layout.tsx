@@ -8,6 +8,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import { Breakpoint } from "@/components/Breakpoint";
 import PublicHeader from "@/components/header/PublicHeader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -49,6 +50,7 @@ export default async function RootLayout({
 					<NextIntlClientProvider messages={messages}>
 						<PublicHeader />
 						{children}
+						<Toaster visibleToasts={100} />
 					</NextIntlClientProvider>
 				</ThemeProvider>
 
