@@ -4,18 +4,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
 	plugins: [tsconfigPaths(), react()],
-	define: {
-		"process.env": {
-			NODE_ENV: "test",
-			NEXT_PUBLIC_VERCEL_URL: "http://localhost:3210",
-			NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key-for-testing",
-			NEXT_PUBLIC_SUPABASE_URL: "http://dummy-host:9999",
-			NEXT_PUBLIC_GITHUB_CLIENT_ID: "dummy-github-client-id",
-			GITHUB_CLIENT_SECRET: "test_github_client_secret",
-			SKIP_ENV_VALIDATION: "true", // Skip validation during tests
-		},
-		__dirname: JSON.stringify(""),
-	},
 	test: {
 		name: "vitest",
 		environment: "jsdom",
