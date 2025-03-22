@@ -1,11 +1,12 @@
 -- Create profiles table
 CREATE TABLE public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id),
-  username TEXT UNIQUE,
+  username VARCHAR(50) UNIQUE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   -- Add other profile information if needed
-  CONSTRAINT username_length CHECK (char_length(username) >= 3)
+  CONSTRAINT username_length CHECK (char_length(username) >= 1),
+  CONSTRAINT username_no_newlines CHECK (username !~ '[\n\r]')
 );
 
 -- Enable Row Level Security
