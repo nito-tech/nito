@@ -27,12 +27,14 @@ export default defineConfig({
 			enabled: true,
 			headless: true, // Do not open http://localhost:63319/ to view test results
 			provider: "playwright",
-			instances: [
-				{
-					name: "vitest-chromium",
-					browser: "chromium",
-				},
-			],
+			// Commented out to avoid the error
+			// `Error: Vitest failed to find the current suite. This is a bug in Vitest. Please, open an issue with reproduction.
+			// instances: [
+			// 	{
+			// 		name: "vitest-chromium",
+			// 		browser: "chromium",
+			// 	},
+			// ],
 		},
 		coverage: {
 			provider: "v8",
