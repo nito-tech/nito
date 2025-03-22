@@ -1,2 +1,5 @@
 pnpm run format
 pnpm run check
+
+# Run the test only once and do not watch for changes
+npx vitest run
