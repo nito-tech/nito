@@ -17,5 +17,6 @@
 		"source.organizeImports.biome": "explicit"
 	},
 	"editor.rulers": [80],
-	"editor.tabSize": 2
+	"editor.tabSize": 2,
+	"editor.wordWrap": "on"
 }
