@@ -8,12 +8,8 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
-    env:
-      SUPABASE_PROJECT_ID: ${{ secrets.PREVIEW_SUPABASE_PROJECT_ID }}
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.PREVIEW_SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_DB_PASSWORD: ${{ secrets.PREVIEW_SUPABASE_DB_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
@@ -48,23 +44,23 @@ jobs:
       with:
         version: latest
 
+    # Use Vercel environment variables
     - name: Link to the project
-      run: supabase link --project-ref $SUPABASE_PROJECT_ID
+      run: |
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
+        supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+      env:
+        SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
 
     - name: Push Supabase Database
       run: supabase db push
 
     - name: Reset Supabase Database
       run: |
-        # Read variables from .env.local
-        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
-        # echo "SUPABASE_PROJECT_ID: $SUPABASE_PROJECT_ID"
-        # echo "Extracted password (length only for security): ${#SUPABASE_DB_PASSWORD} characters"
-        # Link to the project and reset remote database
         echo "yes" | supabase db reset --linked
-        # echo "yes" | npx supabase db remote commit
-        # echo "yes" | npx supabase db push
+
     # ------------------------------------
     # Build Next.js using cache
     # ------------------------------------
