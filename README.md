@@ -2,6 +2,22 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### 1. Pull environment variables from Vercel
+
+Ref: [Environment variables | Vercel](https://vercel.com/docs/environment-variables)
+
+```sh
+# 1. Download Vercel CLI
+pnpm i -g vercel
+
+# 2. Link your local project directory to your Vercel project in the cloud
+vercel link
+
+# 3.Pull the development environment variables
+vercel env pull .env.local --environment development
+```
+
+### 2. Run server
 First, run the development server:
 
 ```bash
