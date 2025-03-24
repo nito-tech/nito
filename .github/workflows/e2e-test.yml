@@ -8,8 +8,9 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
 
@@ -29,11 +30,36 @@ jobs:
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
 
-    - name: Pull Environment Variables
-      run: vercel env pull .env.local --yes --token ${{ secrets.VERCEL_TOKEN }}
+    - name: Pull Preview Environment Variables
+      run: vercel env pull .env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    # ------------------------------------
+    # Reset Supabase Database
+    # ------------------------------------
+    - name: Install Supabase CLI
+      uses: supabase/setup-cli@v1
+      with:
+        version: latest
+
+    # Use Vercel environment variables
+    - name: Link to the project
+      run: |
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
+        supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+      env:
+        SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
+
+    - name: Push Supabase Database
+      run: supabase db push
+
+    - name: Reset Supabase Database
+      run: |
+        echo "yes" | supabase db reset --linked
 
     # ------------------------------------
     # Build Next.js using cache

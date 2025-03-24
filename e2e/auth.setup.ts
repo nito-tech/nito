@@ -15,6 +15,8 @@ setup("Login with email and password", async ({ page }) => {
 	const emailInput = form.getByPlaceholder("name@example.com");
 	const passwordInput = form.getByPlaceholder("Password");
 	const submitButton = form.getByRole("button", { name: "Log in" });
+
+	// Email and Password is generated as seed data by supabase/seed.sql
 	await emailInput.fill("saneatsu.wakana@gmail.com");
 	await passwordInput.fill("testtest");
 

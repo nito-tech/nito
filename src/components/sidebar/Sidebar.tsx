@@ -66,13 +66,6 @@ export const Sidebar = () => {
 	const isCollapsed =
 		sidebarState === "collapsed" || (sidebarState === "hover" && !isHovered);
 
-	// Sample User Info
-	const userInfo = {
-		username: "saneatsu",
-		email: "saneatsu@example.com",
-		avatarUrl: "https://github.com/shadcn.png",
-	};
-
 	return (
 		<div
 			className="relative"
@@ -142,12 +135,7 @@ export const Sidebar = () => {
 						))}
 					</nav>
 
-					<SidebarUserProfile
-						username={userInfo.username}
-						email={userInfo.email}
-						avatarUrl={userInfo.avatarUrl}
-						isCollapsed={isCollapsed}
-					/>
+					<SidebarUserProfile isCollapsed={isCollapsed} />
 
 					<SidebarControl
 						sidebarState={sidebarState}
