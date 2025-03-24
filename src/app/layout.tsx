@@ -11,6 +11,7 @@ import { ClientSideProviders } from "@/components/providers/ClientSideProviders"
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProfileProvider } from "@/contexts/ProfileContext";
 
 import "./globals.css";
 
@@ -51,9 +52,11 @@ export default async function RootLayout({
 					<NextIntlClientProvider messages={messages}>
 						<ClientSideProviders>
 							<AuthProvider>
-								<PublicHeader />
-								{children}
-								<Toaster visibleToasts={100} />
+								<ProfileProvider>
+									<PublicHeader />
+									{children}
+									<Toaster visibleToasts={100} />
+								</ProfileProvider>
 							</AuthProvider>
 						</ClientSideProviders>
 					</NextIntlClientProvider>
