@@ -42,11 +42,15 @@ INSERT INTO auth.users (
 INSERT INTO public.profiles (
   id,
   username,
+  display_name,
+  avatar_url,
   created_at,
   updated_at
 ) VALUES (
   '00000000-0000-0000-0000-000000000001',
   'saneatsu',
+  'Saneatsu Wakana',
+  'https://github.com/shadcn.png',
   now(),
   now()
 );
