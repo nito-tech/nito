@@ -5,8 +5,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
-import { themeOptions } from "@/components/theme/ThemeSwitcher";
-import type { Theme } from "@/components/theme/ThemeSwitcher";
+import { isTheme, themeOptions } from "@/components/theme/ThemeSwitcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -50,7 +49,7 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 	);
 
 	// Get current theme value safely
-	const currentTheme = mounted ? (theme as Theme) : "system";
+	const currentTheme = mounted ? theme : "system";
 
 	return (
 		<div className="px-2 py-3 border-t border-border">
@@ -122,7 +121,11 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 
 					<DropdownMenuRadioGroup
 						value={currentTheme}
-						onValueChange={(value) => setTheme(value as Theme)}
+						onValueChange={(value) => {
+							if (isTheme(value)) {
+								setTheme(value);
+							}
+						}}
 					>
 						{themeOptions.map((option) => (
 							<DropdownMenuRadioItem

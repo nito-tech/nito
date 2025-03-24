@@ -13,7 +13,11 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export type Theme = "light" | "dark" | "system";
+type Theme = "light" | "dark" | "system";
+
+export const isTheme = (value: unknown): value is Theme => {
+	return value === "light" || value === "dark" || value === "system";
+};
 
 export type ThemeOption = {
 	label: string;
@@ -66,7 +70,11 @@ export default function ThemeSwitcher() {
 			<DropdownMenuContent align="end" className="w-36">
 				<DropdownMenuRadioGroup
 					value={theme}
-					onValueChange={(value) => setTheme(value as Theme)}
+					onValueChange={(value) => {
+						if (isTheme(value)) {
+							setTheme(value);
+						}
+					}}
 				>
 					{themeOptions.map((option) => (
 						<DropdownMenuRadioItem
