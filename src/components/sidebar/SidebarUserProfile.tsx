@@ -44,9 +44,9 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 		() => ({
 			username: profile?.username ?? "-",
 			email: user?.email ?? "-",
-			avatarUrl: "https://github.com/shadcn.png",
+			avatarUrl: profile?.avatar_url ?? "",
 		}),
-		[profile?.username, user?.email],
+		[profile?.username, user?.email, profile?.avatar_url],
 	);
 
 	// Get current theme value safely
