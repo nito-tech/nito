@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { isAuthPage, isAuthRequiredPage } from "../pathname";
-import { supabaseKey, supabaseUrl } from "./config";
+import { supabaseAnonKey, supabaseUrl } from "./config";
 
 /**
  * Generate a new response with the same cookies as the old response
@@ -65,7 +65,7 @@ function generateNewResponse(
 export async function updateSession(request: NextRequest) {
 	let supabaseResponse = NextResponse.next({ request });
 
-	const supabase = createServerClient(supabaseUrl, supabaseKey, {
+	const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
 		cookies: {
 			getAll() {
 				return request.cookies.getAll();
