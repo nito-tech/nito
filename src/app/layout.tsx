@@ -7,8 +7,10 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { Breakpoint } from "@/components/Breakpoint";
 import PublicHeader from "@/components/header/PublicHeader";
+import { ClientSideProviders } from "@/components/providers/ClientSideProviders";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 import "./globals.css";
 
@@ -40,7 +42,6 @@ export default async function RootLayout({
 			<body
 			// className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<Breakpoint />
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
@@ -48,12 +49,17 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<NextIntlClientProvider messages={messages}>
-						<PublicHeader />
-						{children}
-						<Toaster visibleToasts={100} />
+						<ClientSideProviders>
+							<AuthProvider>
+								<PublicHeader />
+								{children}
+								<Toaster visibleToasts={100} />
+							</AuthProvider>
+						</ClientSideProviders>
 					</NextIntlClientProvider>
 				</ThemeProvider>
 
+				<Breakpoint />
 				<Analytics />
 				<SpeedInsights />
 			</body>
