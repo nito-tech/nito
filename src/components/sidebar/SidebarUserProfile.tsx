@@ -2,7 +2,7 @@
 
 import { Beaker, Command, LogOut, Settings } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
 import { themeOptions } from "@/components/theme/ThemeSwitcher";
@@ -18,22 +18,16 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/contexts/ProfileContext";
 import { logOut } from "@/features/auth/logout/actions";
 import { cn } from "@/lib/utils";
 
 interface Props {
-	username: string;
-	email: string;
-	avatarUrl?: string;
 	isCollapsed: boolean;
 }
 
-export default function SidebarUserProfile({
-	username,
-	email,
-	avatarUrl,
-	isCollapsed,
-}: Props) {
+export default function SidebarUserProfile({ isCollapsed }: Props) {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
@@ -42,6 +36,18 @@ export default function SidebarUserProfile({
 	useEffect(() => {
 		setMounted(true);
 	}, []);
+
+	const { user } = useAuth();
+	const { profile } = useProfile();
+
+	const userData = useMemo(
+		() => ({
+			username: profile?.username ?? "-",
+			email: user?.email ?? "-",
+			avatarUrl: "https://github.com/shadcn.png",
+		}),
+		[profile?.username, user?.email],
+	);
 
 	// Get current theme value safely
 	const currentTheme = mounted ? (theme as Theme) : "system";
@@ -61,9 +67,9 @@ export default function SidebarUserProfile({
 						)}
 					>
 						<Avatar className="h-8 w-8 flex-shrink-0">
-							<AvatarImage src={avatarUrl} alt={username} />
+							<AvatarImage src={userData.avatarUrl} alt={userData.username} />
 							<AvatarFallback className="bg-muted text-muted-foreground">
-								{username.substring(0, 2).toUpperCase()}
+								{userData.username.substring(0, 2).toUpperCase()}
 							</AvatarFallback>
 						</Avatar>
 
@@ -75,10 +81,10 @@ export default function SidebarUserProfile({
 								)}
 							>
 								<p className="text-sm font-medium text-foreground">
-									{username}
+									{userData.username}
 								</p>
 								<p className="text-xs text-muted-foreground truncate">
-									{email}
+									{userData.email}
 								</p>
 							</div>
 						)}
@@ -87,9 +93,9 @@ export default function SidebarUserProfile({
 
 				<DropdownMenuContent align="end" className="w-56 ml-3">
 					<DropdownMenuLabel className="flex flex-col space-y-1">
-						<span>{username}</span>
+						<span>{userData.username}</span>
 						<span className="text-xs font-normal text-muted-foreground">
-							{email}
+							{userData.email}
 						</span>
 					</DropdownMenuLabel>
 
