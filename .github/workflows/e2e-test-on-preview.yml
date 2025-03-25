@@ -1,10 +1,10 @@
-name: 🌐 E2E Test
+name: 🌐 E2E Test on Preview environment
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_run:
+    workflows: ["🔀 Run migrations to Preview environment"]
+    types:
+      - completed
 
 jobs:
   test:
@@ -35,31 +35,6 @@ jobs:
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-    # ------------------------------------
-    # Reset Supabase Database
-    # ------------------------------------
-    - name: Install Supabase CLI
-      uses: supabase/setup-cli@v1
-      with:
-        version: latest
-
-    # Use Vercel environment variables
-    - name: Link to the project
-      run: |
-        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
-        supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
-      env:
-        SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
-
-    - name: Push Supabase Database
-      run: supabase db push
-
-    - name: Reset Supabase Database
-      run: |
-        echo "yes" | supabase db reset --linked
 
     # ------------------------------------
     # Build Next.js using cache
