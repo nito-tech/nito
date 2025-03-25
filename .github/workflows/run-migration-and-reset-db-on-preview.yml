@@ -50,16 +50,23 @@ jobs:
         export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
         export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
         export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
+        if [ -z "$SUPABASE_PROJECT_ID" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
+          echo "Error: Missing Supabase environment variables"
+          exit 1
+        fi
         supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
       env:
         SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
 
     - name: Run migrations
-      run: supabase migration up
+      run: |
+        set -e
+        supabase migration up
 
     # ------------------------------------
     # Reset Supabase Database
     # ------------------------------------
     - name: Reset Supabase Database
       run: |
+        set -e
         echo "yes" | supabase db reset --linked
