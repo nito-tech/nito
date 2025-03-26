@@ -57,6 +57,7 @@ function SignUpForm({ className }: FormProps) {
 	return (
 		<form
 			noValidate
+			aria-label="Sign up form"
 			className={cn("grid gap-6", className)}
 			onSubmit={handleSubmit(onSubmitHandler)}
 		>
@@ -124,6 +125,7 @@ function LogInForm({ className }: FormProps) {
 	return (
 		<form
 			noValidate
+			aria-label="Log in form"
 			className={cn("grid gap-6", className)}
 			onSubmit={handleSubmit(onSubmitHandler)}
 		>
