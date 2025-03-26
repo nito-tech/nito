@@ -2,11 +2,11 @@ name: 🌐 E2E Test on Preview environment
 
 on:
   workflow_run:
-    workflows: ["🔀 Run migrations and reset database on Preview environment"]
+    workflows: ["Run migrations and reset database on Preview environment"]
     types:
       - completed
+  workflow_dispatch:
 
-# for gh api
 permissions:
   actions: read
   contents: read
@@ -17,51 +17,37 @@ jobs:
     outputs:
       should_run_tests: ${{ steps.check-migration.outputs.should_run_tests }}
     steps:
-      - name: Check if migration workflow was executed
+      - name: Check migration workflow result
         id: check-migration
         run: |
-          # Get the PR number
-          PR_NUMBER=${{ github.event.pull_request.number }}
+          WORKFLOW_RUN_ID=${{ github.event.workflow_run.id }}
+          WORKFLOW_RUN_CONCLUSION=${{ github.event.workflow_run.conclusion }}
+          WORKFLOW_RUN_HEAD_BRANCH="${{ github.event.workflow_run.head_branch }}"
 
-          # Get workflow ID first (more reliable than using filename)
-          WORKFLOW_ID=$(gh api repos/${{ github.repository }}/actions/workflows --jq '.workflows[] | select(.name=="🔀 Run migrations and reset database on Preview environment") | .id')
+          echo "Workflow run ID: $WORKFLOW_RUN_ID"
+          echo "Workflow conclusion: $WORKFLOW_RUN_CONCLUSION"
+          echo "Branch: $WORKFLOW_RUN_HEAD_BRANCH"
 
-          if [ -z "$WORKFLOW_ID" ]; then
-            echo "Could not find migration workflow"
-            echo "should_run_tests=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          echo "Found migration workflow with ID: $WORKFLOW_ID"
-
-          # Get the list of workflow runs for the migration workflow for this PR
-          MIGRATION_RUNS=$(gh api repos/${{ github.repository }}/actions/workflows/$WORKFLOW_ID/runs \
-            -X GET \
-            -f event=pull_request \
-            -f branch=${{ github.head_ref }} \
-            --jq '.workflow_runs[] | select(.head_branch == "${{ github.head_ref }}" and (.pull_requests | length > 0) and .pull_requests[].number == '$PR_NUMBER')')
-
-          if [ -z "$MIGRATION_RUNS" ]; then
-            echo "Migration workflow was not triggered for this PR (skipped)"
-            echo "should_run_tests=true" >> $GITHUB_OUTPUT
+          if [ "$WORKFLOW_RUN_CONCLUSION" = "failure" ]; then
+            echo "Migration workflow failed, skipping E2E tests"
+            echo "should_run_tests=false" >> $GITHUB_OUTPUT
           else
-            # Get the most recent run
-            LATEST_RUN=$(echo "$MIGRATION_RUNS" | jq -s 'sort_by(.created_at) | reverse | .[0]')
-            STATUS=$(echo "$LATEST_RUN" | jq -r '.status')
-            CONCLUSION=$(echo "$LATEST_RUN" | jq -r '.conclusion')
-
-            echo "Migration workflow status: $STATUS, conclusion: $CONCLUSION"
-
-            if [ "$STATUS" = "completed" ] && [ "$CONCLUSION" = "failure" ]; then
-              echo "Migration workflow failed, skipping E2E tests"
-              echo "should_run_tests=false" >> $GITHUB_OUTPUT
-            else
-              echo "Migration workflow succeeded or was skipped, running E2E tests"
-              echo "should_run_tests=true" >> $GITHUB_OUTPUT
-            fi
+            echo "Migration workflow succeeded or was skipped, running E2E tests"
+            echo "should_run_tests=true" >> $GITHUB_OUTPUT
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Get PR details
+        id: pr-details
+        run: |
+          echo "Running tests on branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "HEAD_SHA=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
 
   test:
     needs: check-migration-status
