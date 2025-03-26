@@ -13,10 +13,11 @@ import { cn } from "@/lib/utils";
 
 import { logInWithEmail, signUpWithEmail } from "../actions";
 import {
+	type EmailLoginInput,
+	type EmailSignupInput,
 	createEmailLoginSchema,
 	createEmailSignupSchema,
 } from "../schemas/auth-schema";
-import type { EmailLoginInput, EmailSignupInput } from "../types/validation";
 import { EmailField } from "./EmailField";
 import { PasswordField } from "./PasswordField";
 import { UsernameField } from "./UsernameField";

@@ -33,12 +33,8 @@ type SchemaKey = keyof typeof schemaErrors;
 
 const createCustomErrorMap =
 	(t: TranslationFunction): z.ZodErrorMap =>
-	(issue, ctx) => {
+	(issue) => {
 		const fieldName = issue.path[0] as SchemaKey;
-
-		console.log(issue);
-		console.log(ctx);
-		console.log(fieldName);
 
 		switch (fieldName) {
 			case "email":
@@ -86,48 +82,37 @@ const createCustomErrorMap =
 // ------------------------------------
 // Auth Field Schema
 // ------------------------------------
-const createEmailSchema = (t: TranslationFunction) => z.string().min(1).email();
-
-const createPasswordSchema = (t: TranslationFunction) =>
-	z.string().min(1).min(8);
-
-const createUsernameSchema = (t: TranslationFunction) =>
-	z.string().min(1).max(50);
+const emailSchema = z.string().min(1).email();
+const passwordSchema = z.string().min(1).min(8);
+const usernameSchema = z.string().min(1).max(50);
 
 // ------------------------------------
 // Email Login Schema
 // ------------------------------------
-const emailLoginSchema = z.object({
-	email: createEmailSchema(() => ""),
-	password: createPasswordSchema(() => ""),
-});
-
-export type EmailLoginInput = z.infer<typeof emailLoginSchema>;
-
 export const createEmailLoginSchema = (t: TranslationFunction) => {
 	z.setErrorMap(createCustomErrorMap(t));
 	return z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
+		email: emailSchema,
+		password: passwordSchema,
 	});
 };
+
+export type EmailLoginInput = z.infer<
+	ReturnType<typeof createEmailLoginSchema>
+>;
 
 // ------------------------------------
 // Email Signup Schema
 // ------------------------------------
-const emailSignupSchema = z.object({
-	email: createEmailSchema(() => ""),
-	password: createPasswordSchema(() => ""),
-	username: createUsernameSchema(() => ""),
-});
-
-export type EmailSignupInput = z.infer<typeof emailSignupSchema>;
-
 export const createEmailSignupSchema = (t: TranslationFunction) => {
 	z.setErrorMap(createCustomErrorMap(t));
 	return z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
-		username: createUsernameSchema(t),
-	}) satisfies z.ZodType<EmailSignupInput>;
+		email: emailSchema,
+		password: passwordSchema,
+		username: usernameSchema,
+	});
 };
+
+export type EmailSignupInput = z.infer<
+	ReturnType<typeof createEmailSignupSchema>
+>;
