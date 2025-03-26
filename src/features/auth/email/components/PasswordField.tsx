@@ -12,18 +12,19 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 import type { EmailLoginInput, EmailSignupInput } from "../types/email-auth";
+import type { EmailAuthFormType } from "./EmailAuthForm";
 
-type FormInput<T extends "signUp" | "logIn"> = T extends "signUp"
+type FormInput<T extends EmailAuthFormType> = T extends "signUp"
 	? EmailSignupInput
 	: EmailLoginInput;
 
-interface Props<T extends "signUp" | "logIn"> {
+interface Props<T extends EmailAuthFormType> {
 	disabled?: boolean;
 	error?: string;
 	register: UseFormRegister<FormInput<T>>;
 }
 
-export function PasswordField<T extends "signUp" | "logIn">({
+export function PasswordField<T extends EmailAuthFormType>({
 	disabled,
 	error,
 	register,
