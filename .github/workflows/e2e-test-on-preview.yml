@@ -1,57 +1,17 @@
 name: 🌐 E2E Test on Preview environment
 
 on:
-  workflow_run:
-    workflows: ["Run migrations and reset database on Preview environment"]
-    types:
-      - completed
-  workflow_dispatch:
+  # Called after migration and reset
+  # NOTE: `workflow_run` cannot be used outside of the default branch
+  workflow_call:
 
 permissions:
   actions: read
   contents: read
 
 jobs:
-  check-migration-status:
-    runs-on: ubuntu-latest
-    outputs:
-      should_run_tests: ${{ steps.check-migration.outputs.should_run_tests }}
-    steps:
-      - name: Check migration workflow result
-        id: check-migration
-        run: |
-          WORKFLOW_RUN_ID=${{ github.event.workflow_run.id }}
-          WORKFLOW_RUN_CONCLUSION=${{ github.event.workflow_run.conclusion }}
-          WORKFLOW_RUN_HEAD_BRANCH="${{ github.event.workflow_run.head_branch }}"
-
-          echo "Workflow run ID: $WORKFLOW_RUN_ID"
-          echo "Workflow conclusion: $WORKFLOW_RUN_CONCLUSION"
-          echo "Branch: $WORKFLOW_RUN_HEAD_BRANCH"
-
-          if [ "$WORKFLOW_RUN_CONCLUSION" = "failure" ]; then
-            echo "Migration workflow failed, skipping E2E tests"
-            echo "should_run_tests=false" >> $GITHUB_OUTPUT
-          else
-            echo "Migration workflow succeeded or was skipped, running E2E tests"
-            echo "should_run_tests=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_branch }}
-
-      - name: Get PR details
-        id: pr-details
-        run: |
-          echo "Running tests on branch: ${{ github.event.workflow_run.head_branch }}"
-          echo "HEAD_SHA=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
 
   test:
-    needs: check-migration-status
-    if: needs.check-migration-status.outputs.should_run_tests == 'true'
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:

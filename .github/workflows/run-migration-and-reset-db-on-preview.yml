@@ -1,8 +1,13 @@
-name: Run migrations and reset database on Preview environment
+name: 🔀 Run migrations and reset database on Preview environment
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  actions: write # Required to call other workflows
+  contents: write
+  pull-requests: write
 
 jobs:
   # Check if there have been any changes in supabase/migrations/*.
@@ -99,17 +104,24 @@ jobs:
     needs: [check-paths, migration]
     runs-on: ubuntu-latest
     if: always()
+    outputs:
+      migration_result: ${{ steps.set-result.outputs.result }}
     steps:
       - name: Set migration result
         id: set-result
         run: |
           if [[ "${{ needs.check-paths.outputs.should_run_migration }}" == "false" ]]; then
             echo "Migration was skipped (no relevant files changed)"
-            echo "MIGRATION_RESULT=skipped" >> $GITHUB_ENV
+            echo "result=skipped" >> $GITHUB_OUTPUT
           elif [[ "${{ needs.migration.result }}" == "success" ]]; then
             echo "Migration was successful"
-            echo "MIGRATION_RESULT=success" >> $GITHUB_ENV
+            echo "result=success" >> $GITHUB_OUTPUT
           else
             echo "Migration failed or was cancelled"
-            echo "MIGRATION_RESULT=failure" >> $GITHUB_ENV
+            echo "result=failure" >> $GITHUB_OUTPUT
           fi
+
+  call-e2e-test:
+    needs: result
+    if: needs.result.outputs.migration_result != 'failure'
+    uses: ./.github/workflows/e2e-test-on-preview.yml
