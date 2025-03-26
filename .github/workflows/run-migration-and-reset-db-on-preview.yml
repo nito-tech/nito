@@ -124,3 +124,7 @@ jobs:
     needs: result
     if: always() && needs.result.outputs.migration_result != 'failure'
     uses: ./.github/workflows/e2e-test-on-preview.yml
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

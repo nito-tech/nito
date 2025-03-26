@@ -4,6 +4,13 @@ on:
   # Called after migration and reset
   # NOTE: `workflow_run` cannot be used outside of the default branch
   workflow_call:
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
 
 permissions:
   actions: read
