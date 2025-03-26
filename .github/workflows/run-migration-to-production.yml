@@ -1,0 +1,65 @@
+name: 🔀 Run migrations to Production environment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  migration:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    # ------------------------------------
+    # Set Vercel environment to .env.local
+    # ------------------------------------
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Pull Production Environment Variables
+      run: vercel env pull .env.local --environment production --yes --token ${{ secrets.VERCEL_TOKEN }}
+      env:
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    # ------------------------------------
+    # Run migrations
+    # ------------------------------------
+    - name: Install Supabase CLI
+      uses: supabase/setup-cli@v1
+      with:
+        version: latest
+
+    # Use Vercel environment variables
+    - name: Link to the project
+      run: |
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
+        if [ -z "$SUPABASE_PROJECT_ID" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
+          echo "Error: Missing Supabase environment variables"
+          exit 1
+        fi
+        supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+      env:
+        SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
+
+    - name: Run migrations
+      run: |
+        set -e
+        supabase migration up
