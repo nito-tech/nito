@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import type { EmailSignupInput } from "../types/validation";
-
 const schemaErrors = {
 	email: {
 		required: "Auth.validation.emailRequired",
@@ -85,6 +83,9 @@ const createCustomErrorMap =
 		}
 	};
 
+// ------------------------------------
+// Auth Field Schema
+// ------------------------------------
 const createEmailSchema = (t: TranslationFunction) => z.string().min(1).email();
 
 const createPasswordSchema = (t: TranslationFunction) =>
@@ -93,6 +94,9 @@ const createPasswordSchema = (t: TranslationFunction) =>
 const createUsernameSchema = (t: TranslationFunction) =>
 	z.string().min(1).max(50);
 
+// ------------------------------------
+// Email Login Schema
+// ------------------------------------
 const emailLoginSchema = z.object({
 	email: createEmailSchema(() => ""),
 	password: createPasswordSchema(() => ""),
@@ -107,6 +111,17 @@ export const createEmailLoginSchema = (t: TranslationFunction) => {
 		password: createPasswordSchema(t),
 	});
 };
+
+// ------------------------------------
+// Email Signup Schema
+// ------------------------------------
+const emailSignupSchema = z.object({
+	email: createEmailSchema(() => ""),
+	password: createPasswordSchema(() => ""),
+	username: createUsernameSchema(() => ""),
+});
+
+export type EmailSignupInput = z.infer<typeof emailSignupSchema>;
 
 export const createEmailSignupSchema = (t: TranslationFunction) => {
 	z.setErrorMap(createCustomErrorMap(t));
