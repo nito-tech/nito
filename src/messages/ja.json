@@ -19,7 +19,23 @@
 		"logOut": "ログアウト",
 		"dontHaveAccount": "アカウントを持っていないですか？",
 		"alreadyHaveAccount": "すでにアカウントを持っていますか？",
-		"logInWithGithub": "GitHubでログイン"
+		"logInWithGithub": "GitHubでログイン",
+		"username": "ユーザー名",
+		"usernameCanBeChanged": "あとから変更できます",
+		"emailWillBeUsedForLogin": "このメールアドレスはログインに使用されます",
+		"passwordMustBeAtLeast8Characters": "パスワードは8文字以上で入力してください",
+		"enterYourEmail": "メールアドレスを入力してください",
+		"enterYourPassword": "パスワードを入力してください",
+		"validation": {
+			"emailRequired": "メールアドレスを入力してください",
+			"emailInvalid": "有効なメールアドレスを入力してください",
+			"emailMinLength": "メールアドレスを入力してください",
+			"passwordRequired": "パスワードを入力してください",
+			"passwordMinLength": "パスワードは8文字以上で入力してください",
+			"usernameRequired": "ユーザー名を入力してください",
+			"usernameMinLength": "ユーザー名を入力してください",
+			"usernameMaxLength": "ユーザー名は50文字以内で入力してください"
+		}
 	},
 	"UserInfo": {
 		"email": "メールアドレス",
