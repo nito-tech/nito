@@ -22,13 +22,6 @@ import { EmailField } from "./EmailField";
 import { PasswordField } from "./PasswordField";
 import { UsernameField } from "./UsernameField";
 
-export type EmailAuthFormType = "signUp" | "logIn";
-
-interface Props {
-	type: EmailAuthFormType;
-	className?: string;
-}
-
 interface FormProps {
 	className?: string;
 }
@@ -78,21 +71,20 @@ function SignUpForm({ className }: FormProps) {
 
 				<EmailField<"signUp">
 					disabled={isSubmitting}
-					error={errors.email?.message}
 					register={register}
+					error={errors.email?.message}
 				/>
 
 				<PasswordField<"signUp">
 					disabled={isSubmitting}
-					error={errors.password?.message}
 					register={register}
+					error={errors.password?.message}
 				/>
 
 				<UsernameField
 					disabled={isSubmitting}
-					error={errors.username?.message}
 					register={register}
-					helperText={t("Auth.usernameCanBeChanged")}
+					error={errors.username?.message}
 				/>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
@@ -144,14 +136,14 @@ function LogInForm({ className }: FormProps) {
 
 				<EmailField<"logIn">
 					disabled={isSubmitting}
-					error={errors.email?.message}
 					register={register}
+					error={errors.email?.message}
 				/>
 
 				<PasswordField<"logIn">
 					disabled={isSubmitting}
-					error={errors.password?.message}
 					register={register}
+					error={errors.password?.message}
 				/>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
@@ -159,6 +151,13 @@ function LogInForm({ className }: FormProps) {
 			</Button>
 		</form>
 	);
+}
+
+export type EmailAuthFormType = "signUp" | "logIn";
+
+interface Props {
+	type: EmailAuthFormType;
+	className?: string;
 }
 
 export default function EmailAuthForm({ type, className }: Props) {

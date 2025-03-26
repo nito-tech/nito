@@ -10,27 +10,21 @@ import { Label } from "@/components/ui/label";
 import type { EmailSignupInput } from "../types/email-auth";
 
 interface Props {
-	disabled?: boolean;
-	error?: string;
+	disabled: boolean;
 	register: UseFormRegister<EmailSignupInput>;
-	helperText?: string;
+	error?: string;
 }
 
-export function UsernameField({
-	disabled,
-	error,
-	register,
-	helperText,
-}: Props) {
+export function UsernameField({ disabled, register, error }: Props) {
 	const t = useTranslations();
 
 	return (
 		<div className="grid gap-1">
 			<div className="flex items-center gap-1">
 				<Label htmlFor="username">{t("Auth.username")}</Label>
-				{helperText && (
-					<span className="text-xs text-muted-foreground">({helperText})</span>
-				)}
+				<span className="text-xs text-muted-foreground">
+					({t("Auth.usernameCanBeChanged")})
+				</span>
 			</div>
 			<Input
 				id="username"
