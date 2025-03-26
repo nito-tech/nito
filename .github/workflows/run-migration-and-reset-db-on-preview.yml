@@ -3,11 +3,34 @@ name: 🔀 Run migrations and reset database on Preview environment
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-    paths:
-      - 'supabase/migrations/**'
 
 jobs:
-  test:
+  # Check if there have been any changes in supabase/migrations/*.
+  check-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run_migration: ${{ steps.check-migration-files.outputs.should_run_migration }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check if migration files were changed
+        id: check-migration-files
+        run: |
+          # Clone the complete repository (default is shallow clone)
+          git fetch --prune --unshallow
+
+          # Check if the migration file has changed
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E '^supabase/migrations/' || true)
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "Migration files were changed, should run migration"
+            echo "should_run_migration=true" >> $GITHUB_OUTPUT
+          else
+            echo "No migration files were changed, skipping migration"
+            echo "should_run_migration=false" >> $GITHUB_OUTPUT
+          fi
+
+  migration:
+    needs: check-paths
+    if: needs.check-paths.outputs.should_run_migration == 'true'
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
@@ -70,3 +93,23 @@ jobs:
       run: |
         set -e
         echo "yes" | supabase db reset --linked
+
+  # Job always running - output success, failure, or skip
+  result:
+    needs: [check-paths, migration]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Set migration result
+        id: set-result
+        run: |
+          if [[ "${{ needs.check-paths.outputs.should_run_migration }}" == "false" ]]; then
+            echo "Migration was skipped (no relevant files changed)"
+            echo "MIGRATION_RESULT=skipped" >> $GITHUB_ENV
+          elif [[ "${{ needs.migration.result }}" == "success" ]]; then
+            echo "Migration was successful"
+            echo "MIGRATION_RESULT=success" >> $GITHUB_ENV
+          else
+            echo "Migration failed or was cancelled"
+            echo "MIGRATION_RESULT=failure" >> $GITHUB_ENV
+          fi

@@ -1,8 +1,10 @@
 name: 🌐 E2E Test on Preview environment
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  workflow_run:
+    workflows: ["🔀 Run migrations and reset database on Preview environment"]
+    types:
+      - completed
 
 # for gh api
 permissions:
