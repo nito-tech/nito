@@ -16,7 +16,12 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 import { logInWithEmail, signUpWithEmail } from "../actions";
-import { type EmailAuthInput, EmailAuthSchema } from "../types/email-auth";
+import {
+	type EmailLoginInput,
+	EmailLoginSchema,
+	type EmailSignupInput,
+	EmailSignupSchema,
+} from "../types/email-auth";
 
 interface Props {
 	type: "signUp" | "logIn";
@@ -36,23 +41,27 @@ export default function EmailAuthForm({ type, className }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<EmailAuthInput>({
+	} = useForm<EmailSignupInput | EmailLoginInput>({
 		mode: "onChange",
-		resolver: zodResolver(EmailAuthSchema),
+		resolver: zodResolver(
+			type === "signUp" ? EmailSignupSchema : EmailLoginSchema,
+		),
 	});
 
-	const onSubmitHandler: SubmitHandler<EmailAuthInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<
+		EmailSignupInput | EmailLoginInput
+	> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
 		try {
-			const formData = EmailAuthSchema.parse(data);
-
 			if (type === "signUp") {
+				const formData = EmailSignupSchema.parse(data);
 				await signUpWithEmail(formData);
 				setMessageType("success");
 				setMessage("Check your email to verify your account.");
 			} else {
+				const formData = EmailLoginSchema.parse(data);
 				await logInWithEmail(formData);
 				router.push("/dashboard");
 			}
@@ -128,6 +137,24 @@ export default function EmailAuthForm({ type, className }: Props) {
 					</div>
 					{errors.password && <FormError message={errors.password.message} />}
 				</div>
+
+				{type === "signUp" && (
+					<div className="grid gap-1">
+						<div className="flex items-center gap-1">
+							<Label htmlFor="username">{t("Auth.username")}</Label>
+							<span className="text-xs text-muted-foreground">
+								({t("Auth.usernameCanBeChanged")})
+							</span>
+						</div>
+						<Input
+							id="username"
+							placeholder="Username"
+							disabled={isSubmitting}
+							{...register("username")}
+						/>
+						{/* TODO: Add error message */}
+					</div>
+				)}
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
 				{type === "signUp" ? t("Auth.signUp") : t("Auth.logIn")}
