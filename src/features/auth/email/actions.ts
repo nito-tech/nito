@@ -1,9 +1,10 @@
 "use server";
 
-import type { EmailAuthInput } from "@/features/auth/email/types/email-auth";
 import { createServerClient } from "@/lib/supabase/server";
 
-export async function logInWithEmail(formData: EmailAuthInput) {
+import type { EmailLoginInput, EmailSignupInput } from "./types/email-auth";
+
+export async function logInWithEmail(formData: EmailLoginInput) {
 	const supabase = await createServerClient();
 	const { error } = await supabase.auth.signInWithPassword({
 		email: formData.email,
@@ -11,20 +12,24 @@ export async function logInWithEmail(formData: EmailAuthInput) {
 	});
 
 	if (error) {
-		throw new Error(`Login error: ${error.message}`);
+		throw new Error(error.message);
 	}
-
-	// return null //redirect(redirectPath);
 }
 
-export async function signUpWithEmail(formData: EmailAuthInput) {
+export async function signUpWithEmail(formData: EmailSignupInput) {
 	const supabase = await createServerClient();
 
-	const { error } = await supabase.auth.signUp(formData);
+	const { error } = await supabase.auth.signUp({
+		email: formData.email,
+		password: formData.password,
+		options: {
+			data: {
+				username: formData.username,
+			},
+		},
+	});
 
 	if (error) {
-		throw new Error("Sign up error");
+		throw new Error(error.message);
 	}
-
-	return null;
 }
