@@ -13,11 +13,10 @@ import { cn } from "@/lib/utils";
 
 import { logInWithEmail, signUpWithEmail } from "../actions";
 import {
-	type EmailLoginInput,
-	EmailLoginSchema,
-	type EmailSignupInput,
-	EmailSignupSchema,
-} from "../types/email-auth";
+	createEmailLoginSchema,
+	createEmailSignupSchema,
+} from "../schemas/auth-schema";
+import type { EmailLoginInput, EmailSignupInput } from "../types/validation";
 import { EmailField } from "./EmailField";
 import { PasswordField } from "./PasswordField";
 import { UsernameField } from "./UsernameField";
@@ -37,7 +36,7 @@ function SignUpForm({ className }: FormProps) {
 		formState: { errors, isSubmitting },
 	} = useForm<EmailSignupInput>({
 		mode: "onChange",
-		resolver: zodResolver(EmailSignupSchema),
+		resolver: zodResolver(createEmailSignupSchema(t)),
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
@@ -45,8 +44,7 @@ function SignUpForm({ className }: FormProps) {
 		setMessage(null);
 
 		try {
-			const formData = EmailSignupSchema.parse(data);
-			await signUpWithEmail(formData);
+			await signUpWithEmail(data);
 			setMessageType("success");
 			setMessage("Check your email to verify your account.");
 		} catch (error) {
@@ -106,7 +104,7 @@ function LogInForm({ className }: FormProps) {
 		formState: { errors, isSubmitting },
 	} = useForm<EmailLoginInput>({
 		mode: "onChange",
-		resolver: zodResolver(EmailLoginSchema),
+		resolver: zodResolver(createEmailLoginSchema(t)),
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailLoginInput> = async (data) => {
@@ -114,8 +112,7 @@ function LogInForm({ className }: FormProps) {
 		setMessage(null);
 
 		try {
-			const formData = EmailLoginSchema.parse(data);
-			await logInWithEmail(formData);
+			await logInWithEmail(data);
 			router.push("/dashboard");
 		} catch (error) {
 			setMessageType("error");
