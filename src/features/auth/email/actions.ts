@@ -1,12 +1,13 @@
 "use server";
 
-import { createServerClient } from "@/lib/supabase/server";
 import { z } from "zod";
+
+import { createServerClient } from "@/lib/supabase/server";
+
 import {
 	createEmailLoginSchema,
 	createEmailSignupSchema,
 } from "./schemas/auth-schema";
-
 import type { EmailLoginInput, EmailSignupInput } from "./schemas/auth-schema";
 
 export async function logInWithEmail(formData: EmailLoginInput) {
@@ -49,7 +50,8 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 
 	const supabase = await createServerClient();
 
-	const { error } = await supabase.auth.signUp({
+	// Sign up with email and password
+	const { data: authData, error: signUpError } = await supabase.auth.signUp({
 		email: formData.email,
 		password: formData.password,
 		options: {
@@ -59,7 +61,7 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 		},
 	});
 
-	if (error) {
-		throw new Error(error.message);
+	if (signUpError) {
+		throw new Error(signUpError.message);
 	}
 }
