@@ -88,13 +88,14 @@ const createCustomErrorMap =
 // ------------------------------------
 export const PASSWORD_MIN_LENGTH = 10;
 export const PASSWORD_MAX_LENGTH = 128;
+export const USERNAME_MAX_LENGTH = 50;
 
 const emailSchema = z.string().min(1).email();
 const passwordSchema = z
 	.string()
 	.min(PASSWORD_MIN_LENGTH)
 	.max(PASSWORD_MAX_LENGTH);
-const usernameSchema = z.string().min(1).max(50);
+const usernameSchema = z.string().min(1).max(USERNAME_MAX_LENGTH);
 
 // ------------------------------------
 // Email Login Schema

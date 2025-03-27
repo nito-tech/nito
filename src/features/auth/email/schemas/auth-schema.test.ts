@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
 	PASSWORD_MAX_LENGTH,
+	USERNAME_MAX_LENGTH,
 	createEmailLoginSchema,
 	createEmailSignupSchema,
 } from "../schemas/auth-schema";
@@ -121,7 +122,7 @@ describe("auth-schema", () => {
 			const input = {
 				email: "test@example.com",
 				password: "password123",
-				username: "a".repeat(51), // too long
+				username: "a".repeat(USERNAME_MAX_LENGTH + 1), // too long
 			};
 			expect(() => schema.parse(input)).toThrow(
 				"Auth.validation.usernameMaxLength",
@@ -144,7 +145,7 @@ describe("auth-schema", () => {
 			const input = {
 				email: "test@example.com",
 				password: "password123",
-				username: "a".repeat(51),
+				username: "a".repeat(USERNAME_MAX_LENGTH + 1),
 			};
 			expect(() => schema.parse(input)).toThrow(
 				"Auth.validation.usernameMaxLength",

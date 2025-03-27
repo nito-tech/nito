@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { logInWithEmail, signUpWithEmail } from "./actions";
 import {
 	PASSWORD_MAX_LENGTH,
-	PASSWORD_MIN_LENGTH,
+	USERNAME_MAX_LENGTH,
 } from "./schemas/auth-schema";
 
 // Mock Supabase client
@@ -183,7 +183,7 @@ describe("auth/email/actions", () => {
 			const invalidInput = {
 				email: "test@example.com",
 				password: "validpassword123",
-				username: "a".repeat(51),
+				username: "a".repeat(USERNAME_MAX_LENGTH + 1),
 			};
 
 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
