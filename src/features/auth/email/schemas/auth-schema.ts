@@ -82,8 +82,10 @@ const createCustomErrorMap =
 // ------------------------------------
 // Auth Field Schema
 // ------------------------------------
+export const PASSWORD_MIN_LENGTH = 10;
+
 const emailSchema = z.string().min(1).email();
-const passwordSchema = z.string().min(1).min(8);
+const passwordSchema = z.string().min(1).min(PASSWORD_MIN_LENGTH);
 const usernameSchema = z.string().min(1).max(50);
 
 // ------------------------------------

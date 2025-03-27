@@ -27,7 +27,7 @@
 			"emailInvalid": "Please enter a valid email address",
 			"emailMinLength": "Please enter your email",
 			"passwordRequired": "Please enter your password",
-			"passwordMinLength": "Password must be at least 8 characters",
+			"passwordMinLength": "Password must be at least 10 characters",
 			"usernameRequired": "Please enter your username",
 			"usernameMinLength": "Please enter your username",
 			"usernameMaxLength": "Username must be less than 50 characters"
