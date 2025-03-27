@@ -6,7 +6,7 @@ BEGIN
   VALUES (
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'username', NEW.email),
-    COALESCE(NEW.raw_user_meta_data->>'username', NEW.email)
+    COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.raw_user_meta_data->>'username', NEW.email)
   );
   RETURN NEW;
 END;

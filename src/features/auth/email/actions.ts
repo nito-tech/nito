@@ -51,12 +51,13 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 	const supabase = await createServerClient();
 
 	// Sign up with email and password
-	const { data: authData, error: signUpError } = await supabase.auth.signUp({
+	const { error: signUpError } = await supabase.auth.signUp({
 		email: formData.email,
 		password: formData.password,
 		options: {
 			data: {
 				username: formData.username,
+				display_name: formData.username, // Set username as display_name by default
 			},
 		},
 	});
