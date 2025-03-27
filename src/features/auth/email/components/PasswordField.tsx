@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-import type { EmailLoginInput, EmailSignupInput } from "../types/email-auth";
+import type { EmailLoginInput, EmailSignupInput } from "../schemas/auth-schema";
 import type { EmailAuthFormType } from "./EmailAuthForm";
 
 type FormInput<T extends EmailAuthFormType> = T extends "signUp"

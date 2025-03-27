@@ -7,7 +7,7 @@ import { FormError } from "@/components/form/FormError";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import type { EmailSignupInput } from "../types/email-auth";
+import type { EmailSignupInput } from "../schemas/auth-schema";
 
 interface Props {
 	disabled: boolean;
