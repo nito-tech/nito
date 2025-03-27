@@ -22,10 +22,6 @@
 		"logInWithGithub": "GitHubでログイン",
 		"username": "ユーザー名",
 		"usernameCanBeChanged": "あとから変更できます",
-		"emailWillBeUsedForLogin": "このメールアドレスはログインに使用されます",
-		"passwordMustBeAtLeast8Characters": "パスワードは8文字以上で入力してください",
-		"enterYourEmail": "メールアドレスを入力してください",
-		"enterYourPassword": "パスワードを入力してください",
 		"validation": {
 			"emailRequired": "メールアドレスを入力してください",
 			"emailInvalid": "有効なメールアドレスを入力してください",

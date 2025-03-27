@@ -22,10 +22,6 @@
 		"logInWithGithub": "Continue with GitHub",
 		"username": "Username",
 		"usernameCanBeChanged": "Can be changed later",
-		"emailWillBeUsedForLogin": "This email will be used for login",
-		"passwordMustBeAtLeast8Characters": "Password must be at least 8 characters",
-		"enterYourEmail": "Enter your email address",
-		"enterYourPassword": "Enter your password",
 		"validation": {
 			"emailRequired": "Please enter your email",
 			"emailInvalid": "Please enter a valid email address",
