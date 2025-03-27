@@ -28,6 +28,7 @@
 			"emailMinLength": "メールアドレスを入力してください",
 			"passwordRequired": "パスワードを入力してください",
 			"passwordMinLength": "パスワードは10文字以上で入力してください",
+			"passwordMaxLength": "パスワードは128文字以下で入力してください",
 			"usernameRequired": "ユーザー名を入力してください",
 			"usernameMinLength": "ユーザー名を入力してください",
 			"usernameMaxLength": "ユーザー名は50文字以内で入力してください"

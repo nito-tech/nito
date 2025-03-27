@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	PASSWORD_MAX_LENGTH,
 	createEmailLoginSchema,
 	createEmailSignupSchema,
 } from "../schemas/auth-schema";
@@ -35,6 +36,17 @@ describe("auth-schema", () => {
 			};
 			expect(() => schema.parse(input)).toThrow(
 				"Auth.validation.passwordMinLength",
+			);
+		});
+
+		it("should reject long password", () => {
+			const schema = createEmailLoginSchema(mockT);
+			const input = {
+				email: "test@example.com",
+				password: "a".repeat(PASSWORD_MAX_LENGTH + 1),
+			};
+			expect(() => schema.parse(input)).toThrow(
+				"Auth.validation.passwordMaxLength",
 			);
 		});
 
@@ -89,6 +101,18 @@ describe("auth-schema", () => {
 			};
 			expect(() => schema.parse(input)).toThrow(
 				"Auth.validation.passwordMinLength",
+			);
+		});
+
+		it("should reject long password", () => {
+			const schema = createEmailSignupSchema(mockT);
+			const input = {
+				email: "test@example.com",
+				password: "a".repeat(PASSWORD_MAX_LENGTH + 1),
+				username: "testuser",
+			};
+			expect(() => schema.parse(input)).toThrow(
+				"Auth.validation.passwordMaxLength",
 			);
 		});
 

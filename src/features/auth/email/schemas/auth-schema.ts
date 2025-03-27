@@ -9,6 +9,7 @@ const schemaErrors = {
 	password: {
 		required: "Auth.validation.passwordRequired",
 		minLength: "Auth.validation.passwordMinLength",
+		maxLength: "Auth.validation.passwordMaxLength",
 	},
 	username: {
 		required: "Auth.validation.usernameRequired",
@@ -24,6 +25,7 @@ type TranslationFunction = (
 		| "Auth.validation.emailMinLength"
 		| "Auth.validation.passwordRequired"
 		| "Auth.validation.passwordMinLength"
+		| "Auth.validation.passwordMaxLength"
 		| "Auth.validation.usernameRequired"
 		| "Auth.validation.usernameMinLength"
 		| "Auth.validation.usernameMaxLength",
@@ -58,6 +60,8 @@ const createCustomErrorMap =
 						return { message: t(schemaErrors.password.required) };
 					case z.ZodIssueCode.too_small:
 						return { message: t(schemaErrors.password.minLength) };
+					case z.ZodIssueCode.too_big:
+						return { message: t(schemaErrors.password.maxLength) };
 					default:
 						return { message: t(schemaErrors.password.required) };
 				}
@@ -83,9 +87,13 @@ const createCustomErrorMap =
 // Auth Field Schema
 // ------------------------------------
 export const PASSWORD_MIN_LENGTH = 10;
+export const PASSWORD_MAX_LENGTH = 128;
 
 const emailSchema = z.string().min(1).email();
-const passwordSchema = z.string().min(1).min(PASSWORD_MIN_LENGTH);
+const passwordSchema = z
+	.string()
+	.min(PASSWORD_MIN_LENGTH)
+	.max(PASSWORD_MAX_LENGTH);
 const usernameSchema = z.string().min(1).max(50);
 
 // ------------------------------------
