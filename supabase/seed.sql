@@ -45,6 +45,5 @@ UPDATE public.profiles
 SET
   display_name = 'Saneatsu Wakana',
   avatar_url = 'https://github.com/shadcn.png',
-  email = 'saneatsu.wakana@gmail.com',
   updated_at = now()
 WHERE id = '00000000-0000-0000-0000-000000000001';

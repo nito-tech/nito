@@ -1,6 +1,6 @@
 -- Create profiles table
-CREATE TABLE public.profiles (
-  id UUID PRIMARY KEY REFERENCES auth.users(id),
+CREATE TABLE IF NOT EXISTS public.profiles (
+	id UUID PRIMARY KEY REFERENCES auth.users(id),
   username VARCHAR(50) UNIQUE,
   display_name VARCHAR(100),
   avatar_url TEXT,
@@ -15,10 +15,6 @@ CREATE TABLE public.profiles (
   CONSTRAINT avatar_url_format CHECK (
     avatar_url IS NULL OR
     avatar_url ~ '^https?://[a-zA-Z0-9][a-zA-Z0-9\-\._\~:/\?#@!$&''()*+,;=]*$'
-  ),
-  CONSTRAINT profiles_email_key UNIQUE (email),
-  CONSTRAINT email_format CHECK (
-    email ~ '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'
   )
 );
 
@@ -60,12 +56,11 @@ EXECUTE PROCEDURE update_modified_column();
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, username, display_name, email)
+  INSERT INTO public.profiles (id, username, display_name)
   VALUES (
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'username', NEW.email),
-    COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.raw_user_meta_data->>'username', NEW.email),
-    NEW.email
+    COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.raw_user_meta_data->>'username', NEW.email)
   );
   RETURN NEW;
 END;
