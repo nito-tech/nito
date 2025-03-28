@@ -24,7 +24,7 @@ const config: StorybookConfig = {
 			...config,
 			server: {
 				...config.server,
-				port: 6008,
+				port: 6006,
 			},
 			resolve: {
 				alias: {
