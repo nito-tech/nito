@@ -30,9 +30,9 @@ export default defineWorkspace([
 		],
 		resolve: {
 			alias: {
-				"@": path.resolve(__dirname, "./src"),
-				components: path.resolve(__dirname, "./src/components"),
-				lib: path.resolve(__dirname, "./src/lib"),
+				"@": path.resolve(dirname, "./src"),
+				components: path.resolve(dirname, "./src/components"),
+				lib: path.resolve(dirname, "./src/lib"),
 			},
 		},
 		test: {
