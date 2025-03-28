@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { NextIntlClientProvider } from "next-intl";
 
 import OauthLogIn from "./OauthLogIn";
 
@@ -10,22 +9,12 @@ const meta = {
 	parameters: {
 		layout: "centered",
 	},
-	decorators: [
-		(Story) => (
-			<NextIntlClientProvider
-				locale="en"
-				messages={{ Auth: { logInWithGithub: "Log in with GitHub" } }}
-			>
-				<Story />
-			</NextIntlClientProvider>
-		),
-	],
 	tags: ["autodocs"],
 } satisfies Meta<typeof OauthLogIn>;
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof OauthLogIn>;
 
 /**
  * Default state of the OAuth login component
@@ -38,7 +27,7 @@ export const Default: Story = {
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
 		await expect(button).toBeEnabled();
-		await expect(button).toHaveTextContent("Log in with GitHub");
+		await expect(button).toHaveTextContent("Continue with GitHub");
 		await expect(button).toHaveClass("w-full");
 		await expect(githubIcon).toBeInTheDocument();
 		await expect(githubIcon).toHaveAttribute("width", "24");
@@ -64,7 +53,7 @@ export const WithFixedWidth: Story = {
 
 		// Test button state and content
 		await expect(button).toBeEnabled();
-		await expect(button).toHaveTextContent("Log in with GitHub");
+		await expect(button).toHaveTextContent("Continue with GitHub");
 		await expect(button).toHaveClass("w-full");
 
 		// Test GitHub icon
@@ -100,7 +89,7 @@ export const Interactive: Story = {
 
 		// Test initial state
 		await expect(button).toBeEnabled();
-		await expect(button).toHaveTextContent("Log in with GitHub");
+		await expect(button).toHaveTextContent("Continue with GitHub");
 		await expect(button).toHaveClass("w-full");
 		await expect(githubIcon).toBeInTheDocument();
 

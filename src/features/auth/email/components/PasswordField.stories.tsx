@@ -21,7 +21,6 @@ const meta = {
 			return <Story args={{ register, ...restArgs }} />;
 		},
 	],
-
 	tags: ["autodocs"],
 } satisfies Meta<typeof PasswordField<"signUp">>;
 
@@ -50,9 +49,6 @@ export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
 		error: "Password must be at least 10 characters",
-	},
-	parameters: {
-		formType: "signUp",
 	},
 };
 
