@@ -31,7 +31,8 @@
 			"passwordMaxLength": "パスワードは128文字以下で入力してください",
 			"usernameRequired": "ユーザー名を入力してください",
 			"usernameMinLength": "ユーザー名を入力してください",
-			"usernameMaxLength": "ユーザー名は50文字以下で入力してください"
+			"usernameMaxLength": "ユーザー名は50文字以下で入力してください",
+			"usernameAlreadyExists": "このユーザー名は既に存在します"
 		}
 	},
 	"UserInfo": {

@@ -27,6 +27,9 @@ export function EmailField<T extends EmailAuthFormType>({
 }: Props<T>) {
 	const t = useTranslations();
 
+	// For security reasons, we don't check if an email already exists
+	// to prevent user enumeration attacks. The actual error will be handled after submission.
+
 	return (
 		<div className="grid gap-1">
 			<Label htmlFor="email">{t("UserInfo.email")}</Label>

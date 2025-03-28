@@ -35,6 +35,8 @@ function SignUpForm({ className }: FormProps) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
+		watch,
+		setError,
 	} = useForm<EmailSignupInput>({
 		mode: "onChange",
 		resolver: zodResolver(createEmailSignupSchema(t)),
@@ -50,7 +52,11 @@ function SignUpForm({ className }: FormProps) {
 			setMessage("Check your email to verify your account.");
 		} catch (error) {
 			setMessageType("error");
-			setMessage("Failed to authenticate. Please try again.");
+			if (error instanceof Error) {
+				setMessage(error.message);
+			} else {
+				setMessage("Failed to authenticate. Please try again.");
+			}
 		}
 	};
 
@@ -85,6 +91,8 @@ function SignUpForm({ className }: FormProps) {
 					disabled={isSubmitting}
 					register={register}
 					error={errors.username?.message}
+					watch={watch}
+					setError={setError}
 				/>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
@@ -104,6 +112,8 @@ function LogInForm({ className }: FormProps) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
+		watch,
+		setError,
 	} = useForm<EmailLoginInput>({
 		mode: "onChange",
 		resolver: zodResolver(createEmailLoginSchema(t)),
@@ -118,7 +128,11 @@ function LogInForm({ className }: FormProps) {
 			router.push("/dashboard");
 		} catch (error) {
 			setMessageType("error");
-			setMessage("Failed to authenticate. Please try again.");
+			if (error instanceof Error) {
+				setMessage(error.message);
+			} else {
+				setMessage("Failed to authenticate. Please try again.");
+			}
 		}
 	};
 
@@ -138,6 +152,8 @@ function LogInForm({ className }: FormProps) {
 					disabled={isSubmitting}
 					register={register}
 					error={errors.email?.message}
+					watch={watch}
+					setError={setError}
 				/>
 
 				<PasswordField<"logIn">

@@ -95,7 +95,7 @@ const passwordSchema = z
 	.string()
 	.min(PASSWORD_MIN_LENGTH)
 	.max(PASSWORD_MAX_LENGTH);
-const usernameSchema = z.string().min(1).max(USERNAME_MAX_LENGTH);
+export const usernameSchema = z.string().min(1).max(USERNAME_MAX_LENGTH);
 
 // ------------------------------------
 // Email Login Schema

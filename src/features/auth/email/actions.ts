@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import { createServerClient } from "@/lib/supabase/server";
@@ -34,6 +35,26 @@ export async function logInWithEmail(formData: EmailLoginInput) {
 	}
 }
 
+/**
+ * Check if the username already exists
+ */
+export async function checkUsernameExists(
+	username: EmailSignupInput["username"],
+) {
+	const t = await getTranslations();
+	const supabase = await createServerClient();
+
+	const { data: existingProfile } = await supabase
+		.from("profiles")
+		.select("id")
+		.eq("username", username)
+		.single();
+
+	if (existingProfile) {
+		throw new Error(t("Auth.validation.usernameAlreadyExists"));
+	}
+}
+
 export async function signUpWithEmail(formData: EmailSignupInput) {
 	const t = (key: string) => key; // No translation required on the server side
 	const schema = createEmailSignupSchema(t);
@@ -54,6 +75,7 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 	const { error: signUpError } = await supabase.auth.signUp({
 		email: formData.email,
 		password: formData.password,
+		// Set email, username and display_name to public.profiles table
 		options: {
 			data: {
 				username: formData.username,

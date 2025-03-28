@@ -31,7 +31,8 @@
 			"passwordMaxLength": "Password must be less than 128 characters",
 			"usernameRequired": "Please enter your username",
 			"usernameMinLength": "Please enter your username",
-			"usernameMaxLength": "Username must be less than 50 characters"
+			"usernameMaxLength": "Username must be less than 50 characters",
+			"usernameAlreadyExists": "Username already exists"
 		}
 	},
 	"UserInfo": {
