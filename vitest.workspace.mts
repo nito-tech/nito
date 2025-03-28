@@ -28,6 +28,13 @@ export default defineWorkspace([
 			// More info at: https://github.com/storybookjs/vite-plugin-storybook-nextjs
 			storybookNextJsPlugin(),
 		],
+		resolve: {
+			alias: {
+				"@": path.resolve(__dirname, "./src"),
+				components: path.resolve(__dirname, "./src/components"),
+				lib: path.resolve(__dirname, "./src/lib"),
+			},
+		},
 		test: {
 			name: "storybook",
 			// environment: "jsdom",
