@@ -34,7 +34,6 @@ export default defineWorkspace([
 			include: ["**/*.stories.?(m)[jt]s?(x)"],
 			setupFiles: ["./.storybook/vitest.setup.ts"],
 			// isolate: true,
-			// Enable browser mode
 			browser: {
 				enabled: true,
 				provider: "playwright",
@@ -61,17 +60,17 @@ export default defineWorkspace([
 			 * 1. First run non-Storybook tests: `npx vitest --project=vitest`
 			 * 2. Then run Storybook tests: `npx vitest --project=storybook`
 			 */
-			coverage: {
-				provider: "v8",
-				exclude: [
-					"**/*.test.*",
-					"**/.storybook/**",
-					// 👇 This pattern must align with the `stories` property of your `.storybook/main.ts` config
-					"**/*.stories.*",
-					// 👇 This pattern must align with the output directory of `storybook build`
-					"**/storybook-static/**",
-				],
-			},
+			// coverage: {
+			// 	provider: "v8",
+			// 	exclude: [
+			// 		"**/*.test.*",
+			// 		"**/.storybook/**",
+			// 		// 👇 This pattern must align with the `stories` property of your `.storybook/main.ts` config
+			// 		"**/*.stories.*",
+			// 		// 👇 This pattern must align with the output directory of `storybook build`
+			// 		"**/storybook-static/**",
+			// 	],
+			// },
 		},
 	}),
 ]);
