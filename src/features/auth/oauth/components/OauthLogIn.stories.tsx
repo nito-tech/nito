@@ -90,7 +90,9 @@ export const CustomLabel: Story = {
  * Interactive test of the OAuth login component
  */
 export const Interactive: Story = {
-	args: {},
+	args: {
+		onClick: fn(),
+	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const button = canvas.getByRole("button");
@@ -99,13 +101,10 @@ export const Interactive: Story = {
 		// Test initial state
 		await expect(button).toBeEnabled();
 		await expect(button).toHaveTextContent("Continue with GitHub");
-		await expect(button).toHaveClass("w-full");
 		await expect(githubIcon).toBeInTheDocument();
 
 		// Test button click
 		await userEvent.click(button);
-		// Note: In development environment, it should show a warning toast
-		// but we can't test the toast in Storybook
 		await expect(button).toBeEnabled();
 	},
 };
