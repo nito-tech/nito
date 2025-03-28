@@ -15,7 +15,12 @@ interface Props {
  */
 export function GitHubLoginButton({ onClick, isSubmitting, label }: Props) {
 	return (
-		<Button onClick={onClick} disabled={isSubmitting} className="w-full">
+		<Button
+			type="button"
+			onClick={onClick}
+			disabled={isSubmitting}
+			className="w-full"
+		>
 			<Image
 				src={githubSvg}
 				alt="GitHub Icon"
