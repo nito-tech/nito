@@ -1,8 +1,8 @@
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 
-import githubSvg from "../../../../components/icon/github.svg";
-import { Button } from "../../../../components/ui/button";
+import githubSvg from "@/components/icon/github.svg";
+import { Button } from "@/components/ui/button";
 
 interface Props {
 	onClick: () => void;
