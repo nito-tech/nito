@@ -56,33 +56,33 @@ export const DisabledWithError: Story = {
 	},
 };
 
-// 基本的な入力と表示/非表示のテスト
+// Basic input and visibility toggle test
 export const InputAndToggleVisibility: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
 		const toggleButton = canvas.getByRole("button", { name: "Show password" });
 
-		// パスワードフィールドに入力できることを確認
+		// Verify that we can input into the password field
 		await userEvent.type(passwordInput, "MySecretPassword123");
 		await expect(passwordInput).toHaveValue("MySecretPassword123");
 
-		// 初期状態では入力が非表示(パスワードタイプ)であることを確認
+		// Verify that input is hidden (password type) in initial state
 		await expect(passwordInput).toHaveAttribute("type", "password");
 
-		// 表示切り替えボタンをクリック
+		// Click the visibility toggle button
 		await userEvent.click(toggleButton);
 
-		// 入力が表示(テキストタイプ)になったことを確認
+		// Verify that input is visible (text type)
 		await expect(passwordInput).toHaveAttribute("type", "text");
 
-		// もう一度クリックで元に戻ることを確認
+		// Verify that clicking again returns to hidden state
 		await userEvent.click(toggleButton);
 		await expect(passwordInput).toHaveAttribute("type", "password");
 	},
 };
 
-// エラーメッセージの表示テスト
+// Error message display test
 export const ErrorMessageDisplay: Story = {
 	args: {
 		error: "Password must be at least 10 characters",
@@ -90,7 +90,7 @@ export const ErrorMessageDisplay: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
-		// エラーメッセージが表示されていることを確認
+		// Verify that error message is displayed
 		const errorMessage = canvas.getByText(
 			"Password must be at least 10 characters",
 		);
@@ -99,7 +99,7 @@ export const ErrorMessageDisplay: Story = {
 	},
 };
 
-// 無効化状態のテスト
+// Disabled state test
 export const DisabledState: Story = {
 	args: {
 		disabled: true,
@@ -107,31 +107,31 @@ export const DisabledState: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
-		// パスワードフィールドを取得
+		// Get the password field
 		const passwordInput = canvas.getByLabelText("Password");
 
-		// 無効化されていることを確認
+		// Verify that it is disabled
 		await expect(passwordInput).toBeDisabled();
 
-		// 入力できないことを確認
+		// Verify that input is not possible
 		await userEvent.type(passwordInput, "test");
 		await expect(passwordInput).toHaveValue("");
 	},
 };
 
-// キーボード操作のテスト
+// Keyboard navigation test
 export const KeyboardNavigation: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
-		// パスワードフィールドにフォーカス
+		// Focus on the password field
 		const passwordInput = canvas.getByLabelText("Password");
 		await userEvent.tab();
 
-		// 最初のTabでパスワードフィールドにフォーカスされることを確認
+		// Verify that password field gets focus on first tab
 		await expect(passwordInput).toHaveFocus();
 
-		// 次のTabでトグルボタンにフォーカスされないことを確認（tabIndex=-1のため）
+		// Verify that toggle button does not get focus on next tab (due to tabIndex=-1)
 		await userEvent.tab();
 		const toggleButton = canvas.getByRole("button", {
 			name: "Show password",
@@ -140,13 +140,13 @@ export const KeyboardNavigation: Story = {
 	},
 };
 
-// 長いパスワード入力のテスト
+// Long password input test
 export const LongPasswordInput: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
 		const passwordInput = canvas.getByLabelText("Password");
-		// 100文字の長いパスワードを生成するのだ
+		// Generate a 100-character long password
 		const veryLongPassword = "a".repeat(100);
 
 		await userEvent.type(passwordInput, veryLongPassword);
@@ -154,21 +154,21 @@ export const LongPasswordInput: Story = {
 	},
 };
 
-// アイコン切り替えのテスト
+// Icon toggle test
 export const IconToggle: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
-		// トグルボタンを取得
+		// Get the toggle button
 		const toggleButton = canvas.getByRole("button", { name: /show password/i });
 
-		// 初期状態では目のアイコンが表示されていることを確認
+		// Verify that eye icon is displayed in initial state
 		expect(toggleButton.querySelector("svg")).toBeInTheDocument();
 
-		// クリックしてアイコンが切り替わることを確認
+		// Verify that icon changes on click
 		await userEvent.click(toggleButton);
 
-		// 表示されているアイコンが変更されていることを確認
+		// Verify that the displayed icon has changed
 		const updatedToggleButton = canvas.getByRole("button", {
 			name: /hide password/i,
 		});
