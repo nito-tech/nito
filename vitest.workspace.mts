@@ -46,8 +46,25 @@ export default defineWorkspace([
 					},
 				],
 			},
+
+			/**
+			 * WARNING: Vitest Coverage With Storybook Integration Note
+			 *
+			 * Running coverage that includes Storybook tests can cause errors such as:
+			 * "Error: Vitest failed to find the current suite. This is a bug in Vitest."
+			 *
+			 * This occurs when using commands like:
+			 * - `npx vitest --coverage`
+			 * - `npx vitest --project=storybook --coverage`
+			 *
+			 * To resolve this issue, run your tests in the following sequence:
+			 * 1. First run non-Storybook tests: `npx vitest --project=vitest`
+			 * 2. Then run Storybook tests: `npx vitest --project=storybook`
+			 */
 			coverage: {
+				provider: "v8",
 				exclude: [
+					"**/*.test.*",
 					"**/.storybook/**",
 					// 👇 This pattern must align with the `stories` property of your `.storybook/main.ts` config
 					"**/*.stories.*",
