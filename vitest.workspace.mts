@@ -19,10 +19,10 @@ export default defineWorkspace([
 			// See options at: https://storybook.js.org/docs/writing-tests/vitest-plugin#storybooktest
 			storybookTest({
 				// The location of your Storybook config, main.js|ts
-				configDir: path.join(dirname, ".storybook"),
+				// configDir: path.join(dirname, ".storybook"),
 				// This should match your package.json script to run Storybook
 				// The --ci flag will skip prompts and not open a browser
-				storybookScript: "yarn storybook --ci",
+				// storybookScript: "yarn storybook --ci",
 			}),
 
 			// More info at: https://github.com/storybookjs/vite-plugin-storybook-nextjs
