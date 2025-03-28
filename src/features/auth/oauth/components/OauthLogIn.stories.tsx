@@ -1,20 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, fn, userEvent, within } from "@storybook/test";
 
-import OauthLogIn from "./OauthLogIn";
+// GitHubLoginButtonコンポーネントを直接インポートして使用する
+import { GitHubLoginButton } from "./GitHubLoginButton";
 
 const meta = {
 	title: "Features/Auth/OauthLogIn",
-	component: OauthLogIn,
+	component: GitHubLoginButton,
 	parameters: {
 		layout: "centered",
 	},
+	args: {
+		// デフォルトのpropsを設定
+		label: "Continue with GitHub",
+		onClick: fn(),
+		isSubmitting: false,
+	},
 	tags: ["autodocs"],
-} satisfies Meta<typeof OauthLogIn>;
+} satisfies Meta<typeof GitHubLoginButton>;
 
 export default meta;
 
-type Story = StoryObj<typeof OauthLogIn>;
+type Story = StoryObj<typeof GitHubLoginButton>;
 
 /**
  * Default state of the OAuth login component
@@ -36,44 +43,46 @@ export const Default: Story = {
 };
 
 /**
- * OAuth login component with fixed width of 300px
+ * Loading state of the GitHub login button
  */
-export const WithFixedWidth: Story = {
+export const Loading: Story = {
 	args: {
-		className: "w-[300px]",
+		isSubmitting: true,
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const container = canvas.getByRole("button").parentElement;
 		const button = canvas.getByRole("button");
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
-		// Test container width
-		await expect(container).toHaveClass("w-[300px]");
-
-		// Test button state and content
-		await expect(button).toBeEnabled();
-		await expect(button).toHaveTextContent("Continue with GitHub");
+		// Test button state
+		await expect(button).toBeDisabled();
 		await expect(button).toHaveClass("w-full");
 
 		// Test GitHub icon
 		await expect(githubIcon).toBeInTheDocument();
 		await expect(githubIcon).toHaveClass("invert", "dark:invert-0");
+
+		// Test loader
+		const loader = canvas.getByLabelText("Loading icon");
+		await expect(loader).toBeInTheDocument();
+		await expect(loader).toHaveClass("animate-spin");
 	},
 };
 
 /**
- * OAuth login component with custom width and centered layout
+ * Custom label for the GitHub login button
  */
-export const CenteredWithCustomWidth: Story = {
+export const CustomLabel: Story = {
 	args: {
-		className: "max-w-md mx-auto",
+		label: "Sign in with GitHub",
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const container = canvas.getByRole("button").parentElement;
-		await expect(container).toHaveClass("max-w-md", "mx-auto");
-		await expect(canvas.getByRole("button")).toHaveClass("w-full");
+		const button = canvas.getByRole("button");
+
+		await expect(button).toBeEnabled();
+		await expect(button).toHaveTextContent("Sign in with GitHub");
+		await expect(button).toHaveClass("w-full");
 	},
 };
 
