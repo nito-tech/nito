@@ -8,8 +8,15 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   -- Add constraints
-  CONSTRAINT username_length CHECK (char_length(username) >= 1),
-  CONSTRAINT username_no_newlines CHECK (username !~ '[\n\r]'),
+  CONSTRAINT username_length CHECK (char_length(username) >= 1 AND char_length(username) <= 50),
+
+  -- Allow lowercase letters, numbers, and underscores only
+  CONSTRAINT username_format CHECK (
+    username ~ '^[a-z0-9_][a-z0-9_]*$'
+  ),
+  CONSTRAINT username_no_reserved CHECK (
+    username !~ '^(admin|root|system|user|test|guest|anonymous|null|undefined|true|false)$'
+  ),
   CONSTRAINT display_name_length CHECK (char_length(display_name) >= 1),
   CONSTRAINT display_name_no_newlines CHECK (display_name !~ '[\n\r]'),
   CONSTRAINT avatar_url_format CHECK (
@@ -19,6 +26,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 -- Add comments
+COMMENT ON COLUMN public.profiles.username IS 'Username (1-50 characters, lowercase letters, numbers, and underscores only)';
 COMMENT ON COLUMN public.profiles.display_name IS 'User''s display name (e.g. Saneatsu Wakana)';
 COMMENT ON COLUMN public.profiles.avatar_url IS 'URL to user''s avatar image';
 

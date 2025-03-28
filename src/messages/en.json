@@ -32,6 +32,8 @@
 			"usernameRequired": "Please enter your username",
 			"usernameMinLength": "Please enter your username",
 			"usernameMaxLength": "Username must be less than 50 characters",
+			"usernameInvalidChars": "Username can only contain lowercase letters, numbers, and underscores",
+			"usernameReserved": "This username is not available",
 			"usernameAlreadyExists": "Username already exists"
 		}
 	},

@@ -15,6 +15,11 @@ const schemaErrors = {
 		required: "Auth.validation.usernameRequired",
 		minLength: "Auth.validation.usernameMinLength",
 		maxLength: "Auth.validation.usernameMaxLength",
+		invalidChars: "Auth.validation.usernameInvalidChars",
+		startWithNumber: "Auth.validation.usernameStartWithNumber",
+		startWithUnderscore: "Auth.validation.usernameStartWithUnderscore",
+		endWithUnderscore: "Auth.validation.usernameEndWithUnderscore",
+		reserved: "Auth.validation.usernameReserved",
 	},
 } as const;
 
@@ -28,7 +33,12 @@ type TranslationFunction = (
 		| "Auth.validation.passwordMaxLength"
 		| "Auth.validation.usernameRequired"
 		| "Auth.validation.usernameMinLength"
-		| "Auth.validation.usernameMaxLength",
+		| "Auth.validation.usernameMaxLength"
+		| "Auth.validation.usernameInvalidChars"
+		| "Auth.validation.usernameStartWithNumber"
+		| "Auth.validation.usernameStartWithUnderscore"
+		| "Auth.validation.usernameEndWithUnderscore"
+		| "Auth.validation.usernameReserved",
 ) => string;
 
 type SchemaKey = keyof typeof schemaErrors;
@@ -74,6 +84,14 @@ const createCustomErrorMap =
 						return { message: t(schemaErrors.username.minLength) };
 					case z.ZodIssueCode.too_big:
 						return { message: t(schemaErrors.username.maxLength) };
+					case z.ZodIssueCode.custom:
+						return {
+							message: t(
+								schemaErrors.username[
+									issue.params?.code as keyof typeof schemaErrors.username
+								],
+							),
+						};
 					default:
 						return { message: t(schemaErrors.username.required) };
 				}
@@ -95,7 +113,41 @@ const passwordSchema = z
 	.string()
 	.min(PASSWORD_MIN_LENGTH)
 	.max(PASSWORD_MAX_LENGTH);
-export const usernameSchema = z.string().min(1).max(USERNAME_MAX_LENGTH);
+export const usernameSchema = z
+	.string()
+	.min(1)
+	.max(USERNAME_MAX_LENGTH)
+	.transform((val) => val.toLowerCase())
+	.superRefine((val, ctx) => {
+		if (val.length === 0) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Auth.validation.usernameRequired",
+				params: { code: "required" },
+			});
+			return;
+		}
+		if (!/^[a-z0-9_][a-z0-9_]*$/.test(val)) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Auth.validation.usernameInvalidChars",
+				params: { code: "invalidChars" },
+			});
+			return;
+		}
+		if (
+			/^(admin|root|system|user|test|guest|anonymous|null|undefined|true|false)$/.test(
+				val,
+			)
+		) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: "Auth.validation.usernameReserved",
+				params: { code: "reserved" },
+			});
+			return;
+		}
+	});
 
 // ------------------------------------
 // Email Login Schema

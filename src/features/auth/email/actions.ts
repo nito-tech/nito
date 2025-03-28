@@ -71,8 +71,7 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 
 	const supabase = await createServerClient();
 
-	// Sign up with email and password
-	const { error: signUpError } = await supabase.auth.signUp({
+	const { error } = await supabase.auth.signUp({
 		email: formData.email,
 		password: formData.password,
 		// Set email, username and display_name to public.profiles table
@@ -84,7 +83,7 @@ export async function signUpWithEmail(formData: EmailSignupInput) {
 		},
 	});
 
-	if (signUpError) {
-		throw new Error(signUpError.message);
+	if (error) {
+		throw new Error(error.message);
 	}
 }
