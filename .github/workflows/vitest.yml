@@ -1,11 +1,10 @@
-name: 🧪 Unit/Integration Test
+# Running the Vitest and Storybook tests together with `npx vitest run` may fail, so I separate them.
 
-# NOTE
-# The ability to run Storybook with the Vitest plugin is still experimental and unstable,
-# and tests pass in the local environment but fail in CI, so comment it out until it is stable.
-on: {}
-#   pull_request:
-#     types: [opened, reopened, synchronize]
+name: ⚡️ Vitest
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   test:
@@ -32,8 +31,8 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install chromium
 
-      - name: Run Vitest and Storybook tests
-        run: pnpm test -- --coverage.enabled true
+      - name: Run Vitest tests
+        run: pnpm test -- --coverage.enabled true --project=vitest
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2
