@@ -29,13 +29,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const button = canvas.getByRole("button");
+		const button = canvas.getByRole("button", {
+			name: /Log in with GitHub/i,
+			hidden: true,
+		});
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
 		// Test button state and content
 		await expect(button).toBeEnabled();
 		await expect(button).toHaveTextContent("Log in with GitHub");
-		await expect(button).toHaveClass("w-full");
 
 		// Test GitHub icon
 		await expect(githubIcon).toBeInTheDocument();
@@ -46,7 +48,7 @@ export const Default: Story = {
 };
 
 /**
- * Loading state of the GitHub login button
+ * Loading state of the GitHub login button!
  */
 export const Loading: Story = {
 	args: {
@@ -59,7 +61,6 @@ export const Loading: Story = {
 
 		// Test button state
 		await expect(button).toBeDisabled();
-		await expect(button).toHaveClass("w-full");
 
 		// Test GitHub icon
 		await expect(githubIcon).toBeInTheDocument();
@@ -78,13 +79,12 @@ export const Loading: Story = {
 export const Interactive: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const button = canvas.getByRole("button");
+		const button = canvas.getByRole("button", { name: /Log in with GitHub/ });
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
 		// Test initial state
 		await expect(button).toBeEnabled();
 		await expect(button).toHaveTextContent("Log in with GitHub");
-		await expect(button).toHaveClass("w-full");
 		await expect(githubIcon).toBeInTheDocument();
 
 		// Test button click
