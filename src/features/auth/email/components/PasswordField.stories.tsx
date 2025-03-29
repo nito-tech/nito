@@ -71,6 +71,11 @@ export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
 	},
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	tags: ["code-only"],
 	play: async ({ context }) => {
 		context.parameters.methods.setError("password", {
@@ -83,6 +88,11 @@ export const DisabledWithError: Story = {
 export const DisabledState: Story = {
 	args: {
 		disabled: true,
+	},
+	parameters: {
+		docs: {
+			disable: true,
+		},
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -99,6 +109,11 @@ export const DisabledState: Story = {
 
 // Basic input and visibility toggle test
 export const InputAndToggleVisibility: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -125,6 +140,11 @@ export const InputAndToggleVisibility: Story = {
 
 // Keyboard navigation test
 export const KeyboardNavigation: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
@@ -146,6 +166,11 @@ export const KeyboardNavigation: Story = {
 
 // Icon toggle test
 export const IconToggle: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
@@ -167,6 +192,11 @@ export const IconToggle: Story = {
 };
 
 export const EmptyPassword: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -183,6 +213,11 @@ export const EmptyPassword: Story = {
 };
 
 export const TooShortPassword: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -198,6 +233,11 @@ export const TooShortPassword: Story = {
 };
 
 export const TooLongPassword: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -213,6 +253,11 @@ export const TooLongPassword: Story = {
 };
 
 export const ValidPassword: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
