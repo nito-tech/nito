@@ -10,6 +10,7 @@ const config: StorybookConfig = {
 		"@chromatic-com/storybook",
 		"@storybook/experimental-addon-test",
 		"storybook-addon-themes",
+		"storybook-addon-tag-badges",
 	],
 	framework: {
 		name: "@storybook/experimental-nextjs-vite",

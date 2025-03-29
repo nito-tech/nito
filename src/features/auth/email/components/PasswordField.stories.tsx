@@ -46,9 +46,12 @@ const meta = {
 
 export default meta;
 
-export const Default: Story = {};
+export const Default: Story = {
+	tags: ["code-only"],
+};
 
 export const WithError: Story = {
+	tags: ["code-only"],
 	play: async ({ context }) => {
 		context.parameters.methods.setError("password", {
 			type: "manual",
@@ -61,12 +64,14 @@ export const Disabled: Story = {
 	args: {
 		disabled: true,
 	},
+	tags: ["code-only"],
 };
 
 export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
 	},
+	tags: ["code-only"],
 	play: async ({ context }) => {
 		context.parameters.methods.setError("password", {
 			type: "manual",
