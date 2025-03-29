@@ -4,6 +4,7 @@ import React from "react";
 
 import messages from "../src/messages/en.json";
 import "../src/app/globals.css";
+import "./mockNextImage";
 
 const withNextIntl: Decorator = (Story) => {
 	return (
