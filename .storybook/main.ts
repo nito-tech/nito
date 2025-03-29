@@ -11,6 +11,7 @@ const config: StorybookConfig = {
 		"@storybook/experimental-addon-test",
 		"storybook-addon-themes",
 		"storybook-addon-tag-badges",
+		"@storybook/manager-api",
 	],
 	framework: {
 		name: "@storybook/experimental-nextjs-vite",
