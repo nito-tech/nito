@@ -15,6 +15,7 @@ import { logInWithEmail, signUpWithEmail } from "../actions";
 import {
 	type EmailLoginInput,
 	type EmailSignupInput,
+	type TranslationFunction,
 	createEmailLoginSchema,
 	createEmailSignupSchema,
 } from "../schemas/auth-schema";
@@ -27,7 +28,7 @@ interface FormProps {
 }
 
 function SignUpForm({ className }: FormProps) {
-	const t = useTranslations();
+	const t = useTranslations("Auth");
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
@@ -39,7 +40,7 @@ function SignUpForm({ className }: FormProps) {
 		setError,
 	} = useForm<EmailSignupInput>({
 		mode: "onChange",
-		resolver: zodResolver(createEmailSignupSchema(t)),
+		resolver: zodResolver(createEmailSignupSchema(t as TranslationFunction)),
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
@@ -96,14 +97,14 @@ function SignUpForm({ className }: FormProps) {
 				/>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				{t("Auth.signUp")}
+				{t("signUp")}
 			</Button>
 		</form>
 	);
 }
 
 function LogInForm({ className }: FormProps) {
-	const t = useTranslations();
+	const t = useTranslations("Auth");
 	const router = useRouter();
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
@@ -116,7 +117,7 @@ function LogInForm({ className }: FormProps) {
 		setError,
 	} = useForm<EmailLoginInput>({
 		mode: "onChange",
-		resolver: zodResolver(createEmailLoginSchema(t)),
+		resolver: zodResolver(createEmailLoginSchema(t as TranslationFunction)),
 	});
 
 	const onSubmitHandler: SubmitHandler<EmailLoginInput> = async (data) => {
@@ -152,8 +153,6 @@ function LogInForm({ className }: FormProps) {
 					disabled={isSubmitting}
 					register={register}
 					error={errors.email?.message}
-					watch={watch}
-					setError={setError}
 				/>
 
 				<PasswordField<"logIn">
@@ -163,7 +162,7 @@ function LogInForm({ className }: FormProps) {
 				/>
 			</div>
 			<Button type="submit" className="mt-1" disabled={isSubmitting}>
-				{t("Auth.logIn")}
+				{t("logIn")}
 			</Button>
 		</form>
 	);

@@ -1,3 +1,4 @@
+import type { MessageKeys } from "next-intl";
 import { z } from "zod";
 
 const schemaErrors = {
@@ -23,23 +24,7 @@ const schemaErrors = {
 	},
 } as const;
 
-type TranslationFunction = (
-	key:
-		| "Auth.validation.emailRequired"
-		| "Auth.validation.emailInvalid"
-		| "Auth.validation.emailMinLength"
-		| "Auth.validation.passwordRequired"
-		| "Auth.validation.passwordMinLength"
-		| "Auth.validation.passwordMaxLength"
-		| "Auth.validation.usernameRequired"
-		| "Auth.validation.usernameMinLength"
-		| "Auth.validation.usernameMaxLength"
-		| "Auth.validation.usernameInvalidChars"
-		| "Auth.validation.usernameStartWithNumber"
-		| "Auth.validation.usernameStartWithUnderscore"
-		| "Auth.validation.usernameEndWithUnderscore"
-		| "Auth.validation.usernameReserved",
-) => string;
+export type TranslationFunction = (key: MessageKeys<"Auth", string>) => string;
 
 type SchemaKey = keyof typeof schemaErrors;
 
