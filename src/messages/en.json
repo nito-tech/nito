@@ -19,7 +19,23 @@
 		"logOut": "Log out",
 		"dontHaveAccount": "Don't have an account?",
 		"alreadyHaveAccount": "Already have an account?",
-		"logInWithGithub": "Continue with GitHub"
+		"logInWithGithub": "Continue with GitHub",
+		"username": "Username",
+		"usernameCanBeChanged": "Can be changed later",
+		"validation": {
+			"emailRequired": "Please enter your email",
+			"emailInvalid": "Please enter a valid email address",
+			"emailMinLength": "Please enter your email",
+			"passwordRequired": "Please enter your password",
+			"passwordMinLength": "Password must be at least 10 characters",
+			"passwordMaxLength": "Password must be less than 128 characters",
+			"usernameRequired": "Please enter your username",
+			"usernameMinLength": "Please enter your username",
+			"usernameMaxLength": "Username must be less than 50 characters",
+			"usernameInvalidChars": "Username can only contain lowercase letters, numbers, and underscores",
+			"usernameReserved": "This username is not available",
+			"usernameAlreadyExists": "Username already exists"
+		}
 	},
 	"UserInfo": {
 		"email": "Email",

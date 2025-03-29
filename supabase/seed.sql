@@ -16,7 +16,8 @@ INSERT INTO auth.users (
   email_change,
   email_change_sent_at,
   created_at,
-  updated_at
+  updated_at,
+  raw_user_meta_data
 ) VALUES
 (
   '00000000-0000-0000-0000-000000000000',
@@ -24,7 +25,7 @@ INSERT INTO auth.users (
   'authenticated',
   'authenticated',
   'saneatsu.wakana@gmail.com',
-  crypt('testtest', gen_salt('bf')),
+  crypt('Password123!', gen_salt('bf')),
   '2025-03-22 22:22:23.105643+00',
   null,
   '',
@@ -35,22 +36,14 @@ INSERT INTO auth.users (
   '',
   null,
   '2025-03-22 22:22:23.093826+00',
-  '2025-03-22 22:22:58.384429+00'
+  '2025-03-22 22:22:58.384429+00',
+  '{"username": "saneatsu", "display_name": "Saneatsu Wakana"}'
 );
 
--- Create test profiles
-INSERT INTO public.profiles (
-  id,
-  username,
-  display_name,
-  avatar_url,
-  created_at,
-  updated_at
-) VALUES (
-  '00000000-0000-0000-0000-000000000001',
-  'saneatsu',
-  'Saneatsu Wakana',
-  'https://github.com/shadcn.png',
-  now(),
-  now()
-);
+-- Update the profile created by the trigger
+UPDATE public.profiles
+SET
+  display_name = 'Saneatsu Wakana',
+  avatar_url = 'https://github.com/shadcn.png',
+  updated_at = now()
+WHERE id = '00000000-0000-0000-0000-000000000001';

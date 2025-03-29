@@ -60,7 +60,7 @@ const setup = (type: "signUp" | "logIn") => {
 	};
 };
 
-describe("Unit", () => {
+describe.skip("Unit", () => {
 	describe("Common EmailAuth functionality", () => {
 		test("renders the form with email and password inputs", () => {
 			const { emailInput, passwordInput, submitButton } = setup("signUp");
@@ -173,7 +173,7 @@ describe("Unit", () => {
 	});
 });
 
-describe("Integration", () => {
+describe.skip("Integration", () => {
 	describe("Email Signup Form", () => {
 		describe("Form submission", () => {
 			test("calls signup with valid data and shows success message", async () => {

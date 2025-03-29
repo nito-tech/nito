@@ -15,16 +15,32 @@
 	},
 	"Auth": {
 		"logIn": "ログイン",
-		"signUp": "サインアップ",
+		"signUp": "新規登録",
 		"logOut": "ログアウト",
-		"dontHaveAccount": "アカウントを持っていないですか？",
-		"alreadyHaveAccount": "すでにアカウントを持っていますか？",
-		"logInWithGithub": "GitHubでログイン"
+		"dontHaveAccount": "アカウントをお持ちでない方",
+		"alreadyHaveAccount": "すでにアカウントをお持ちの方",
+		"logInWithGithub": "GitHubで続ける",
+		"username": "ユーザー名",
+		"usernameCanBeChanged": "あとから変更できます",
+		"validation": {
+			"emailRequired": "メールアドレスを入力してください",
+			"emailInvalid": "有効なメールアドレスを入力してください",
+			"emailMinLength": "メールアドレスを入力してください",
+			"passwordRequired": "パスワードを入力してください",
+			"passwordMinLength": "パスワードは10文字以上で入力してください",
+			"passwordMaxLength": "パスワードは128文字以下で入力してください",
+			"usernameRequired": "ユーザー名を入力してください",
+			"usernameMinLength": "ユーザー名を入力してください",
+			"usernameMaxLength": "ユーザー名は50文字以下で入力してください",
+			"usernameInvalidChars": "ユーザー名は小文字の英字、数字、アンダースコアのみ使用できます",
+			"usernameReserved": "このユーザー名は使用できません",
+			"usernameAlreadyExists": "このユーザー名は既に存在します"
+		}
 	},
 	"UserInfo": {
 		"email": "メールアドレス",
 		"password": "パスワード"
 	},
-	"commingSoon": "準備中...",
-	"connectToRepository": "リポジトリに接続"
+	"commingSoon": "近日公開...",
+	"connectToRepository": "リポジトリを接続"
 }

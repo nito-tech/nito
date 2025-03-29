@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { StorybookConfig } from "@storybook/experimental-nextjs-vite";
 
 const config: StorybookConfig = {
@@ -23,7 +24,23 @@ const config: StorybookConfig = {
 			...config,
 			server: {
 				...config.server,
-				port: 6008,
+				port: 6006,
+			},
+			resolve: {
+				alias: {
+					"@": path.resolve(__dirname, "../src"),
+					components: path.resolve(__dirname, "../src/components"),
+					lib: path.resolve(__dirname, "../src/lib"),
+				},
+			},
+			optimizeDeps: {
+				include: [
+					"react-hook-form",
+					"@hookform/resolvers/zod",
+					"next-intl",
+					"lucide-react",
+					"next/image",
+				],
 			},
 		};
 	},
