@@ -11,7 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-import type { EmailLoginInput, EmailSignupInput } from "../schemas/auth-schema";
+import {
+	type EmailLoginInput,
+	type EmailSignupInput,
+	PASSWORD_MAX_LENGTH,
+} from "../schemas/auth-schema";
 import type { EmailAuthFormType } from "./EmailAuthForm";
 
 type FormInput<T extends EmailAuthFormType> = T extends "signUp"
@@ -28,8 +32,10 @@ export function PasswordField<T extends EmailAuthFormType>({
 	const t = useTranslations("UserInfo");
 	const {
 		register,
+		watch,
 		formState: { errors },
 	} = useFormContext<FormInput<T>>();
+	const password = watch("password" as Path<FormInput<T>>) || "";
 	const error = errors.password?.message?.toString();
 
 	const [showPassword, setShowPassword] = useState(false);
@@ -70,7 +76,14 @@ export function PasswordField<T extends EmailAuthFormType>({
 					{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Button>
 			</div>
-			{error && <FormError message={error} />}
+			<div className="flex items-start justify-between">
+				<div className="flex-1 min-w-0">
+					{error && <FormError message={error} />}
+				</div>
+				<span className="text-xs text-muted-foreground shrink-0">
+					{password.length} / {PASSWORD_MAX_LENGTH}
+				</span>
+			</div>
 		</div>
 	);
 }

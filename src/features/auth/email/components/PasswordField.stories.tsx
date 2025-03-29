@@ -125,7 +125,22 @@ export const CannotInputWhenDisabled: Story = {
 	},
 };
 
-// Basic input and visibility toggle test
+export const CharacterCounter: Story = {
+	parameters: {
+		docs: {
+			disable: true,
+		},
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "a".repeat(10));
+
+		expect(canvas.getByText("10 / 128")).toBeInTheDocument();
+	},
+};
+
 export const InputAndToggleVisibility: Story = {
 	parameters: {
 		docs: {
