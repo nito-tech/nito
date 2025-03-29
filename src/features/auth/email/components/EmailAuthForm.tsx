@@ -113,8 +113,6 @@ function LogInForm({ className }: FormProps) {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-		watch,
-		setError,
 	} = useForm<EmailLoginInput>({
 		mode: "onChange",
 		resolver: zodResolver(createEmailLoginSchema(t as TranslationFunction)),
