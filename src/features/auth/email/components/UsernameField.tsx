@@ -3,7 +3,7 @@
 import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import type { Path, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 import { FormError } from "@/components/form/FormError";
@@ -12,24 +12,25 @@ import { Label } from "@/components/ui/label";
 
 import { checkUsernameExists } from "../actions";
 import { usernameSchema } from "../schemas/auth-schema";
-import type { EmailSignupInput } from "../schemas/auth-schema";
+import type {
+	EmailSignupInput,
+	TranslationFunction,
+} from "../schemas/auth-schema";
 
 interface Props {
 	disabled: boolean;
-	register: UseFormRegister<EmailSignupInput>;
-	error?: string;
-	watch: UseFormWatch<EmailSignupInput>;
-	setError: (name: Path<EmailSignupInput>, error: { message: string }) => void;
 }
 
-export function UsernameField({
-	disabled,
-	register,
-	error,
-	watch,
-	setError,
-}: Props) {
-	const t = useTranslations();
+export function UsernameField({ disabled }: Props) {
+	const t = useTranslations("Auth");
+	const {
+		register,
+		watch,
+		setError,
+		formState: { errors },
+	} = useFormContext<EmailSignupInput>();
+	const error = errors.username?.message?.toString();
+
 	const username = watch("username");
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +39,7 @@ export function UsernameField({
 			if (!username) return;
 
 			try {
-				usernameSchema.parse(username);
+				usernameSchema(t as TranslationFunction).parse(username);
 				setIsLoading(true);
 
 				await checkUsernameExists(username);
@@ -60,14 +61,14 @@ export function UsernameField({
 		const timeoutId = setTimeout(checkUsername, 500);
 
 		return () => clearTimeout(timeoutId);
-	}, [username, setError]);
+	}, [username, t, setError]);
 
 	return (
 		<div className="grid gap-1">
 			<div className="flex items-center gap-1">
-				<Label htmlFor="username">{t("Auth.username")}</Label>
+				<Label htmlFor="username">{t("username")}</Label>
 				<span className="text-xs text-muted-foreground">
-					({t("Auth.usernameCanBeChanged")})
+					({t("usernameCanBeChanged")})
 				</span>
 			</div>
 			<Input

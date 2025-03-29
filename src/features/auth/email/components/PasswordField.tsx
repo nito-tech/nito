@@ -3,7 +3,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import type { Path, UseFormRegister } from "react-hook-form";
+import { type Path, useFormContext } from "react-hook-form";
 
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -20,21 +20,23 @@ type FormInput<T extends EmailAuthFormType> = T extends "signUp"
 
 interface Props<T extends EmailAuthFormType> {
 	disabled: boolean;
-	register: UseFormRegister<FormInput<T>>;
-	error?: string;
 }
 
 export function PasswordField<T extends EmailAuthFormType>({
 	disabled,
-	register,
-	error,
 }: Props<T>) {
-	const t = useTranslations();
+	const t = useTranslations("UserInfo");
+	const {
+		register,
+		formState: { errors },
+	} = useFormContext<FormInput<T>>();
+	const error = errors.password?.message?.toString();
+
 	const [showPassword, setShowPassword] = useState(false);
 
 	return (
 		<div className="grid gap-1">
-			<Label htmlFor="password">{t("UserInfo.password")}</Label>
+			<Label htmlFor="password">{t("password")}</Label>
 			<div
 				className={cn(
 					"flex group rounded-md",
