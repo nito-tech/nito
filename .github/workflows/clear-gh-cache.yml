@@ -1,0 +1,90 @@
+# GitHub Actions cache has a limit of 10GB.
+# When the cache reaches this limit, older caches are automatically deleted,
+# which can lead to decreased performance.
+# Therefore, we delete all caches except the latest 10 ones every week.
+
+name: 🧹 Clean GitHub Actions Cache periodically
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual execution
+
+jobs:
+  clean-cache:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Delete old caches
+        run: |
+          # Install GitHub CLI
+          if ! command -v gh &> /dev/null; then
+            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+            sudo apt update
+            sudo apt install gh
+          fi
+
+          # Initialize counters
+          TOTAL_KEPT=0
+          TOTAL_DELETED=0
+
+          # Get all caches
+          CACHES=$(gh api /repos/${{ github.repository }}/actions/caches --paginate | jq -r '.actions_caches[] | [.id, .key, .created_at, .size_in_bytes] | @tsv')
+
+          # Display the total number of caches
+          TOTAL_CACHES=$(echo "$CACHES" | wc -l)
+          echo "Initial cache count: $TOTAL_CACHES"
+
+          # Sort caches by created_at (oldest first)
+          SORTED_CACHES=$(echo "$CACHES" | sort -k3)
+
+          # Group caches by prefix
+          CACHE_PREFIXES=$(echo "$SORTED_CACHES" | awk '{print $2}' | awk -F"-" '{print $1}' | sort | uniq)
+
+          # Identify caches to delete
+          DELETE_IDS=""
+          for prefix in $CACHE_PREFIXES; do
+            # Get caches matching this prefix
+            MATCHING_CACHES=$(echo "$SORTED_CACHES" | grep "^[^[:space:]]*[[:space:]]$prefix" | sort -k3)
+            COUNT=$(echo "$MATCHING_CACHES" | wc -l)
+
+            if [ "$COUNT" -gt 10 ]; then
+              # Keep the latest 10, delete the rest
+              KEEP_COUNT=10
+              TO_DELETE=$(echo "$MATCHING_CACHES" | head -n $(($COUNT - $KEEP_COUNT)))
+              DELETE_COUNT=$(echo "$TO_DELETE" | wc -l)
+              DELETE_IDS="$DELETE_IDS $(echo "$TO_DELETE" | awk '{print $1}')"
+
+              TOTAL_KEPT=$(($TOTAL_KEPT + $KEEP_COUNT))
+              TOTAL_DELETED=$(($TOTAL_DELETED + $DELETE_COUNT))
+
+              echo "Found $COUNT caches for prefix $prefix, keeping the latest $KEEP_COUNT, deleting $DELETE_COUNT"
+            else
+              echo "Only $COUNT caches found for prefix $prefix, keeping all (less than or equal to 10)"
+              TOTAL_KEPT=$(($TOTAL_KEPT + $COUNT))
+            fi
+          done
+
+          # Delete the identified caches
+          DELETE_COUNT=0
+          for id in $DELETE_IDS; do
+            echo "Deleting cache ID: $id"
+            gh api -X DELETE /repos/${{ github.repository }}/actions/caches/$id
+            DELETE_COUNT=$(($DELETE_COUNT + 1))
+          done
+
+          # Display the summary
+          echo "====== Cache Cleanup Summary ======"
+          echo "Initial total caches: $TOTAL_CACHES"
+          echo "Caches kept: $TOTAL_KEPT"
+          echo "Caches deleted: $DELETE_COUNT"
+          echo "Final total caches: $(($TOTAL_CACHES - $DELETE_COUNT))"
+          echo "Cache cleanup complete!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
