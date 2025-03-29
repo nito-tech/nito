@@ -80,6 +80,23 @@ export const DisabledWithError: Story = {
 	},
 };
 
+export const DisabledState: Story = {
+	args: {
+		disabled: true,
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		// Verify that input is disabled
+		await expect(passwordInput).toBeDisabled();
+
+		// Verify that we cannot input into the password field
+		await userEvent.type(passwordInput, "MySecretPassword123");
+		await expect(passwordInput).toHaveValue("");
+	},
+};
+
 // Basic input and visibility toggle test
 export const InputAndToggleVisibility: Story = {
 	play: async ({ canvasElement }) => {
@@ -106,42 +123,6 @@ export const InputAndToggleVisibility: Story = {
 	},
 };
 
-// Note: This test may fail in Storybook UI on hot reload
-// but works fine in CI and localhost:6006.
-// This is due to the timing of hot reload and form validation.
-export const ErrorMessageDisplay: Story = {
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const passwordInput = canvas.getByLabelText("Password");
-
-		await userEvent.type(passwordInput, "a");
-
-		const errorMessage = await canvas.findByText(
-			"Password must be at least 10 characters",
-		);
-		await expect(errorMessage).toBeInTheDocument();
-		await expect(errorMessage).toHaveAttribute("role", "alert");
-	},
-};
-
-// Disabled state test
-export const DisabledState: Story = {
-	args: {
-		disabled: true,
-	},
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const passwordInput = canvas.getByLabelText("Password");
-
-		// Verify that input is disabled
-		await expect(passwordInput).toBeDisabled();
-
-		// Verify that we cannot input into the password field
-		await userEvent.type(passwordInput, "MySecretPassword123");
-		await expect(passwordInput).toHaveValue("");
-	},
-};
-
 // Keyboard navigation test
 export const KeyboardNavigation: Story = {
 	play: async ({ canvasElement }) => {
@@ -160,20 +141,6 @@ export const KeyboardNavigation: Story = {
 			name: "Show password",
 		});
 		await expect(toggleButton).not.toHaveFocus();
-	},
-};
-
-// Long password input test
-export const LongPasswordInput: Story = {
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		const passwordInput = canvas.getByLabelText("Password");
-		// Generate a 100-character long password
-		const veryLongPassword = "a".repeat(129);
-
-		await userEvent.type(passwordInput, veryLongPassword);
-		await expect(passwordInput).toHaveValue(veryLongPassword);
 	},
 };
 
@@ -196,5 +163,61 @@ export const IconToggle: Story = {
 			name: /hide password/i,
 		});
 		expect(updatedToggleButton.querySelector("svg")).toBeInTheDocument();
+	},
+};
+
+export const EmptyPasswordValidation: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "test");
+		await userEvent.clear(passwordInput);
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be at least 10 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const TooShortPasswordValidation: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "short");
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be at least 10 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const TooLongPasswordValidation: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "a".repeat(129));
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be less than 128 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+// Valid password validation test
+export const ValidPasswordValidation: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "Password123");
+		await userEvent.tab();
+
+		await expect(canvas.queryByText(/Password must/)).not.toBeInTheDocument();
 	},
 };
