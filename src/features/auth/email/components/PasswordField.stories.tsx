@@ -51,6 +51,17 @@ export const Default: Story = {
 };
 
 export const WithError: Story = {
+	args: {
+		disabled: false,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Displays an error message when the password does not meet the requirements.",
+			},
+		},
+	},
 	tags: ["code-only"],
 	play: async ({ context }) => {
 		context.parameters.methods.setError("password", {
@@ -63,6 +74,13 @@ export const WithError: Story = {
 export const Disabled: Story = {
 	args: {
 		disabled: true,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: "Disables the input field when loading.",
+			},
+		},
 	},
 	tags: ["code-only"],
 };
@@ -85,7 +103,7 @@ export const DisabledWithError: Story = {
 	},
 };
 
-export const DisabledState: Story = {
+export const CannotInputWhenDisabled: Story = {
 	args: {
 		disabled: true,
 	},
