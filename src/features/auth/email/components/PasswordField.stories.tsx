@@ -2,7 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { FormProvider, useForm } from "react-hook-form";
 
-import type { EmailSignupInput } from "../schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import {
+	type EmailSignupInput,
+	type TranslationFunction,
+	createEmailSignupSchema,
+} from "../schemas/auth-schema";
 import { PasswordField } from "./PasswordField";
 
 type Story = StoryObj<typeof PasswordField<"signUp">>;
@@ -19,7 +25,13 @@ const meta = {
 	},
 	decorators: [
 		(Story, context) => {
-			const methods = useForm<EmailSignupInput>();
+			const t = useTranslations();
+			const methods = useForm<EmailSignupInput>({
+				mode: "onChange",
+				resolver: zodResolver(
+					createEmailSignupSchema(t as TranslationFunction),
+				),
+			});
 			const { disabled } = context.args;
 			context.parameters.methods = methods;
 			return (
@@ -89,14 +101,15 @@ export const InputAndToggleVisibility: Story = {
 	},
 };
 
-// Error message display test
+// Note: This test may fail in Storybook UI on hot reload
+// but works fine in CI and localhost:6006.
+// This is due to the timing of hot reload and form validation.
 export const ErrorMessageDisplay: Story = {
-	play: async ({ canvasElement, context }) => {
+	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		context.parameters.methods.setError("password", {
-			type: "manual",
-			message: "Password must be at least 10 characters",
-		});
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "a");
 
 		const errorMessage = await canvas.findByText(
 			"Password must be at least 10 characters",
