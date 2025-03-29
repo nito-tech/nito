@@ -1,4 +1,4 @@
-name: 🔀 Run migrations and reset database on Preview environment
+name: 🧪 Run migrations and reset db on Preview environment
 
 on:
   pull_request:
