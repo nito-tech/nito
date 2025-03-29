@@ -41,8 +41,9 @@ const createCustomErrorMap =
 
 			case "password":
 				switch (issue.code) {
-					case z.ZodIssueCode.invalid_type:
-						return { message: t("Auth.validation.passwordRequired") };
+					// NOTE: Empty string doesn't trigger invalid_type error
+					// case z.ZodIssueCode.invalid_type:
+					// 	return { message: t("Auth.validation.passwordRequired") };
 					case z.ZodIssueCode.too_small:
 						return { message: t("Auth.validation.passwordMinLength") };
 					case z.ZodIssueCode.too_big:

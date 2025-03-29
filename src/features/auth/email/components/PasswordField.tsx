@@ -18,13 +18,13 @@ type FormInput<T extends EmailAuthFormType> = T extends "signUp"
 	? EmailSignupInput
 	: EmailLoginInput;
 
-interface Props<T extends EmailAuthFormType> {
+interface Props {
 	disabled: boolean;
 }
 
 export function PasswordField<T extends EmailAuthFormType>({
 	disabled,
-}: Props<T>) {
+}: Props) {
 	const t = useTranslations("UserInfo");
 	const {
 		register,
