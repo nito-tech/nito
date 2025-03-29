@@ -166,7 +166,8 @@ export const IconToggle: Story = {
 	},
 };
 
-export const EmptyPasswordValidation: Story = {
+export const EmptyPassword: Story = {
+	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -181,7 +182,8 @@ export const EmptyPasswordValidation: Story = {
 	},
 };
 
-export const TooShortPasswordValidation: Story = {
+export const TooShortPassword: Story = {
+	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -195,7 +197,8 @@ export const TooShortPasswordValidation: Story = {
 	},
 };
 
-export const TooLongPasswordValidation: Story = {
+export const TooLongPassword: Story = {
+	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -209,8 +212,8 @@ export const TooLongPasswordValidation: Story = {
 	},
 };
 
-// Valid password validation test
-export const ValidPasswordValidation: Story = {
+export const ValidPassword: Story = {
+	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
