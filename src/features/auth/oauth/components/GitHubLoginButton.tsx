@@ -1,5 +1,4 @@
 import { Loader2 } from "lucide-react";
-import Image from "next/image";
 
 import githubSvg from "@/components/icon/github.svg";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,8 @@ export function GitHubLoginButton({ onClick, isSubmitting, label }: Props) {
 			disabled={isSubmitting}
 			className="w-full"
 		>
-			<Image
+			{/* Imageコンポーネントを通常のimg要素に置き換え */}
+			<img
 				src={githubSvg}
 				alt="GitHub Icon"
 				width={24}
