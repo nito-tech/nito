@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, within } from "@storybook/test";
-import { useForm } from "react-hook-form";
+import { expect, userEvent, within } from "@storybook/test";
+import { FormProvider, useForm } from "react-hook-form";
 
 import type { EmailSignupInput } from "../schemas/auth-schema";
 import { PasswordField } from "./PasswordField";
@@ -14,11 +14,19 @@ const meta = {
 		layout: "centered",
 		formType: "signUp",
 	},
+	args: {
+		disabled: false,
+	},
 	decorators: [
 		(Story, context) => {
-			const { register } = useForm<EmailSignupInput>();
-			const { register: _, ...restArgs } = context.args;
-			return <Story args={{ register, ...restArgs }} />;
+			const methods = useForm<EmailSignupInput>();
+			const { disabled } = context.args;
+			context.parameters.methods = methods;
+			return (
+				<FormProvider {...methods}>
+					<Story args={{ disabled }} />
+				</FormProvider>
+			);
 		},
 	],
 	tags: ["autodocs"],
@@ -26,16 +34,14 @@ const meta = {
 
 export default meta;
 
-export const Default: Story = {
-	args: {
-		disabled: false,
-	},
-};
+export const Default: Story = {};
 
 export const WithError: Story = {
-	args: {
-		disabled: false,
-		error: "Password must be at least 10 characters",
+	play: async ({ context }) => {
+		context.parameters.methods.setError("password", {
+			type: "manual",
+			message: "Password must be at least 10 characters",
+		});
 	},
 };
 
@@ -48,7 +54,12 @@ export const Disabled: Story = {
 export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
-		error: "Password must be at least 10 characters",
+	},
+	play: async ({ context }) => {
+		context.parameters.methods.setError("password", {
+			type: "manual",
+			message: "Password must be at least 10 characters",
+		});
 	},
 };
 
@@ -80,14 +91,14 @@ export const InputAndToggleVisibility: Story = {
 
 // Error message display test
 export const ErrorMessageDisplay: Story = {
-	args: {
-		error: "Password must be at least 10 characters",
-	},
-	play: async ({ canvasElement }) => {
+	play: async ({ canvasElement, context }) => {
 		const canvas = within(canvasElement);
+		context.parameters.methods.setError("password", {
+			type: "manual",
+			message: "Password must be at least 10 characters",
+		});
 
-		// Verify that error message is displayed
-		const errorMessage = canvas.getByText(
+		const errorMessage = await canvas.findByText(
 			"Password must be at least 10 characters",
 		);
 		await expect(errorMessage).toBeInTheDocument();
@@ -102,15 +113,13 @@ export const DisabledState: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-
-		// Get the password field
 		const passwordInput = canvas.getByLabelText("Password");
 
-		// Verify that it is disabled
+		// Verify that input is disabled
 		await expect(passwordInput).toBeDisabled();
 
-		// Verify that input is not possible
-		await userEvent.type(passwordInput, "test");
+		// Verify that we cannot input into the password field
+		await userEvent.type(passwordInput, "MySecretPassword123");
 		await expect(passwordInput).toHaveValue("");
 	},
 };
@@ -143,7 +152,7 @@ export const LongPasswordInput: Story = {
 
 		const passwordInput = canvas.getByLabelText("Password");
 		// Generate a 100-character long password
-		const veryLongPassword = "a".repeat(100);
+		const veryLongPassword = "a".repeat(129);
 
 		await userEvent.type(passwordInput, veryLongPassword);
 		await expect(passwordInput).toHaveValue(veryLongPassword);
