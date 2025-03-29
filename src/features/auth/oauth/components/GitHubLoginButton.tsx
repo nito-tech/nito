@@ -16,6 +16,8 @@ interface Props {
 export function GitHubLoginButton({ onClick, isSubmitting, label }: Props) {
 	return (
 		<Button
+			// Explicitly specify type="button" to prevent CI errors:
+			// "Unable to find an accessible element with the role 'button'"
 			type="button"
 			onClick={onClick}
 			disabled={isSubmitting}

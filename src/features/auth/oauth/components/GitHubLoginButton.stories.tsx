@@ -29,10 +29,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const button = canvas.getByRole("button", {
-			name: /Log in with GitHub/i,
-			hidden: true,
-		});
+		const button = canvas.getByRole("button", { name: /Log in with GitHub/ });
 		const githubIcon = canvas.getByRole("img", { name: "GitHub Icon" });
 
 		// Test button state and content

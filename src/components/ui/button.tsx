@@ -38,6 +38,9 @@ function Button({
 	className,
 	variant,
 	size,
+	// Explicitly specify type="button" to prevent CI errors:
+	// "Unable to find an accessible element with the role 'button'"
+	type = "button",
 	asChild = false,
 	...props
 }: React.ComponentProps<"button"> &
@@ -50,6 +53,7 @@ function Button({
 		<Comp
 			role="button"
 			data-slot="button"
+			type={type}
 			className={cn(
 				buttonVariants({ variant, size, className }),
 				"hover:cursor-pointer",
