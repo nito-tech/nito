@@ -25,7 +25,7 @@ INSERT INTO auth.users (
   'authenticated',
   'authenticated',
   'saneatsu.wakana@gmail.com',
-  crypt('testtest', gen_salt('bf')),
+  crypt('Password123!', gen_salt('bf')),
   '2025-03-22 22:22:23.105643+00',
   null,
   '',

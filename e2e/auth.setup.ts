@@ -10,6 +10,8 @@ const authFile = path.join(__dirname, ".auth/user.json");
  */
 setup("Login with email and password", async ({ page }) => {
 	await page.goto("/login");
+	await page.waitForURL("/login");
+	await page.waitForSelector("form");
 
 	const form = page.locator("form");
 	const emailInput = form.getByPlaceholder("name@example.com");
@@ -18,7 +20,7 @@ setup("Login with email and password", async ({ page }) => {
 
 	// Email and Password is generated as seed data by supabase/seed.sql
 	await emailInput.fill("saneatsu.wakana@gmail.com");
-	await passwordInput.fill("testtest");
+	await passwordInput.fill("Password123!");
 
 	try {
 		await submitButton.click();
