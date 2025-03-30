@@ -10,7 +10,7 @@ import { FormError } from "@/components/form/FormError";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { checkUsernameExists } from "../actions";
+import { useUsername } from "../hooks/useUsername";
 import { usernameSchema } from "../schemas/auth-schema";
 import type {
 	EmailSignupInput,
@@ -32,16 +32,15 @@ export function UsernameField({ disabled }: Props) {
 	const username = watch("username");
 	const error = errors.username?.message?.toString();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const { checkUsernameExists, isLoading } = useUsername();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		const checkUsername = async () => {
+		const validateUsername = async () => {
 			if (!username) return;
 
 			try {
 				usernameSchema(t as TranslationFunction).parse(username);
-				setIsLoading(true);
-
 				await checkUsernameExists(username);
 			} catch (error) {
 				// If the error is a parse error, don't set the error
@@ -52,16 +51,15 @@ export function UsernameField({ disabled }: Props) {
 						message: error.message,
 					});
 				}
-			} finally {
-				setIsLoading(false);
 			}
 		};
 
 		// Debounce the check to avoid too many requests
-		const timeoutId = setTimeout(checkUsername, 500);
+		const timeoutId = setTimeout(validateUsername, 500);
 
 		return () => clearTimeout(timeoutId);
-	}, [username, t, setError]);
+		// We intentionally only depend on username changes to prevent unnecessary re-renders
+	}, [username]);
 
 	return (
 		<div className="grid gap-1">
