@@ -39,7 +39,22 @@
 	},
 	"UserInfo": {
 		"email": "Email",
-		"password": "Password"
+		"password": "Password",
+		"username": "Username",
+		"accountPreferences": "Account preferences",
+		"accountPreferencesDescription": "Manage your account settings and preferences.",
+		"dangerZone": "Danger Zone",
+		"dangerZoneDescription": "Irreversible and destructive actions.",
+		"deleteAccount": "Delete Account",
+		"deleteAccountDescription": "Permanently delete your account and all associated data.",
+		"deleteAccountConfirmation": "Are you absolutely sure?",
+		"deleteAccountConfirmationDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+		"deleteAccountConfirm": "Delete Account"
+	},
+	"Action": {
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"deleting": "Deleting..."
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository"
