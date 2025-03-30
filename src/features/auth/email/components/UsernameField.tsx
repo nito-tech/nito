@@ -29,9 +29,9 @@ export function UsernameField({ disabled }: Props) {
 		setError,
 		formState: { errors },
 	} = useFormContext<EmailSignupInput>();
+	const username = watch("username");
 	const error = errors.username?.message?.toString();
 
-	const username = watch("username");
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {

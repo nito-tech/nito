@@ -63,16 +63,11 @@ const createCustomErrorMap =
 					case z.ZodIssueCode.custom:
 						return {
 							message: t(
-								`Auth.validation.username${
+								`Auth.validation.${
 									issue.params?.code as
-										| "Required"
-										| "MinLength"
-										| "MaxLength"
-										| "InvalidChars"
-										| "StartWithNumber"
-										| "StartWithUnderscore"
-										| "EndWithUnderscore"
-										| "Reserved"
+										| "usernameRequired"
+										| "usernameInvalidChars"
+										| "usernameReserved"
 								}`,
 							),
 						};
@@ -107,8 +102,7 @@ export const usernameSchema = (t: TranslationFunction) =>
 			if (val.length === 0) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: t("Auth.validation.usernameRequired"),
-					params: { code: "Required" },
+					params: { code: "usernameRequired" },
 				});
 				return;
 			}
@@ -116,8 +110,7 @@ export const usernameSchema = (t: TranslationFunction) =>
 			if (!/^[a-z0-9_][a-z0-9_]*$/.test(val)) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: t("Auth.validation.usernameInvalidChars"),
-					params: { code: "InvalidChars" },
+					params: { code: "usernameInvalidChars" },
 				});
 				return;
 			}
@@ -129,8 +122,7 @@ export const usernameSchema = (t: TranslationFunction) =>
 			) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: t("Auth.validation.usernameReserved"),
-					params: { code: "Reserved" },
+					params: { code: "usernameReserved" },
 				});
 				return;
 			}
