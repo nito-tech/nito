@@ -3,7 +3,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import type { Path, UseFormRegister } from "react-hook-form";
+import { type Path, useFormContext } from "react-hook-form";
 
 import { FormError } from "@/components/form/FormError";
 import { Button } from "@/components/ui/button";
@@ -11,30 +11,38 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-import type { EmailLoginInput, EmailSignupInput } from "../schemas/auth-schema";
+import {
+	type EmailLoginInput,
+	type EmailSignupInput,
+	PASSWORD_MAX_LENGTH,
+} from "../schemas/auth-schema";
 import type { EmailAuthFormType } from "./EmailAuthForm";
 
 type FormInput<T extends EmailAuthFormType> = T extends "signUp"
 	? EmailSignupInput
 	: EmailLoginInput;
 
-interface Props<T extends EmailAuthFormType> {
+interface Props {
 	disabled: boolean;
-	register: UseFormRegister<FormInput<T>>;
-	error?: string;
 }
 
 export function PasswordField<T extends EmailAuthFormType>({
 	disabled,
-	register,
-	error,
-}: Props<T>) {
-	const t = useTranslations();
+}: Props) {
+	const t = useTranslations("UserInfo");
+	const {
+		register,
+		watch,
+		formState: { errors },
+	} = useFormContext<FormInput<T>>();
+	const password = watch("password" as Path<FormInput<T>>) || "";
+	const error = errors.password?.message?.toString();
+
 	const [showPassword, setShowPassword] = useState(false);
 
 	return (
 		<div className="grid gap-1">
-			<Label htmlFor="password">{t("UserInfo.password")}</Label>
+			<Label htmlFor="password">{t("password")}</Label>
 			<div
 				className={cn(
 					"flex group rounded-md",
@@ -68,7 +76,14 @@ export function PasswordField<T extends EmailAuthFormType>({
 					{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
 				</Button>
 			</div>
-			{error && <FormError message={error} />}
+			<div className="flex items-start justify-between">
+				<div className="flex-1 min-w-0">
+					{error && <FormError message={error} />}
+				</div>
+				<span className="text-xs text-muted-foreground shrink-0">
+					{password.length} / {PASSWORD_MAX_LENGTH}
+				</span>
+			</div>
 		</div>
 	);
 }

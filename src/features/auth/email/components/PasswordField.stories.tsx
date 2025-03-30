@@ -1,8 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, fn, userEvent, within } from "@storybook/test";
-import { useForm } from "react-hook-form";
+import { expect, userEvent, within } from "@storybook/test";
+import { FormProvider, useForm } from "react-hook-form";
 
-import type { EmailSignupInput } from "../schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import {
+	type EmailSignupInput,
+	type TranslationFunction,
+	createEmailSignupSchema,
+} from "../schemas/auth-schema";
 import { PasswordField } from "./PasswordField";
 
 type Story = StoryObj<typeof PasswordField<"signUp">>;
@@ -14,11 +20,25 @@ const meta = {
 		layout: "centered",
 		formType: "signUp",
 	},
+	args: {
+		disabled: false,
+	},
 	decorators: [
 		(Story, context) => {
-			const { register } = useForm<EmailSignupInput>();
-			const { register: _, ...restArgs } = context.args;
-			return <Story args={{ register, ...restArgs }} />;
+			const t = useTranslations();
+			const methods = useForm<EmailSignupInput>({
+				mode: "onChange",
+				resolver: zodResolver(
+					createEmailSignupSchema(t as TranslationFunction),
+				),
+			});
+			const { disabled } = context.args;
+			context.parameters.methods = methods;
+			return (
+				<FormProvider {...methods}>
+					<Story args={{ disabled }} />
+				</FormProvider>
+			);
 		},
 	],
 	tags: ["autodocs"],
@@ -27,32 +47,84 @@ const meta = {
 export default meta;
 
 export const Default: Story = {
-	args: {
-		disabled: false,
-	},
-};
-
-export const WithError: Story = {
-	args: {
-		disabled: false,
-		error: "Password must be at least 10 characters",
-	},
+	tags: ["code-only"],
 };
 
 export const Disabled: Story = {
 	args: {
 		disabled: true,
 	},
+	parameters: {
+		docs: {
+			description: {
+				story: "Disables the input field when loading.",
+			},
+		},
+	},
+	tags: ["code-only"],
 };
 
+export const WithError: Story = {
+	args: {
+		disabled: false,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Displays an error message when the password does not meet the requirements.",
+			},
+		},
+	},
+	tags: ["code-only"],
+	play: async ({ context }) => {
+		context.parameters.methods.setError("password", {
+			type: "manual",
+			message: "Password must be at least 10 characters",
+		});
+	},
+};
 export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
-		error: "Password must be at least 10 characters",
+	},
+	tags: ["code-only"],
+	play: async ({ context }) => {
+		context.parameters.methods.setError("password", {
+			type: "manual",
+			message: "Password must be at least 10 characters",
+		});
 	},
 };
 
-// Basic input and visibility toggle test
+export const CannotInputWhenDisabled: Story = {
+	args: {
+		disabled: true,
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		// Verify that input is disabled
+		await expect(passwordInput).toBeDisabled();
+
+		// Verify that we cannot input into the password field
+		await userEvent.type(passwordInput, "MySecretPassword123");
+		await expect(passwordInput).toHaveValue("");
+	},
+};
+
+export const CharacterCounter: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "a".repeat(10));
+
+		expect(canvas.getByText("10 / 128")).toBeInTheDocument();
+	},
+};
+
 export const InputAndToggleVisibility: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -78,43 +150,6 @@ export const InputAndToggleVisibility: Story = {
 	},
 };
 
-// Error message display test
-export const ErrorMessageDisplay: Story = {
-	args: {
-		error: "Password must be at least 10 characters",
-	},
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		// Verify that error message is displayed
-		const errorMessage = canvas.getByText(
-			"Password must be at least 10 characters",
-		);
-		await expect(errorMessage).toBeInTheDocument();
-		await expect(errorMessage).toHaveAttribute("role", "alert");
-	},
-};
-
-// Disabled state test
-export const DisabledState: Story = {
-	args: {
-		disabled: true,
-	},
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		// Get the password field
-		const passwordInput = canvas.getByLabelText("Password");
-
-		// Verify that it is disabled
-		await expect(passwordInput).toBeDisabled();
-
-		// Verify that input is not possible
-		await userEvent.type(passwordInput, "test");
-		await expect(passwordInput).toHaveValue("");
-	},
-};
-
 // Keyboard navigation test
 export const KeyboardNavigation: Story = {
 	play: async ({ canvasElement }) => {
@@ -133,20 +168,6 @@ export const KeyboardNavigation: Story = {
 			name: "Show password",
 		});
 		await expect(toggleButton).not.toHaveFocus();
-	},
-};
-
-// Long password input test
-export const LongPasswordInput: Story = {
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		const passwordInput = canvas.getByLabelText("Password");
-		// Generate a 100-character long password
-		const veryLongPassword = "a".repeat(100);
-
-		await userEvent.type(passwordInput, veryLongPassword);
-		await expect(passwordInput).toHaveValue(veryLongPassword);
 	},
 };
 
@@ -169,5 +190,64 @@ export const IconToggle: Story = {
 			name: /hide password/i,
 		});
 		expect(updatedToggleButton.querySelector("svg")).toBeInTheDocument();
+	},
+};
+
+export const Required: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "test");
+		await userEvent.clear(passwordInput);
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be at least 10 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const TooShort: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "short");
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be at least 10 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const TooLong: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "a".repeat(129));
+		await userEvent.tab();
+
+		await expect(
+			await canvas.findByText("Password must be less than 128 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const Valid: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const passwordInput = canvas.getByLabelText("Password");
+
+		await userEvent.type(passwordInput, "Password123");
+		await userEvent.tab();
+
+		await expect(canvas.queryByText(/Password must/)).not.toBeInTheDocument();
 	},
 };

@@ -16,10 +16,20 @@ const withNextIntl: Decorator = (Story) => {
 
 const preview: Preview = {
 	parameters: {
+		nextjs: {
+			// https://storybook.js.org/docs/get-started/nextjs#set-nextjsappdirectory-to-true
+			appDirectory: true,
+		},
 		controls: {
 			matchers: {
 				color: /(background|color)$/i,
 				date: /Date$/i,
+			},
+		},
+		docs: {
+			stories: {
+				// Display only stories with the "code-only" tag
+				filter: (story) => story.tags?.includes("code-only"),
 			},
 		},
 	},

@@ -1,88 +1,82 @@
-import type { MessageKeys } from "next-intl";
 import { z } from "zod";
 
-const schemaErrors = {
-	email: {
-		required: "Auth.validation.emailRequired",
-		invalid: "Auth.validation.emailInvalid",
-		minLength: "Auth.validation.emailMinLength",
-	},
-	password: {
-		required: "Auth.validation.passwordRequired",
-		minLength: "Auth.validation.passwordMinLength",
-		maxLength: "Auth.validation.passwordMaxLength",
-	},
-	username: {
-		required: "Auth.validation.usernameRequired",
-		minLength: "Auth.validation.usernameMinLength",
-		maxLength: "Auth.validation.usernameMaxLength",
-		invalidChars: "Auth.validation.usernameInvalidChars",
-		startWithNumber: "Auth.validation.usernameStartWithNumber",
-		startWithUnderscore: "Auth.validation.usernameStartWithUnderscore",
-		endWithUnderscore: "Auth.validation.usernameEndWithUnderscore",
-		reserved: "Auth.validation.usernameReserved",
-	},
-} as const;
-
-export type TranslationFunction = (key: MessageKeys<"Auth", string>) => string;
-
-type SchemaKey = keyof typeof schemaErrors;
+export type TranslationFunction = (
+	key:
+		| "Auth.validation.emailRequired"
+		| "Auth.validation.emailInvalid"
+		| "Auth.validation.emailMinLength"
+		| "Auth.validation.passwordRequired"
+		| "Auth.validation.passwordMinLength"
+		| "Auth.validation.passwordMaxLength"
+		| "Auth.validation.usernameRequired"
+		| "Auth.validation.usernameMinLength"
+		| "Auth.validation.usernameMaxLength"
+		| "Auth.validation.usernameInvalidChars"
+		| "Auth.validation.usernameStartWithNumber"
+		| "Auth.validation.usernameStartWithUnderscore"
+		| "Auth.validation.usernameEndWithUnderscore"
+		| "Auth.validation.usernameReserved",
+) => string;
 
 const createCustomErrorMap =
 	(t: TranslationFunction): z.ZodErrorMap =>
 	(issue) => {
-		const fieldName = issue.path[0] as SchemaKey;
+		const fieldName = issue.path[0];
 
 		switch (fieldName) {
 			case "email":
 				switch (issue.code) {
 					case z.ZodIssueCode.invalid_type:
-						return { message: t(schemaErrors.email.required) };
+						return { message: t("Auth.validation.emailRequired") };
 					case z.ZodIssueCode.too_small:
-						return { message: t(schemaErrors.email.minLength) };
+						return { message: t("Auth.validation.emailMinLength") };
 					case z.ZodIssueCode.invalid_string:
 						if (issue.validation === "email") {
-							return { message: t(schemaErrors.email.invalid) };
+							return { message: t("Auth.validation.emailInvalid") };
 						}
-						return { message: t(schemaErrors.email.required) };
+						return { message: t("Auth.validation.emailRequired") };
 					default:
-						return { message: t(schemaErrors.email.required) };
+						return { message: t("Auth.validation.emailRequired") };
 				}
 
 			case "password":
 				switch (issue.code) {
-					case z.ZodIssueCode.invalid_type:
-						return { message: t(schemaErrors.password.required) };
+					// NOTE: Empty string doesn't trigger invalid_type error
+					// case z.ZodIssueCode.invalid_type:
+					// 	return { message: t("Auth.validation.passwordRequired") };
 					case z.ZodIssueCode.too_small:
-						return { message: t(schemaErrors.password.minLength) };
+						return { message: t("Auth.validation.passwordMinLength") };
 					case z.ZodIssueCode.too_big:
-						return { message: t(schemaErrors.password.maxLength) };
+						return { message: t("Auth.validation.passwordMaxLength") };
 					default:
-						return { message: t(schemaErrors.password.required) };
+						return { message: t("Auth.validation.passwordRequired") };
 				}
 
 			case "username":
 				switch (issue.code) {
 					case z.ZodIssueCode.invalid_type:
-						return { message: t(schemaErrors.username.required) };
+						return { message: t("Auth.validation.usernameRequired") };
 					case z.ZodIssueCode.too_small:
-						return { message: t(schemaErrors.username.minLength) };
+						return { message: t("Auth.validation.usernameMinLength") };
 					case z.ZodIssueCode.too_big:
-						return { message: t(schemaErrors.username.maxLength) };
+						return { message: t("Auth.validation.usernameMaxLength") };
 					case z.ZodIssueCode.custom:
 						return {
 							message: t(
-								schemaErrors.username[
-									issue.params?.code as keyof typeof schemaErrors.username
-								],
+								`Auth.validation.${
+									issue.params?.code as
+										| "usernameRequired"
+										| "usernameInvalidChars"
+										| "usernameReserved"
+								}`,
 							),
 						};
 					default:
-						return { message: t(schemaErrors.username.required) };
+						return { message: t("Auth.validation.usernameRequired") };
 				}
 
 			default:
-				return { message: t(schemaErrors.email.required) };
+				return { message: t("Auth.validation.emailRequired") };
 		}
 	};
 
@@ -98,41 +92,41 @@ const passwordSchema = z
 	.string()
 	.min(PASSWORD_MIN_LENGTH)
 	.max(PASSWORD_MAX_LENGTH);
-export const usernameSchema = z
-	.string()
-	.min(1)
-	.max(USERNAME_MAX_LENGTH)
-	.transform((val) => val.toLowerCase())
-	.superRefine((val, ctx) => {
-		if (val.length === 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: "Auth.validation.usernameRequired",
-				params: { code: "required" },
-			});
-			return;
-		}
-		if (!/^[a-z0-9_][a-z0-9_]*$/.test(val)) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: "Auth.validation.usernameInvalidChars",
-				params: { code: "invalidChars" },
-			});
-			return;
-		}
-		if (
-			/^(admin|root|system|user|test|guest|anonymous|null|undefined|true|false)$/.test(
-				val,
-			)
-		) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: "Auth.validation.usernameReserved",
-				params: { code: "reserved" },
-			});
-			return;
-		}
-	});
+export const usernameSchema = (t: TranslationFunction) =>
+	z
+		.string()
+		.min(1)
+		.max(USERNAME_MAX_LENGTH)
+		.transform((val) => val.toLowerCase())
+		.superRefine((val, ctx) => {
+			if (val.length === 0) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					params: { code: "usernameRequired" },
+				});
+				return;
+			}
+
+			if (!/^[a-z0-9_][a-z0-9_]*$/.test(val)) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					params: { code: "usernameInvalidChars" },
+				});
+				return;
+			}
+
+			if (
+				/^(admin|root|system|user|test|guest|anonymous|null|undefined|true|false)$/.test(
+					val,
+				)
+			) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					params: { code: "usernameReserved" },
+				});
+				return;
+			}
+		});
 
 // ------------------------------------
 // Email Login Schema
@@ -157,7 +151,7 @@ export const createEmailSignupSchema = (t: TranslationFunction) => {
 	return z.object({
 		email: emailSchema,
 		password: passwordSchema,
-		username: usernameSchema,
+		username: usernameSchema(t),
 	});
 };
 
