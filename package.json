@@ -23,6 +23,9 @@
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build"
 	},
+	"imports": {
+		"#features/*": "./src/features/*"
+	},
 	"dependencies": {
 		"@ai-sdk/anthropic": "^1.2.2",
 		"@hookform/resolvers": "^4.1.3",
