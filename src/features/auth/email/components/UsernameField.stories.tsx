@@ -145,7 +145,7 @@ export const InvalidCharacters: Story = {
 		// Verify the error message
 		expect(
 			canvas.getByText(
-				"Username can only contain lowercase letters, numbers, and underscores",
+				"Username can only contain letters, numbers, and underscores",
 			),
 		).toBeInTheDocument();
 	},
