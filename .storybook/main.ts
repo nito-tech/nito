@@ -32,12 +32,11 @@ const config: StorybookConfig = {
 		"@storybook/addon-a11y",
 		"@storybook/addon-essentials",
 		"@storybook/addon-onboarding",
-		"@chromatic-com/storybook",
-		"@storybook/experimental-addon-test",
+		"@storybook/addon-themes", // Switch themes
+		"@storybook/experimental-addon-test", // Use vitest plugin
 		"@storybook/manager-api",
-		"@storybook/addon-themes",
-		"storybook-addon-themes",
-		"storybook-addon-tag-badges",
+		"@chromatic-com/storybook",
+		"storybook-addon-tag-badges", // Display Storybook tags as badges in the sidebar and toolbar.
 	],
 	framework: {
 		name: "@storybook/experimental-nextjs-vite",
