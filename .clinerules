@@ -358,3 +358,29 @@ obsolete now.
 Reviewed-by: Z
 Refs: #123
 ```
+
+## Storybook
+
+- ストーリーは対象のコンポーネントと同じパスに `[ComponentName].stories.tsx` という名前で配置する
+- meta.tags には `tags: ["autodocs"]` を設定すること
+- disabled が Propsとして含まれるコンポーネントの場合、`meta.args.disabled` を false に設定すること
+- play関数が無い場合、またはplay関数はあるがexpectがない場合は `tags: ["code-only"]` とすること
+- play関数があり、かつそれがZodのバリデーションを行っている場合は `tags: ["validation"]` とすること
+- `tags: ["validation"]` がある場合は以下を追加してdocsに表示させないこと
+  - ```
+    parameters: {
+      docs: {
+        disable: true,
+      },
+    },
+    ```
+- Storybookでテストしているコンポーネントを確認して、Zodのバリデーションのパターンを調べてすべて網羅すること
+- エラーメッセージは `src/messages/*.json` に記載されているものを使用すること
+- プロパティの順序は以下のようにすること
+  1. title
+  2. component
+  3. parameters
+  4. args
+  5. decorators
+  6. tags
+  7. play
