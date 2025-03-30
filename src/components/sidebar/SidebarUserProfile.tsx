@@ -1,7 +1,9 @@
 "use client";
 
 import { Beaker, Command, LogOut, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
@@ -27,6 +29,8 @@ interface Props {
 }
 
 export default function SidebarUserProfile({ isCollapsed }: Props) {
+	const t = useTranslations("UserInfo");
+
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
@@ -100,9 +104,11 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 
 					<DropdownMenuSeparator />
 
-					<DropdownMenuItem className="cursor-pointer">
-						<Settings className="mr-2 h-4 w-4" />
-						<span>Account preferences</span>
+					<DropdownMenuItem className="cursor-pointer" asChild>
+						<Link href="/dashboard/account/me">
+							<Settings className="mr-2 h-4 w-4" />
+							<span className="text-sm">{t("accountPreferences")}</span>
+						</Link>
 					</DropdownMenuItem>
 
 					<DropdownMenuItem className="cursor-pointer">
