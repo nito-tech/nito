@@ -50,6 +50,20 @@ export const Default: Story = {
 	tags: ["code-only"],
 };
 
+export const Disabled: Story = {
+	args: {
+		disabled: true,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: "Disables the input field when loading.",
+			},
+		},
+	},
+	tags: ["code-only"],
+};
+
 export const WithError: Story = {
 	args: {
 		disabled: false,
@@ -70,21 +84,6 @@ export const WithError: Story = {
 		});
 	},
 };
-
-export const Disabled: Story = {
-	args: {
-		disabled: true,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: "Disables the input field when loading.",
-			},
-		},
-	},
-	tags: ["code-only"],
-};
-
 export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
@@ -224,7 +223,7 @@ export const IconToggle: Story = {
 	},
 };
 
-export const EmptyPassword: Story = {
+export const Required: Story = {
 	parameters: {
 		docs: {
 			disable: true,
@@ -245,7 +244,7 @@ export const EmptyPassword: Story = {
 	},
 };
 
-export const TooShortPassword: Story = {
+export const TooShort: Story = {
 	parameters: {
 		docs: {
 			disable: true,
@@ -265,7 +264,7 @@ export const TooShortPassword: Story = {
 	},
 };
 
-export const TooLongPassword: Story = {
+export const TooLong: Story = {
 	parameters: {
 		docs: {
 			disable: true,
@@ -285,7 +284,7 @@ export const TooLongPassword: Story = {
 	},
 };
 
-export const ValidPassword: Story = {
+export const Valid: Story = {
 	parameters: {
 		docs: {
 			disable: true,
