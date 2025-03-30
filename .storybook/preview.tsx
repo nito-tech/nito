@@ -38,6 +38,11 @@ const preview: Preview = {
 				date: /Date$/i,
 			},
 		},
+		// The background color needs to be transparent here,
+		// otherwise the background color won't change when the theme is changed by withThemeByClassName
+		backgrounds: {
+			default: "transparent",
+		},
 		docs: {
 			stories: {
 				// Display only stories with the "code-only" tag
