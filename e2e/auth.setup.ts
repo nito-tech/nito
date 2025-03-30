@@ -1,5 +1,6 @@
 import path from "node:path";
 import { expect, test as setup } from "@playwright/test";
+import { logInWithEmail } from "./utils";
 
 const authFile = path.join(__dirname, ".auth/user.json");
 
@@ -9,22 +10,8 @@ const authFile = path.join(__dirname, ".auth/user.json");
  * Commonly called before Playwright tests are executed.
  */
 setup("Login with email and password", async ({ page }) => {
-	await page.goto("/login");
-	await page.waitForURL("/login");
-	await page.waitForSelector("form");
-
-	const form = page.locator("form");
-	const emailInput = form.getByPlaceholder("name@example.com");
-	const passwordInput = form.getByPlaceholder("Password");
-	const submitButton = form.getByRole("button", { name: "Log in" });
-
-	// Email and Password is generated as seed data by supabase/seed.sql
-	await emailInput.fill("saneatsu.wakana@gmail.com");
-	await passwordInput.fill("Password123!");
-
 	try {
-		await submitButton.click();
-		await page.waitForURL("/dashboard", { timeout: 3 * 1000 });
+		await logInWithEmail(page);
 		await expect(page).toHaveURL("/dashboard");
 
 		await page.context().storageState({ path: authFile });
