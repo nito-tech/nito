@@ -1,3 +1,4 @@
+import { withThemeByClassName } from "@storybook/addon-themes";
 import type { Decorator, Preview } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
@@ -44,7 +45,17 @@ const preview: Preview = {
 			},
 		},
 	},
-	decorators: [withNextIntl, withQueryClient],
+	decorators: [
+		withNextIntl,
+		withQueryClient,
+		withThemeByClassName({
+			themes: {
+				light: "",
+				dark: "dark",
+			},
+			defaultTheme: "light",
+		}),
+	],
 };
 
 export default preview;

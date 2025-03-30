@@ -34,9 +34,10 @@ const config: StorybookConfig = {
 		"@storybook/addon-onboarding",
 		"@chromatic-com/storybook",
 		"@storybook/experimental-addon-test",
+		"@storybook/manager-api",
+		"@storybook/addon-themes",
 		"storybook-addon-themes",
 		"storybook-addon-tag-badges",
-		"@storybook/manager-api",
 	],
 	framework: {
 		name: "@storybook/experimental-nextjs-vite",
