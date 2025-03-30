@@ -14,9 +14,18 @@ vi.mock("@/lib/supabase/server", () => ({
 describe("auth/email/actions", () => {
 	describe("logInWithEmail", () => {
 		it("should validate and accept valid login credentials", async () => {
+			const mockSession = {
+				user: { id: "test-user-id" },
+				access_token: "test-access-token",
+				refresh_token: "test-refresh-token",
+			};
+
 			const mockSupabase = {
 				auth: {
-					signInWithPassword: vi.fn().mockResolvedValue({ error: null }),
+					signInWithPassword: vi.fn().mockResolvedValue({
+						data: { session: mockSession },
+						error: null,
+					}),
 				},
 			};
 			(
@@ -28,7 +37,8 @@ describe("auth/email/actions", () => {
 				password: "validpassword123",
 			};
 
-			await expect(logInWithEmail(validInput)).resolves.not.toThrow();
+			const result = await logInWithEmail(validInput);
+			expect(result).toEqual(mockSession);
 		});
 
 		it("should reject invalid email format", async () => {

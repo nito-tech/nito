@@ -1,4 +1,5 @@
 import type { Decorator, Preview } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
 import React from "react";
 
@@ -11,6 +12,16 @@ const withNextIntl: Decorator = (Story) => {
 		<NextIntlClientProvider locale="en" messages={messages}>
 			<Story />
 		</NextIntlClientProvider>
+	);
+};
+
+const queryClient = new QueryClient();
+
+const withQueryClient: Decorator = (Story) => {
+	return (
+		<QueryClientProvider client={queryClient}>
+			<Story />
+		</QueryClientProvider>
 	);
 };
 
@@ -33,7 +44,7 @@ const preview: Preview = {
 			},
 		},
 	},
-	decorators: [withNextIntl],
+	decorators: [withNextIntl, withQueryClient],
 };
 
 export default preview;
