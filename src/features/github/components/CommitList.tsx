@@ -1,8 +1,8 @@
 import { GitCommit } from "lucide-react";
 import React from "react";
 
-import { Divider } from "@/components/Divider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 import type { GitHubCommit } from "../lib/github-api";
 
@@ -68,7 +68,7 @@ export function CommitList({ commits, repoName, isLoading }: Props) {
 							</div>
 						</div>
 					</div>
-					<Divider className="my-3" />
+					<Separator className="my-2" />
 					<div className="flex items-center text-sm">
 						<a
 							href={commit.html_url}

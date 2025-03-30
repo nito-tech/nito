@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 
-import { Divider } from "@/components/Divider";
+import { Separator } from "@/components/ui/separator";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 
@@ -93,7 +93,9 @@ export const Sidebar = () => {
 							/>
 						))}
 
-						<Divider className="border-border" />
+						<div className="px-1">
+							<Separator className="border-border my-2" />
+						</div>
 
 						{/* Resource Navigation */}
 						{resourceNavItems.map((item) => (
@@ -106,7 +108,9 @@ export const Sidebar = () => {
 							/>
 						))}
 
-						<Divider className="border-border" />
+						<div className="px-1">
+							<Separator className="border-border my-2" />
+						</div>
 
 						{/* Utility Navigation */}
 						{utilityNavItems.map((item) => (

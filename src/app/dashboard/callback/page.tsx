@@ -4,7 +4,6 @@ import { GitBranch, GitCommit } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { Divider } from "@/components/Divider";
 import { Notice } from "@/components/Notice";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -335,7 +334,7 @@ export default function CallbackPage() {
 									{Object.keys(commitData).length > 0 && (
 										<>
 											{/* <Separator className="my-6" /> */}
-											<Divider className="my-6" />
+											{/* <Divider className="my-6" /> */}
 											<h2 className="text-xl font-bold mb-4">
 												Repository Commits
 											</h2>
