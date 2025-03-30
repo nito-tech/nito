@@ -1,5 +1,6 @@
 "use server";
 
+import type { Session } from "@supabase/supabase-js";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
@@ -11,7 +12,9 @@ import {
 } from "./schemas/auth-schema";
 import type { EmailLoginInput, EmailSignupInput } from "./schemas/auth-schema";
 
-export async function logInWithEmail(formData: EmailLoginInput) {
+export async function logInWithEmail(
+	formData: EmailLoginInput,
+): Promise<Session> {
 	const t = (key: string) => key; // No translation required on the server side
 	const schema = createEmailLoginSchema(t);
 
@@ -25,7 +28,7 @@ export async function logInWithEmail(formData: EmailLoginInput) {
 	}
 
 	const supabase = await createServerClient();
-	const { error } = await supabase.auth.signInWithPassword({
+	const { data, error } = await supabase.auth.signInWithPassword({
 		email: formData.email,
 		password: formData.password,
 	});
@@ -33,6 +36,8 @@ export async function logInWithEmail(formData: EmailLoginInput) {
 	if (error) {
 		throw new Error(error.message);
 	}
+
+	return data.session;
 }
 
 /**
