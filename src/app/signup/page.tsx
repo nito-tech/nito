@@ -9,8 +9,10 @@ export default function SignUpPage() {
 	return (
 		// Set minimum height to full viewport height minus header height
 		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)]">
-			<div className="w-72 flex flex-col items-center">
-				<h1 className="text-3xl font-black mb-4">{t("signUp")}</h1>
+			<div className="w-72">
+				<h1 className="text-3xl font-black mb-4 flex flex-col items-center">
+					{t("signUp")}
+				</h1>
 
 				<EmailAuthForm type="signUp" className="my-6 w-full" />
 
