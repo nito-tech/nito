@@ -58,23 +58,22 @@ export const Disabled: Story = {
 	tags: ["code-only"],
 };
 
-export const ExistingUsername: Story = {
-	tags: ["validation"],
+export const CannotInputWhenDisabled: Story = {
+	args: {
+		disabled: true,
+	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const usernameInput = canvas.getByLabelText("Username");
 
-		// Input invalid username
-		await userEvent.type(usernameInput, "already_exists_username");
-		await userEvent.tab();
+		// Verify the input is disabled
+		expect(usernameInput).toBeDisabled();
 
-		// Wait for error message to appear
-		const errorMessage = await canvas.findByText("Username already exists");
+		// Try to enter text
+		await userEvent.type(usernameInput, "test");
 
-		await expect(errorMessage).toBeInTheDocument();
-		await expect(mockCheckUsernameExists).toHaveBeenCalledWith(
-			"already_exists_username",
-		);
+		// Verify no text was entered
+		expect(usernameInput).toHaveValue("");
 	},
 };
 
@@ -97,5 +96,93 @@ export const WithValidUsername: Story = {
 		// Wait for error message to disappear
 		const errorElements = canvas.queryAllByRole("alert");
 		expect(errorElements.length).toBe(0);
+	},
+};
+
+export const Required: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
+
+		// Enter and then clear the input
+		await userEvent.type(usernameInput, "a");
+		await userEvent.clear(usernameInput);
+		await userEvent.tab();
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText("Please enter your username"),
+		).toBeInTheDocument();
+	},
+};
+
+export const TooLong: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
+
+		// Enter a username that's too long (51 characters)
+		await userEvent.type(usernameInput, "a".repeat(51));
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText("Username must be less than 50 characters"),
+		).toBeInTheDocument();
+	},
+};
+
+export const InvalidCharacters: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
+
+		// Enter a username with invalid characters
+		await userEvent.type(usernameInput, "user@name");
+
+		// Verify the error message
+		expect(
+			canvas.getByText(
+				"Username can only contain lowercase letters, numbers, and underscores",
+			),
+		).toBeInTheDocument();
+	},
+};
+
+export const ReservedWord: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
+
+		// Enter a reserved word
+		await userEvent.type(usernameInput, "admin");
+
+		// Verify the error message
+		expect(
+			canvas.getByText("This username is not available"),
+		).toBeInTheDocument();
+	},
+};
+
+export const AlreadyExistingUsername: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
+
+		// Input invalid username
+		await userEvent.type(usernameInput, "already_exists_username");
+		await userEvent.tab();
+
+		// Wait for error message to appear
+		const errorMessage = await canvas.findByText("Username already exists");
+
+		await expect(errorMessage).toBeInTheDocument();
+		await expect(mockCheckUsernameExists).toHaveBeenCalledWith(
+			"already_exists_username",
+		);
 	},
 };
