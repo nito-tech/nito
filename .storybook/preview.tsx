@@ -4,7 +4,6 @@ import React from "react";
 
 import messages from "../src/messages/en.json";
 import "../src/app/globals.css";
-import "./mockNextImage";
 
 const withNextIntl: Decorator = (Story) => {
 	return (
@@ -16,6 +15,10 @@ const withNextIntl: Decorator = (Story) => {
 
 const preview: Preview = {
 	parameters: {
+		nextjs: {
+			// https://storybook.js.org/docs/get-started/nextjs#set-nextjsappdirectory-to-true
+			appDirectory: true,
+		},
 		controls: {
 			matchers: {
 				color: /(background|color)$/i,
