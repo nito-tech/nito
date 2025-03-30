@@ -59,11 +59,6 @@ export const Disabled: Story = {
 };
 
 export const ExistingUsername: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -84,11 +79,6 @@ export const ExistingUsername: Story = {
 };
 
 export const WithValidUsername: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);

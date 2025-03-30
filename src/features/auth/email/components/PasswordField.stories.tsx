@@ -88,11 +88,6 @@ export const DisabledWithError: Story = {
 	args: {
 		disabled: true,
 	},
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["code-only"],
 	play: async ({ context }) => {
 		context.parameters.methods.setError("password", {
@@ -105,11 +100,6 @@ export const DisabledWithError: Story = {
 export const CannotInputWhenDisabled: Story = {
 	args: {
 		disabled: true,
-	},
-	parameters: {
-		docs: {
-			disable: true,
-		},
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -125,11 +115,6 @@ export const CannotInputWhenDisabled: Story = {
 };
 
 export const CharacterCounter: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -141,11 +126,6 @@ export const CharacterCounter: Story = {
 };
 
 export const InputAndToggleVisibility: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const passwordInput = canvas.getByLabelText("Password");
@@ -172,11 +152,6 @@ export const InputAndToggleVisibility: Story = {
 
 // Keyboard navigation test
 export const KeyboardNavigation: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
@@ -198,11 +173,6 @@ export const KeyboardNavigation: Story = {
 
 // Icon toggle test
 export const IconToggle: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 
@@ -224,11 +194,6 @@ export const IconToggle: Story = {
 };
 
 export const Required: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -245,11 +210,6 @@ export const Required: Story = {
 };
 
 export const TooShort: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -265,11 +225,6 @@ export const TooShort: Story = {
 };
 
 export const TooLong: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -285,11 +240,6 @@ export const TooLong: Story = {
 };
 
 export const Valid: Story = {
-	parameters: {
-		docs: {
-			disable: true,
-		},
-	},
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);

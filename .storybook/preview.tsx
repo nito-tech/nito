@@ -22,6 +22,12 @@ const preview: Preview = {
 				date: /Date$/i,
 			},
 		},
+		docs: {
+			stories: {
+				// Display only stories with the "code-only" tag
+				filter: (story) => story.tags?.includes("code-only"),
+			},
+		},
 	},
 	decorators: [withNextIntl],
 };
