@@ -1,0 +1,50 @@
+"use client";
+
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
+import { Button } from "@/components/ui/button";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProfileProvider } from "@/contexts/ProfileContext";
+import { useRootQueryClient } from "@/data/query-client";
+
+type AppProviderProps = {
+	children: React.ReactNode;
+};
+
+const MainErrorFallback = () => {
+	const t = useTranslations();
+
+	return (
+		<div
+			className="flex h-screen w-screen flex-col items-center justify-center text-destructive"
+			role="alert"
+		>
+			<h2 className="font-semibold">{t("error.title")}</h2>
+			<Button
+				className="mt-4"
+				onClick={() => window.location.assign(window.location.origin)}
+			>
+				{t("refresh")}
+			</Button>
+		</div>
+	);
+};
+
+export const AppProvider = ({ children }: AppProviderProps) => {
+	const queryClient = useRootQueryClient();
+
+	return (
+		<ErrorBoundary FallbackComponent={MainErrorFallback}>
+			<QueryClientProvider client={queryClient}>
+				<AuthProvider>
+					{process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
+					<ProfileProvider>{children}</ProfileProvider>
+				</AuthProvider>
+			</QueryClientProvider>
+		</ErrorBoundary>
+	);
+};

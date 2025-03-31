@@ -58,6 +58,10 @@
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository",
+	"error": {
+		"title": "Oops, something went wrong :( "
+	},
+	"refresh": "Refresh",
 	"notFound": {
 		"title": "Page Not Found",
 		"description": "The page you're looking for doesn't exist or has been moved. Don't worry, even the best explorers get lost sometimes.",
