@@ -7,6 +7,7 @@ import { type FieldValues, type Path, useFormContext } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -65,19 +66,22 @@ export function PasswordField<T extends FieldValues>({
 										: "focus-within:ring-3 focus-within:ring-offset-0 focus-within:ring-ring/50 focus-within:border-ring",
 								)}
 							>
-								<Input
-									{...field}
-									id={name}
-									placeholder={placeholder}
-									type={showPassword ? "text" : "password"}
-									disabled={disabled}
-									autoComplete={autoComplete}
-									className={cn(
-										"rounded-r-none",
-										"border-0", // Remove internal input field borders
-										"focus-visible:ring-0 focus-visible:ring-offset-0", // Remove internal focus ring
-									)}
-								/>
+								<FormControl>
+									<Input
+										{...field}
+										value={field.value ?? ""}
+										id={name}
+										placeholder={placeholder}
+										type={showPassword ? "text" : "password"}
+										disabled={disabled}
+										autoComplete={autoComplete}
+										className={cn(
+											"rounded-r-none",
+											"border-0", // Remove internal input field borders
+											"focus-visible:ring-0 focus-visible:ring-offset-0", // Remove internal focus ring
+										)}
+									/>
+								</FormControl>
 								<Button
 									type="button"
 									size="icon"

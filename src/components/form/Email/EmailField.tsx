@@ -44,6 +44,7 @@ export function EmailField<T extends FieldValues>({
 					<FormControl>
 						<Input
 							{...field}
+							value={field.value ?? ""}
 							id={name}
 							type="email"
 							placeholder={placeholder}
