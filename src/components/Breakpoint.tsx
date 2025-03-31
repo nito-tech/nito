@@ -1,6 +1,6 @@
 import React from "react";
 
-import { env } from "@/env";
+import { env } from "@/config/env";
 import { cn } from "@/utils/cn";
 
 export const Breakpoint = () => {

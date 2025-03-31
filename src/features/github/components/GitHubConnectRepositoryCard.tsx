@@ -5,7 +5,7 @@ import React from "react";
 
 import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
 import githubSvg from "@/components/icon/github.svg";
-import { env } from "@/env";
+import { env } from "@/config/env";
 import { getSiteUrl } from "@/utils/url";
 
 const GITHUB_CLIENT_ID = env.NEXT_PUBLIC_GITHUB_CLIENT_ID;

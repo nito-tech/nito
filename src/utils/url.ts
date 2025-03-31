@@ -1,4 +1,4 @@
-import { env } from "@/env";
+import { env } from "@/config/env";
 
 /**
  * Type guard to check if a URL string is valid (not undefined and not empty after trimming)
