@@ -9,7 +9,7 @@ import { FormProvider } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { Notice } from "@/components/Notice";
+import { Notice } from "@/components/feedback/Notice/Notice";
 import { EmailField } from "@/components/form/EmailField/EmailField";
 import { createEmailSchema } from "@/components/form/EmailField/email-schema";
 import { PasswordField } from "@/components/form/PasswordField/PasswordField";
