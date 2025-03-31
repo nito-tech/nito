@@ -4,7 +4,6 @@ import { Beaker, Command, LogOut, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
@@ -22,7 +21,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
-import { createBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -35,7 +33,7 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 	// ----------------------------------------------
 	// User Data
 	// ----------------------------------------------
-	const { user } = useAuth();
+	const { user, logOut } = useAuth();
 	const { profile } = useProfile();
 
 	const userData = useMemo(
@@ -63,14 +61,7 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 	// ----------------------------------------------
 	// Log out
 	// ----------------------------------------------
-	const router = useRouter();
-	const supabase = createBrowserClient();
-	const handleLogOut = async () => {
-		// Use Browser Client to clear the session.
-		// If not cleared, the process of verifying duplicate usernames on the /singup page after logout will be skipped.
-		await supabase.auth.signOut();
-		router.push("/login");
-	};
+	const handleLogOut = async () => await logOut();
 
 	return (
 		<div className="px-2 py-3 border-t border-border">
