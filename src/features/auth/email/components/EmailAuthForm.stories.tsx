@@ -1,13 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useTranslations } from "next-intl";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { z } from "zod";
 
-import { createEmailSignupSchema } from "../schemas/auth-schema";
-import type {
-	EmailSignupInput,
-	TranslationFunction,
-} from "../schemas/auth-schema";
+import { createEmailSchema } from "@/components/form/EmailField/email-schema";
+import { createPasswordSchema } from "@/components/form/PasswordField/password-schema";
+import { createUsernameSchema } from "@/components/form/UsernameField/username-schema";
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+
 import EmailAuthForm from "./EmailAuthForm";
 
 const meta = {
@@ -17,18 +18,21 @@ const meta = {
 		layout: "centered",
 	},
 	decorators: [
-		(Story, context) => {
+		(Story) => {
 			const t = useTranslations();
-			const methods = useForm<EmailSignupInput>({
-				mode: "onChange",
-				resolver: zodResolver(
-					createEmailSignupSchema(t as TranslationFunction),
-				),
+			const schema = z.object({
+				email: createEmailSchema(t),
+				password: createPasswordSchema(t),
+				username: createUsernameSchema(t),
 			});
-			context.parameters.methods = methods;
+			type FormValues = z.infer<typeof schema>;
+
+			const form = useFormWithOnChange<FormValues>({
+				resolver: zodResolver(schema),
+			});
 
 			return (
-				<FormProvider {...methods}>
+				<FormProvider {...form}>
 					<Story />
 				</FormProvider>
 			);

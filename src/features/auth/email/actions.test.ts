@@ -1,10 +1,9 @@
-import { createServerClient } from "@/lib/supabase/server";
 import { describe, expect, it, vi } from "vitest";
+
+import { PASSWORD_MAX_LENGTH } from "@/components/form/PasswordField/password-schema";
+import { USERNAME_MAX_LENGTH } from "@/components/form/UsernameField/username-schema";
+import { createServerClient } from "@/lib/supabase/server";
 import { logInWithEmail, signUpWithEmail } from "./actions";
-import {
-	PASSWORD_MAX_LENGTH,
-	USERNAME_MAX_LENGTH,
-} from "./schemas/auth-schema";
 
 // Mock Supabase client
 vi.mock("@/lib/supabase/server", () => ({
