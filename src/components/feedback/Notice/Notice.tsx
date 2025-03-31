@@ -2,7 +2,7 @@ import { CircleCheckIcon, CircleXIcon, InfoIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import type { Variant } from "@/components/ui/alert";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 const getVariantIcon = (variant: Variant) => {
 	switch (variant) {

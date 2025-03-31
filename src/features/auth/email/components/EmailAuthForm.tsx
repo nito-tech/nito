@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 import { queryKeys } from "@/lib/query-keys";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 import { logInWithEmail, signUpWithEmail } from "../actions";
 

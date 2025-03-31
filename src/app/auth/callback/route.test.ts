@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 import { createServerClient } from "@/lib/supabase/server";
-import { getSiteUrl } from "@/lib/utils";
+import { getSiteUrl } from "@/utils/url";
 
 vi.mock("@/lib/supabase/server", () => ({
 	createServerClient: vi.fn(),
 }));
 
-vi.mock("@/lib/utils", () => ({
+vi.mock("@/utils/url", () => ({
 	getSiteUrl: vi.fn(),
 }));
 

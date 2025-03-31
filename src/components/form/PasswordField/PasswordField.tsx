@@ -15,7 +15,7 @@ import {
 	useFormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 import { PASSWORD_MAX_LENGTH } from "./password-schema";
 

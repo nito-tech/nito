@@ -13,8 +13,8 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Locale } from "@/i18n/config";
-import { cn } from "@/lib/utils";
 import { setUserLocale } from "@/services/locale";
+import { cn } from "@/utils/cn";
 
 type Item = {
 	flag: string;

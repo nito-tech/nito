@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 interface Props {
 	isCollapsed: boolean;
