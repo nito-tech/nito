@@ -10,7 +10,7 @@ import { PasswordField } from "./PasswordField";
 import { createPasswordSchema } from "./password-schema";
 
 const meta = {
-	title: "Components/Form/Password/PasswordField",
+	title: "Components/Form/PasswordField",
 	component: PasswordField,
 	parameters: {
 		layout: "centered",
