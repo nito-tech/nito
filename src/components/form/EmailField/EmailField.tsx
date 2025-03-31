@@ -21,6 +21,9 @@ interface Props<T extends FieldValues> {
 	required?: boolean;
 }
 
+// For security reasons, we don't check if an email already exists
+// to prevent user enumeration attacks. The actual error will be handled after submission.
+
 export function EmailField<T extends FieldValues>({
 	name,
 	label,
