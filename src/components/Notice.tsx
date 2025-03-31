@@ -8,7 +8,7 @@ const getVariantIcon = (variant: Variant) => {
 	switch (variant) {
 		case "info":
 			return (
-				<InfoIcon className="text-info-foreground dark:text-info-foreground/70 h-5 w-5" />
+				<InfoIcon className="text-info-foreground dark:text-info-foreground h-5 w-5" />
 			);
 		case "success":
 			return (

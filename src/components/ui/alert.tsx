@@ -8,20 +8,23 @@ const alertVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: cn("text-muted-foreground", "bg-muted dark:bg-muted/70"),
+				default: cn(
+					"text-muted-foreground dark:text-secondary-foreground",
+					"bg-muted dark:bg-muted",
+				),
 				info: cn(
-					"text-muted-foreground",
-					"bg-info dark:bg-info/70",
+					"text-muted-foreground dark:text-secondary-foreground",
+					"bg-info dark:bg-info/60",
 					"border-info dark:border-info [&>svg]:text-info",
 				),
 				success: cn(
-					"text-muted-foreground",
+					"text-muted-foreground dark:text-secondary-foreground",
 					"bg-success dark:bg-success/70",
 					"border-success/50 dark:border-success [&>svg]:text-success",
 				),
 				destructive: cn(
-					"text-muted-foreground",
-					"bg-destructive/40 dark:bg-destructive/70",
+					"text-muted-foreground dark:text-secondary-foreground",
+					"bg-destructive/30 dark:bg-destructive/70",
 					"[&>svg]:text-current *:data-[slot=alert-description]:text-destructive-foreground/80",
 				),
 			},
