@@ -10,7 +10,7 @@ import { EmailField } from "./EmailField";
 import { createEmailSchema } from "./email-schema";
 
 const meta = {
-	title: "Components/Form/Email/EmailField",
+	title: "Components/Form/EmailField",
 	component: EmailField,
 	parameters: {
 		layout: "centered",
