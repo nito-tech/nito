@@ -90,6 +90,7 @@
 		"@storybook/react": "^8.6.11",
 		"@storybook/test": "^8.6.11",
 		"@tailwindcss/postcss": "^4.0.17",
+		"@tanstack/react-query-devtools": "^5.71.1",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.2.0",
