@@ -73,6 +73,7 @@ export const Sidebar = () => {
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			<nav
+				aria-label="Sidebar Navigation"
 				className={cn(
 					"bg-card text-card-foreground h-full border-r border-border flex flex-col",
 					"transition-[width] duration-300 pt-2 pb-4",
