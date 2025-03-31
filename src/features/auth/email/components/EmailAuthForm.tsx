@@ -38,13 +38,13 @@ function SignUpForm({ className }: FormProps) {
 		password: createPasswordSchema(t),
 		username: createUsernameSchema(t),
 	});
-	type SchemaType = z.infer<typeof schema>;
+	type FormValues = z.infer<typeof schema>;
 
-	const form = useFormWithOnChange<SchemaType>({
+	const form = useFormWithOnChange<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
-	const onSubmitHandler: SubmitHandler<SchemaType> = async (data) => {
+	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
@@ -78,15 +78,15 @@ function SignUpForm({ className }: FormProps) {
 						<Notice variant="destructive" text={message} />
 					)}
 
-					<EmailField<SchemaType>
+					<EmailField<FormValues>
 						name="email"
 						disabled={form.formState.isSubmitting}
 					/>
-					<PasswordField<SchemaType>
+					<PasswordField<FormValues>
 						name="password"
 						disabled={form.formState.isSubmitting}
 					/>
-					<UsernameField<SchemaType>
+					<UsernameField<FormValues>
 						name="username"
 						disabled={form.formState.isSubmitting}
 					/>
@@ -114,13 +114,13 @@ function LogInForm({ className }: FormProps) {
 		email: createEmailSchema(t),
 		password: createPasswordSchema(t),
 	});
-	type SchemaType = z.infer<typeof schema>;
+	type FormValues = z.infer<typeof schema>;
 
-	const form = useFormWithOnChange<SchemaType>({
+	const form = useFormWithOnChange<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
-	const onSubmitHandler: SubmitHandler<SchemaType> = async (data) => {
+	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
@@ -159,11 +159,11 @@ function LogInForm({ className }: FormProps) {
 					{messageType === "error" && message && (
 						<Notice variant="destructive" text={message} />
 					)}
-					<EmailField<SchemaType>
+					<EmailField<FormValues>
 						name="email"
 						disabled={form.formState.isSubmitting}
 					/>
-					<PasswordField<SchemaType>
+					<PasswordField<FormValues>
 						name="password"
 						disabled={form.formState.isSubmitting}
 					/>
