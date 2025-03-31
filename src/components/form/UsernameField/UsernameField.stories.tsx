@@ -2,41 +2,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { z } from "zod";
 
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 import { mockCheckUsernameExists } from "#features/auth/email/hooks/useUsername.mock";
 
-import { createEmailSignupSchema } from "../schemas/auth-schema";
-import type {
-	EmailSignupInput,
-	TranslationFunction,
-} from "../schemas/auth-schema";
 import { UsernameField } from "./UsernameField";
+import { createUsernameSchema } from "./username-schema";
 
 const meta = {
-	title: "Features/Auth/Email/UsernameField",
+	title: "Components/Form/UsernameField",
 	component: UsernameField,
 	parameters: {
 		layout: "centered",
 	},
 	args: {
-		disabled: false,
+		name: "username",
+		label: "Username",
 	},
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const methods = useForm<EmailSignupInput>({
-				mode: "onChange",
-				resolver: zodResolver(
-					createEmailSignupSchema(t as TranslationFunction),
-				),
+			const schema = z.object({ username: createUsernameSchema(t) });
+			const form = useFormWithOnChange<z.infer<typeof schema>>({
+				resolver: zodResolver(schema),
 			});
-			const { disabled } = context.args;
-			context.parameters.methods = methods;
 
 			return (
-				<FormProvider {...methods}>
-					<Story args={{ disabled }} />
+				<FormProvider {...form}>
+					<Story args={{ ...context.args }} />
 				</FormProvider>
 			);
 		},
