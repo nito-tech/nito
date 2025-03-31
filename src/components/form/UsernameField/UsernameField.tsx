@@ -48,10 +48,7 @@ export function UsernameField<T extends FieldValues>({
 			if (!username) return;
 
 			try {
-				console.log("--");
 				createUsernameSchema(t).parse(username);
-
-				console.log("OK!!!!!!!");
 				await checkUsernameExists(username);
 			} catch (error) {
 				// If the error is a parse error, don't set the error
