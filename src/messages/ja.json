@@ -57,5 +57,10 @@
 		"deleting": "削除中..."
 	},
 	"commingSoon": "近日公開...",
-	"connectToRepository": "リポジトリを接続"
+	"connectToRepository": "リポジトリを接続",
+	"notFound": {
+		"title": "ページが見つかりません",
+		"description": "お探しのページは存在しないか、移動されました。ご心配なく、最高の探検家でも迷子になることはあります。",
+		"goToHome": "ホームに戻る"
+	}
 }
