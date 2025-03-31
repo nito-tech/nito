@@ -2,39 +2,34 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { z } from "zod";
 
-import { createEmailSignupSchema } from "../schemas/auth-schema";
-import type {
-	EmailSignupInput,
-	TranslationFunction,
-} from "../schemas/auth-schema";
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 import { EmailField } from "./EmailField";
+import { createEmailSchema } from "./email-schema";
 
 const meta = {
-	title: "Features/Auth/Email/EmailField",
+	title: "Components/Form/Email/EmailField",
 	component: EmailField,
 	parameters: {
 		layout: "centered",
 	},
 	args: {
-		disabled: false,
+		name: "email",
+		label: "Email",
 	},
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const methods = useForm<EmailSignupInput>({
-				mode: "onChange",
-				resolver: zodResolver(
-					createEmailSignupSchema(t as TranslationFunction),
-				),
+			const schema = z.object({ email: createEmailSchema(t) });
+			const form = useFormWithOnChange<z.infer<typeof schema>>({
+				resolver: zodResolver(schema),
 			});
-			const { disabled } = context.args;
-			context.parameters.methods = methods;
 
 			return (
-				<FormProvider {...methods}>
-					<Story args={{ disabled }} />
+				<FormProvider {...form}>
+					<Story args={{ ...context.args }} />
 				</FormProvider>
 			);
 		},
@@ -43,6 +38,7 @@ const meta = {
 } satisfies Meta<typeof EmailField>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
