@@ -1,50 +1,45 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
-import { FormProvider, useForm } from "react-hook-form";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import {
-	type EmailSignupInput,
-	type TranslationFunction,
-	createEmailSignupSchema,
-} from "../schemas/auth-schema";
-import { PasswordField } from "./PasswordField";
+import { FormProvider } from "react-hook-form";
+import { z } from "zod";
 
-type Story = StoryObj<typeof PasswordField<"signUp">>;
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+import { PasswordField } from "./PasswordField";
+import { createPasswordSchema } from "./password-schema";
 
 const meta = {
-	title: "Features/Auth/Email/PasswordField",
-	component: PasswordField<"signUp">,
+	title: "Components/Form/Password/PasswordField",
+	component: PasswordField,
 	parameters: {
 		layout: "centered",
-		formType: "signUp",
 	},
 	args: {
-		disabled: false,
+		name: "password",
+		label: "Password",
 	},
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const methods = useForm<EmailSignupInput>({
-				mode: "onChange",
-				resolver: zodResolver(
-					createEmailSignupSchema(t as TranslationFunction),
-				),
+			const schema = z.object({ password: createPasswordSchema(t) });
+			const form = useFormWithOnChange<z.infer<typeof schema>>({
+				resolver: zodResolver(schema),
 			});
-			const { disabled } = context.args;
-			context.parameters.methods = methods;
+
 			return (
-				<FormProvider {...methods}>
-					<Story args={{ disabled }} />
+				<FormProvider {...form}>
+					<Story args={{ ...context.args }} />
 				</FormProvider>
 			);
 		},
 	],
 	tags: ["autodocs"],
-} satisfies Meta<typeof PasswordField<"signUp">>;
+} satisfies Meta<typeof PasswordField>;
 
 export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	tags: ["code-only"],
@@ -62,39 +57,6 @@ export const Disabled: Story = {
 		},
 	},
 	tags: ["code-only"],
-};
-
-export const WithError: Story = {
-	args: {
-		disabled: false,
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					"Displays an error message when the password does not meet the requirements.",
-			},
-		},
-	},
-	tags: ["code-only"],
-	play: async ({ context }) => {
-		context.parameters.methods.setError("password", {
-			type: "manual",
-			message: "Password must be at least 10 characters",
-		});
-	},
-};
-export const DisabledWithError: Story = {
-	args: {
-		disabled: true,
-	},
-	tags: ["code-only"],
-	play: async ({ context }) => {
-		context.parameters.methods.setError("password", {
-			type: "manual",
-			message: "Password must be at least 10 characters",
-		});
-	},
 };
 
 export const CannotInputWhenDisabled: Story = {
