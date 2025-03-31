@@ -15,6 +15,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProfile } from "@/contexts/ProfileContext";
 import { useUsername } from "@/features/auth/email/hooks/useUsername";
 
 import { createUsernameSchema } from "./username-schema";
@@ -38,6 +39,7 @@ export function UsernameField<T extends FieldValues>({
 }: Props<T>) {
 	const t = useTranslations();
 	const form = useFormContext<T>();
+	const { profile } = useProfile();
 
 	const username = form.watch(name);
 	const { checkUsernameExists, isLoading } = useUsername();
@@ -49,7 +51,14 @@ export function UsernameField<T extends FieldValues>({
 
 			try {
 				createUsernameSchema(t).parse(username);
-				await checkUsernameExists(username);
+
+				// Skip username existence check if the username matches the current user's username
+				// This is valid when updating Username in /dashboard/account/me
+				if (username.toLowerCase() !== profile?.username?.toLowerCase()) {
+					await checkUsernameExists(username);
+				}
+
+				form.clearErrors(name);
 			} catch (error) {
 				// If the error is a parse error, don't set the error
 				if (error instanceof z.ZodError) return;
