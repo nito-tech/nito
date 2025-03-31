@@ -9,7 +9,7 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
 	serverExternalPackages: ["@mastra/*"],
 	devIndicators: {
-		position: "bottom-right",
+		position: "bottom-left",
 	},
 };
 
