@@ -87,7 +87,11 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 						)}
 					>
 						<Avatar className="h-8 w-8 flex-shrink-0">
-							<AvatarImage src={userData.avatarUrl} alt={userData.username} />
+							<AvatarImage
+								// Response to an error that occurs when an empty character is passed at logout
+								src={userData.avatarUrl || undefined}
+								alt={userData.username}
+							/>
 							<AvatarFallback className="bg-muted text-muted-foreground">
 								{userData.username.substring(0, 2).toUpperCase()}
 							</AvatarFallback>
