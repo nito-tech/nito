@@ -21,6 +21,4 @@ export const createPasswordSchema = (t: PasswordTranslationFunction) => {
 		});
 };
 
-export type PasswordSchemaType = z.infer<
-	ReturnType<typeof createPasswordSchema>
->;
+export type PasswordSchema = z.infer<ReturnType<typeof createPasswordSchema>>;

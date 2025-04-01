@@ -14,4 +14,4 @@ export const createEmailSchema = (t: EmailTranslationFunction) => {
 		.email({ message: t("Auth.validation.emailInvalid") });
 };
 
-export type EmailSchemaType = z.infer<ReturnType<typeof createEmailSchema>>;
+export type EmailSchema = z.infer<ReturnType<typeof createEmailSchema>>;

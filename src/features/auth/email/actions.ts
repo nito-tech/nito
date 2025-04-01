@@ -5,11 +5,11 @@ import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import {
-	type EmailSchemaType,
+	type EmailSchema,
 	createEmailSchema,
 } from "@/components/form/EmailField/email-schema";
 import {
-	type PasswordSchemaType,
+	type PasswordSchema,
 	createPasswordSchema,
 } from "@/components/form/PasswordField/password-schema";
 import {
@@ -19,8 +19,8 @@ import {
 import { createServerClient } from "@/lib/supabase/server";
 
 export async function logInWithEmail(formData: {
-	email: EmailSchemaType;
-	password: PasswordSchemaType;
+	email: EmailSchema;
+	password: PasswordSchema;
 }): Promise<Session> {
 	const t = (key: string) => key; // No translation required on the server side
 	const schema = z.object({
@@ -69,8 +69,8 @@ export async function checkUsernameExists(username: UsernameSchemaType) {
 }
 
 export async function signUpWithEmail(formData: {
-	email: EmailSchemaType;
-	password: PasswordSchemaType;
+	email: EmailSchema;
+	password: PasswordSchema;
 	username: UsernameSchemaType;
 }) {
 	const t = (key: string) => key; // No translation required on the server side
