@@ -1,11 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FormProvider } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,7 +17,7 @@ import {
 	createPasswordSchema,
 } from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
-import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+import { Form } from "@/components/ui/form";
 import { queryKeys } from "@/lib/query-keys";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/utils/cn";
@@ -31,21 +29,17 @@ interface Props {
 }
 
 export function EmailLogInForm({ className }: Props) {
-	const t = useTranslations();
 	const router = useRouter();
 	const queryClient = useQueryClient();
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
+	const t = useTranslations();
 	const schema = z.object({
 		email: createEmailSchema(t),
 		password: createPasswordSchema(t),
 	});
 	type FormValues = z.infer<typeof schema>;
-
-	const form = useFormWithOnChange<FormValues>({
-		resolver: zodResolver(schema),
-	});
 
 	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
@@ -75,34 +69,37 @@ export function EmailLogInForm({ className }: Props) {
 	};
 
 	return (
-		<FormProvider {...form}>
-			<form
-				noValidate
-				aria-label="Log in form"
-				className={cn("grid gap-6", className)}
-				onSubmit={form.handleSubmit(onSubmitHandler)}
-			>
-				<div className="grid gap-6">
-					{messageType === "error" && message && (
-						<Notice variant="destructive" text={message} />
-					)}
-					<EmailField<FormValues>
-						name="email"
-						disabled={form.formState.isSubmitting}
-					/>
-					<PasswordField<FormValues>
-						name="password"
-						disabled={form.formState.isSubmitting}
-					/>
-				</div>
-				<Button
-					type="submit"
-					className="mt-1"
-					disabled={form.formState.isSubmitting}
-				>
-					{t("Auth.logIn")}
-				</Button>
-			</form>
-		</FormProvider>
+		<Form
+			schema={schema}
+			onSubmit={onSubmitHandler}
+			noValidate
+			aria-label="Log in form"
+			className={cn("grid", className)}
+		>
+			{({ formState }) => (
+				<>
+					<div className="grid gap-6">
+						{messageType === "error" && message && (
+							<Notice variant="destructive" text={message} />
+						)}
+						<EmailField<FormValues>
+							name="email"
+							disabled={formState.isSubmitting}
+						/>
+						<PasswordField<FormValues>
+							name="password"
+							disabled={formState.isSubmitting}
+						/>
+					</div>
+					<Button
+						type="submit"
+						className="mt-1"
+						disabled={formState.isSubmitting}
+					>
+						{t("Auth.logIn")}
+					</Button>
+				</>
+			)}
+		</Form>
 	);
 }

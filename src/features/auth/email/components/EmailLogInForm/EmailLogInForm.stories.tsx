@@ -1,13 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useTranslations } from "next-intl";
-import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
 import { createEmailSchema } from "@/components/form/EmailField/EmailField";
 import { createPasswordSchema } from "@/components/form/PasswordField/PasswordField";
 import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
-import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+import { Form } from "@/components/ui/form";
 
 import { EmailLogInForm } from "./EmailLogInForm";
 
@@ -25,16 +23,11 @@ const meta = {
 				password: createPasswordSchema(t),
 				username: createUsernameSchema(t),
 			});
-			type FormValues = z.infer<typeof schema>;
-
-			const form = useFormWithOnChange<FormValues>({
-				resolver: zodResolver(schema),
-			});
 
 			return (
-				<FormProvider {...form}>
-					<Story />
-				</FormProvider>
+				<Form schema={schema} onSubmit={() => {}}>
+					{() => <Story />}
+				</Form>
 			);
 		},
 	],

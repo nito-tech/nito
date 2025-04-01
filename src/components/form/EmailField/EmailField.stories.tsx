@@ -1,12 +1,9 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
-import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
-import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
-
+import { Form } from "@/components/ui/form";
 import { EmailField, createEmailSchema } from "./EmailField";
 
 const meta = {
@@ -23,14 +20,11 @@ const meta = {
 		(Story, context) => {
 			const t = useTranslations();
 			const schema = z.object({ email: createEmailSchema(t) });
-			const form = useFormWithOnChange<z.infer<typeof schema>>({
-				resolver: zodResolver(schema),
-			});
 
 			return (
-				<FormProvider {...form}>
-					<Story args={{ ...context.args }} />
-				</FormProvider>
+				<Form schema={schema} onSubmit={() => {}}>
+					{() => <Story args={{ ...context.args }} />}
+				</Form>
 			);
 		},
 	],

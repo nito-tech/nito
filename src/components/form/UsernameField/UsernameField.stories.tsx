@@ -1,12 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
-import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
+import { Form } from "@/components/ui/form";
 import { mockCheckUsernameExists } from "@/features/auth/email/hooks/useUsername.mock";
-import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 
 import { UsernameField, createUsernameSchema } from "./UsernameField";
 
@@ -24,14 +22,11 @@ const meta = {
 		(Story, context) => {
 			const t = useTranslations();
 			const schema = z.object({ username: createUsernameSchema(t) });
-			const form = useFormWithOnChange<z.infer<typeof schema>>({
-				resolver: zodResolver(schema),
-			});
 
 			return (
-				<FormProvider {...form}>
-					<Story args={{ ...context.args }} />
-				</FormProvider>
+				<Form schema={schema} onSubmit={() => {}}>
+					{() => <Story args={{ ...context.args }} />}
+				</Form>
 			);
 		},
 	],
