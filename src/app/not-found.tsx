@@ -32,7 +32,7 @@ export default function NotFoundPage() {
 				</p>
 
 				<div className="flex justify-center">
-					<Link href={paths.home.getHref()}>
+					<Link href={paths.app.root.getHref()}>
 						<Button size="lg" className="px-8">
 							<Home className="mr-2 h-5 w-5" />
 							{t("goToHome")}
