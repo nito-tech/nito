@@ -33,9 +33,25 @@ export function DangerZone() {
 		try {
 			setIsDeleting(true);
 			// await deleteAccount();
+
+			// toast.promise(
+			// 	updateProfile({
+			// 		id: profile.id,
+			// 		username: data.username,
+			// 		// Email is can not be changed
+			// 	}),
+			// 	{
+			// 		loading: "Updating...",
+			// 		success: "Your profile has been updated!",
+			// 		error: "Something went wrong. Please try again.",
+			// 	},
+			// );
+
 			toast.success("Your account has been deleted.");
 			router.push("/");
 		} catch (error) {
+			// TODO: エラーメッセージを入れてNoticeを表示する
+
 			toast.error("Something went wrong. Please try again.");
 		} finally {
 			setIsDeleting(false);

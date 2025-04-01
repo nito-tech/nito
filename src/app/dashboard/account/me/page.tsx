@@ -19,7 +19,6 @@ import { Form } from "@/components/ui/form";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
-
 export default function AccountPage() {
 	const t = useTranslations();
 	const { user } = useAuth();
@@ -85,6 +84,8 @@ export default function AccountPage() {
 			);
 		} catch (error) {
 			toast.error("Something went wrong. Please try again.");
+
+			// TODO: エラーメッセージを入れてNoticeを表示する
 		} finally {
 			setIsLoading(false);
 		}
@@ -96,6 +97,12 @@ export default function AccountPage() {
 				title={t("UserInfo.accountPreferences")}
 				description={t("UserInfo.accountPreferencesDescription")}
 			/>
+
+			{/* <Notice
+				variant="destructive"
+				title="Heads up!"
+				text="You can add components and dependencies to your app using the cli."
+			/> */}
 
 			<div className="grid gap-6">
 				<Card>
