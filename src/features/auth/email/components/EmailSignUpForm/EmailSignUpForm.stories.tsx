@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
-import { createEmailSchema } from "@/components/form/EmailField/email-schema";
-import { createPasswordSchema } from "@/components/form/PasswordField/password-schema";
-import { createUsernameSchema } from "@/components/form/UsernameField/username-schema";
+import { createEmailSchema } from "@/components/form/EmailField/EmailField";
+import { createPasswordSchema } from "@/components/form/PasswordField/PasswordField";
+import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 
 import { EmailSignUpForm } from "./EmailSignUpForm";

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
+import { z } from "zod";
 
 import {
 	FormControl,
@@ -12,6 +13,26 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
+// MARK: - Schema
+
+export type EmailTranslationFunction = (
+	key:
+		| "Auth.validation.emailRequired"
+		| "Auth.validation.emailInvalid"
+		| "Auth.validation.emailMinLength",
+) => string;
+
+export const createEmailSchema = (t: EmailTranslationFunction) => {
+	return z
+		.string({ required_error: t("Auth.validation.emailInvalid") })
+		.min(1, { message: t("Auth.validation.emailMinLength") })
+		.email({ message: t("Auth.validation.emailInvalid") });
+};
+
+export type EmailSchema = z.infer<ReturnType<typeof createEmailSchema>>;
+
+// MARK: - Component
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;

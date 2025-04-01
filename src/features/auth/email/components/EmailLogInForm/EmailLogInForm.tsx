@@ -10,10 +10,14 @@ import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { Notice } from "@/components/feedback/Notice/Notice";
-import { EmailField } from "@/components/form/EmailField/EmailField";
-import { createEmailSchema } from "@/components/form/EmailField/email-schema";
-import { PasswordField } from "@/components/form/PasswordField/PasswordField";
-import { createPasswordSchema } from "@/components/form/PasswordField/password-schema";
+import {
+	EmailField,
+	createEmailSchema,
+} from "@/components/form/EmailField/EmailField";
+import {
+	PasswordField,
+	createPasswordSchema,
+} from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 import { queryKeys } from "@/lib/query-keys";

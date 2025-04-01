@@ -3,15 +3,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { PageTitle } from "@/components/PageTitle";
-import { EmailField } from "@/components/form/EmailField/EmailField";
-import { createEmailSchema } from "@/components/form/EmailField/email-schema";
-import { UsernameField } from "@/components/form/UsernameField/UsernameField";
-import { createUsernameSchema } from "@/components/form/UsernameField/username-schema";
+import {
+	EmailField,
+	createEmailSchema,
+} from "@/components/form/EmailField/EmailField";
+import {
+	UsernameField,
+	createUsernameSchema,
+} from "@/components/form/UsernameField/UsernameField";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +22,8 @@ import { Form } from "@/components/ui/form";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+
 export default function AccountPage() {
 	const t = useTranslations();
 	const { user } = useAuth();
@@ -33,7 +38,7 @@ export default function AccountPage() {
 	});
 	type FormValues = z.infer<typeof schema>;
 
-	const form = useForm<FormValues>({
+	const form = useFormWithOnChange<FormValues>({
 		resolver: zodResolver(schema),
 		defaultValues: {
 			username: profile?.username ?? "",

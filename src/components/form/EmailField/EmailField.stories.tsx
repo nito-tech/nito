@@ -6,8 +6,8 @@ import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
-import { EmailField } from "./EmailField";
-import { createEmailSchema } from "./email-schema";
+
+import { EmailField, createEmailSchema } from "./EmailField";
 
 const meta = {
 	title: "Components/Form/EmailField",

@@ -5,11 +5,10 @@ import { useTranslations } from "next-intl";
 import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
+import { mockCheckUsernameExists } from "@/features/auth/email/hooks/useUsername.mock";
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
-import { mockCheckUsernameExists } from "#features/auth/email/hooks/useUsername.mock";
 
-import { UsernameField } from "./UsernameField";
-import { createUsernameSchema } from "./username-schema";
+import { UsernameField, createUsernameSchema } from "./UsernameField";
 
 const meta = {
 	title: "Components/Form/UsernameField",

@@ -6,8 +6,8 @@ import { FormProvider } from "react-hook-form";
 import { z } from "zod";
 
 import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
-import { PasswordField } from "./PasswordField";
-import { createPasswordSchema } from "./password-schema";
+
+import { PasswordField, createPasswordSchema } from "./PasswordField";
 
 const meta = {
 	title: "Components/Form/PasswordField",

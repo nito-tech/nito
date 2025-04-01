@@ -7,15 +7,15 @@ import { z } from "zod";
 import {
 	type EmailSchema,
 	createEmailSchema,
-} from "@/components/form/EmailField/email-schema";
+} from "@/components/form/EmailField/EmailField";
 import {
 	type PasswordSchema,
 	createPasswordSchema,
-} from "@/components/form/PasswordField/password-schema";
+} from "@/components/form/PasswordField/PasswordField";
 import {
 	type UsernameSchemaType,
 	createUsernameSchema,
-} from "@/components/form/UsernameField/username-schema";
+} from "@/components/form/UsernameField/UsernameField";
 import { createServerClient } from "@/lib/supabase/server";
 
 export async function logInWithEmail(formData: {
