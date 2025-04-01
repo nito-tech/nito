@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 
-import { Divider } from "@/components/Divider";
+import { Separator } from "@/components/ui/separator";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 import { SidebarControl } from "./SidebarControl";
 import { SidebarItem } from "./SidebarItem";
@@ -73,6 +73,7 @@ export const Sidebar = () => {
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			<nav
+				aria-label="Sidebar Navigation"
 				className={cn(
 					"bg-card text-card-foreground h-full border-r border-border flex flex-col",
 					"transition-[width] duration-300 pt-2 pb-4",
@@ -93,7 +94,9 @@ export const Sidebar = () => {
 							/>
 						))}
 
-						<Divider className="border-border" />
+						<div className="px-1">
+							<Separator className="border-border my-2" />
+						</div>
 
 						{/* Resource Navigation */}
 						{resourceNavItems.map((item) => (
@@ -106,7 +109,9 @@ export const Sidebar = () => {
 							/>
 						))}
 
-						<Divider className="border-border" />
+						<div className="px-1">
+							<Separator className="border-border my-2" />
+						</div>
 
 						{/* Utility Navigation */}
 						{utilityNavItems.map((item) => (

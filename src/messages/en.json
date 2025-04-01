@@ -39,8 +39,32 @@
 	},
 	"UserInfo": {
 		"email": "Email",
-		"password": "Password"
+		"password": "Password",
+		"username": "Username",
+		"accountPreferences": "Account preferences",
+		"accountPreferencesDescription": "Manage your account settings and preferences.",
+		"dangerZone": "Danger Zone",
+		"dangerZoneDescription": "Irreversible and destructive actions.",
+		"deleteAccount": "Delete Account",
+		"deleteAccountDescription": "Permanently delete your account and all associated data.",
+		"deleteAccountConfirmation": "Are you absolutely sure?",
+		"deleteAccountConfirmationDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+		"deleteAccountConfirm": "Delete Account"
+	},
+	"Action": {
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"deleting": "Deleting..."
 	},
 	"commingSoon": "Comming soon...",
-	"connectToRepository": "Connect to repository"
+	"connectToRepository": "Connect to repository",
+	"error": {
+		"title": "Oops, something went wrong :( "
+	},
+	"refresh": "Refresh",
+	"notFound": {
+		"title": "Page Not Found",
+		"description": "The page you're looking for doesn't exist or has been moved. Don't worry, even the best explorers get lost sometimes.",
+		"goToHome": "Go to Home"
+	}
 }

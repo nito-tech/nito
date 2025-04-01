@@ -39,8 +39,32 @@
 	},
 	"UserInfo": {
 		"email": "メールアドレス",
-		"password": "パスワード"
+		"password": "パスワード",
+		"username": "ユーザー名",
+		"accountPreferences": "アカウント設定",
+		"accountPreferencesDescription": "アカウント設定と環境設定を管理します。",
+		"dangerZone": "危険ゾーン",
+		"dangerZoneDescription": "破壊的なアクションです。",
+		"deleteAccount": "アカウントを削除",
+		"deleteAccountDescription": "このアクションは元に戻すことができません。これにより、アカウントと関連データが完全に削除されます。",
+		"deleteAccountConfirmation": "本当に削除しますか？",
+		"deleteAccountConfirmationDescription": "このアクションは元に戻すことができません。これにより、アカウントと関連データが完全に削除されます。",
+		"deleteAccountConfirm": "アカウントを削除"
+	},
+	"Action": {
+		"cancel": "キャンセル",
+		"delete": "削除",
+		"deleting": "削除中..."
 	},
 	"commingSoon": "近日公開...",
-	"connectToRepository": "リポジトリを接続"
+	"connectToRepository": "リポジトリを接続",
+	"error": {
+		"title": "おっと、何かが間違っていたようです :("
+	},
+	"refresh": "トップページに戻る",
+	"notFound": {
+		"title": "ページが見つかりません",
+		"description": "お探しのページは存在しないか、移動されました。ご心配なく、最高の探検家でも迷子になることはあります。",
+		"goToHome": "ホームに戻る"
+	}
 }

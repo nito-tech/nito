@@ -7,12 +7,10 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { Breakpoint } from "@/components/Breakpoint";
 import PublicHeader from "@/components/header/PublicHeader";
-import { ClientSideProviders } from "@/components/providers/ClientSideProviders";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { ProfileProvider } from "@/contexts/ProfileContext";
 
+import { AppProvider } from "./provider";
 import "./globals.css";
 
 // const geistSans = Geist({
@@ -50,15 +48,11 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<NextIntlClientProvider messages={messages}>
-						<ClientSideProviders>
-							<AuthProvider>
-								<ProfileProvider>
-									<PublicHeader />
-									{children}
-									<Toaster visibleToasts={100} />
-								</ProfileProvider>
-							</AuthProvider>
-						</ClientSideProviders>
+						<AppProvider>
+							<PublicHeader />
+							{children}
+							<Toaster visibleToasts={100} />
+						</AppProvider>
 					</NextIntlClientProvider>
 				</ThemeProvider>
 

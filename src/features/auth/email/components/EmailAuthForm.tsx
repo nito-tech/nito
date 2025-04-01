@@ -5,26 +5,24 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
+import { z } from "zod";
 
-import { Notice } from "@/components/Notice";
+import { Notice } from "@/components/feedback/Notice/Notice";
+import { EmailField } from "@/components/form/EmailField/EmailField";
+import { createEmailSchema } from "@/components/form/EmailField/email-schema";
+import { PasswordField } from "@/components/form/PasswordField/PasswordField";
+import { createPasswordSchema } from "@/components/form/PasswordField/password-schema";
+import { UsernameField } from "@/components/form/UsernameField/UsernameField";
+import { createUsernameSchema } from "@/components/form/UsernameField/username-schema";
 import { Button } from "@/components/ui/button";
-import { createBrowserClient } from "@/lib/supabase/client";
-import { cn } from "@/lib/utils";
-
+import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
 import { queryKeys } from "@/lib/query-keys";
+import { createBrowserClient } from "@/lib/supabase/client";
+import { cn } from "@/utils/cn";
+
 import { logInWithEmail, signUpWithEmail } from "../actions";
-import {
-	type EmailLoginInput,
-	type EmailSignupInput,
-	type TranslationFunction,
-	createEmailLoginSchema,
-	createEmailSignupSchema,
-} from "../schemas/auth-schema";
-import { EmailField } from "./EmailField";
-import { PasswordField } from "./PasswordField";
-import { UsernameField } from "./UsernameField";
 
 interface FormProps {
 	className?: string;
@@ -35,12 +33,18 @@ function SignUpForm({ className }: FormProps) {
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
-	const methods = useForm<EmailSignupInput>({
-		mode: "onChange",
-		resolver: zodResolver(createEmailSignupSchema(t as TranslationFunction)),
+	const schema = z.object({
+		email: createEmailSchema(t),
+		password: createPasswordSchema(t),
+		username: createUsernameSchema(t),
+	});
+	type FormValues = z.infer<typeof schema>;
+
+	const form = useFormWithOnChange<FormValues>({
+		resolver: zodResolver(schema),
 	});
 
-	const onSubmitHandler: SubmitHandler<EmailSignupInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
@@ -59,12 +63,12 @@ function SignUpForm({ className }: FormProps) {
 	};
 
 	return (
-		<FormProvider {...methods}>
+		<FormProvider {...form}>
 			<form
 				noValidate
 				aria-label="Sign up form"
 				className={cn("grid gap-6", className)}
-				onSubmit={methods.handleSubmit(onSubmitHandler)}
+				onSubmit={form.handleSubmit(onSubmitHandler)}
 			>
 				<div className="grid gap-6">
 					{messageType === "success" && message && (
@@ -73,14 +77,24 @@ function SignUpForm({ className }: FormProps) {
 					{messageType === "error" && message && (
 						<Notice variant="destructive" text={message} />
 					)}
-					<EmailField<"signUp"> disabled={methods.formState.isSubmitting} />
-					<PasswordField<"signUp"> disabled={methods.formState.isSubmitting} />
-					<UsernameField disabled={methods.formState.isSubmitting} />
+
+					<EmailField<FormValues>
+						name="email"
+						disabled={form.formState.isSubmitting}
+					/>
+					<PasswordField<FormValues>
+						name="password"
+						disabled={form.formState.isSubmitting}
+					/>
+					<UsernameField<FormValues>
+						name="username"
+						disabled={form.formState.isSubmitting}
+					/>
 				</div>
 				<Button
 					type="submit"
 					className="mt-1"
-					disabled={methods.formState.isSubmitting}
+					disabled={form.formState.isSubmitting}
 				>
 					{t("Auth.signUp")}
 				</Button>
@@ -96,12 +110,17 @@ function LogInForm({ className }: FormProps) {
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
-	const methods = useForm<EmailLoginInput>({
-		mode: "onChange",
-		resolver: zodResolver(createEmailLoginSchema(t as TranslationFunction)),
+	const schema = z.object({
+		email: createEmailSchema(t),
+		password: createPasswordSchema(t),
+	});
+	type FormValues = z.infer<typeof schema>;
+
+	const form = useFormWithOnChange<FormValues>({
+		resolver: zodResolver(schema),
 	});
 
-	const onSubmitHandler: SubmitHandler<EmailLoginInput> = async (data) => {
+	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
@@ -129,24 +148,30 @@ function LogInForm({ className }: FormProps) {
 	};
 
 	return (
-		<FormProvider {...methods}>
+		<FormProvider {...form}>
 			<form
 				noValidate
 				aria-label="Log in form"
 				className={cn("grid gap-6", className)}
-				onSubmit={methods.handleSubmit(onSubmitHandler)}
+				onSubmit={form.handleSubmit(onSubmitHandler)}
 			>
 				<div className="grid gap-6">
 					{messageType === "error" && message && (
 						<Notice variant="destructive" text={message} />
 					)}
-					<EmailField<"logIn"> disabled={methods.formState.isSubmitting} />
-					<PasswordField<"logIn"> disabled={methods.formState.isSubmitting} />
+					<EmailField<FormValues>
+						name="email"
+						disabled={form.formState.isSubmitting}
+					/>
+					<PasswordField<FormValues>
+						name="password"
+						disabled={form.formState.isSubmitting}
+					/>
 				</div>
 				<Button
 					type="submit"
 					className="mt-1"
-					disabled={methods.formState.isSubmitting}
+					disabled={form.formState.isSubmitting}
 				>
 					{t("Auth.logIn")}
 				</Button>

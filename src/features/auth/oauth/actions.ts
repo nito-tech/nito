@@ -3,7 +3,7 @@
 import type { Provider } from "@supabase/supabase-js";
 
 import { createServerClient } from "@/lib/supabase/server";
-import { getSiteUrl } from "@/lib/utils";
+import { getSiteUrl } from "@/utils/url";
 
 const redirectPath = "/dashboard";
 

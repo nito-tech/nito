@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect } from "react";
 
-import { getSession, signOut } from "@/lib/queries/auth";
+import { getSession } from "@/lib/queries/auth";
 import { queryKeys } from "@/lib/query-keys";
 import { createBrowserClient } from "@/lib/supabase/client";
 import type { AuthState } from "@/types/auth";
@@ -119,10 +119,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 			// Sign out 1 minute before session expiration
 			if (timeUntilExpiry <= 60 * 1000) {
-				signOut();
+				logOut();
 			}
 		}
 	}, [session]);
+
+	const logOut = async () => {
+		// Use Browser Client to clear the session.
+		// If not cleared, the process of verifying duplicate usernames on the /singup page after logout will be skipped.
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			throw error;
+		}
+
+		router.push("/login");
+	};
 
 	return (
 		<AuthContext.Provider
@@ -130,6 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				user: session?.user ?? null,
 				session: session ?? null,
 				isLoading,
+				logOut,
 				error: error as Error | null,
 			}}
 		>

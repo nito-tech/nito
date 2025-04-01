@@ -2,13 +2,13 @@ import { CircleCheckIcon, CircleXIcon, InfoIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import type { Variant } from "@/components/ui/alert";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 const getVariantIcon = (variant: Variant) => {
 	switch (variant) {
 		case "info":
 			return (
-				<InfoIcon className="text-info-foreground dark:text-info-foreground/70 h-5 w-5" />
+				<InfoIcon className="text-info-foreground dark:text-info-foreground h-5 w-5" />
 			);
 		case "success":
 			return (

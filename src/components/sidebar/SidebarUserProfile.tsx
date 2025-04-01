@@ -1,7 +1,9 @@
 "use client";
 
 import { Beaker, Command, LogOut, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
@@ -19,24 +21,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
-import { logOut } from "@/features/auth/logout/actions";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 
 interface Props {
 	isCollapsed: boolean;
 }
 
 export default function SidebarUserProfile({ isCollapsed }: Props) {
-	const { theme, setTheme } = useTheme();
-	const [mounted, setMounted] = useState(false);
+	const t = useTranslations("UserInfo");
 
-	// next-themes only works on the client side,
-	// so only use theme information after mounting
-	useEffect(() => {
-		setMounted(true);
-	}, []);
-
-	const { user } = useAuth();
+	// ----------------------------------------------
+	// User Data
+	// ----------------------------------------------
+	const { user, logOut } = useAuth();
 	const { profile } = useProfile();
 
 	const userData = useMemo(
@@ -48,8 +45,23 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 		[profile?.username, user?.email, profile?.avatar_url],
 	);
 
+	// ----------------------------------------------
+	// Theme
+	// ----------------------------------------------
+	const { theme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	// next-themes only works on the client side,
+	// so only use theme information after mounting
+	useEffect(() => setMounted(true), []);
+
 	// Get current theme value safely
 	const currentTheme = mounted ? theme : "system";
+
+	// ----------------------------------------------
+	// Log out
+	// ----------------------------------------------
+	const handleLogOut = async () => await logOut();
 
 	return (
 		<div className="px-2 py-3 border-t border-border">
@@ -66,7 +78,11 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 						)}
 					>
 						<Avatar className="h-8 w-8 flex-shrink-0">
-							<AvatarImage src={userData.avatarUrl} alt={userData.username} />
+							<AvatarImage
+								// Response to an error that occurs when an empty character is passed at logout
+								src={userData.avatarUrl || undefined}
+								alt={userData.username}
+							/>
 							<AvatarFallback className="bg-muted text-muted-foreground">
 								{userData.username.substring(0, 2).toUpperCase()}
 							</AvatarFallback>
@@ -100,9 +116,11 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 
 					<DropdownMenuSeparator />
 
-					<DropdownMenuItem className="cursor-pointer">
-						<Settings className="mr-2 h-4 w-4" />
-						<span>Account preferences</span>
+					<DropdownMenuItem className="cursor-pointer" asChild>
+						<Link href="/dashboard/account/me">
+							<Settings className="mr-2 h-4 w-4" />
+							<span className="text-sm">{t("accountPreferences")}</span>
+						</Link>
 					</DropdownMenuItem>
 
 					<DropdownMenuItem className="cursor-pointer">
@@ -142,7 +160,7 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 					<DropdownMenuSeparator />
 
 					<DropdownMenuItem className="cursor-pointer p-0">
-						<form action={logOut} className="w-full">
+						<form action={handleLogOut} className="w-full">
 							<button
 								type="submit"
 								className="w-full flex items-center text-sm cursor-pointer px-2 py-1.5 rounded"

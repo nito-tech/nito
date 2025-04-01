@@ -1,11 +1,4 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-import { env } from "@/env";
-
-export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
-}
+import { env } from "@/config/env";
 
 /**
  * Type guard to check if a URL string is valid (not undefined and not empty after trimming)

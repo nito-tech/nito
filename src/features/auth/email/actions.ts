@@ -4,19 +4,29 @@ import type { Session } from "@supabase/supabase-js";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
+import {
+	type EmailSchemaType,
+	createEmailSchema,
+} from "@/components/form/EmailField/email-schema";
+import {
+	type PasswordSchemaType,
+	createPasswordSchema,
+} from "@/components/form/PasswordField/password-schema";
+import {
+	type UsernameSchemaType,
+	createUsernameSchema,
+} from "@/components/form/UsernameField/username-schema";
 import { createServerClient } from "@/lib/supabase/server";
 
-import {
-	createEmailLoginSchema,
-	createEmailSignupSchema,
-} from "./schemas/auth-schema";
-import type { EmailLoginInput, EmailSignupInput } from "./schemas/auth-schema";
-
-export async function logInWithEmail(
-	formData: EmailLoginInput,
-): Promise<Session> {
+export async function logInWithEmail(formData: {
+	email: EmailSchemaType;
+	password: PasswordSchemaType;
+}): Promise<Session> {
 	const t = (key: string) => key; // No translation required on the server side
-	const schema = createEmailLoginSchema(t);
+	const schema = z.object({
+		email: createEmailSchema(t),
+		password: createPasswordSchema(t),
+	});
 
 	try {
 		schema.parse(formData);
@@ -43,9 +53,7 @@ export async function logInWithEmail(
 /**
  * Check if the username already exists
  */
-export async function checkUsernameExists(
-	username: EmailSignupInput["username"],
-) {
+export async function checkUsernameExists(username: UsernameSchemaType) {
 	const t = await getTranslations();
 	const supabase = await createServerClient();
 
@@ -60,9 +68,17 @@ export async function checkUsernameExists(
 	}
 }
 
-export async function signUpWithEmail(formData: EmailSignupInput) {
+export async function signUpWithEmail(formData: {
+	email: EmailSchemaType;
+	password: PasswordSchemaType;
+	username: UsernameSchemaType;
+}) {
 	const t = (key: string) => key; // No translation required on the server side
-	const schema = createEmailSignupSchema(t);
+	const schema = z.object({
+		email: createEmailSchema(t),
+		password: createPasswordSchema(t),
+		username: createUsernameSchema(t),
+	});
 
 	try {
 		// Validate the input

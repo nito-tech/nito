@@ -35,7 +35,6 @@ jobs:
 
   migration:
     needs: check-paths
-    if: needs.check-paths.outputs.should_run_migration == 'true'
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
@@ -87,6 +86,7 @@ jobs:
         SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
 
     - name: Run migrations
+      if: needs.check-paths.outputs.should_run_migration == 'true'
       run: |
         set -e
         # supabase migration up

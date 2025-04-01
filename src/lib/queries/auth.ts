@@ -35,29 +35,3 @@ export const getSession = async (): Promise<Session | null> => {
 
 	return session;
 };
-
-/**
- * Signs out the current user from Supabase.
- * This function is used to end the user's session and clear their authentication state.
- *
- * @returns {Promise<void>} A promise that resolves when the sign out is complete
- * @throws {Error} If there's an error during the sign out process
- *
- * @example
- * ```typescript
- * try {
- *   await signOut();
- *   // User has been successfully signed out
- * } catch (error) {
- *   console.error('Error signing out:', error);
- * }
- * ```
- */
-export const signOut = async (): Promise<void> => {
-	const supabase = createBrowserClient();
-	const { error } = await supabase.auth.signOut();
-
-	if (error) {
-		throw error;
-	}
-};

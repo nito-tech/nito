@@ -1,7 +1,7 @@
 import React from "react";
 
-import { env } from "@/env";
-import { cn } from "@/lib/utils";
+import { env } from "@/config/env";
+import { cn } from "@/utils/cn";
 
 export const Breakpoint = () => {
 	if (env.NODE_ENV === "production") {
