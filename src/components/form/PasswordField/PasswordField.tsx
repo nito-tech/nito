@@ -4,7 +4,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { type FieldValues, type Path, useFormContext } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,34 +15,8 @@ import {
 	useFormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PASSWORD_MAX_LENGTH } from "@/types/schema";
 import { cn } from "@/utils/cn";
-
-// MARK: - Schema
-
-export const PASSWORD_MIN_LENGTH = 10;
-export const PASSWORD_MAX_LENGTH = 128;
-
-export type PasswordTranslationFunction = (
-	key:
-		| "Auth.validation.passwordRequired"
-		| "Auth.validation.passwordMinLength"
-		| "Auth.validation.passwordMaxLength",
-) => string;
-
-export const createPasswordSchema = (t: PasswordTranslationFunction) => {
-	return z
-		.string({ required_error: t("Auth.validation.passwordRequired") })
-		.min(PASSWORD_MIN_LENGTH, {
-			message: t("Auth.validation.passwordMinLength"),
-		})
-		.max(PASSWORD_MAX_LENGTH, {
-			message: t("Auth.validation.passwordMaxLength"),
-		});
-};
-
-export type PasswordSchema = z.infer<ReturnType<typeof createPasswordSchema>>;
-
-// MARK: - Component
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;

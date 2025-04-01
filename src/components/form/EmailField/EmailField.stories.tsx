@@ -4,7 +4,9 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { EmailField, createEmailSchema } from "./EmailField";
+import { createEmailSchema } from "@/types/schema";
+
+import { EmailField } from "./EmailField";
 
 const meta = {
 	title: "Components/Form/EmailField",

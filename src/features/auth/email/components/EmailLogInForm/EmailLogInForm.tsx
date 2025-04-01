@@ -8,18 +8,13 @@ import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { Notice } from "@/components/feedback/Notice/Notice";
-import {
-	EmailField,
-	createEmailSchema,
-} from "@/components/form/EmailField/EmailField";
-import {
-	PasswordField,
-	createPasswordSchema,
-} from "@/components/form/PasswordField/PasswordField";
+import { EmailField } from "@/components/form/EmailField/EmailField";
+import { PasswordField } from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { queryKeys } from "@/lib/query-keys";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { createEmailSchema, createPasswordSchema } from "@/types/schema";
 import { cn } from "@/utils/cn";
 
 import { logInWithEmail } from "../../actions";

@@ -5,18 +5,16 @@ import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import {
-	type EmailSchema,
-	createEmailSchema,
-} from "@/components/form/EmailField/EmailField";
-import {
-	type PasswordSchema,
-	createPasswordSchema,
-} from "@/components/form/PasswordField/PasswordField";
-import {
 	type UsernameSchemaType,
 	createUsernameSchema,
 } from "@/components/form/UsernameField/UsernameField";
 import { createServerClient } from "@/lib/supabase/server";
+import {
+	type EmailSchema,
+	type PasswordSchema,
+	createEmailSchema,
+	createPasswordSchema,
+} from "@/types/schema";
 
 export async function logInWithEmail(formData: {
 	email: EmailSchema;

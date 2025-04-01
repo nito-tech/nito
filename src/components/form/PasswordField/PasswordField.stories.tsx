@@ -4,7 +4,9 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { PasswordField, createPasswordSchema } from "./PasswordField";
+import { createPasswordSchema } from "@/types/schema";
+
+import { PasswordField } from "./PasswordField";
 
 const meta = {
 	title: "Components/Form/PasswordField",
