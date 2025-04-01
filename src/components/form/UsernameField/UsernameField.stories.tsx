@@ -72,28 +72,27 @@ export const CannotInputWhenDisabled: Story = {
 	},
 };
 
-// FIXME: mock がうまく呼ばれていない
-// export const WithValidUsername: Story = {
-// 	tags: ["validation"],
-// 	play: async ({ canvasElement }) => {
-// 		const canvas = within(canvasElement);
-// 		const usernameInput = canvas.getByLabelText("Username");
+export const WithValidUsername: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
 
-// 		// Input valid username
-// 		await userEvent.type(usernameInput, "validusername");
-// 		await userEvent.tab();
+		// Input valid username
+		await userEvent.type(usernameInput, "validusername");
+		await userEvent.tab();
 
-// 		// Wait for debounce delay (500ms)
-// 		await new Promise((resolve) => setTimeout(resolve, 500));
+		// Wait for debounce delay (500ms)
+		await new Promise((resolve) => setTimeout(resolve, 500));
 
-// 		// Check mock function called
-// 		await expect(mockCheckUsernameExists).toHaveBeenCalledWith("validusername");
+		// Check mock function called
+		await expect(mockCheckUsernameExists).toHaveBeenCalledWith("validusername");
 
-// 		// Wait for error message to disappear
-// 		const errorElements = canvas.queryAllByRole("alert");
-// 		expect(errorElements.length).toBe(0);
-// 	},
-// };
+		// Wait for error message to disappear
+		const errorElements = canvas.queryAllByRole("alert");
+		expect(errorElements.length).toBe(0);
+	},
+};
 
 export const Required: Story = {
 	tags: ["validation"],
@@ -163,23 +162,22 @@ export const ReservedWord: Story = {
 	},
 };
 
-// FIXME: mock がうまく呼ばれていない
-// export const AlreadyExistingUsername: Story = {
-// 	tags: ["validation"],
-// 	play: async ({ canvasElement }) => {
-// 		const canvas = within(canvasElement);
-// 		const usernameInput = canvas.getByLabelText("Username");
+export const AlreadyExistingUsername: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const usernameInput = canvas.getByLabelText("Username");
 
-// 		// Input invalid username
-// 		await userEvent.type(usernameInput, "already_exists_username");
-// 		await userEvent.tab();
+		// Input invalid username
+		await userEvent.type(usernameInput, "already_exists_username");
+		await userEvent.tab();
 
-// 		// Wait for error message to appear
-// 		const errorMessage = await canvas.findByText("Username already exists");
+		// Wait for error message to appear
+		const errorMessage = await canvas.findByText("Username already exists");
 
-// 		await expect(errorMessage).toBeInTheDocument();
-// 		await expect(mockCheckUsernameExists).toHaveBeenCalledWith(
-// 			"already_exists_username",
-// 		);
-// 	},
-// };
+		await expect(errorMessage).toBeInTheDocument();
+		await expect(mockCheckUsernameExists).toHaveBeenCalledWith(
+			"already_exists_username",
+		);
+	},
+};
