@@ -47,3 +47,26 @@ SET
   avatar_url = 'https://github.com/shadcn.png',
   updated_at = now()
 WHERE id = '00000000-0000-0000-0000-000000000001';
+
+-- Insert test organizations
+INSERT INTO organizations (name) VALUES
+  ('Apple Inc.'),
+  ('Microsoft Corporation'),
+  ('Google LLC'),
+  ('Amazon.com Inc.'),
+  ('Meta Platforms Inc.'),
+  ('Netflix Inc.'),
+  ('Tesla Inc.'),
+  ('NVIDIA Corporation'),
+  ('Adobe Inc.'),
+  ('Salesforce Inc.'),
+  ('Intel Corporation'),
+  ('AMD Inc.'),
+  ('Oracle Corporation'),
+  ('IBM Corporation'),
+  ('Cisco Systems Inc.'),
+  ('Qualcomm Inc.'),
+  ('Samsung Electronics'),
+  ('Sony Group Corporation'),
+  ('Dell Technologies'),
+  ('HP Inc.');
