@@ -1,27 +1,19 @@
-import fs from "node:fs";
 import path from "node:path";
 import type { StorybookConfig } from "@storybook/experimental-nextjs-vite";
 
 /**
- * Generate mock aliases for Storybook subpath imports
+ * Generate mock aliases for Storybook
  */
 function generateMockAliases() {
 	const mockAliases: Record<string, string> = {};
-	const hooksDir = path.resolve(__dirname, "../src/features/auth/email/hooks");
+	const srcDir = path.resolve(__dirname, "../src");
 
-	// Search files in the directory
-	const files = fs.readdirSync(hooksDir);
-	for (const file of files) {
-		if (file.endsWith(".mock.ts")) {
-			const mockName = file.replace(".mock.ts", "");
-			const mockPath = path.resolve(hooksDir, file);
-
-			// Relative path alias
-			mockAliases[`../hooks/${mockName}`] = mockPath;
-			// Absolute path alias
-			mockAliases[`src/features/auth/email/hooks/${mockName}`] = mockPath;
-		}
-	}
+	const useUsernameMockPath = path.resolve(
+		`${srcDir}/features/auth/email/hooks`,
+		"useUsername.mock.ts",
+	);
+	mockAliases["../../../features/auth/email/hooks/useUsername"] =
+		useUsernameMockPath;
 
 	return mockAliases;
 }
