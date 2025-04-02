@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
 import React from "react";
 
-import messages from "../src/messages/en.json";
+import messages from "../src/shared/i18n/messages/en.json";
 import "../src/app/globals.css";
 import "./mockNextImage";
 

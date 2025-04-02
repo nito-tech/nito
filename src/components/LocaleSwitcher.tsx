@@ -12,7 +12,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Locale } from "@/i18n/config";
+import type { Locale } from "@/shared/i18n/config";
 import { setUserLocale } from "@/shared/lib/locale";
 import { cn } from "@/shared/utils/cn";
 

@@ -51,6 +51,12 @@
 		"deleteAccountConfirmationDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
 		"deleteAccountConfirm": "Delete Account"
 	},
+	"Organization": {
+		"name": "Organization Name",
+		"createOrganization": "Create Organization",
+		"createOrganizationDescription": "Create a new organization to manage your projects and teams.",
+		"createOrganizationConfirm": "Create Organization"
+	},
 	"Action": {
 		"cancel": "Cancel",
 		"delete": "Delete",

@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, test } from "vitest";
 
 import HomePage from "@/app/page";
-import type { Locale } from "@/i18n/config";
+import type { Locale } from "@/shared/i18n/config";
 
 /**
  * Helper function to render the HomePage component with NextIntlClientProvider.

@@ -51,6 +51,12 @@
 		"deleteAccountConfirmationDescription": "このアクションは元に戻すことができません。これにより、アカウントと関連データが完全に削除されます。",
 		"deleteAccountConfirm": "アカウントを削除"
 	},
+	"Organization": {
+		"name": "組織名",
+		"createOrganization": "組織を作成",
+		"createOrganizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
+		"createOrganizationConfirm": "組織を作成"
+	},
 	"Action": {
 		"cancel": "キャンセル",
 		"delete": "削除",
