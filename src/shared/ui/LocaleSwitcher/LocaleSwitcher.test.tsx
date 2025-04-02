@@ -9,7 +9,7 @@ import type { Locale } from "@/shared/i18n/config";
  * Helper function to render the HomePage component with NextIntlClientProvider.
  */
 async function renderHomePage(locale: Locale) {
-	const messages = (await import(`../messages/${locale}.json`)).default;
+	const messages = (await import(`../../messages/${locale}.json`)).default;
 
 	return render(
 		<NextIntlClientProvider locale={locale} messages={messages}>
