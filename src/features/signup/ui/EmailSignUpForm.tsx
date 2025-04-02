@@ -16,7 +16,7 @@ import {
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
 import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
 import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 import { useSignUpWithEmail } from "../model/useSignUpWithEmail";
 

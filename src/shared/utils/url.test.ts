@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { env } from "@/config/env";
-import { getSiteUrl } from "@/utils/url";
+import { getSiteUrl } from "@/shared/utils/url";
 
 describe("getSiteUrl", () => {
 	// Reset environment variable stubs after each test

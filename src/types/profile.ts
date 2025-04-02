@@ -1,5 +1,5 @@
+import type { Database } from "../shared/supabase";
 import type { ResponseError } from "./base";
-import type { Database } from "./supabase";
 
 /**
  * Type definition for a user profile

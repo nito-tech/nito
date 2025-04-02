@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Locale } from "@/i18n/config";
 import { setUserLocale } from "@/shared/lib/locale";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 type Item = {
 	flag: string;

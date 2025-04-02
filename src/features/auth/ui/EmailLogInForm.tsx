@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
 import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";

@@ -21,7 +21,7 @@ import {
 } from "@/shared/model/schemas";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
 import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 export default function AccountPage() {
 	const t = useTranslations();

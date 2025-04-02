@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PASSWORD_MAX_LENGTH } from "@/shared/model/schemas";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;

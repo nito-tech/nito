@@ -10,7 +10,7 @@ import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { isAuthPage, isPublicPage } from "@/shared/lib/pathname";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 function NavLink({
 	href,

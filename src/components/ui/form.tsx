@@ -21,7 +21,7 @@ import {
 import type { ZodType } from "zod";
 
 import { Label } from "@/components/ui/label";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 // const Form = FormProvider;
 
