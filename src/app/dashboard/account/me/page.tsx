@@ -11,9 +11,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { useAuth } from "@/contexts/AuthContext";
-import { useProfile } from "@/contexts/ProfileContext";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { useProfile } from "@/shared/contexts/ProfileContext";
 import { useFormWithOnChange } from "@/shared/lib/useFormWithOnChange";
 import {
 	createEmailSchema,

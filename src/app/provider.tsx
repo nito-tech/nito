@@ -7,8 +7,8 @@ import type * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { Button } from "@/components/ui/button";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { ProfileProvider } from "@/contexts/ProfileContext";
+import { AuthProvider } from "@/shared/contexts/AuthContext";
+import { ProfileProvider } from "@/shared/contexts/ProfileContext";
 import { useRootQueryClient } from "@/shared/lib/useRootQueryClient";
 
 type AppProviderProps = {
