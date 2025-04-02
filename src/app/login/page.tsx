@@ -2,8 +2,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { Separator } from "@/components/ui/separator";
-import EmailAuthForm from "@/features/auth/email/components/EmailAuthForm";
 import OauthLogIn from "@/features/auth/oauth/components/OauthLogIn";
+import { EmailLogInForm } from "@/features/auth/ui/EmailLogInForm";
 
 export default function LoginPage() {
 	const t = useTranslations("Auth");
@@ -16,7 +16,7 @@ export default function LoginPage() {
 					{t("logIn")}
 				</h1>
 
-				<EmailAuthForm type="logIn" className="my-6 w-full" />
+				<EmailLogInForm className="my-6 w-full" />
 				<Separator className="border-border my-2" />
 				<OauthLogIn className="my-6 w-full" />
 

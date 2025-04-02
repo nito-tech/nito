@@ -3,22 +3,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { PageTitle } from "@/components/PageTitle";
-import { EmailField } from "@/components/form/EmailField/EmailField";
-import { createEmailSchema } from "@/components/form/EmailField/email-schema";
-import { UsernameField } from "@/components/form/UsernameField/UsernameField";
-import { createUsernameSchema } from "@/components/form/UsernameField/username-schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { useAuth } from "@/contexts/AuthContext";
-import { useProfile } from "@/contexts/ProfileContext";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { useProfile } from "@/shared/contexts/ProfileContext";
+import { useFormWithOnChange } from "@/shared/lib/useFormWithOnChange";
+import {
+	createEmailSchema,
+	createUsernameSchema,
+} from "@/shared/model/schemas";
+import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { PageTitle } from "@/shared/ui/PageTitle/PageTitle";
+import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
+import { cn } from "@/shared/utils/cn";
+
 export default function AccountPage() {
 	const t = useTranslations();
 	const { user } = useAuth();
@@ -33,7 +37,7 @@ export default function AccountPage() {
 	});
 	type FormValues = z.infer<typeof schema>;
 
-	const form = useForm<FormValues>({
+	const form = useFormWithOnChange<FormValues>({
 		resolver: zodResolver(schema),
 		defaultValues: {
 			username: profile?.username ?? "",
@@ -130,18 +134,27 @@ export default function AccountPage() {
 							</div>
 						</div>
 
-						<Form {...form}>
-							<form
-								onSubmit={form.handleSubmit(onSubmit)}
-								className="space-y-4"
-							>
-								<UsernameField<FormValues> name="username" />
-								<EmailField<FormValues> name="email" />
-								<Button type="submit" disabled={isLoading}>
-									{isLoading ? "Updating..." : "Update Profile"}
-								</Button>
-							</form>
-						</Form>
+						{/* <Form
+							schema={LogInWithEmailSchema(
+								t as unknown as (key: string) => string,
+							)}
+							onSubmit={onSubmit}
+							noValidate
+							aria-label="Log in form"
+							className={cn("grid")}
+						>
+							{({ formState }) => (
+								<>
+									<div className="grid gap-6">
+										<UsernameField<FormValues> name="username" />
+										<EmailField<FormValues> name="email" />
+									</div>
+									<Button type="submit" disabled={isLoading}>
+										{isLoading ? "Updating..." : "Update Profile"}
+									</Button>
+								</>
+							)}
+						</Form> */}
 					</CardContent>
 				</Card>
 

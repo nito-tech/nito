@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
-import gitlabSvg from "@/components/icon/gitlab.svg";
+import gitlabSvg from "@/shared/icon/gitlab.svg";
 
 /**
  * GitLab authentication card component.

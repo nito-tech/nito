@@ -1,0 +1,76 @@
+{
+	"HomePage": {
+		"title": "ホーム"
+	},
+	"FeaturesPage": {
+		"title": "機能"
+	},
+	"PricingPage": {
+		"title": "料金"
+	},
+	"LocaleSwitcher": {
+		"label": "言語",
+		"ja": "日本語",
+		"en": "English"
+	},
+	"Auth": {
+		"logIn": "ログイン",
+		"signUp": "新規登録",
+		"logOut": "ログアウト",
+		"dontHaveAccount": "アカウントをお持ちでない方",
+		"alreadyHaveAccount": "すでにアカウントをお持ちの方",
+		"logInWithGithub": "GitHubで続ける",
+		"username": "ユーザー名",
+		"usernameCanBeChanged": "あとから変更できます",
+		"validation": {
+			"emailRequired": "メールアドレスを入力してください",
+			"emailInvalid": "有効なメールアドレスを入力してください",
+			"emailMinLength": "メールアドレスを入力してください",
+			"passwordRequired": "パスワードを入力してください",
+			"passwordMinLength": "パスワードは10文字以上で入力してください",
+			"passwordMaxLength": "パスワードは128文字以下で入力してください",
+			"usernameRequired": "ユーザー名を入力してください",
+			"usernameMinLength": "ユーザー名を入力してください",
+			"usernameMaxLength": "ユーザー名は50文字以下で入力してください",
+			"usernameInvalidChars": "ユーザー名は英字、数字、アンダースコアのみ使用できます",
+			"usernameReserved": "このユーザー名は使用できません",
+			"usernameAlreadyExists": "このユーザー名は既に存在します"
+		}
+	},
+	"UserInfo": {
+		"email": "メールアドレス",
+		"password": "パスワード",
+		"username": "ユーザー名",
+		"accountPreferences": "アカウント設定",
+		"accountPreferencesDescription": "アカウント設定と環境設定を管理します。",
+		"dangerZone": "危険ゾーン",
+		"dangerZoneDescription": "破壊的なアクションです。",
+		"deleteAccount": "アカウントを削除",
+		"deleteAccountDescription": "このアクションは元に戻すことができません。これにより、アカウントと関連データが完全に削除されます。",
+		"deleteAccountConfirmation": "本当に削除しますか？",
+		"deleteAccountConfirmationDescription": "このアクションは元に戻すことができません。これにより、アカウントと関連データが完全に削除されます。",
+		"deleteAccountConfirm": "アカウントを削除"
+	},
+	"Organization": {
+		"name": "組織名",
+		"createOrganization": "組織を作成",
+		"createOrganizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
+		"createOrganizationConfirm": "組織を作成"
+	},
+	"Action": {
+		"cancel": "キャンセル",
+		"delete": "削除",
+		"deleting": "削除中..."
+	},
+	"commingSoon": "近日公開...",
+	"connectToRepository": "リポジトリを接続",
+	"error": {
+		"title": "おっと、何かが間違っていたようです :("
+	},
+	"refresh": "トップページに戻る",
+	"notFound": {
+		"title": "ページが見つかりません",
+		"description": "お探しのページは存在しないか、移動されました。ご心配なく、最高の探検家でも迷子になることはあります。",
+		"goToHome": "ホームに戻る"
+	}
+}

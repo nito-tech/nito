@@ -20,8 +20,8 @@ import {
 	YAxis,
 } from "recharts";
 
-import { MarkdownViewer } from "@/components/MarkdownViewer";
 import { Button } from "@/components/ui/button";
+import { MarkdownViewer } from "@/shared/ui/MarkdownViewer/MarkdownViewer";
 
 import { getCycleTimeSummary } from "../actions";
 

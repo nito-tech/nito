@@ -1,0 +1,76 @@
+{
+	"HomePage": {
+		"title": "Home"
+	},
+	"FeaturesPage": {
+		"title": "Features"
+	},
+	"PricingPage": {
+		"title": "Pricing"
+	},
+	"LocaleSwitcher": {
+		"label": "Language",
+		"ja": "日本語",
+		"en": "English"
+	},
+	"Auth": {
+		"logIn": "Log in",
+		"signUp": "Sign up",
+		"logOut": "Log out",
+		"dontHaveAccount": "Don't have an account?",
+		"alreadyHaveAccount": "Already have an account?",
+		"logInWithGithub": "Continue with GitHub",
+		"username": "Username",
+		"usernameCanBeChanged": "Can be changed later",
+		"validation": {
+			"emailRequired": "Please enter your email",
+			"emailInvalid": "Please enter a valid email address",
+			"emailMinLength": "Please enter your email",
+			"passwordRequired": "Please enter your password",
+			"passwordMinLength": "Password must be at least 10 characters",
+			"passwordMaxLength": "Password must be less than 128 characters",
+			"usernameRequired": "Please enter your username",
+			"usernameMinLength": "Please enter your username",
+			"usernameMaxLength": "Username must be less than 50 characters",
+			"usernameInvalidChars": "Username can only contain letters, numbers, and underscores",
+			"usernameReserved": "This username is not available",
+			"usernameAlreadyExists": "Username already exists"
+		}
+	},
+	"UserInfo": {
+		"email": "Email",
+		"password": "Password",
+		"username": "Username",
+		"accountPreferences": "Account preferences",
+		"accountPreferencesDescription": "Manage your account settings and preferences.",
+		"dangerZone": "Danger Zone",
+		"dangerZoneDescription": "Irreversible and destructive actions.",
+		"deleteAccount": "Delete Account",
+		"deleteAccountDescription": "Permanently delete your account and all associated data.",
+		"deleteAccountConfirmation": "Are you absolutely sure?",
+		"deleteAccountConfirmationDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+		"deleteAccountConfirm": "Delete Account"
+	},
+	"Organization": {
+		"name": "Organization Name",
+		"createOrganization": "Create Organization",
+		"createOrganizationDescription": "Create a new organization to manage your projects and teams.",
+		"createOrganizationConfirm": "Create Organization"
+	},
+	"Action": {
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"deleting": "Deleting..."
+	},
+	"commingSoon": "Comming soon...",
+	"connectToRepository": "Connect to repository",
+	"error": {
+		"title": "Oops, something went wrong :( "
+	},
+	"refresh": "Refresh",
+	"notFound": {
+		"title": "Page Not Found",
+		"description": "The page you're looking for doesn't exist or has been moved. Don't worry, even the best explorers get lost sometimes.",
+		"goToHome": "Go to Home"
+	}
+}

@@ -2,8 +2,8 @@
 
 import type { Provider } from "@supabase/supabase-js";
 
-import { createServerClient } from "@/lib/supabase/server";
-import { getSiteUrl } from "@/utils/url";
+import { createServerClient } from "@/shared/lib/supabase/server";
+import { getSiteUrl } from "@/shared/utils/url";
 
 const redirectPath = "/dashboard";
 

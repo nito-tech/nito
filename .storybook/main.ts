@@ -9,11 +9,10 @@ function generateMockAliases() {
 	const srcDir = path.resolve(__dirname, "../src");
 
 	const useUsernameMockPath = path.resolve(
-		`${srcDir}/features/auth/email/hooks`,
+		`${srcDir}/entities/user/model`,
 		"useUsername.mock.ts",
 	);
-	mockAliases["../../../features/auth/email/hooks/useUsername"] =
-		useUsernameMockPath;
+	mockAliases["../../../entities/user/model/useUsername"] = useUsernameMockPath;
 
 	return mockAliases;
 }

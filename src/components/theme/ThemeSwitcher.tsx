@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type Theme = "light" | "dark" | "system";
+export type Theme = "light" | "dark" | "system";
 
 export const isTheme = (value: unknown): value is Theme => {
 	return value === "light" || value === "dark" || value === "system";

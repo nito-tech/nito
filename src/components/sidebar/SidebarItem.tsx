@@ -11,7 +11,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
 type Props = {
 	icon: React.ReactNode;

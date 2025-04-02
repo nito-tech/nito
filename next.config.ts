@@ -4,7 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 // Schema validation at build
 import "@/config/env";
 
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin("./src/shared/i18n/request.ts");
 
 const nextConfig: NextConfig = {
 	serverExternalPackages: ["@mastra/*"],

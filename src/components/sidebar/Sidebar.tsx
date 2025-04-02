@@ -14,16 +14,24 @@ import {
 	Lock,
 	Settings,
 } from "lucide-react";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 import { Separator } from "@/components/ui/separator";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { cn } from "@/utils/cn";
+import { useLocalStorage } from "@/shared/lib/useLocalStorage";
+import { cn } from "@/shared/utils/cn";
 
 import { SidebarControl } from "./SidebarControl";
 import { SidebarItem } from "./SidebarItem";
 import SidebarUserProfile from "./SidebarUserProfile";
-import type { NavItem, SidebarState } from "./types";
+
+export type SidebarState = "expanded" | "collapsed" | "hover";
+
+type NavItem = {
+	icon: React.ReactNode;
+	label: string;
+	href: string;
+};
 
 const mainNavItems: NavItem[] = [
 	{ icon: <Home size={20} />, label: "Project overview", href: "/dashboard" },

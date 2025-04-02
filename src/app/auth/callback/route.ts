@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { createServerClient } from "@/lib/supabase/server";
-import { getSiteUrl } from "@/utils/url";
+import { createServerClient } from "@/shared/lib/supabase/server";
+import { getSiteUrl } from "@/shared/utils/url";
 
 /**
  * Handle the callback from the authentication provider.

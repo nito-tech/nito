@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import type * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
@@ -9,14 +10,20 @@ import {
 	type FieldPath,
 	type FieldValues,
 	FormProvider,
+	type Mode,
+	type SubmitHandler,
+	type UseFormProps,
+	type UseFormReturn,
+	useForm,
 	useFormContext,
 	useFormState,
 } from "react-hook-form";
+import type { ZodType } from "zod";
 
 import { Label } from "@/components/ui/label";
-import { cn } from "@/utils/cn";
+import { cn } from "@/shared/utils/cn";
 
-const Form = FormProvider;
+// const Form = FormProvider;
 
 type FormFieldContextValue<
 	TFieldValues extends FieldValues = FieldValues,
@@ -155,6 +162,50 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
 		</p>
 	);
 }
+
+type FormProps<
+	TFormValues extends FieldValues,
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	Schema extends ZodType<TFormValues, any, TFormValues>,
+> = {
+	schema: Schema;
+	onSubmit: SubmitHandler<TFormValues>;
+	children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
+	className?: string;
+	options?: UseFormProps<TFormValues>;
+	id?: string;
+	mode?: Mode;
+} & Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit" | "children">;
+
+const Form = <
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	Schema extends ZodType<TFormValues, any, TFormValues>,
+	TFormValues extends FieldValues,
+>({
+	schema,
+	onSubmit,
+	children,
+	className,
+	options,
+	id,
+	mode = "onChange",
+	...formProps
+}: FormProps<TFormValues, Schema>) => {
+	const form = useForm({ ...options, resolver: zodResolver(schema), mode });
+
+	return (
+		<FormProvider {...form}>
+			<form
+				className={cn("space-y-6", className)}
+				onSubmit={form.handleSubmit(onSubmit)}
+				id={id}
+				{...formProps}
+			>
+				{children(form)}
+			</form>
+		</FormProvider>
+	);
+};
 
 export {
 	useFormField,

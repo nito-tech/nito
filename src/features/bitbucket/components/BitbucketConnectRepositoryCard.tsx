@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
-import bitbucketSvg from "@/components/icon/bitbucket.svg";
+import bitbucketSvg from "@/shared/icon/bitbucket.svg";
 
 /**
  * Bitbucket authentication card component.

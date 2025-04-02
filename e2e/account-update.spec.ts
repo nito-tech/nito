@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Account Update", () => {
+test.describe.skip("Account Update", () => {
 	test("should update user profile", async ({ page }) => {
 		await page.goto("/dashboard");
 

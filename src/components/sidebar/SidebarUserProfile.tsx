@@ -19,9 +19,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
-import { useProfile } from "@/contexts/ProfileContext";
-import { cn } from "@/utils/cn";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { useProfile } from "@/shared/contexts/ProfileContext";
+import { cn } from "@/shared/utils/cn";
 
 interface Props {
 	isCollapsed: boolean;

@@ -8,7 +8,7 @@ export default defineConfig({
 		name: "vitest",
 		environment: "jsdom",
 		include: ["**/*.test.{ts,tsx}"],
-		setupFiles: ["./tests/vitest.setup.ts"],
+		setupFiles: ["./vitest.setup.ts"],
 		reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions"] : ["dot"],
 		isolate: true,
 		browser: {

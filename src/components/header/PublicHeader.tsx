@@ -6,11 +6,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
-import { isAuthPage, isPublicPage } from "@/lib/pathname";
-import { cn } from "@/utils/cn";
+import { isAuthPage, isPublicPage } from "@/shared/lib/pathname";
+import LocaleSwitcher from "@/shared/ui/LocaleSwitcher/LocaleSwitcher";
+import { cn } from "@/shared/utils/cn";
 
 function NavLink({
 	href,
