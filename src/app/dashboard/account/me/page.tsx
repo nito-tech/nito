@@ -7,14 +7,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { PageTitle } from "@/components/PageTitle";
-import {
-	EmailField,
-	createEmailSchema,
-} from "@/components/form/EmailField/EmailField";
-import {
-	UsernameField,
-	createUsernameSchema,
-} from "@/components/form/UsernameField/UsernameField";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,7 +14,13 @@ import { Form } from "@/components/ui/form";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/contexts/ProfileContext";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
-import { useFormWithOnChange } from "@/hooks/useFormWithOnChange";
+import { useFormWithOnChange } from "@/shared/lib/useFormWithOnChange";
+import {
+	createEmailSchema,
+	createUsernameSchema,
+} from "@/shared/model/schemas";
+import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
 
 export default function AccountPage() {
 	const t = useTranslations();
@@ -135,7 +133,7 @@ export default function AccountPage() {
 							</div>
 						</div>
 
-						<Form {...form}>
+						{/* <Form {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
 								className="space-y-4"
@@ -146,7 +144,7 @@ export default function AccountPage() {
 									{isLoading ? "Updating..." : "Update Profile"}
 								</Button>
 							</form>
-						</Form>
+						</Form> */}
 					</CardContent>
 				</Card>
 
