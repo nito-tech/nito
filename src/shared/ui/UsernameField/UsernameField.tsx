@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useProfile } from "@/contexts/ProfileContext";
 import { useUsername } from "@/entities/user/model/useUsername";
+// import { useUsername } from "@/shared/model/useUsername";
 import { createUsernameSchema } from "@/shared/model/schemas";
 
 interface Props<T extends FieldValues> {
