@@ -12,20 +12,16 @@ import { EmailField } from "@/components/form/EmailField/EmailField";
 import { PasswordField } from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { queryKeys } from "@/lib/query-keys";
-import { createBrowserClient } from "@/lib/supabase/client";
 import { createEmailSchema, createPasswordSchema } from "@/types/schema";
 import { cn } from "@/utils/cn";
 
-import { logInWithEmail } from "../../actions";
+import { useLogInWithEmail } from "../../../model/useLogInWithEmail";
 
 interface Props {
 	className?: string;
 }
 
 export function EmailLogInForm({ className }: Props) {
-	const router = useRouter();
-	const queryClient = useQueryClient();
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
@@ -36,31 +32,26 @@ export function EmailLogInForm({ className }: Props) {
 	});
 	type FormValues = z.infer<typeof schema>;
 
+	const { mutate: logInWithEmail, isPending } = useLogInWithEmail();
+
 	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
-		try {
-			const session = await logInWithEmail(data);
-
-			// Since login is performed server-side, the onAuthStateChange in AuthProvider that executes client-side doesn't fire
-			// As a result, user information doesn't appear in the sidebar
-			// Therefore, by explicitly setting the session, we make user information display properly in the sidebar
-			const supabase = createBrowserClient();
-			await supabase.auth.setSession(session);
-
-			// Invalidate the session query to force a refetch
-			await queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
-
-			router.push("/dashboard");
-		} catch (error) {
-			setMessageType("error");
-			if (error instanceof Error) {
-				setMessage(error.message);
-			} else {
-				setMessage("Failed to authenticate. Please try again.");
-			}
-		}
+		logInWithEmail(
+			{ data },
+			{
+				// TODO: Add a Provider that globally sends out Messages for common handling.
+				onError: (error) => {
+					setMessageType("error");
+					if (error instanceof Error) {
+						setMessage(error.message);
+					} else {
+						setMessage("Failed to authenticate. Please try again.");
+					}
+				},
+			},
+		);
 	};
 
 	return (
@@ -79,17 +70,17 @@ export function EmailLogInForm({ className }: Props) {
 						)}
 						<EmailField<FormValues>
 							name="email"
-							disabled={formState.isSubmitting}
+							disabled={formState.isSubmitting || isPending}
 						/>
 						<PasswordField<FormValues>
 							name="password"
-							disabled={formState.isSubmitting}
+							disabled={formState.isSubmitting || isPending}
 						/>
 					</div>
 					<Button
 						type="submit"
 						className="mt-1"
-						disabled={formState.isSubmitting}
+						disabled={formState.isSubmitting || isPending}
 					>
 						{t("Auth.logIn")}
 					</Button>

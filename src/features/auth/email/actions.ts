@@ -1,6 +1,5 @@
 "use server";
 
-import type { Session } from "@supabase/supabase-js";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
@@ -15,38 +14,6 @@ import {
 	createEmailSchema,
 	createPasswordSchema,
 } from "@/types/schema";
-
-export async function logInWithEmail(formData: {
-	email: EmailSchema;
-	password: PasswordSchema;
-}): Promise<Session> {
-	const t = (key: string) => key; // No translation required on the server side
-	const schema = z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
-	});
-
-	try {
-		schema.parse(formData);
-	} catch (error) {
-		if (error instanceof z.ZodError) {
-			throw new Error(error.errors[0].message);
-		}
-		throw error;
-	}
-
-	const supabase = await createServerClient();
-	const { data, error } = await supabase.auth.signInWithPassword({
-		email: formData.email,
-		password: formData.password,
-	});
-
-	if (error) {
-		throw new Error(error.message);
-	}
-
-	return data.session;
-}
 
 /**
  * Check if the username already exists
