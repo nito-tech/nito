@@ -1,4 +1,4 @@
-import type { Profile, ProfileUpdate } from "@/types/profile";
+import type { Profile, ProfileUpdate } from "@/shared/types/profile";
 
 import { createBrowserClient } from "@/shared/lib/supabase/client";
 

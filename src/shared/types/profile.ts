@@ -1,4 +1,4 @@
-import type { Database } from "../shared/supabase";
+import type { Database } from "../supabase";
 import type { ResponseError } from "./base";
 
 /**

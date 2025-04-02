@@ -3,7 +3,7 @@
 import { QueryClient, onlineManager } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { ResponseError } from "@/types/base";
+import { ResponseError } from "@/shared/types/base";
 
 /**
  * Configure different online states for development and preview/production environments

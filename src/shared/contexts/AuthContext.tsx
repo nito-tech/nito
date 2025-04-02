@@ -8,7 +8,7 @@ import { createContext, useContext, useEffect } from "react";
 import { getSession } from "@/shared/lib/queries/auth";
 import { queryKeys } from "@/shared/lib/query-keys";
 import { createBrowserClient } from "@/shared/lib/supabase/client";
-import type { AuthState } from "@/types/auth";
+import type { AuthState } from "@/shared/types/auth";
 
 /**
  * Context for managing authentication state

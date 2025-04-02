@@ -1,4 +1,4 @@
-import type { Profile } from "@/types/profile";
+import type { Profile } from "@/shared/types/profile";
 
 export const queryKeys = {
 	auth: {
