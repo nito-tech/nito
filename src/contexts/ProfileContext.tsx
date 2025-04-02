@@ -3,8 +3,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
-import { getProfile, updateProfile } from "@/lib/queries/profile";
-import { queryKeys } from "@/lib/query-keys";
+import { getProfile, updateProfile } from "@/shared/lib/queries/profile";
+import { queryKeys } from "@/shared/lib/query-keys";
 import type { ProfileContextType } from "@/types/profile";
 
 import { useAuth } from "./AuthContext";

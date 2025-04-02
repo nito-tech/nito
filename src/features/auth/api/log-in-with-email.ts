@@ -3,7 +3,7 @@
 import type { Session } from "@supabase/supabase-js";
 import { z } from "zod";
 
-import { createServerClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/shared/lib/supabase/server";
 
 import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";

@@ -2,7 +2,7 @@
 
 import { getTranslations } from "next-intl/server";
 
-import { createServerClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/shared/lib/supabase/server";
 import type { UsernameSchema } from "@/shared/model/types";
 
 /**

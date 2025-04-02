@@ -9,7 +9,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Button } from "@/components/ui/button";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProfileProvider } from "@/contexts/ProfileContext";
-import { useRootQueryClient } from "@/data/query-client";
+import { useRootQueryClient } from "@/shared/lib/useRootQueryClient";
 
 type AppProviderProps = {
 	children: React.ReactNode;

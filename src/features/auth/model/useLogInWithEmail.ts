@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-import { queryKeys } from "@/lib/query-keys";
+import { queryKeys } from "@/shared/lib/query-keys";
 
 import { logInWithEmail } from "../api/log-in-with-email";
 

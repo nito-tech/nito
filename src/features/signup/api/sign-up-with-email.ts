@@ -1,7 +1,8 @@
 "use server";
 
-import { createServerClient } from "@/lib/supabase/server";
 import { z } from "zod";
+
+import { createServerClient } from "@/shared/lib/supabase/server";
 
 import { SignUpWithEmailSchema } from "../model/schemas";
 import type { SignUpWithEmail } from "../model/types";

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createServerClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/shared/lib/supabase/server";
 import { getSiteUrl } from "@/utils/url";
 
 /**

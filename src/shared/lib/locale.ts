@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-import { type Locale, defaultLocale } from "../i18n/config";
+import { type Locale, defaultLocale } from "@/i18n/config";
 
 /**
  * The locale is read from a cookie.

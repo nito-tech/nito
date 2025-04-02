@@ -25,7 +25,8 @@ export function EmailLogInForm({ className }: Props) {
 	const [message, setMessage] = useState<string | null>(null);
 
 	const { mutate: logInWithEmail, isPending } = useLogInWithEmail();
-	async function onSubmitHandler(data: LogInWithEmail) {
+
+	async function onSubmit(data: LogInWithEmail) {
 		setMessageType(null);
 		setMessage(null);
 
@@ -48,7 +49,7 @@ export function EmailLogInForm({ className }: Props) {
 	return (
 		<Form
 			schema={LogInWithEmailSchema(t as unknown as (key: string) => string)}
-			onSubmit={onSubmitHandler}
+			onSubmit={onSubmit}
 			noValidate
 			aria-label="Log in form"
 			className={cn("grid", className)}

@@ -1,6 +1,10 @@
 import { describe, expect, test } from "vitest";
 
-import { isAuthPage, isAuthRequiredPage, isPublicPage } from "@/lib/pathname";
+import {
+	isAuthPage,
+	isAuthRequiredPage,
+	isPublicPage,
+} from "@/shared/lib/pathname";
 
 describe("Pathname helpers", () => {
 	describe("isAuthPage", () => {

@@ -1,5 +1,6 @@
-import { createBrowserClient } from "@/lib/supabase/client";
 import type { Profile, ProfileUpdate } from "@/types/profile";
+
+import { createBrowserClient } from "@/shared/lib/supabase/client";
 
 /**
  * Fetches a user's profile from the database

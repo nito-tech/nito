@@ -1,6 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 
-import { getUserLocale } from "@/services/locale";
+import { getUserLocale } from "@/shared/lib/locale";
 
 /**
  * Get the request configuration for internationalization.
