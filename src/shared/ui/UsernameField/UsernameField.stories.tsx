@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { mockCheckUsernameExists } from "@/features/auth/email/hooks/useUsername.mock";
+import { mockCheckUsernameExists } from "@/entities/user/model/useUsername.mock";
 import { createUsernameSchema } from "@/shared/model/schemas";
 
 import { UsernameField } from "./UsernameField";

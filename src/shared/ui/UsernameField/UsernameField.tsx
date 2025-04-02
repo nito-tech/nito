@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useProfile } from "@/contexts/ProfileContext";
+import { useUsername } from "@/entities/user/model/useUsername";
 import { createUsernameSchema } from "@/shared/model/schemas";
-import { useUsername } from "#features/auth/email/hooks/useUsername";
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;
