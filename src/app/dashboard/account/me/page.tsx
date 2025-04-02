@@ -21,6 +21,7 @@ import {
 } from "@/shared/model/schemas";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
 import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
+import { cn } from "@/utils/cn";
 
 export default function AccountPage() {
 	const t = useTranslations();
@@ -133,17 +134,26 @@ export default function AccountPage() {
 							</div>
 						</div>
 
-						{/* <Form {...form}>
-							<form
-								onSubmit={form.handleSubmit(onSubmit)}
-								className="space-y-4"
-							>
-								<UsernameField<FormValues> name="username" />
-								<EmailField<FormValues> name="email" />
-								<Button type="submit" disabled={isLoading}>
-									{isLoading ? "Updating..." : "Update Profile"}
-								</Button>
-							</form>
+						{/* <Form
+							schema={LogInWithEmailSchema(
+								t as unknown as (key: string) => string,
+							)}
+							onSubmit={onSubmit}
+							noValidate
+							aria-label="Log in form"
+							className={cn("grid")}
+						>
+							{({ formState }) => (
+								<>
+									<div className="grid gap-6">
+										<UsernameField<FormValues> name="username" />
+										<EmailField<FormValues> name="email" />
+									</div>
+									<Button type="submit" disabled={isLoading}>
+										{isLoading ? "Updating..." : "Update Profile"}
+									</Button>
+								</>
+							)}
 						</Form> */}
 					</CardContent>
 				</Card>
