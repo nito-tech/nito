@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { PageTitle } from "@/components/PageTitle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +19,7 @@ import {
 	createUsernameSchema,
 } from "@/shared/model/schemas";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { PageTitle } from "@/shared/ui/PageTitle/PageTitle";
 import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
 import { cn } from "@/shared/utils/cn";
 

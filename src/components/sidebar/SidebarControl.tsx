@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
+import type { SidebarState } from "./Sidebar";
 import { SidebarItem } from "./SidebarItem";
-import type { SidebarState } from "./types";
 
 type SidebarControlOption = {
 	label: string;
