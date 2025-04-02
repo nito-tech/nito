@@ -4,8 +4,8 @@ import Image from "next/image";
 import React from "react";
 
 import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
-import githubSvg from "@/components/icon/github.svg";
 import { env } from "@/config/env";
+import githubSvg from "@/shared/icon/github.svg";
 import { getSiteUrl } from "@/shared/utils/url";
 
 const GITHUB_CLIENT_ID = env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
