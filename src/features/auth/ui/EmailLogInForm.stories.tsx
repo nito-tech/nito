@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useTranslations } from "next-intl";
-import { z } from "zod";
 
-import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
 import { Form } from "@/components/ui/form";
-import { createEmailSchema, createPasswordSchema } from "@/types/schema";
 
+import { LogInWithEmailSchema } from "../model/schema";
 import { EmailLogInForm } from "./EmailLogInForm";
 
 const meta = {
@@ -17,11 +15,9 @@ const meta = {
 	decorators: [
 		(Story) => {
 			const t = useTranslations();
-			const schema = z.object({
-				email: createEmailSchema(t),
-				password: createPasswordSchema(t),
-				username: createUsernameSchema(t),
-			});
+			const schema = LogInWithEmailSchema(
+				t as unknown as (key: string) => string,
+			);
 
 			return (
 				<Form schema={schema} onSubmit={() => {}}>

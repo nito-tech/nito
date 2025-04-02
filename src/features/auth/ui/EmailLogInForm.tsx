@@ -1,40 +1,30 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 
 import { Notice } from "@/components/feedback/Notice/Notice";
 import { EmailField } from "@/components/form/EmailField/EmailField";
 import { PasswordField } from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { createEmailSchema, createPasswordSchema } from "@/types/schema";
 import { cn } from "@/utils/cn";
 
-import { useLogInWithEmail } from "../../../model/useLogInWithEmail";
-
+import { LogInWithEmailSchema } from "../model/schema";
+import type { LogInWithEmail } from "../model/types";
+import { useLogInWithEmail } from "../model/useLogInWithEmail";
 interface Props {
 	className?: string;
 }
 
 export function EmailLogInForm({ className }: Props) {
+	const t = useTranslations();
+
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
-	const t = useTranslations();
-	const schema = z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
-	});
-	type FormValues = z.infer<typeof schema>;
-
 	const { mutate: logInWithEmail, isPending } = useLogInWithEmail();
-
-	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
+	async function onSubmitHandler(data: LogInWithEmail) {
 		setMessageType(null);
 		setMessage(null);
 
@@ -52,11 +42,11 @@ export function EmailLogInForm({ className }: Props) {
 				},
 			},
 		);
-	};
+	}
 
 	return (
 		<Form
-			schema={schema}
+			schema={LogInWithEmailSchema(t as unknown as (key: string) => string)}
 			onSubmit={onSubmitHandler}
 			noValidate
 			aria-label="Log in form"
@@ -68,11 +58,11 @@ export function EmailLogInForm({ className }: Props) {
 						{messageType === "error" && message && (
 							<Notice variant="destructive" text={message} />
 						)}
-						<EmailField<FormValues>
+						<EmailField<LogInWithEmail>
 							name="email"
 							disabled={formState.isSubmitting || isPending}
 						/>
-						<PasswordField<FormValues>
+						<PasswordField<LogInWithEmail>
 							name="password"
 							disabled={formState.isSubmitting || isPending}
 						/>

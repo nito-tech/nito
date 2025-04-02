@@ -15,7 +15,7 @@ import { Form } from "@/components/ui/form";
 import { createEmailSchema, createPasswordSchema } from "@/types/schema";
 import { cn } from "@/utils/cn";
 
-import { signUpWithEmail } from "../../actions";
+import { useSignUpWithEmail } from "../model/useSignUpWithEmail";
 
 interface Props {
 	className?: string;
@@ -33,22 +33,26 @@ export function EmailSignUpForm({ className }: Props) {
 	});
 	type FormValues = z.infer<typeof schema>;
 
+	const { mutate: signUpWithEmail, isPending } = useSignUpWithEmail();
+
 	const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
 		setMessageType(null);
 		setMessage(null);
 
-		try {
-			await signUpWithEmail(data);
-			setMessageType("success");
-			setMessage("Check your email to verify your account.");
-		} catch (error) {
-			setMessageType("error");
-			if (error instanceof Error) {
-				setMessage(error.message);
-			} else {
-				setMessage("Failed to authenticate. Please try again.");
-			}
-		}
+		signUpWithEmail(data, {
+			onSuccess: () => {
+				setMessageType("success");
+				setMessage("Check your email to verify your account.");
+			},
+			onError: (error) => {
+				setMessageType("error");
+				if (error instanceof Error) {
+					setMessage(error.message);
+				} else {
+					setMessage("Failed to authenticate. Please try again.");
+				}
+			},
+		});
 	};
 
 	return (
@@ -71,21 +75,21 @@ export function EmailSignUpForm({ className }: Props) {
 
 						<EmailField<FormValues>
 							name="email"
-							disabled={formState.isSubmitting}
+							disabled={formState.isSubmitting || isPending}
 						/>
 						<PasswordField<FormValues>
 							name="password"
-							disabled={formState.isSubmitting}
+							disabled={formState.isSubmitting || isPending}
 						/>
 						<UsernameField<FormValues>
 							name="username"
-							disabled={formState.isSubmitting}
+							disabled={formState.isSubmitting || isPending}
 						/>
 					</div>
 					<Button
 						type="submit"
 						className="mt-1"
-						disabled={formState.isSubmitting}
+						disabled={formState.isSubmitting || isPending}
 					>
 						{t("Auth.signUp")}
 					</Button>

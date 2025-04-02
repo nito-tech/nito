@@ -1,19 +1,9 @@
 "use server";
 
 import { getTranslations } from "next-intl/server";
-import { z } from "zod";
 
-import {
-	type UsernameSchemaType,
-	createUsernameSchema,
-} from "@/components/form/UsernameField/UsernameField";
+import type { UsernameSchemaType } from "@/components/form/UsernameField/UsernameField";
 import { createServerClient } from "@/lib/supabase/server";
-import {
-	type EmailSchema,
-	type PasswordSchema,
-	createEmailSchema,
-	createPasswordSchema,
-} from "@/types/schema";
 
 /**
  * Check if the username already exists
@@ -30,46 +20,5 @@ export async function checkUsernameExists(username: UsernameSchemaType) {
 
 	if (existingProfile) {
 		throw new Error(t("Auth.validation.usernameAlreadyExists"));
-	}
-}
-
-export async function signUpWithEmail(formData: {
-	email: EmailSchema;
-	password: PasswordSchema;
-	username: UsernameSchemaType;
-}) {
-	const t = (key: string) => key; // No translation required on the server side
-	const schema = z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
-		username: createUsernameSchema(t),
-	});
-
-	try {
-		// Validate the input
-		schema.parse(formData);
-	} catch (error) {
-		if (error instanceof z.ZodError) {
-			throw new Error(error.errors[0].message);
-		}
-		throw error;
-	}
-
-	const supabase = await createServerClient();
-
-	const { error } = await supabase.auth.signUp({
-		email: formData.email,
-		password: formData.password,
-		// Set email, username and display_name to public.profiles table
-		options: {
-			data: {
-				username: formData.username,
-				display_name: formData.username, // Set username as display_name by default
-			},
-		},
-	});
-
-	if (error) {
-		throw new Error(error.message);
 	}
 }
