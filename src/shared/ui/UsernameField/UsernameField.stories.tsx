@@ -5,8 +5,9 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 import { mockCheckUsernameExists } from "@/features/auth/email/hooks/useUsername.mock";
+import { createUsernameSchema } from "@/shared/model/schemas";
 
-import { UsernameField, createUsernameSchema } from "./UsernameField";
+import { UsernameField } from "./UsernameField";
 
 const meta = {
 	title: "Components/Form/UsernameField",

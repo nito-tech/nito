@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { createPasswordSchema } from "@/types/schema";
+import { createPasswordSchema } from "@/shared/model/schemas";
 
 import { PasswordField } from "./PasswordField";
 

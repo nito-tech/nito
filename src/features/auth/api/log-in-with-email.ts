@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { createServerClient } from "@/lib/supabase/server";
 
-import { LogInWithEmailSchema } from "../model/schema";
+import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";
 
 export const logInWithEmail = async ({

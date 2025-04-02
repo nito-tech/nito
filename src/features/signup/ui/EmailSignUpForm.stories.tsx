@@ -2,9 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
 import { Form } from "@/components/ui/form";
-import { createEmailSchema, createPasswordSchema } from "@/types/schema";
+import {
+	createEmailSchema,
+	createPasswordSchema,
+	createUsernameSchema,
+} from "@/shared/model/schemas";
 
 import { EmailSignUpForm } from "./EmailSignUpForm";
 

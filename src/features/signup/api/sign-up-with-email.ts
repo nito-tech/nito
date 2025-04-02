@@ -3,8 +3,8 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
-import { SignUpWithEmailSchema } from "../model/schema";
-import type { SignUpWithEmail } from "../model/type";
+import { SignUpWithEmailSchema } from "../model/schemas";
+import type { SignUpWithEmail } from "../model/types";
 
 export async function signUpWithEmail(data: SignUpWithEmail) {
 	const t = (key: string) => key; // No translation required on the server side

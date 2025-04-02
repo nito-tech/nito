@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { createEmailSchema } from "@/types/schema";
+import { createEmailSchema } from "@/shared/model/schemas";
 
 import { EmailField } from "./EmailField";
 

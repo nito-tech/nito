@@ -1,7 +1,10 @@
 import { z } from "zod";
 
-import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
-import { createEmailSchema, createPasswordSchema } from "@/types/schema";
+import {
+	createEmailSchema,
+	createPasswordSchema,
+	createUsernameSchema,
+} from "@/shared/model/schemas";
 
 export const SignUpWithEmailSchema = (t: (key: string) => string) =>
 	z.object({

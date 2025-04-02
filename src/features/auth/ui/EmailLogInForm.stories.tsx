@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { Form } from "@/components/ui/form";
 
-import { LogInWithEmailSchema } from "../model/schema";
+import { LogInWithEmailSchema } from "../model/schemas";
 import { EmailLogInForm } from "./EmailLogInForm";
 
 const meta = {

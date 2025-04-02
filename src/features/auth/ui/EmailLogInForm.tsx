@@ -4,15 +4,16 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Notice } from "@/components/feedback/Notice/Notice";
-import { EmailField } from "@/components/form/EmailField/EmailField";
-import { PasswordField } from "@/components/form/PasswordField/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
 import { cn } from "@/utils/cn";
 
-import { LogInWithEmailSchema } from "../model/schema";
+import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";
+
 interface Props {
 	className?: string;
 }

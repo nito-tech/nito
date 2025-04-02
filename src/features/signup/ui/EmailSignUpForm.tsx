@@ -6,13 +6,16 @@ import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { Notice } from "@/components/feedback/Notice/Notice";
-import { EmailField } from "@/components/form/EmailField/EmailField";
-import { PasswordField } from "@/components/form/PasswordField/PasswordField";
-import { UsernameField } from "@/components/form/UsernameField/UsernameField";
-import { createUsernameSchema } from "@/components/form/UsernameField/UsernameField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { createEmailSchema, createPasswordSchema } from "@/types/schema";
+import {
+	createEmailSchema,
+	createPasswordSchema,
+	createUsernameSchema,
+} from "@/shared/model/schemas";
+import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
+import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
 import { cn } from "@/utils/cn";
 
 import { useSignUpWithEmail } from "../model/useSignUpWithEmail";

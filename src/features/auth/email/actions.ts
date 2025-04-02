@@ -2,13 +2,13 @@
 
 import { getTranslations } from "next-intl/server";
 
-import type { UsernameSchemaType } from "@/components/form/UsernameField/UsernameField";
 import { createServerClient } from "@/lib/supabase/server";
+import type { UsernameSchema } from "@/shared/model/types";
 
 /**
  * Check if the username already exists
  */
-export async function checkUsernameExists(username: UsernameSchemaType) {
+export async function checkUsernameExists(username: UsernameSchema) {
 	const t = await getTranslations();
 	const supabase = await createServerClient();
 
