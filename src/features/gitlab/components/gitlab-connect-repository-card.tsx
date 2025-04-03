@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ConnectRepositoryCard } from "@/components/card/ConnectRepositoryCard";
+import { ConnectRepositoryCard } from "@/components/card/connect-repository-card";
 import gitlabSvg from "@/shared/icon/gitlab.svg";
 
 /**

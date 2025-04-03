@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 // Schema validation at build
-import "@/config/env";
+import "@/shared/config/env";
 
 const withNextIntl = createNextIntlPlugin("./src/shared/i18n/request.ts");
 

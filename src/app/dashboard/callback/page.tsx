@@ -4,7 +4,7 @@ import { GitBranch, GitCommit } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { CommitList } from "@/features/github/components/CommitList";
+import { CommitList } from "@/features/github/components/commit-list";
 import {
 	fetchRepositoryCommits,
 	fetchUserInfo,

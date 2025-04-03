@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { EmailSignUpForm } from "@/features/signup/ui/EmailSignUpForm";
+import { EmailSignUpForm } from "@/features/signup/ui/email-signup-form";
 
 export default function SignUpPage() {
 	const t = useTranslations("Auth");

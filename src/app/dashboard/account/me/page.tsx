@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { UsernameField } from "@/entities/user/ui/username-field/username-field";
-import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
+import { DangerZone } from "@/features/account/components/DangerZone/danger-zone";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { useProfile } from "@/shared/contexts/ProfileContext";
 import { useFormWithOnChange } from "@/shared/lib/useFormWithOnChange";

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createUsernameSchema } from "@/shared/model/schemas";
 import { Form } from "@/shared/ui/form";
 
-import { mockCheckUsernameExists } from "../../../../shared/model/useUsername.mock";
+import { mockCheckUsernameExists } from "../../model/useUsername.mock";
 import { UsernameField } from "./username-field";
 
 const meta = {

@@ -24,6 +24,10 @@
 		"build-storybook": "storybook build"
 	},
 	"imports": {
+		"#entities/*": {
+			"storybook": "./src/entities/*.mock.ts",
+			"default": "./src/entities/*.ts"
+		},
 		"#features/*": {
 			"storybook": "./src/features/*.mock.ts",
 			"default": "./src/features/*.ts"

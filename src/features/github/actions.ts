@@ -1,7 +1,7 @@
 "use server";
 
+import type { GitHubCommit } from "@/features/github/components/cycle-time";
 import { mastra } from "@/mastra";
-import type { GitHubCommit } from "./components/CycleTime";
 
 export async function getCycleTimeSummary(commits: GitHubCommit[]) {
 	const jsonCommit = commits.map((c) => ({

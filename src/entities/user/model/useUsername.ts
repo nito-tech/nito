@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { checkUsernameExists as checkUsernameExistsAction } from "../api/check-username-exists";
+import { checkUsernameExists as checkUsernameExistsAction } from "../../../shared/api/check-username-exists";
 
 export function useUsername() {
 	const [isLoading, setIsLoading] = useState(false);

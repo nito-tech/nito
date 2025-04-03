@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 
 import { useGithubLogin } from "../hooks/useGithubLogin";
-import { GitHubLoginButton } from "./GitHubLoginButton";
+import { GitHubLoginButton } from "./github-login-button";
 
 interface Props {
 	className?: string;
