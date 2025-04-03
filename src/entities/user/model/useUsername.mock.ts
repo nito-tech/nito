@@ -1,8 +1,8 @@
-// XXX:
-// This should be moved to /shared, but it remains in /entities for now
-// as moving it would cause Storybook tests to fail.
+"use client";
 
 import { fn } from "@storybook/test";
+
+import * as actual from "./useUsername";
 
 export const mockCheckUsernameExists = fn(async (username: string) => {
 	if (username === "already_exists_username") {
@@ -13,6 +13,6 @@ export const mockCheckUsernameExists = fn(async (username: string) => {
 export function useUsername() {
 	return {
 		checkUsernameExists: mockCheckUsernameExists,
-		isLoading: false,
+		isLoading: actual.useUsername().isLoading,
 	};
 }

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
-// import { createServerClient } from "@/lib/supabase/server";
-// import { logInWithEmail } from "@/features/auth/api/log-in-with-email";
-// import { signUpWithEmail } from "@/features/signup/api/sign-up-with-email";
+import { logInWithEmail } from "@/features/auth/api/log-in-with-email";
+import { signUpWithEmail } from "@/features/signup/api/sign-up-with-email";
+import { createServerClient } from "@/shared/lib/supabase/server";
 
 // // Mock Supabase client
 // vi.mock("@/lib/supabase/server", () => ({

@@ -4,13 +4,7 @@ import { GitBranch, GitCommit } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { Notice } from "@/components/feedback/Notice/Notice";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { CommitList } from "@/features/github/components/CommitList";
+import { CommitList } from "@/features/github/components/commit-list";
 import {
 	fetchRepositoryCommits,
 	fetchUserInfo,
@@ -20,6 +14,12 @@ import type {
 	GitHubCommit,
 	GitHubUserRepository,
 } from "@/features/github/lib/github-api";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { Input } from "@/shared/ui/input";
+import { Notice } from "@/shared/ui/notice/notice";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();

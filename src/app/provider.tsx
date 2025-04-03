@@ -6,10 +6,10 @@ import { useTranslations } from "next-intl";
 import type * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { Button } from "@/components/ui/button";
 import { AuthProvider } from "@/shared/contexts/AuthContext";
 import { ProfileProvider } from "@/shared/contexts/ProfileContext";
 import { useRootQueryClient } from "@/shared/lib/useRootQueryClient";
+import { Button } from "@/shared/ui/button";
 
 type AppProviderProps = {
 	children: React.ReactNode;

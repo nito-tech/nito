@@ -1,7 +1,7 @@
-import BitbucketConnectRepositoryCard from "@/features/bitbucket/components/BitbucketConnectRepositoryCard";
-import CycleTimeDashboard from "@/features/github/components/CycleTime";
-import GitHubConnectRepositoryCard from "@/features/github/components/GitHubConnectRepositoryCard";
-import { GitLabConnectRepositoryCard } from "@/features/gitlab/components/GitLabConnectRepositoryCard";
+import BitbucketConnectRepositoryCard from "@/features/bitbucket/components/bitbucket-connect-repository-card";
+import CycleTimeDashboard from "@/features/github/components/cycle-time";
+import GitHubConnectRepositoryCard from "@/features/github/components/github-connect-repository-card";
+import { GitLabConnectRepositoryCard } from "@/features/gitlab/components/gitlab-connect-repository-card";
 
 export default function DashboardPage() {
 	return (

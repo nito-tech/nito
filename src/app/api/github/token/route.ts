@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import { env } from "@/config/env";
+import { env } from "@/shared/config/env";
 import { getSiteUrl } from "@/shared/utils/url";
 
 const GITHUB_CLIENT_ID = env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
