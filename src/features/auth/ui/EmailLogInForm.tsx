@@ -3,13 +3,13 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { Notice } from "@/components/feedback/Notice/Notice";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
 import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
 import { cn } from "@/shared/utils/cn";
 
+import { Notice } from "@/shared/ui/Notice/Notice";
 import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";

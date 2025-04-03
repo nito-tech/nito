@@ -4,7 +4,6 @@ import { GitBranch, GitCommit } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { Notice } from "@/components/feedback/Notice/Notice";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +19,7 @@ import type {
 	GitHubCommit,
 	GitHubUserRepository,
 } from "@/features/github/lib/github-api";
+import { Notice } from "@/shared/ui/Notice/Notice";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();

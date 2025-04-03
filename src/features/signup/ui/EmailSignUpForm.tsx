@@ -5,7 +5,6 @@ import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { Notice } from "@/components/feedback/Notice/Notice";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -14,6 +13,7 @@ import {
 	createUsernameSchema,
 } from "@/shared/model/schemas";
 import { EmailField } from "@/shared/ui/EmailField/EmailField";
+import { Notice } from "@/shared/ui/Notice/Notice";
 import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
 import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
 import { cn } from "@/shared/utils/cn";
