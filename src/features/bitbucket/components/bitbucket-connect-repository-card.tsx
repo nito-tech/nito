@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 
-import { ConnectRepositoryCard } from "@/components/card/connect-repository-card";
+import { ConnectRepositoryCard } from "@/entities/github-repository/ui/connect-repository-card";
 import bitbucketSvg from "@/shared/icon/bitbucket.svg";
 
 /**

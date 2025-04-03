@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 
-import { ConnectRepositoryCard } from "@/components/card/connect-repository-card";
+import { ConnectRepositoryCard } from "@/entities/github-repository/ui/connect-repository-card";
 import { env } from "@/shared/config/env";
 import githubSvg from "@/shared/icon/github.svg";
 import { getSiteUrl } from "@/shared/utils/url";

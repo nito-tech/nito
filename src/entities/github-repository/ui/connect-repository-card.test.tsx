@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { ConnectRepositoryCard } from "./connect-repository-card";
+import { ConnectRepositoryCard } from "@/entities/github-repository/ui/connect-repository-card";
 
 vi.mock("next-intl", () => ({
 	useTranslations: () => {
