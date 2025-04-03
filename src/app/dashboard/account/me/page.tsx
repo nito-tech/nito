@@ -18,9 +18,9 @@ import {
 	createEmailSchema,
 	createUsernameSchema,
 } from "@/shared/model/schemas";
-import { EmailField } from "@/shared/ui/EmailField/EmailField";
-import { PageTitle } from "@/shared/ui/PageTitle/PageTitle";
-import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
+import { EmailField } from "@/shared/ui/email-field/email-field";
+import { PageTitle } from "@/shared/ui/page-title/page-title";
+import { UsernameField } from "@/shared/ui/username-field/username-field";
 import { cn } from "@/shared/utils/cn";
 
 export default function AccountPage() {

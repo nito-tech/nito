@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { createEmailSchema } from "@/shared/model/schemas";
 
-import { EmailField } from "./EmailField";
+import { EmailField } from "./email-field";
 
 const meta = {
 	title: "Components/Form/EmailField",

@@ -7,7 +7,7 @@ import { Form } from "@/components/ui/form";
 import { createUsernameSchema } from "@/shared/model/schemas";
 
 import { mockCheckUsernameExists } from "../../model/useUsername.mock";
-import { UsernameField } from "./UsernameField";
+import { UsernameField } from "./username-field";
 
 const meta = {
 	title: "Components/Form/UsernameField",

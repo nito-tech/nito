@@ -21,7 +21,7 @@ import {
 } from "recharts";
 
 import { Button } from "@/components/ui/button";
-import { MarkdownViewer } from "@/shared/ui/MarkdownViewer/MarkdownViewer";
+import { MarkdownViewer } from "@/shared/ui/markdown-viewer/markdown-viewer";
 
 import { getCycleTimeSummary } from "../actions";
 

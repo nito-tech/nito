@@ -12,10 +12,10 @@ import {
 	createPasswordSchema,
 	createUsernameSchema,
 } from "@/shared/model/schemas";
-import { EmailField } from "@/shared/ui/EmailField/EmailField";
-import { Notice } from "@/shared/ui/Notice/Notice";
-import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
-import { UsernameField } from "@/shared/ui/UsernameField/UsernameField";
+import { EmailField } from "@/shared/ui/email-field/email-field";
+import { Notice } from "@/shared/ui/notice/notice";
+import { PasswordField } from "@/shared/ui/password-field/password-field";
+import { UsernameField } from "@/shared/ui/username-field/username-field";
 import { cn } from "@/shared/utils/cn";
 
 import { useSignUpWithEmail } from "../model/useSignUpWithEmail";

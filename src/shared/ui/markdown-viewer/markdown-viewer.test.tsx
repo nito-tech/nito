@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 
-import { MarkdownViewer } from "./MarkdownViewer";
+import { MarkdownViewer } from "./markdown-viewer";
 
 describe("MarkdownViewer", () => {
 	afterEach(() => {

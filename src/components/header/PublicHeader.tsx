@@ -9,7 +9,7 @@ import { useState } from "react";
 import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { isAuthPage, isPublicPage } from "@/shared/lib/pathname";
-import LocaleSwitcher from "@/shared/ui/LocaleSwitcher/LocaleSwitcher";
+import LocaleSwitcher from "@/shared/ui/locale-switcher/locale-switcher";
 import { cn } from "@/shared/utils/cn";
 
 function NavLink({

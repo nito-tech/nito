@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Notice } from "./Notice";
+
+import { Notice } from "./notice";
 
 const meta = {
 	title: "Components/Notice",

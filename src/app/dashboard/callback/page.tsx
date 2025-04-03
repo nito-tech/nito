@@ -19,7 +19,7 @@ import type {
 	GitHubCommit,
 	GitHubUserRepository,
 } from "@/features/github/lib/github-api";
-import { Notice } from "@/shared/ui/Notice/Notice";
+import { Notice } from "@/shared/ui/notice/notice";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();

@@ -5,11 +5,11 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { EmailField } from "@/shared/ui/EmailField/EmailField";
-import { PasswordField } from "@/shared/ui/PasswordField/PasswordField";
+import { EmailField } from "@/shared/ui/email-field/email-field";
+import { PasswordField } from "@/shared/ui/password-field/password-field";
 import { cn } from "@/shared/utils/cn";
 
-import { Notice } from "@/shared/ui/Notice/Notice";
+import { Notice } from "@/shared/ui/notice/notice";
 import { LogInWithEmailSchema } from "../model/schemas";
 import type { LogInWithEmail } from "../model/types";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";

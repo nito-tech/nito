@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { createPasswordSchema } from "@/shared/model/schemas";
 
-import { PasswordField } from "./PasswordField";
+import { PasswordField } from "./password-field";
 
 const meta = {
 	title: "Components/Form/PasswordField",
