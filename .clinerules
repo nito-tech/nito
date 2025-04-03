@@ -40,16 +40,16 @@
   - Zod
 - バックエンド
   - Next.js
-  - Express
-  - GraphQL Yoga
-  - DrizzleORM
 - DB
   - Supabase
   - PostgreSQL
 - インフラ
   - Vercel
 - ユニットテスト
+  - Storybook with Vitest Plugin
+    - UIに関するテスト
   - Vitest
+    - UI以外のロジックのテスト
   - React Testing Library
 - E2Eテスト
   - Playwrite
