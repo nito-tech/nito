@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { ThemeProvider } from "../../../components/theme/theme-provider";
+import { ThemeProvider } from "../../contexts/theme-provider";
 import ThemeSelector, { type Theme, themeOptions } from "./theme-selector";
 
 /**

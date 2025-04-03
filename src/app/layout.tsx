@@ -6,7 +6,7 @@ import { getLocale, getMessages } from "next-intl/server";
 // import { Geist, Geist_Mono } from "next/font/google";
 
 import PublicHeader from "@/components/header/public-header";
-import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ThemeProvider } from "@/shared/contexts/theme-provider";
 import { Breakpoint } from "@/shared/ui/breakpoint/breakpoint";
 import { Toaster } from "@/shared/ui/sonner";
 
