@@ -3,8 +3,8 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { Form } from "@/components/ui/form";
 import { createPasswordSchema } from "@/shared/model/schemas";
+import { Form } from "@/shared/ui/form";
 
 import { PasswordField } from "./password-field";
 

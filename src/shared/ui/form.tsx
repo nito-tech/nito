@@ -20,7 +20,7 @@ import {
 } from "react-hook-form";
 import type { ZodType } from "zod";
 
-import { Label } from "@/components/ui/label";
+import { Label } from "@/shared/ui/label";
 import { cn } from "@/shared/utils/cn";
 
 // const Form = FormProvider;

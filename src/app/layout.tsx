@@ -7,8 +7,8 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import PublicHeader from "@/components/header/PublicHeader";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { Toaster } from "@/components/ui/sonner";
 import { Breakpoint } from "@/shared/ui/breakpoint/breakpoint";
+import { Toaster } from "@/shared/ui/sonner";
 
 import { AppProvider } from "./provider";
 import "./globals.css";

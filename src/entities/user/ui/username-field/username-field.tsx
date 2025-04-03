@@ -7,16 +7,16 @@ import { useFormContext } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
+import { useProfile } from "@/shared/contexts/ProfileContext";
+import { createUsernameSchema } from "@/shared/model/schemas";
 import {
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useProfile } from "@/shared/contexts/ProfileContext";
-import { createUsernameSchema } from "@/shared/model/schemas";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
 import { useUsername } from "#shared/model/useUsername";
 
 interface Props<T extends FieldValues> {

@@ -17,8 +17,8 @@ import {
 import type React from "react";
 import { useState } from "react";
 
-import { Separator } from "@/components/ui/separator";
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
+import { Separator } from "@/shared/ui/separator";
 import { cn } from "@/shared/utils/cn";
 
 import { SidebarControl } from "./SidebarControl";

@@ -4,16 +4,16 @@ import { Languages } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 
-import { Button } from "@/components/ui/button";
+import type { Locale } from "@/shared/i18n/config";
+import { setUserLocale } from "@/shared/lib/locale";
+import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import type { Locale } from "@/shared/i18n/config";
-import { setUserLocale } from "@/shared/lib/locale";
+} from "@/shared/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
 type Item = {

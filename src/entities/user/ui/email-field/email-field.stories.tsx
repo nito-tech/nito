@@ -3,8 +3,8 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { Form } from "@/components/ui/form";
 import { createEmailSchema } from "@/shared/model/schemas";
+import { Form } from "@/shared/ui/form";
 
 import { EmailField } from "./email-field";
 

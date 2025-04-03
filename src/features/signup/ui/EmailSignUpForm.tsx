@@ -5,17 +5,17 @@ import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { EmailField } from "@/entities/user/ui/email-field/email-field";
+import { PasswordField } from "@/entities/user/ui/password-field/password-field";
+import { UsernameField } from "@/entities/user/ui/username-field/username-field";
 import {
 	createEmailSchema,
 	createPasswordSchema,
 	createUsernameSchema,
 } from "@/shared/model/schemas";
-import { EmailField } from "@/shared/ui/email-field/email-field";
+import { Button } from "@/shared/ui/button";
+import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";
-import { PasswordField } from "@/shared/ui/password-field/password-field";
-import { UsernameField } from "@/shared/ui/username-field/username-field";
 import { cn } from "@/shared/utils/cn";
 
 import { useSignUpWithEmail } from "../model/useSignUpWithEmail";

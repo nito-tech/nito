@@ -4,8 +4,8 @@ import { Ghost, Home } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { paths } from "@/config/paths";
+import { Button } from "@/shared/ui/button";
 
 export default function NotFoundPage() {
 	const t = useTranslations("notFound");

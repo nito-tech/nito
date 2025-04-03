@@ -8,7 +8,9 @@ import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
 import { isTheme, themeOptions } from "@/components/theme/ThemeSwitcher";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { useProfile } from "@/shared/contexts/ProfileContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,9 +20,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/shared/contexts/AuthContext";
-import { useProfile } from "@/shared/contexts/ProfileContext";
+} from "@/shared/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
 interface Props {

@@ -5,7 +5,8 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { type FieldValues, type Path, useFormContext } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
+import { PASSWORD_MAX_LENGTH } from "@/shared/model/schemas";
+import { Button } from "@/shared/ui/button";
 import {
 	FormControl,
 	FormField,
@@ -13,9 +14,8 @@ import {
 	FormLabel,
 	FormMessage,
 	useFormField,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { PASSWORD_MAX_LENGTH } from "@/shared/model/schemas";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/utils/cn";
 
 interface Props<T extends FieldValues> {

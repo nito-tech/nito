@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
+import { EmailField } from "@/entities/user/ui/email-field/email-field";
+import { UsernameField } from "@/entities/user/ui/username-field/username-field";
 import { DangerZone } from "@/features/account/components/DangerZone/DangerZone";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { useProfile } from "@/shared/contexts/ProfileContext";
@@ -18,9 +16,11 @@ import {
 	createEmailSchema,
 	createUsernameSchema,
 } from "@/shared/model/schemas";
-import { EmailField } from "@/shared/ui/email-field/email-field";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Button } from "@/shared/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Form } from "@/shared/ui/form";
 import { PageTitle } from "@/shared/ui/page-title/page-title";
-import { UsernameField } from "@/shared/ui/username-field/username-field";
 import { cn } from "@/shared/utils/cn";
 
 export default function AccountPage() {

@@ -1,8 +1,8 @@
 import { GitCommit } from "lucide-react";
 import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Separator } from "@/shared/ui/separator";
 
 import type { GitHubCommit } from "../lib/github-api";
 

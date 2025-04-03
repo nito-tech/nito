@@ -3,10 +3,10 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { Form } from "@/components/ui/form";
 import { createUsernameSchema } from "@/shared/model/schemas";
+import { Form } from "@/shared/ui/form";
 
-import { mockCheckUsernameExists } from "../../model/useUsername.mock";
+import { mockCheckUsernameExists } from "../../../../shared/model/useUsername.mock";
 import { UsernameField } from "./username-field";
 
 const meta = {

@@ -3,10 +3,10 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { EmailField } from "@/shared/ui/email-field/email-field";
-import { PasswordField } from "@/shared/ui/password-field/password-field";
+import { EmailField } from "@/entities/user/ui/email-field/email-field";
+import { PasswordField } from "@/entities/user/ui/password-field/password-field";
+import { Button } from "@/shared/ui/button";
+import { Form } from "@/shared/ui/form";
 import { cn } from "@/shared/utils/cn";
 
 import { Notice } from "@/shared/ui/notice/notice";
