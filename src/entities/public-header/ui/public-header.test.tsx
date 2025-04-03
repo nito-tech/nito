@@ -8,7 +8,7 @@ import {
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import PublicHeader from "@/components/header/public-header";
+import PublicHeader from "@/entities/public-header/ui/public-header";
 
 type NavLinkKeys = "home" | "features" | "pricing";
 type AuthButtonKeys = "logIn" | "signUp";
