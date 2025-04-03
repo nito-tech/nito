@@ -35,7 +35,7 @@ export const themeOptions: ThemeOption[] = [
 	},
 ];
 
-export default function ThemeSwitcher() {
+export default function ThemeSelector() {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 

@@ -1,8 +1,8 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { ThemeProvider } from "./theme-provider";
-import ThemeSwitcher, { type Theme, themeOptions } from "./theme-switcher";
+import { ThemeProvider } from "../../../components/theme/theme-provider";
+import ThemeSelector, { type Theme, themeOptions } from "./theme-selector";
 
 /**
  * Unmounts rendered components and cleans up the test environment after each test.
@@ -76,14 +76,14 @@ describe("Unit Test", () => {
 	});
 
 	test("Component renders correctly", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
 	});
 
 	test("Button has appropriate aria-label", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toHaveAttribute("aria-label", "Show theme options");
@@ -95,7 +95,7 @@ describe("Unit Test", () => {
 			setTheme: mockSetTheme,
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe("Unit Test", () => {
 			setTheme: mockSetTheme,
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
@@ -127,7 +127,7 @@ describe("Unit Test", () => {
 			setTheme: mockSetTheme,
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
@@ -141,7 +141,7 @@ describe("Unit Test", () => {
 		// Simulate state before mounting
 		mockUseState.mockReturnValue([false, mockSetMounted]);
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
@@ -152,7 +152,7 @@ describe("Unit Test", () => {
 	});
 
 	test("Dropdown menu is closed in initial state", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Check the state of dropdown menu trigger button
 		const button = screen.getByLabelText("Show theme options");
@@ -160,7 +160,7 @@ describe("Unit Test", () => {
 	});
 
 	test("Button functions as a dropdown menu trigger", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		const button = screen.getByLabelText("Show theme options");
 
@@ -214,10 +214,10 @@ describe("Unit Test", () => {
 	});
 
 	test("setTheme function is called with appropriate arguments when theme changes", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Simulate onValueChange (from implementation code)
-		// Since we can't directly call the onValueChange function in ThemeSwitcher component,
+		// Since we can't directly call the onValueChange function in ThemeSelector component,
 		// we test by directly calling the setTheme function
 		mockSetTheme("dark");
 
@@ -242,14 +242,14 @@ describe("Integration Test", () => {
 	test("Works correctly when integrated with ThemeProvider", () => {
 		render(
 			<ThemeProvider>
-				<ThemeSwitcher />
+				<ThemeSelector />
 			</ThemeProvider>,
 		);
 
 		// Verify ThemeProvider exists
 		expect(screen.getByTestId("theme-provider")).toBeInTheDocument();
 
-		// Verify ThemeSwitcher renders correctly
+		// Verify ThemeSelector renders correctly
 		const button = screen.getByLabelText("Show theme options");
 		expect(button).toBeInTheDocument();
 	});
@@ -268,7 +268,7 @@ describe("Integration Test", () => {
 			}
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Change theme directly
 		mockSetTheme("dark");
@@ -301,7 +301,7 @@ describe("Integration Test", () => {
 			}
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Change theme directly
 		mockSetTheme("light");
@@ -339,7 +339,7 @@ describe("Integration Test", () => {
 			})),
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Verify component renders correctly
 		const button = screen.getByLabelText("Show theme options");
@@ -351,7 +351,7 @@ describe("Integration Test", () => {
 	});
 
 	test("Theme change function is called", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Verify setTheme function is defined
 		expect(mockSetTheme).toBeDefined();
@@ -367,7 +367,7 @@ describe("Integration Test", () => {
 		// Simulate state before mounting
 		mockUseState.mockReturnValue([false, mockSetMounted]);
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Sun icon is displayed before mounting
 		const buttonBefore = screen.getByLabelText("Show theme options");
@@ -382,7 +382,7 @@ describe("Integration Test", () => {
 			setTheme: mockSetTheme,
 		});
 
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// After mounting, the icon for current theme (dark) is displayed
 		const buttonAfter = screen.getByLabelText("Show theme options");
@@ -391,7 +391,7 @@ describe("Integration Test", () => {
 	});
 
 	test("Dropdown menu button is correctly configured", () => {
-		render(<ThemeSwitcher />);
+		render(<ThemeSelector />);
 
 		// Get dropdown menu trigger button
 		const button = screen.getByLabelText("Show theme options");

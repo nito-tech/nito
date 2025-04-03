@@ -6,10 +6,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import ThemeToggleButton from "@/components/theme/theme-switcher";
 import { isAuthPage, isPublicPage } from "@/shared/lib/pathname";
 import { Button } from "@/shared/ui/button";
 import LocaleSwitcher from "@/shared/ui/locale-switcher/locale-switcher";
+import ThemeSelector from "@/shared/ui/theme-selector/theme-selector";
 import { cn } from "@/shared/utils/cn";
 
 function NavLink({
@@ -139,7 +139,7 @@ export default function PublicHeader() {
 							<AuthLink type="signUp" href="/signup" title={t("Auth.signUp")} />
 						)}
 						<LocaleSwitcher />
-						<ThemeToggleButton />
+						<ThemeSelector />
 					</div>
 
 					{/* Mobile Actions and Menu Button */}
@@ -148,7 +148,7 @@ export default function PublicHeader() {
 						aria-label="Mobile actions"
 					>
 						<LocaleSwitcher />
-						<ThemeToggleButton />
+						<ThemeSelector />
 						<Button
 							type="button"
 							variant="ghost"

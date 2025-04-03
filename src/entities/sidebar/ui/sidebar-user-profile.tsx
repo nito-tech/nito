@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 
-import { isTheme, themeOptions } from "@/components/theme/theme-switcher";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { useProfile } from "@/shared/contexts/ProfileContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
@@ -21,6 +20,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
+import {
+	isTheme,
+	themeOptions,
+} from "@/shared/ui/theme-selector/theme-selector";
 import { cn } from "@/shared/utils/cn";
 
 interface Props {
