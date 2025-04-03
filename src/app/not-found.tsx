@@ -4,7 +4,7 @@ import { Ghost, Home } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { paths } from "@/config/paths";
+import { paths } from "@/shared/config/paths";
 import { Button } from "@/shared/ui/button";
 
 export default function NotFoundPage() {

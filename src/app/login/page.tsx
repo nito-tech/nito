@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import OauthLogIn from "@/features/auth/oauth/components/OauthLogIn";
-import { EmailLogInForm } from "@/features/auth/ui/EmailLogInForm";
 import { Separator } from "@/shared/ui/separator";
+import OauthLogIn from "#features/auth/oauth/components/oauth-login.js";
+import { EmailLogInForm } from "#features/auth/ui/email-login-form.js";
 
 export default function LoginPage() {
 	const t = useTranslations("Auth");

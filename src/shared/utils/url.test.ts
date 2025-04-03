@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { env } from "@/config/env";
+import { env } from "@/shared/config/env";
 import { getSiteUrl } from "@/shared/utils/url";
 
 describe("getSiteUrl", () => {
