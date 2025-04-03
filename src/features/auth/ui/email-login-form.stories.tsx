@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Form } from "@/shared/ui/form";
 
 import { LogInWithEmailSchema } from "../model/schemas";
-import { EmailLogInForm } from "./EmailLogInForm";
+import { EmailLogInForm } from "./email-login-form";
 
 const meta = {
 	title: "Features/Auth/Email/EmailLogInForm",

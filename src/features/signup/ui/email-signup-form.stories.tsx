@@ -9,7 +9,7 @@ import {
 } from "@/shared/model/schemas";
 import { Form } from "@/shared/ui/form";
 
-import { EmailSignUpForm } from "./EmailSignUpForm";
+import { EmailSignUpForm } from "./email-signup-form";
 
 const meta = {
 	title: "Features/Auth/Email/EmailSignUpForm",

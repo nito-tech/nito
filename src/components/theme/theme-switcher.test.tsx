@@ -1,11 +1,8 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import ThemeSwitcher, {
-	type Theme,
-	themeOptions,
-} from "@/components/theme/ThemeSwitcher";
+import { ThemeProvider } from "./theme-provider";
+import ThemeSwitcher, { type Theme, themeOptions } from "./theme-switcher";
 
 /**
  * Unmounts rendered components and cleans up the test environment after each test.

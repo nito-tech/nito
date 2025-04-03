@@ -21,9 +21,9 @@ import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 import { Separator } from "@/shared/ui/separator";
 import { cn } from "@/shared/utils/cn";
 
-import { SidebarControl } from "./SidebarControl";
-import { SidebarItem } from "./SidebarItem";
-import SidebarUserProfile from "./SidebarUserProfile";
+import { SidebarControl } from "./sidebar-control";
+import { SidebarItem } from "./sidebar-item";
+import SidebarUserProfile from "./sidebar-user-profile";
 
 export type SidebarState = "expanded" | "collapsed" | "hover";
 

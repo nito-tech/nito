@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import ThemeToggleButton from "@/components/theme/ThemeSwitcher";
+import ThemeToggleButton from "@/components/theme/theme-switcher";
 import { isAuthPage, isPublicPage } from "@/shared/lib/pathname";
 import { Button } from "@/shared/ui/button";
 import LocaleSwitcher from "@/shared/ui/locale-switcher/locale-switcher";

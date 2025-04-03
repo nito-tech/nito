@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 
-import { GitHubLoginButton } from "./GitHubLoginButton";
+import { GitHubLoginButton } from "./github-login-button";
 
 const meta = {
 	title: "Features/Auth/GitHubLoginButton",
