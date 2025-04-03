@@ -24,7 +24,14 @@
 		"build-storybook": "storybook build"
 	},
 	"imports": {
-		"#features/*": "./src/features/*"
+		"#features/*": {
+			"storybook": "./src/features/*.mock.ts",
+			"default": "./src/features/*.ts"
+		},
+		"#shared/*": {
+			"storybook": "./src/shared/*.mock.ts",
+			"default": "./src/shared/*.ts"
+		}
 	},
 	"dependencies": {
 		"@ai-sdk/anthropic": "^1.2.4",

@@ -15,10 +15,9 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useUsername } from "@/entities/user/model/useUsername";
 import { useProfile } from "@/shared/contexts/ProfileContext";
-// import { useUsername } from "@/shared/model/useUsername";
 import { createUsernameSchema } from "@/shared/model/schemas";
+import { useUsername } from "#shared/model/useUsername";
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;
