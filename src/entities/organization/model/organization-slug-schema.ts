@@ -14,7 +14,7 @@ export const OrganizationSlugSchema = (
 		.string({ required_error: t("Organization.validation.slug.required") })
 		.min(1, t("Organization.validation.slug.required"))
 		.regex(
-			/^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
+			/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
 			t("Organization.validation.slug.invalidFormat"),
 		);
 };

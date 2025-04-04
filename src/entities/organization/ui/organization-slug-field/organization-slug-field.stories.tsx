@@ -110,6 +110,32 @@ export const RequiredValidation: Story = {
 	},
 };
 
+export const SingleCharacterValidation: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByLabelText("Organization Slug");
+
+		// Enter a single character
+		await userEvent.clear(input);
+		await userEvent.type(input, "a");
+		await userEvent.tab();
+
+		// Verify no error message is shown
+		await expect(
+			canvas.queryByText("Please enter your organization slug"),
+		).not.toBeInTheDocument();
+
+		await expect(
+			canvas.queryByText(
+				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
+			),
+		).not.toBeInTheDocument();
+
+		await expect(input).toHaveAttribute("aria-invalid", "false");
+	},
+};
+
 export const InvalidFormatValidationStartWithDash: Story = {
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {

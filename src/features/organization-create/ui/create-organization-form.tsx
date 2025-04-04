@@ -25,22 +25,19 @@ export function CreateOrganizationForm() {
 	return (
 		<Form
 			schema={CreateOrganizationSchema(t)}
-			onSubmit={(data: CreateOrganizationInput) => {
-				console.log("data", data);
-				createOrganization({ data });
-			}}
+			onSubmit={(data: CreateOrganizationInput) => createOrganization({ data })}
 			aria-label={t("Organization.create.organization")}
 		>
 			{() => (
 				<>
-					<OrganizationSlugField
-						name="slug"
-						label={t("Organization.slug")}
-						disabled={isPending}
-					/>
 					<OrganizationNameField
 						name="name"
 						label={t("Organization.name")}
+						disabled={isPending}
+					/>
+					<OrganizationSlugField
+						name="slug"
+						label={t("Organization.slug")}
 						disabled={isPending}
 					/>
 					<Button type="submit">{t("Organization.create.organization")}</Button>
