@@ -3,13 +3,13 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { createPasswordSchema } from "@/entities/user/model/password-schema";
+import { CreatePasswordSchema } from "@/entities/user/model/password-schema";
 import { Form } from "@/shared/ui/form";
 
 import { PasswordField } from "./password-field";
 
 const meta = {
-	title: "Components/Form/PasswordField",
+	title: "Entities/User/PasswordField",
 	component: PasswordField,
 	parameters: {
 		layout: "centered",
@@ -21,7 +21,7 @@ const meta = {
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const schema = z.object({ password: createPasswordSchema(t) });
+			const schema = z.object({ password: CreatePasswordSchema(t) });
 
 			return (
 				<Form schema={schema} onSubmit={() => {}}>

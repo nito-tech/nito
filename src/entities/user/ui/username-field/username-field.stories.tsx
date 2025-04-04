@@ -3,14 +3,14 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { createUsernameSchema } from "@/entities/user/model/username-schema";
+import { CreateUsernameSchema } from "@/entities/user/model/username-schema";
 import { Form } from "@/shared/ui/form";
 
 import { mockCheckUsernameExists } from "../../model/useUsername.mock";
 import { UsernameField } from "./username-field";
 
 const meta = {
-	title: "Components/Form/UsernameField",
+	title: "Entities/User/UsernameField",
 	component: UsernameField,
 	parameters: {
 		layout: "centered",
@@ -22,7 +22,7 @@ const meta = {
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const schema = z.object({ username: createUsernameSchema(t) });
+			const schema = z.object({ username: CreateUsernameSchema(t) });
 
 			return (
 				<Form schema={schema} onSubmit={() => {}}>
@@ -35,6 +35,7 @@ const meta = {
 } satisfies Meta<typeof UsernameField>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {

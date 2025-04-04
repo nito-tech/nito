@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { createEmailSchema } from "@/entities/user/model/email-schema";
-import { createUsernameSchema } from "@/entities/user/model/username-schema";
+import { CreateEmailSchema } from "@/entities/user/model/email-schema";
+import { CreateUsernameSchema } from "@/entities/user/model/username-schema";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { UsernameField } from "@/entities/user/ui/username-field/username-field";
 import { DangerZone } from "@/features/account/components/DangerZone/danger-zone";
@@ -30,8 +30,8 @@ export default function AccountPage() {
 	// Form
 	// ----------------------------------------------
 	const schema = z.object({
-		email: createEmailSchema(t),
-		username: createUsernameSchema(t),
+		email: CreateEmailSchema(t),
+		username: CreateUsernameSchema(t),
 	});
 	type FormValues = z.infer<typeof schema>;
 

@@ -12,7 +12,7 @@ type UsernameTranslationFunction = (
 
 export const USERNAME_MAX_LENGTH = 50;
 
-export const createUsernameSchema = (t: UsernameTranslationFunction) => {
+export const CreateUsernameSchema = (t: UsernameTranslationFunction) => {
 	return z
 		.string({ required_error: t("Auth.validation.usernameRequired") })
 		.min(1, { message: t("Auth.validation.usernameMinLength") })
@@ -51,4 +51,4 @@ export const createUsernameSchema = (t: UsernameTranslationFunction) => {
 		});
 };
 
-export type UsernameInput = z.infer<ReturnType<typeof createUsernameSchema>>;
+export type UsernameInput = z.infer<ReturnType<typeof CreateUsernameSchema>>;
