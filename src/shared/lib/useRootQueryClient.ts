@@ -1,7 +1,14 @@
 "use client";
 
-import { QueryClient, onlineManager } from "@tanstack/react-query";
+import {
+	MutationCache,
+	QueryCache,
+	QueryClient,
+	onlineManager,
+} from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { ResponseError } from "@/shared/types/base";
 
@@ -44,9 +51,11 @@ if (process.env.NODE_ENV === "development") {
 	onlineManager.setOnline(true);
 }
 
+type TFunction = (key: string, params?: Record<string, unknown>) => string;
+
 let queryClient: QueryClient | undefined;
 
-export function getQueryClient() {
+export function getQueryClient(t: TFunction) {
 	const _queryClient =
 		queryClient ??
 		new QueryClient({
@@ -72,6 +81,36 @@ export function getQueryClient() {
 					},
 				},
 			},
+			queryCache: new QueryCache({
+				onError: (error) => {
+					const errorMessage =
+						error instanceof Error ? error.message : t("unknownError");
+
+					const message = t("queryError", { message: errorMessage });
+					toast.error(message);
+				},
+			}),
+			mutationCache: new MutationCache({
+				onError: (error) => {
+					const errorMessage =
+						error instanceof Error ? error.message : "Unknown error";
+
+					// Select message key based on error type
+					let messageKey = "mutationError";
+
+					// Change message based on HTTP status code for ResponseError
+					if (error instanceof ResponseError && error.code !== undefined) {
+						if (error.code >= 400 && error.code < 500) {
+							messageKey = "clientError";
+						} else if (error.code >= 500) {
+							messageKey = "serverError";
+						}
+					}
+
+					const message = t(messageKey, { message: errorMessage });
+					toast.error(message);
+				},
+			}),
 		});
 
 	// For SSG and SSR always create a new queryClient
@@ -88,7 +127,8 @@ export function getQueryClient() {
 }
 
 export function useRootQueryClient() {
-	const [_queryClient] = useState(() => getQueryClient());
+	const t = useTranslations("Error");
+	const [_queryClient] = useState(() => getQueryClient(t));
 
 	return _queryClient;
 }

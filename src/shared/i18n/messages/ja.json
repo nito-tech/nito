@@ -64,8 +64,13 @@
 	},
 	"commingSoon": "近日公開...",
 	"connectToRepository": "リポジトリを接続",
-	"error": {
-		"title": "おっと、何かが間違っていたようです :("
+	"Error": {
+		"title": "おっと、何かが間違っていたようです :(",
+		"queryError": "データの取得中に問題が発生しました: {message}",
+		"mutationError": "リクエストの処理中に問題が発生しました: {message}",
+		"clientError": "入力内容をご確認の上、再度お試しください: {message}",
+		"serverError": "システムに問題が発生しています。しばらく時間をおいて再度お試しください: {message}",
+		"unknownError": "予期せぬエラーが発生しました。しばらく時間をおいて再度お試しください。"
 	},
 	"refresh": "トップページに戻る",
 	"notFound": {

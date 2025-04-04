@@ -64,8 +64,13 @@
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository",
-	"error": {
-		"title": "Oops, something went wrong :( "
+	"Error": {
+		"title": "Oops, something went wrong :( ",
+		"queryError": "We encountered a problem while fetching data: {message}",
+		"mutationError": "We encountered a problem while processing your request: {message}",
+		"clientError": "Please check your input and try again: {message}",
+		"serverError": "We're having some technical difficulties. Please try again later: {message}",
+		"unknownError": "An unexpected error occurred. Please try again later."
 	},
 	"refresh": "Refresh",
 	"notFound": {
