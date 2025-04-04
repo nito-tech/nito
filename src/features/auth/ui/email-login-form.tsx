@@ -48,7 +48,7 @@ export function EmailLogInForm({ className }: Props) {
 
 	return (
 		<Form
-			schema={LogInWithEmailSchema(t as unknown as (key: string) => string)}
+			schema={LogInWithEmailSchema(t)}
 			onSubmit={onSubmit}
 			noValidate
 			aria-label="Log in form"
