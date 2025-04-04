@@ -5,14 +5,12 @@ import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { createEmailSchema } from "@/entities/user/model/email-schema";
+import { createPasswordSchema } from "@/entities/user/model/password-schema";
+import { createUsernameSchema } from "@/entities/user/model/username-schema";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
 import { UsernameField } from "@/entities/user/ui/username-field/username-field";
-import {
-	createEmailSchema,
-	createPasswordSchema,
-	createUsernameSchema,
-} from "@/shared/model/schemas";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";

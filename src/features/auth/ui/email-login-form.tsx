@@ -7,9 +7,9 @@ import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
+import { Notice } from "@/shared/ui/notice/notice";
 import { cn } from "@/shared/utils/cn";
 
-import { Notice } from "@/shared/ui/notice/notice";
 import { LogInWithEmailSchema } from "../model/log-in-with-email-schemas";
 import type { LogInWithEmailInput } from "../model/log-in-with-email-schemas";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";

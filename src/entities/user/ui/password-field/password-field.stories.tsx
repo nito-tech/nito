@@ -3,7 +3,7 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { createPasswordSchema } from "@/shared/model/schemas";
+import { createPasswordSchema } from "@/entities/user/model/password-schema";
 import { Form } from "@/shared/ui/form";
 
 import { PasswordField } from "./password-field";

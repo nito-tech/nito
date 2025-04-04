@@ -7,8 +7,8 @@ import { useFormContext } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
+import { createUsernameSchema } from "@/entities/user/model/username-schema";
 import { useProfile } from "@/shared/contexts/ProfileContext";
-import { createUsernameSchema } from "@/shared/model/schemas";
 import {
 	FormControl,
 	FormField,

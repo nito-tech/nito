@@ -3,7 +3,7 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { createUsernameSchema } from "@/shared/model/schemas";
+import { createUsernameSchema } from "@/entities/user/model/username-schema";
 import { Form } from "@/shared/ui/form";
 
 import { mockCheckUsernameExists } from "../../model/useUsername.mock";

@@ -6,16 +6,14 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { createEmailSchema } from "@/entities/user/model/email-schema";
+import { createUsernameSchema } from "@/entities/user/model/username-schema";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { UsernameField } from "@/entities/user/ui/username-field/username-field";
 import { DangerZone } from "@/features/account/components/DangerZone/danger-zone";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { useProfile } from "@/shared/contexts/ProfileContext";
 import { useFormWithOnChange } from "@/shared/lib/useFormWithOnChange";
-import {
-	createEmailSchema,
-	createUsernameSchema,
-} from "@/shared/model/schemas";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
