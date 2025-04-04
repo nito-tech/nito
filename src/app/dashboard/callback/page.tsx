@@ -23,7 +23,7 @@ import { Notice } from "@/shared/ui/notice/notice";
 
 export default function CallbackPage() {
 	const searchParams = useSearchParams();
-	const code = searchParams.get("code");
+	const code = searchParams?.get("code");
 	const [message, setMessage] = useState<string>(
 		"Getting authorization code from GitHub",
 	);
