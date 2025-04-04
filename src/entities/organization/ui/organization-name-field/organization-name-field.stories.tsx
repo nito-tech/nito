@@ -110,15 +110,103 @@ export const RequiredValidation: Story = {
 	},
 };
 
-export const InvalidCharactersValidation: Story = {
+export const InvalidCharactersValidationAtSymbol: Story = {
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const input = canvas.getByLabelText("Organization Name");
 
-		// Enter invalid characters
+		// Enter invalid character @
 		await userEvent.clear(input);
-		await userEvent.type(input, "Organization @#$%^&*()");
+		await userEvent.type(input, "Organization@");
+		await userEvent.tab();
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText(
+				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			),
+		).toBeInTheDocument();
+
+		await expect(input).toHaveAttribute("aria-invalid", "true");
+	},
+};
+
+export const InvalidCharactersValidationHashSymbol: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByLabelText("Organization Name");
+
+		// Enter invalid character #
+		await userEvent.clear(input);
+		await userEvent.type(input, "Organization#");
+		await userEvent.tab();
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText(
+				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			),
+		).toBeInTheDocument();
+
+		await expect(input).toHaveAttribute("aria-invalid", "true");
+	},
+};
+
+export const InvalidCharactersValidationDollarSymbol: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByLabelText("Organization Name");
+
+		// Enter invalid character $
+		await userEvent.clear(input);
+		await userEvent.type(input, "Organization$");
+		await userEvent.tab();
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText(
+				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			),
+		).toBeInTheDocument();
+
+		await expect(input).toHaveAttribute("aria-invalid", "true");
+	},
+};
+
+export const InvalidCharactersValidationPercentSymbol: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByLabelText("Organization Name");
+
+		// Enter invalid character %
+		await userEvent.clear(input);
+		await userEvent.type(input, "Organization%");
+		await userEvent.tab();
+
+		// Verify the error message
+		await expect(
+			await canvas.findByText(
+				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			),
+		).toBeInTheDocument();
+
+		await expect(input).toHaveAttribute("aria-invalid", "true");
+	},
+};
+
+export const InvalidCharactersValidationAmpersandSymbol: Story = {
+	tags: ["validation"],
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByLabelText("Organization Name");
+
+		// Enter invalid character &
+		await userEvent.clear(input);
+		await userEvent.type(input, "Organization&");
 		await userEvent.tab();
 
 		// Verify the error message
@@ -140,7 +228,7 @@ export const ValidInputValidation: Story = {
 
 		// Enter valid characters
 		await userEvent.clear(input);
-		await userEvent.type(input, "Valid Organization Name");
+		await userEvent.type(input, "Valid Organization Name_");
 		await userEvent.tab();
 
 		// Verify no error message is shown
