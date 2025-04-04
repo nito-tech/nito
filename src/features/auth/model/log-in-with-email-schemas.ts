@@ -10,3 +10,7 @@ export const LogInWithEmailSchema = (t: (key: string) => string) =>
 		email: createEmailSchema(t),
 		password: createPasswordSchema(t),
 	});
+
+export type LogInWithEmailInput = z.infer<
+	ReturnType<typeof LogInWithEmailSchema>
+>;

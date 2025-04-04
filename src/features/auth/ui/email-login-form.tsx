@@ -10,8 +10,8 @@ import { Form } from "@/shared/ui/form";
 import { cn } from "@/shared/utils/cn";
 
 import { Notice } from "@/shared/ui/notice/notice";
-import { LogInWithEmailSchema } from "../model/schemas";
-import type { LogInWithEmail } from "../model/types";
+import { LogInWithEmailSchema } from "../model/log-in-with-email-schemas";
+import type { LogInWithEmailInput } from "../model/log-in-with-email-schemas";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";
 
 interface Props {
@@ -26,7 +26,7 @@ export function EmailLogInForm({ className }: Props) {
 
 	const { mutate: logInWithEmail, isPending } = useLogInWithEmail();
 
-	async function onSubmit(data: LogInWithEmail) {
+	async function onSubmit(data: LogInWithEmailInput) {
 		setMessageType(null);
 		setMessage(null);
 
@@ -60,11 +60,11 @@ export function EmailLogInForm({ className }: Props) {
 						{messageType === "error" && message && (
 							<Notice variant="destructive" text={message} />
 						)}
-						<EmailField<LogInWithEmail>
+						<EmailField<LogInWithEmailInput>
 							name="email"
 							disabled={formState.isSubmitting || isPending}
 						/>
-						<PasswordField<LogInWithEmail>
+						<PasswordField<LogInWithEmailInput>
 							name="password"
 							disabled={formState.isSubmitting || isPending}
 						/>

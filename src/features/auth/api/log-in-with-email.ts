@@ -5,13 +5,15 @@ import { z } from "zod";
 
 import { createServerClient } from "@/shared/lib/supabase/server";
 
-import { LogInWithEmailSchema } from "../model/schemas";
-import type { LogInWithEmail } from "../model/types";
+import {
+	type LogInWithEmailInput,
+	LogInWithEmailSchema,
+} from "../model/log-in-with-email-schemas";
 
 export const logInWithEmail = async ({
 	data,
 }: {
-	data: LogInWithEmail;
+	data: LogInWithEmailInput;
 }): Promise<Session> => {
 	const t = (key: string) => key; // No translation required on the server side
 	const schema = LogInWithEmailSchema(t);
