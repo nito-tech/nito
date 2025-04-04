@@ -3,7 +3,7 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { CreateEmailSchema } from "@/entities/user/model/email-schema";
+import { EmailSchema } from "@/entities/user/model/email-schema";
 import { Form } from "@/shared/ui/form";
 
 import { EmailField } from "./email-field";
@@ -21,7 +21,7 @@ const meta = {
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const schema = z.object({ email: CreateEmailSchema(t) });
+			const schema = z.object({ email: EmailSchema(t) });
 
 			return (
 				<Form schema={schema} onSubmit={() => {}}>

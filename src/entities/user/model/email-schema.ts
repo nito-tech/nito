@@ -7,11 +7,11 @@ type EmailTranslationFunction = (
 		| "Auth.validation.emailMinLength",
 ) => string;
 
-export const CreateEmailSchema = (t: EmailTranslationFunction) => {
+export const EmailSchema = (t: EmailTranslationFunction) => {
 	return z
 		.string({ required_error: t("Auth.validation.emailInvalid") })
 		.min(1, { message: t("Auth.validation.emailMinLength") })
 		.email({ message: t("Auth.validation.emailInvalid") });
 };
 
-export type EmailInput = z.infer<ReturnType<typeof CreateEmailSchema>>;
+export type EmailInput = z.infer<ReturnType<typeof EmailSchema>>;

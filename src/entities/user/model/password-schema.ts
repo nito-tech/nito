@@ -10,7 +10,7 @@ export type PasswordTranslationFunction = (
 		| "Auth.validation.passwordMaxLength",
 ) => string;
 
-export const CreatePasswordSchema = (t: PasswordTranslationFunction) => {
+export const PasswordSchema = (t: PasswordTranslationFunction) => {
 	return z
 		.string({ required_error: t("Auth.validation.passwordRequired") })
 		.min(PASSWORD_MIN_LENGTH, {
@@ -21,4 +21,4 @@ export const CreatePasswordSchema = (t: PasswordTranslationFunction) => {
 		});
 };
 
-export type PasswordInput = z.infer<ReturnType<typeof CreatePasswordSchema>>;
+export type PasswordInput = z.infer<ReturnType<typeof PasswordSchema>>;

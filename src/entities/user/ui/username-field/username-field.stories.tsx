@@ -3,10 +3,10 @@ import { expect, userEvent, within } from "@storybook/test";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import { CreateUsernameSchema } from "@/entities/user/model/username-schema";
 import { Form } from "@/shared/ui/form";
 
 import { mockCheckUsernameExists } from "../../model/useUsername.mock";
+import { UsernameSchema } from "../../model/username-schema";
 import { UsernameField } from "./username-field";
 
 const meta = {
@@ -22,7 +22,7 @@ const meta = {
 	decorators: [
 		(Story, context) => {
 			const t = useTranslations();
-			const schema = z.object({ username: CreateUsernameSchema(t) });
+			const schema = z.object({ username: UsernameSchema(t) });
 
 			return (
 				<Form schema={schema} onSubmit={() => {}}>
