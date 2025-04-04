@@ -21,7 +21,7 @@ interface Props<T extends FieldValues> {
 	required?: boolean;
 }
 
-export function OrganizationNameField<T extends FieldValues>({
+export function OrganizationSlugField<T extends FieldValues>({
 	name,
 	label,
 	placeholder,
@@ -38,7 +38,7 @@ export function OrganizationNameField<T extends FieldValues>({
 			render={({ field }) => (
 				<FormItem>
 					<FormLabel htmlFor={name}>
-						{label || t("Organization.name")}
+						{label || t("Organization.slug")}
 						{required && <span className="text-destructive">*</span>}
 					</FormLabel>
 					<FormControl>
@@ -50,7 +50,6 @@ export function OrganizationNameField<T extends FieldValues>({
 							placeholder={placeholder}
 							disabled={disabled}
 							autoCapitalize="none"
-							autoComplete="organization"
 							autoCorrect="off"
 						/>
 					</FormControl>

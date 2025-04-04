@@ -53,6 +53,7 @@
 	},
 	"Organization": {
 		"name": "組織名",
+		"slug": "組織のURL",
 		"create": {
 			"organization": "組織を作成",
 			"organizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
@@ -60,7 +61,12 @@
 		},
 		"validation": {
 			"nameRequired": "組織名を入力してください",
-			"nameInvalidChars": "組織名は英字、数字、スペース、アンダースコア、ハイフンのみ使用できます"
+			"nameInvalidChars": "組織名は英字、数字、スペース、アンダースコア、ハイフンのみ使用できます",
+			"slug": {
+				"required": "組織のスラッグを入力してください",
+				"invalidChars": "組織のスラッグは小文字の英字、数字、ハイフンのみ使用できます",
+				"invalidFormat": "組織のスラッグは小文字で、英数字で始まり、英数字またはハイフンを含み、英数字で終わる必要があります"
+			}
 		}
 	},
 	"Action": {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { OrganizationNameField } from "@/entities/organization/ui/organization-name-field/organization-name-field";
+import { OrganizationSlugField } from "@/entities/organization/ui/organization-slug-field/organization-slug-field";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 
@@ -32,12 +33,14 @@ export function CreateOrganizationForm() {
 		>
 			{() => (
 				<>
-					{/* TODO: Input URL */}
-
+					<OrganizationSlugField
+						name="slug"
+						label={t("Organization.slug")}
+						disabled={isPending}
+					/>
 					<OrganizationNameField
 						name="name"
 						label={t("Organization.name")}
-						placeholder={t("Organization.name")}
 						disabled={isPending}
 					/>
 					<Button type="submit">{t("Organization.create.organization")}</Button>

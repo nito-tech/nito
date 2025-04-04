@@ -53,6 +53,7 @@
 	},
 	"Organization": {
 		"name": "Organization Name",
+		"slug": "Organization URL",
 		"create": {
 			"organization": "Create Organization",
 			"organizationDescription": "Create a new organization to manage your projects and teams.",
@@ -60,7 +61,12 @@
 		},
 		"validation": {
 			"nameRequired": "Please enter your organization name",
-			"nameInvalidChars": "Organization name can only contain letters, numbers, spaces, underscores, and dashes"
+			"nameInvalidChars": "Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			"slug": {
+				"required": "Please enter your organization slug",
+				"invalidChars": "Organization slug can only contain lowercase letters, numbers, and dashes",
+				"invalidFormat": "Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character"
+			}
 		}
 	},
 	"Action": {
