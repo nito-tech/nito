@@ -53,9 +53,14 @@
 	},
 	"Organization": {
 		"name": "組織名",
-		"createOrganization": "組織を作成",
-		"createOrganizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
-		"createOrganizationConfirm": "組織を作成"
+		"create": {
+			"organization": "組織を作成",
+			"organizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
+			"organizationConfirm": "組織を作成"
+		},
+		"validation": {
+			"nameRequired": "組織名を入力してください"
+		}
 	},
 	"Action": {
 		"cancel": "キャンセル",

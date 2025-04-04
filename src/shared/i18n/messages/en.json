@@ -53,9 +53,14 @@
 	},
 	"Organization": {
 		"name": "Organization Name",
-		"createOrganization": "Create Organization",
-		"createOrganizationDescription": "Create a new organization to manage your projects and teams.",
-		"createOrganizationConfirm": "Create Organization"
+		"create": {
+			"organization": "Create Organization",
+			"organizationDescription": "Create a new organization to manage your projects and teams.",
+			"organizationConfirm": "Create Organization"
+		},
+		"validation": {
+			"nameRequired": "Please enter your organization name"
+		}
 	},
 	"Action": {
 		"cancel": "Cancel",
