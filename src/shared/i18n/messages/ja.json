@@ -59,7 +59,8 @@
 			"organizationConfirm": "組織を作成"
 		},
 		"validation": {
-			"nameRequired": "組織名を入力してください"
+			"nameRequired": "組織名を入力してください",
+			"nameInvalidChars": "組織名は英字、数字、スペース、アンダースコア、ハイフンのみ使用できます"
 		}
 	},
 	"Action": {

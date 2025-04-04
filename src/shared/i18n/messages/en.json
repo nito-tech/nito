@@ -59,7 +59,8 @@
 			"organizationConfirm": "Create Organization"
 		},
 		"validation": {
-			"nameRequired": "Please enter your organization name"
+			"nameRequired": "Please enter your organization name",
+			"nameInvalidChars": "Organization name can only contain letters, numbers, spaces, underscores, and dashes"
 		}
 	},
 	"Action": {
