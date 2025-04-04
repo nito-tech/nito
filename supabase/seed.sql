@@ -50,6 +50,7 @@ WHERE id = '00000000-0000-0000-0000-000000000001';
 
 -- Insert test organizations
 INSERT INTO organizations (name, slug) VALUES
+  ('A', 'a'),
   ('Apple Inc', 'apple'),
   ('Microsoft Corporation', 'microsoft'),
   ('Google LLC', 'google'),
