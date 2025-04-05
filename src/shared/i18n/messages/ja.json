@@ -54,6 +54,10 @@
 	"Organization": {
 		"name": "組織名",
 		"slug": "組織のURL",
+		"createdAt": "作成日",
+		"error": {
+			"failedToLoadOrganizations": "組織の読み込みに失敗しました"
+		},
 		"create": {
 			"organization": "組織を作成",
 			"organizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
