@@ -13,6 +13,6 @@ export const mockCheckUsernameExists = fn(async (username: string) => {
 export function useUsername() {
 	return {
 		checkUsernameExists: mockCheckUsernameExists,
-		isLoading: actual.useUsername().isLoading,
+		isLoading: false,
 	};
 }

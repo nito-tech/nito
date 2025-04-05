@@ -1,29 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
-import { checkUsernameExists as checkUsernameExistsAction } from "../../../shared/api/check-username-exists";
+import { checkUsernameExists } from "../../../shared/api/check-username-exists";
 
+/**
+ * Custom hook for checking if a username exists
+ *
+ * @returns Object containing mutateAsync function and isLoading state
+ */
 export function useUsername() {
-	const [isLoading, setIsLoading] = useState(false);
+	const { mutateAsync, isPending: isLoading } = useMutation({
+		mutationFn: async (username: string) => {
+			if (!username) return;
+			return checkUsernameExists(username);
+		},
+	});
 
-	const checkUsernameExists = async (username: string) => {
-		if (!username) return;
-
-		setIsLoading(true);
-
-		try {
-			await checkUsernameExistsAction(username);
-		} catch (error) {
-			if (error instanceof Error) {
-				throw new Error(error.message);
-			}
-
-			// throw new Error("An unknown error occurred");
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	return { checkUsernameExists, isLoading };
+	return { checkUsernameExists: mutateAsync, isLoading };
 }
