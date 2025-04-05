@@ -61,7 +61,7 @@
 		},
 		"validation": {
 			"nameRequired": "Please enter your organization name",
-			"nameInvalidChars": "Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+			"nameInvalidChars": "Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			"slug": {
 				"required": "Please enter your organization slug",
 				"invalidChars": "Organization slug can only contain lowercase letters, numbers, and dashes",

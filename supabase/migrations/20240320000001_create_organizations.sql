@@ -1,7 +1,7 @@
 -- Create organizations table
 CREATE TABLE organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL CHECK (name ~ '^[a-zA-Z0-9\s_-]+$'),
+  name TEXT NOT NULL CHECK (name ~ '^[a-zA-Z0-9 _-]+$'),
   slug TEXT NOT NULL UNIQUE CHECK (slug ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$'),
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()

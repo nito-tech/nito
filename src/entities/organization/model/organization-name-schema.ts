@@ -12,7 +12,7 @@ export const OrganizationNameSchema = (
 	return z
 		.string({ required_error: t("Organization.validation.nameRequired") })
 		.min(1, t("Organization.validation.nameRequired"))
-		.regex(/^[a-zA-Z0-9\s_-]+$/, t("Organization.validation.nameInvalidChars"));
+		.regex(/^[a-zA-Z0-9 _-]+$/, t("Organization.validation.nameInvalidChars"));
 };
 
 export type OrganizationNameInput = z.infer<
