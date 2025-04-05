@@ -1,9 +1,14 @@
 "use client";
 
+import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
+import { z } from "zod";
 
+import { OrganizationSlugSchema } from "@/entities/organization/model/organization-slug-schema";
+import { useOrganizationSlug } from "@/entities/organization/model/useOrganizationSlug";
 import {
 	FormControl,
 	FormField,
@@ -33,6 +38,38 @@ export function OrganizationSlugField<T extends FieldValues>({
 	const t = useTranslations();
 	const form = useFormContext<T>();
 
+	const slug = form.watch(name);
+	const { mutateAsync: checkOrganizationSlugExists, isLoading } =
+		useOrganizationSlug();
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		const validateSlug = async () => {
+			if (!slug) return;
+
+			try {
+				OrganizationSlugSchema(t).parse(slug);
+				await checkOrganizationSlugExists(slug);
+				form.clearErrors(name);
+			} catch (error) {
+				// If the error is a parse error, don't set the error
+				if (error instanceof z.ZodError) return;
+
+				if (error instanceof Error) {
+					form.setError(name, {
+						message: error.message,
+					});
+				}
+			}
+		};
+
+		// Debounce the check to avoid too many requests
+		const timeoutId = setTimeout(validateSlug, 500);
+
+		return () => clearTimeout(timeoutId);
+		// We intentionally only depend on slug changes to prevent unnecessary re-renders
+	}, [slug]);
+
 	return (
 		<FormField
 			control={form.control}
@@ -59,25 +96,33 @@ export function OrganizationSlugField<T extends FieldValues>({
 									nito.tech/
 								</div>
 								<FormControl>
-									<Input
-										{...field}
-										value={field.value ?? ""}
-										id={name}
-										type="text"
-										placeholder={placeholder}
-										disabled={disabled}
-										autoCapitalize="none"
-										autoCorrect="off"
-										className={cn(
-											"rounded-l-none",
-											"border-0", // Remove internal input field borders
-											"focus-visible:ring-0 focus-visible:ring-offset-0", // Remove internal focus ring
-										)}
-									/>
+									<div className="relative flex-1">
+										<Input
+											{...field}
+											value={field.value ?? ""}
+											id={name}
+											type="text"
+											placeholder={placeholder}
+											disabled={disabled}
+											autoCapitalize="none"
+											autoCorrect="off"
+											className={cn(
+												"rounded-l-none",
+												"border-0", // Remove internal input field borders
+												"focus-visible:ring-0 focus-visible:ring-offset-0", // Remove internal focus ring
+											)}
+										/>
+									</div>
 								</FormControl>
 							</div>
 						</div>
-						<FormMessage />
+						{/* <FormMessage /> */}
+						<div className="flex items-center gap-2">
+							{isLoading && (
+								<LoaderCircle className="h-4 w-4 animate-spin text-muted-foreground" />
+							)}
+							<FormMessage />
+						</div>
 					</FormItem>
 				);
 			}}

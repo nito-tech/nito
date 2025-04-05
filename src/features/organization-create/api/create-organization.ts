@@ -26,18 +26,13 @@ export const createOrganization = async ({
 		throw error;
 	}
 
-	// TODO: Check if the slug is already taken
-
 	// Removing spaces from both ends
 	const trimmedName = data.name.trim();
 
 	// The leading spaces are prohibited by Zod, so only the trailing spaces are removed
 	const trimmedSlug = data.slug.trim();
 
-	// TODO: Converting uppercase to lowercase
-
 	const supabase = await createServerClient();
-
 	const { data: response, error } = await supabase
 		.from("organizations")
 		.insert([
