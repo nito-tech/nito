@@ -73,51 +73,6 @@ describe("createOrganization", () => {
 		]);
 	});
 
-	it("should throw an error when organization name is empty", async () => {
-		// Arrange
-		const input = {
-			data: {
-				name: "",
-				slug: "test-org",
-			},
-		};
-
-		// Act & Assert
-		await expect(createOrganization(input)).rejects.toThrow(
-			"Organization.validation.nameRequired",
-		);
-	});
-
-	it("should throw an error when organization name contains invalid characters", async () => {
-		// Arrange
-		const input = {
-			data: {
-				name: "Test@Organization",
-				slug: "test-org",
-			},
-		};
-
-		// Act & Assert
-		await expect(createOrganization(input)).rejects.toThrow(
-			"Organization.validation.nameInvalidChars",
-		);
-	});
-
-	it("should throw an error when slug is empty", async () => {
-		// Arrange
-		const input = {
-			data: {
-				name: "Test Organization",
-				slug: "",
-			},
-		};
-
-		// Act & Assert
-		await expect(createOrganization(input)).rejects.toThrow(
-			"Organization.validation.slug.required",
-		);
-	});
-
 	it("should throw an error when Supabase returns an error", async () => {
 		// Arrange
 		const mockError = new Error("Database error");
@@ -139,6 +94,38 @@ describe("createOrganization", () => {
 
 		// Act & Assert
 		await expect(createOrganization(input)).rejects.toThrow("Database error");
+	});
+
+	describe("name validation", () => {
+		it("should throw an error when organization name is empty", async () => {
+			// Arrange
+			const input = {
+				data: {
+					name: "",
+					slug: "test-org",
+				},
+			};
+
+			// Act & Assert
+			await expect(createOrganization(input)).rejects.toThrow(
+				"Organization.validation.nameRequired",
+			);
+		});
+
+		it("should throw an error when organization name contains invalid characters", async () => {
+			// Arrange
+			const input = {
+				data: {
+					name: "Test@Organization",
+					slug: "test-org",
+				},
+			};
+
+			// Act & Assert
+			await expect(createOrganization(input)).rejects.toThrow(
+				"Organization.validation.nameInvalidChars",
+			);
+		});
 	});
 
 	describe("space handling", () => {
@@ -189,6 +176,21 @@ describe("createOrganization", () => {
 	});
 
 	describe("slug validation", () => {
+		it("should throw an error when slug is empty", async () => {
+			// Arrange
+			const input = {
+				data: {
+					name: "Test Organization",
+					slug: "",
+				},
+			};
+
+			// Act & Assert
+			await expect(createOrganization(input)).rejects.toThrow(
+				"Organization.validation.slug.required",
+			);
+		});
+
 		it("should throw an error when slug format is invalid", async () => {
 			// Arrange
 			const input = {
