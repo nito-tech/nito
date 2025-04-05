@@ -1,13 +1,17 @@
 -- Create organizations table
 CREATE TABLE organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
+  name TEXT NOT NULL CHECK (name ~ '^[a-zA-Z0-9 _-]+$'),
+  slug TEXT NOT NULL UNIQUE CHECK (slug ~ '^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$'),
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 -- Create index on name for faster lookups
 CREATE INDEX organizations_name_idx ON organizations(name);
+
+-- Create index on slug for faster lookups
+CREATE INDEX organizations_slug_idx ON organizations(slug);
 
 -- Add RLS policies
 ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;

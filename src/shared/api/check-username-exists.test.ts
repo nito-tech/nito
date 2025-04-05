@@ -1,172 +1,91 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
 
-import { logInWithEmail } from "@/features/auth/api/log-in-with-email";
-import { signUpWithEmail } from "@/features/signup/api/sign-up-with-email";
 import { createServerClient } from "@/shared/lib/supabase/server";
+import { checkUsernameExists } from "./check-username-exists";
 
-// // Mock Supabase client
-// vi.mock("@/lib/supabase/server", () => ({
-// 	createServerClient: vi.fn(),
-// }));
+vi.mock("@/shared/lib/supabase/server", () => ({
+	createServerClient: vi.fn(),
+}));
 
-describe.skip("auth/email/actions", () => {
-	// 	describe("logInWithEmail", () => {
-	// 		it("should validate and accept valid login credentials", async () => {
-	// 			const mockSession = {
-	// 				user: { id: "test-user-id" },
-	// 				access_token: "test-access-token",
-	// 				refresh_token: "test-refresh-token",
-	// 			};
-	// 			const mockSupabase = {
-	// 				auth: {
-	// 					signInWithPassword: vi.fn().mockResolvedValue({
-	// 						data: { session: mockSession },
-	// 						error: null,
-	// 					}),
-	// 				},
-	// 			};
-	// 			(
-	// 				createServerClient as unknown as ReturnType<typeof vi.fn>
-	// 			).mockResolvedValue(mockSupabase);
-	// 			const validInput = {
-	// 				email: "test@example.com",
-	// 				password: "validpassword123",
-	// 			};
-	// 			const result = await logInWithEmail(validInput);
-	// 			expect(result).toEqual(mockSession);
-	// 		});
-	// 		it("should reject invalid email format", async () => {
-	// 			const invalidInput = {
-	// 				email: "invalid-email",
-	// 				password: "validpassword123",
-	// 			};
-	// 			await expect(logInWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.emailInvalid",
-	// 			);
-	// 		});
-	// 		it("should reject short password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "short",
-	// 			};
-	// 			await expect(logInWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject long password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "a".repeat(PASSWORD_MAX_LENGTH + 1),
-	// 			};
-	// 			await expect(logInWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMaxLength",
-	// 			);
-	// 		});
-	// 		it("should reject empty email", async () => {
-	// 			const invalidInput = {
-	// 				email: "",
-	// 				password: "validpassword123",
-	// 			};
-	// 			await expect(logInWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.emailMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject empty password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "",
-	// 			};
-	// 			await expect(logInWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMinLength",
-	// 			);
-	// 		});
-	// 	});
-	// 	describe("signUpWithEmail", () => {
-	// 		it("should validate and accept valid signup credentials", async () => {
-	// 			const mockSupabase = {
-	// 				auth: {
-	// 					signUp: vi.fn().mockResolvedValue({ error: null }),
-	// 				},
-	// 			};
-	// 			(
-	// 				createServerClient as unknown as ReturnType<typeof vi.fn>
-	// 			).mockResolvedValue(mockSupabase);
-	// 			const validInput = {
-	// 				email: "test@example.com",
-	// 				password: "validpassword123",
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(validInput)).resolves.not.toThrow();
-	// 		});
-	// 		it("should reject invalid email format", async () => {
-	// 			const invalidInput = {
-	// 				email: "invalid-email",
-	// 				password: "validpassword123",
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.emailInvalid",
-	// 			);
-	// 		});
-	// 		it("should reject short password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "short",
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject long password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "a".repeat(PASSWORD_MAX_LENGTH + 1),
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMaxLength",
-	// 			);
-	// 		});
-	// 		it("should reject empty email", async () => {
-	// 			const invalidInput = {
-	// 				email: "",
-	// 				password: "validpassword123",
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.emailMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject empty password", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "",
-	// 				username: "testuser",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.passwordMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject empty username", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "validpassword123",
-	// 				username: "",
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.usernameMinLength",
-	// 			);
-	// 		});
-	// 		it("should reject long username", async () => {
-	// 			const invalidInput = {
-	// 				email: "test@example.com",
-	// 				password: "validpassword123",
-	// 				username: "a".repeat(USERNAME_MAX_LENGTH + 1),
-	// 			};
-	// 			await expect(signUpWithEmail(invalidInput)).rejects.toThrow(
-	// 				"Auth.validation.usernameMaxLength",
-	// 			);
-	// 		});
-	// 	});
+vi.mock("next-intl/server", () => ({
+	getTranslations: () =>
+		Promise.resolve(() => "Auth.validation.usernameAlreadyExists"),
+}));
+
+describe("checkUsernameExists", () => {
+	it("should throw an error when username exists", async () => {
+		// Arrange
+		const mockResponse = {
+			data: { id: "test-id" },
+			error: null,
+		};
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
+		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
+		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
+		const mockSupabase = {
+			from: mockFrom,
+		} as unknown as SupabaseClient;
+		vi.mocked(createServerClient).mockResolvedValue(mockSupabase);
+
+		// Act & Assert
+		await expect(checkUsernameExists("testuser")).rejects.toThrow(
+			"Auth.validation.usernameAlreadyExists",
+		);
+		expect(mockFrom).toHaveBeenCalledWith("profiles");
+		expect(mockSelect).toHaveBeenCalledWith("id");
+		expect(mockIlike).toHaveBeenCalledWith("username", "testuser");
+		expect(mockSingle).toHaveBeenCalled();
+	});
+
+	it("should not throw an error when username does not exist", async () => {
+		// Arrange
+		const mockResponse = {
+			data: null,
+			error: null,
+		};
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
+		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
+		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
+		const mockSupabase = {
+			from: mockFrom,
+		} as unknown as SupabaseClient;
+		vi.mocked(createServerClient).mockResolvedValue(mockSupabase);
+
+		// Act
+		await checkUsernameExists("testuser");
+
+		// Assert
+		expect(mockFrom).toHaveBeenCalledWith("profiles");
+		expect(mockSelect).toHaveBeenCalledWith("id");
+		expect(mockIlike).toHaveBeenCalledWith("username", "testuser");
+		expect(mockSingle).toHaveBeenCalled();
+	});
+
+	it("should not throw an error when username exists with different case", async () => {
+		// Arrange
+		const mockResponse = {
+			data: null,
+			error: null,
+		};
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
+		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
+		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
+		const mockSupabase = {
+			from: mockFrom,
+		} as unknown as SupabaseClient;
+		vi.mocked(createServerClient).mockResolvedValue(mockSupabase);
+
+		// Act
+		await checkUsernameExists("TestUser");
+
+		// Assert
+		expect(mockFrom).toHaveBeenCalledWith("profiles");
+		expect(mockSelect).toHaveBeenCalledWith("id");
+		expect(mockIlike).toHaveBeenCalledWith("username", "TestUser");
+		expect(mockSingle).toHaveBeenCalled();
+	});
 });

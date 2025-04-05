@@ -7,8 +7,8 @@ import { useFormContext } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
+import { UsernameSchema } from "@/entities/user/model/username-schema";
 import { useProfile } from "@/shared/contexts/ProfileContext";
-import { createUsernameSchema } from "@/shared/model/schemas";
 import {
 	FormControl,
 	FormField,
@@ -49,7 +49,7 @@ export function UsernameField<T extends FieldValues>({
 			if (!username) return;
 
 			try {
-				createUsernameSchema(t).parse(username);
+				UsernameSchema(t).parse(username);
 
 				// Skip username existence check if the username matches the current user's username
 				// This is valid when updating Username in /dashboard/account/me

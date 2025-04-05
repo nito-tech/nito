@@ -5,14 +5,12 @@ import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
+import { EmailSchema } from "@/entities/user/model/email-schema";
+import { PasswordSchema } from "@/entities/user/model/password-schema";
+import { UsernameSchema } from "@/entities/user/model/username-schema";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
 import { UsernameField } from "@/entities/user/ui/username-field/username-field";
-import {
-	createEmailSchema,
-	createPasswordSchema,
-	createUsernameSchema,
-} from "@/shared/model/schemas";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";
@@ -30,9 +28,9 @@ export function EmailSignUpForm({ className }: Props) {
 
 	const t = useTranslations();
 	const schema = z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
-		username: createUsernameSchema(t),
+		email: EmailSchema(t),
+		password: PasswordSchema(t),
+		username: UsernameSchema(t),
 	});
 	type FormValues = z.infer<typeof schema>;
 

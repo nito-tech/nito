@@ -83,7 +83,8 @@ export default function PublicHeader() {
 		setIsMenuOpen(!isMenuOpen);
 	};
 
-	const isPublicPath = isPublicPage(pathname) || isAuthPage(pathname);
+	const isPublicPath =
+		isPublicPage(pathname ?? "") || isAuthPage(pathname ?? "");
 	if (!isPublicPath) {
 		return null;
 	}

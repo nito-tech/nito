@@ -2,8 +2,6 @@
 
 import { fn } from "@storybook/test";
 
-import * as actual from "./useUsername";
-
 export const mockCheckUsernameExists = fn(async (username: string) => {
 	if (username === "already_exists_username") {
 		throw new Error("Username already exists");
@@ -13,6 +11,6 @@ export const mockCheckUsernameExists = fn(async (username: string) => {
 export function useUsername() {
 	return {
 		checkUsernameExists: mockCheckUsernameExists,
-		isLoading: actual.useUsername().isLoading,
+		isLoading: false,
 	};
 }

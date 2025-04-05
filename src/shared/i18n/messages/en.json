@@ -53,9 +53,22 @@
 	},
 	"Organization": {
 		"name": "Organization Name",
-		"createOrganization": "Create Organization",
-		"createOrganizationDescription": "Create a new organization to manage your projects and teams.",
-		"createOrganizationConfirm": "Create Organization"
+		"slug": "Organization URL",
+		"create": {
+			"organization": "Create Organization",
+			"organizationDescription": "Create a new organization to manage your projects and teams.",
+			"organizationConfirm": "Create Organization"
+		},
+		"validation": {
+			"nameRequired": "Please enter your organization name",
+			"nameInvalidChars": "Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
+			"slug": {
+				"required": "Please enter your organization slug",
+				"invalidChars": "Organization slug can only contain letters, numbers, and dashes",
+				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
+				"alreadyExists": "This slug is already taken"
+			}
+		}
 	},
 	"Action": {
 		"cancel": "Cancel",
@@ -64,8 +77,13 @@
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository",
-	"error": {
-		"title": "Oops, something went wrong :( "
+	"Error": {
+		"title": "Oops, something went wrong :( ",
+		"queryError": "We encountered a problem while fetching data: {message}",
+		"mutationError": "We encountered a problem while processing your request: {message}",
+		"clientError": "Please check your input and try again: {message}",
+		"serverError": "We're having some technical difficulties. Please try again later: {message}",
+		"unknownError": "An unexpected error occurred. Please try again later."
 	},
 	"refresh": "Refresh",
 	"notFound": {

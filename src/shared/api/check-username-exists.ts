@@ -2,20 +2,24 @@
 
 import { getTranslations } from "next-intl/server";
 
+import type { UsernameInput } from "@/entities/user/model/username-schema";
 import { createServerClient } from "@/shared/lib/supabase/server";
-import type { UsernameSchema } from "@/shared/model/types";
 
 /**
  * Check if the username already exists
+ *
+ * @param username - The username to check
+ * @throws Error if the username already exists
+ * @remarks This function is case-insensitive, meaning "testuser" and "TestUser" are considered the same
  */
-export async function checkUsernameExists(username: UsernameSchema) {
+export async function checkUsernameExists(username: UsernameInput) {
 	const t = await getTranslations();
 	const supabase = await createServerClient();
 
 	const { data: existingProfile } = await supabase
 		.from("profiles")
 		.select("id")
-		.eq("username", username)
+		.ilike("username", username)
 		.single();
 
 	if (existingProfile) {

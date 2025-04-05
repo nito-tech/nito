@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { type FieldValues, type Path, useFormContext } from "react-hook-form";
 
-import { PASSWORD_MAX_LENGTH } from "@/shared/model/schemas";
+import { PASSWORD_MAX_LENGTH } from "@/entities/user/model/password-schema";
 import { Button } from "@/shared/ui/button";
 import {
 	FormControl,

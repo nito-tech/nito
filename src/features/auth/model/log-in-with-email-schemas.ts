@@ -1,14 +1,12 @@
 import { z } from "zod";
 
-import {
-	createEmailSchema,
-	createPasswordSchema,
-} from "@/shared/model/schemas";
+import { EmailSchema } from "@/entities/user/model/email-schema";
+import { PasswordSchema } from "@/entities/user/model/password-schema";
 
 export const LogInWithEmailSchema = (t: (key: string) => string) =>
 	z.object({
-		email: createEmailSchema(t),
-		password: createPasswordSchema(t),
+		email: EmailSchema(t),
+		password: PasswordSchema(t),
 	});
 
 export type LogInWithEmailInput = z.infer<

@@ -53,9 +53,22 @@
 	},
 	"Organization": {
 		"name": "組織名",
-		"createOrganization": "組織を作成",
-		"createOrganizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
-		"createOrganizationConfirm": "組織を作成"
+		"slug": "組織のURL",
+		"create": {
+			"organization": "組織を作成",
+			"organizationDescription": "新しい組織を作成して、プロジェクトとチームを管理します。",
+			"organizationConfirm": "組織を作成"
+		},
+		"validation": {
+			"nameRequired": "組織名を入力してください",
+			"nameInvalidChars": "組織名は英字、数字、半角スペース、アンダースコア、ハイフンのみ使用できます",
+			"slug": {
+				"required": "組織のスラッグを入力してください",
+				"invalidChars": "組織のスラッグは半角英字、数字、ハイフンのみ使用できます",
+				"invalidFormat": "組織のスラッグは半角英数字で始まり、半角英数字で終わる必要があります。最初と最後にハイフンを含めることはできません",
+				"alreadyExists": "このスラッグは既に使用されています"
+			}
+		}
 	},
 	"Action": {
 		"cancel": "キャンセル",
@@ -64,8 +77,13 @@
 	},
 	"commingSoon": "近日公開...",
 	"connectToRepository": "リポジトリを接続",
-	"error": {
-		"title": "おっと、何かが間違っていたようです :("
+	"Error": {
+		"title": "おっと、何かが間違っていたようです :(",
+		"queryError": "データの取得中に問題が発生しました: {message}",
+		"mutationError": "リクエストの処理中に問題が発生しました: {message}",
+		"clientError": "入力内容をご確認の上、再度お試しください: {message}",
+		"serverError": "システムに問題が発生しています。しばらく時間をおいて再度お試しください: {message}",
+		"unknownError": "予期せぬエラーが発生しました。しばらく時間をおいて再度お試しください。"
 	},
 	"refresh": "トップページに戻る",
 	"notFound": {
