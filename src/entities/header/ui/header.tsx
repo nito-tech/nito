@@ -1,14 +1,7 @@
 "use client";
 
-import {
-	Check,
-	ChevronsUpDown,
-	ExternalLink,
-	MoveVertical,
-	Plus,
-	Search,
-} from "lucide-react";
-import React, { useState } from "react";
+import { ChevronsUpDown, Plus } from "lucide-react";
+import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
@@ -18,28 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 import { Input } from "@/shared/ui/input";
-
-function SelectorToggleButton() {
-	const [isHovered, setIsHovered] = useState(false);
-
-	return (
-		//  bg-blue-300
-		<div className="flex justify-center items-center">
-			<Button
-				//  bg-red-300
-				className="flex items-center rounded-md cursor-pointer px-1"
-				onMouseEnter={() => setIsHovered(true)}
-				onMouseLeave={() => setIsHovered(false)}
-			>
-				{/* ホバー時に表示されるボタン */}
-				{/*  bg-red-200 */}
-				<div className="w-6 h-6 rounded-md flex items-center justify-center transition-colors duration-150">
-					<MoveVertical className="w-4 h-4 text-gray-600 transition-opacity duration-150" />
-				</div>
-			</Button>
-		</div>
-	);
-}
+import { Slash } from "@/shared/ui/slash";
 
 function OrganizationSelector() {
 	return (
@@ -125,14 +97,6 @@ function ProjectSelector() {
 	);
 }
 
-function Slash() {
-	return (
-		<div className="flex items-center justify-center">
-			<div className="absolute w-5 h-0.5 bg-border transform -rotate-[65deg]" />
-		</div>
-	);
-}
-
 export default function Header() {
 	const plan = "Free";
 
@@ -163,14 +127,6 @@ export default function Header() {
 				<Slash />
 
 				<div className="flex items-center border border-muted rounded-lg">
-					{/* <Button
-						type="button"
-						variant="ghost"
-						className="rounded-r-none hover:cursor-pointer"
-					>
-						<span className="text-sm text-secondary-foreground">nito</span>
-					</Button> */}
-
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
@@ -197,6 +153,32 @@ export default function Header() {
 				</div>
 
 				<Slash />
+
+				<div className="flex items-center border border-muted rounded-lg">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="ghost"
+								className="focus:outline-none hover:cursor-pointer"
+							>
+								<span className="text-sm text-secondary-foreground mr-1">
+									My Project
+								</span>
+								<ChevronsUpDown className="text-muted-foreground -mr-1" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent
+							align="start"
+							className="w-auto p-0 bg-primary-foreground border border-muted rounded-md shadow-lg"
+							sideOffset={10}
+						>
+							<div className="flex">
+								<OrganizationSelector />
+								<ProjectSelector />
+							</div>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
 
 			{/* Right section: Actions */}
