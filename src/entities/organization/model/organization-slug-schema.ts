@@ -7,6 +7,16 @@ type OrganizationSlugTranslationFunction = (
 		| "Organization.validation.slug.invalidFormat",
 ) => string;
 
+/**
+ * Schema for organization slug validation
+ * @param t - Translation function for error messages
+ * @returns Zod schema for organization slug
+ * @remarks
+ * - Allows alphanumeric characters (a-z, A-Z, 0-9) and hyphens
+ * - Must start and end with an alphanumeric character
+ * - Cannot contain spaces
+ * - Case-sensitive: uppercase and lowercase characters are allowed
+ */
 export const OrganizationSlugSchema = (
 	t: OrganizationSlugTranslationFunction,
 ) => {
