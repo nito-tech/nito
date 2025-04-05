@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-import { checkUsernameExists } from "../../../shared/api/check-username-exists";
+import { checkUsernameExists } from "@/shared/api/check-username-exists";
 
 /**
  * Custom hook for checking if a username exists

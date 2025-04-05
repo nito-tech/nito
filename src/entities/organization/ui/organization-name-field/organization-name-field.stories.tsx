@@ -124,7 +124,7 @@ export const InvalidCharactersValidationAtSymbol: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+				"Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			),
 		).toBeInTheDocument();
 
@@ -146,7 +146,7 @@ export const InvalidCharactersValidationHashSymbol: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+				"Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			),
 		).toBeInTheDocument();
 
@@ -168,7 +168,7 @@ export const InvalidCharactersValidationDollarSymbol: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+				"Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			),
 		).toBeInTheDocument();
 
@@ -190,7 +190,7 @@ export const InvalidCharactersValidationPercentSymbol: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+				"Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			),
 		).toBeInTheDocument();
 
@@ -212,7 +212,7 @@ export const InvalidCharactersValidationAmpersandSymbol: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization name can only contain letters, numbers, spaces, underscores, and dashes",
+				"Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			),
 		).toBeInTheDocument();
 
