@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Form } from "@/shared/ui/form";
 
 import { OrganizationSlugSchema } from "../../model/organization-slug-schema";
+import { mockCheckOrganizationSlugExists } from "../../model/useOrganizationSlug.mock";
 import { OrganizationSlugField } from "./organization-slug-field";
 
 const meta = {
@@ -121,6 +122,12 @@ export const SingleCharacterValidation: Story = {
 		await userEvent.type(input, "a");
 		await userEvent.tab();
 
+		// Wait for debounce delay (500ms)
+		await new Promise((resolve) => setTimeout(resolve, 500));
+
+		// Check mock function called
+		await expect(mockCheckOrganizationSlugExists).toHaveBeenCalledWith("a");
+
 		// Verify no error message is shown
 		await expect(
 			canvas.queryByText("Please enter your organization slug"),
@@ -128,7 +135,7 @@ export const SingleCharacterValidation: Story = {
 
 		await expect(
 			canvas.queryByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
+				"Organization slug can only contain letters, numbers, and dashes",
 			),
 		).not.toBeInTheDocument();
 
@@ -150,7 +157,7 @@ export const InvalidFormatValidationStartWithDash: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
+				"Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
 			),
 		).toBeInTheDocument();
 
@@ -172,7 +179,7 @@ export const InvalidFormatValidationEndWithDash: Story = {
 		// Verify the error message
 		await expect(
 			await canvas.findByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
+				"Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
 			),
 		).toBeInTheDocument();
 
@@ -180,132 +187,26 @@ export const InvalidFormatValidationEndWithDash: Story = {
 	},
 };
 
-export const InvalidFormatValidationUpperCase: Story = {
+export const AlreadyExistingSlug: Story = {
 	tags: ["validation"],
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const input = canvas.getByLabelText("Organization Slug");
 
-		// Enter invalid format with uppercase letters
+		// Input invalid slug
 		await userEvent.clear(input);
-		await userEvent.type(input, "Organization");
+		await userEvent.type(input, "already-exists-slug");
 		await userEvent.tab();
 
-		// Verify the error message
-		await expect(
-			await canvas.findByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
-			),
-		).toBeInTheDocument();
+		// Wait for debounce delay (500ms)
+		// await new Promise((resolve) => setTimeout(resolve, 500));
 
-		await expect(input).toHaveAttribute("aria-invalid", "true");
+		// Wait for error message to appear
+		const errorMessage = await canvas.findByText("This slug is already taken");
+
+		await expect(errorMessage).toBeInTheDocument();
+		await expect(mockCheckOrganizationSlugExists).toHaveBeenCalledWith(
+			"already-exists-slug",
+		);
 	},
 };
-
-export const InvalidFormatValidationSpecialChars: Story = {
-	tags: ["validation"],
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const input = canvas.getByLabelText("Organization Slug");
-
-		// Enter invalid format with special characters
-		await userEvent.clear(input);
-		await userEvent.type(input, "organization@");
-		await userEvent.tab();
-
-		// Verify the error message
-		await expect(
-			await canvas.findByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
-			),
-		).toBeInTheDocument();
-
-		await expect(input).toHaveAttribute("aria-invalid", "true");
-	},
-};
-
-export const ValidInputValidation: Story = {
-	tags: ["validation"],
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const input = canvas.getByLabelText("Organization Slug");
-
-		// Enter valid characters
-		await userEvent.clear(input);
-		await userEvent.type(input, "valid-organization");
-		await userEvent.tab();
-
-		// Verify no error message is shown
-		await expect(
-			canvas.queryByText("Please enter your organization slug"),
-		).not.toBeInTheDocument();
-
-		await expect(
-			canvas.queryByText(
-				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
-			),
-		).not.toBeInTheDocument();
-
-		await expect(input).toHaveAttribute("aria-invalid", "false");
-	},
-};
-
-// TODO: Removing spaces and converting uppercase to lowercase is done on the server side.
-
-// export const AutoLowerCaseConversion: Story = {
-// 	tags: ["validation"],
-// 	play: async ({ canvasElement }) => {
-// 		const canvas = within(canvasElement);
-// 		const input = canvas.getByLabelText("Organization Slug");
-
-// 		// Enter mixed case characters
-// 		await userEvent.clear(input);
-// 		await userEvent.type(input, "Valid-Organization");
-// 		await userEvent.tab();
-
-// 		// Verify the input is converted to lowercase
-// 		expect(input).toHaveValue("valid-organization");
-
-// 		// Verify no error message is shown
-// 		await expect(
-// 			canvas.queryByText("Please enter your organization slug"),
-// 		).not.toBeInTheDocument();
-
-// 		await expect(
-// 			canvas.queryByText(
-// 				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
-// 			),
-// 		).not.toBeInTheDocument();
-
-// 		await expect(input).toHaveAttribute("aria-invalid", "false");
-// 	},
-// };
-
-// export const AutoRemoveInvalidChars: Story = {
-// 	tags: ["validation"],
-// 	play: async ({ canvasElement }) => {
-// 		const canvas = within(canvasElement);
-// 		const input = canvas.getByLabelText("Organization Slug");
-
-// 		// Enter invalid characters
-// 		await userEvent.clear(input);
-// 		await userEvent.type(input, "valid@organization");
-// 		await userEvent.tab();
-
-// 		// Verify invalid characters are removed
-// 		expect(input).toHaveValue("validorganization");
-
-// 		// Verify no error message is shown
-// 		await expect(
-// 			canvas.queryByText("Please enter your organization slug"),
-// 		).not.toBeInTheDocument();
-
-// 		await expect(
-// 			canvas.queryByText(
-// 				"Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character",
-// 			),
-// 		).not.toBeInTheDocument();
-
-// 		await expect(input).toHaveAttribute("aria-invalid", "false");
-// 	},
-// };

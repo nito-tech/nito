@@ -8,7 +8,6 @@ import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
 import { OrganizationSlugSchema } from "@/entities/organization/model/organization-slug-schema";
-import { useOrganizationSlug } from "@/entities/organization/model/useOrganizationSlug";
 import {
 	FormControl,
 	FormField,
@@ -19,6 +18,7 @@ import {
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/utils/cn";
+import { useOrganizationSlug } from "#entities/organization/model/useOrganizationSlug";
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;
@@ -39,8 +39,7 @@ export function OrganizationSlugField<T extends FieldValues>({
 	const form = useFormContext<T>();
 
 	const slug = form.watch(name);
-	const { mutateAsync: checkOrganizationSlugExists, isLoading } =
-		useOrganizationSlug();
+	const { checkOrganizationSlugExists, isLoading } = useOrganizationSlug();
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -106,6 +105,7 @@ export function OrganizationSlugField<T extends FieldValues>({
 											disabled={disabled}
 											autoCapitalize="none"
 											autoCorrect="off"
+											aria-invalid={!!error}
 											className={cn(
 												"rounded-l-none",
 												"border-0", // Remove internal input field borders

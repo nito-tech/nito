@@ -12,5 +12,5 @@ export function useOrganizationSlug() {
 		},
 	});
 
-	return { mutateAsync, isLoading };
+	return { checkOrganizationSlugExists: mutateAsync, isLoading };
 }
