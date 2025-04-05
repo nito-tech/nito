@@ -24,6 +24,26 @@ INSERT INTO auth.users (
   '00000000-0000-0000-0000-000000000001',
   'authenticated',
   'authenticated',
+  'nito.tech.official@gmail.com',
+  crypt('Password123!', gen_salt('bf')),
+  '2025-03-22 22:22:23.105643+00',
+  null,
+  '',
+  null,
+  '',
+  null,
+  '',
+  '',
+  null,
+  '2025-03-22 22:22:23.093826+00',
+  '2025-03-22 22:22:58.384429+00',
+  '{"username": "nito", "display_name": "Nito Tech", "avatar_url": "https://github.com/shadcn.png"}'
+),
+(
+  '00000000-0000-0000-0000-000000000000',
+  '00000000-0000-0000-0000-000000000002',
+  'authenticated',
+  'authenticated',
   'saneatsu.wakana@gmail.com',
   crypt('Password123!', gen_salt('bf')),
   '2025-03-22 22:22:23.105643+00',
@@ -37,37 +57,37 @@ INSERT INTO auth.users (
   null,
   '2025-03-22 22:22:23.093826+00',
   '2025-03-22 22:22:58.384429+00',
-  '{"username": "saneatsu", "display_name": "Saneatsu Wakana"}'
+  '{"username": "saneatsu", "display_name": "Saneatsu Wakana", "avatar_url": "https://github.com/shadcn.png"}'
 );
 
--- Update the profile created by the trigger
-UPDATE public.profiles
-SET
-  display_name = 'Saneatsu Wakana',
-  avatar_url = 'https://github.com/shadcn.png',
-  updated_at = now()
-WHERE id = '00000000-0000-0000-0000-000000000001';
-
 -- Insert test organizations
-INSERT INTO organizations (name, slug) VALUES
-  ('A', 'a'),
-  ('Apple Inc', 'apple'),
-  ('Microsoft Corporation', 'microsoft'),
-  ('Google LLC', 'google'),
-  ('Amazon Inc', 'amazon'),
-  ('Meta Platforms Inc', 'meta'),
-  ('Netflix Inc', 'netflix'),
-  ('Tesla Inc', 'tesla'),
-  ('NVIDIA Corporation', 'nvidia'),
-  ('Adobe Inc', 'adobe'),
-  ('Salesforce Inc', 'salesforce'),
-  ('Intel Corporation', 'intel'),
-  ('AMD Inc', 'amd'),
-  ('Oracle Corporation', 'oracle'),
-  ('IBM Corporation', 'ibm'),
-  ('Cisco Systems Inc', 'cisco'),
-  ('Qualcomm Inc', 'qualcomm'),
-  ('Samsung Electronics', 'samsung'),
-  ('Sony Group Corporation', 'sony'),
-  ('Dell Technologies', 'dell'),
-  ('HP Inc', 'hp');
+INSERT INTO organizations (name, slug, description, logo_url, domain, created_by, is_active) VALUES
+  ('Nito', 'nito', 'Nito', 'https://github.com/shadcn.png', 'https://nito.tech', '00000000-0000-0000-0000-000000000001', true),
+  ('Apple Inc', 'apple', 'Think Different', 'https://github.com/shadcn.png', 'apple.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Microsoft Corporation', 'microsoft', 'Empowering every person and every organization on the planet to achieve more', 'https://github.com/shadcn.png', 'microsoft.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Google LLC', 'google', 'Don''t be evil', 'https://github.com/shadcn.png', 'google.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Amazon Inc', 'amazon', 'Work hard, have fun, make history', 'https://github.com/shadcn.png', 'amazon.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Meta Platforms Inc', 'meta', 'Connect with friends and the world around you on Facebook', 'https://github.com/shadcn.png', 'meta.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Netflix Inc', 'netflix', 'See what''s next', 'https://github.com/shadcn.png', 'netflix.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Tesla Inc', 'tesla', 'Accelerate the world''s transition to sustainable energy', 'https://github.com/shadcn.png', 'tesla.com', '00000000-0000-0000-0000-000000000001', true),
+  ('NVIDIA Corporation', 'nvidia', 'The pioneer of GPU-accelerated computing', 'https://github.com/shadcn.png', 'nvidia.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Adobe Inc', 'adobe', 'Creativity for all', 'https://github.com/shadcn.png', 'adobe.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Salesforce Inc', 'salesforce', 'We bring companies and customers together', 'https://github.com/shadcn.png', 'salesforce.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Intel Corporation', 'intel', 'Intel inside', 'https://github.com/shadcn.png', 'intel.com', '00000000-0000-0000-0000-000000000001', true),
+  ('AMD Inc', 'amd', 'The future of computing', 'https://github.com/shadcn.png', 'amd.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Oracle Corporation', 'oracle', 'Oracle Cloud Infrastructure', 'https://github.com/shadcn.png', 'oracle.com', '00000000-0000-0000-0000-000000000001', true),
+  ('IBM Corporation', 'ibm', 'Let''s put smart to work', 'https://github.com/shadcn.png', 'ibm.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Cisco Systems Inc', 'cisco', 'The bridge to possible', 'https://github.com/shadcn.png', 'cisco.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Qualcomm Inc', 'qualcomm', 'Inventing the technology the world loves', 'https://github.com/shadcn.png', 'qualcomm.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Samsung Electronics', 'samsung', 'Do what you can''t', 'https://github.com/shadcn.png', 'samsung.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Sony Group Corporation', 'sony', 'Make. Believe', 'https://github.com/shadcn.png', 'sony.com', '00000000-0000-0000-0000-000000000001', true),
+  ('Dell Technologies', 'dell', 'The power to do more', 'https://github.com/shadcn.png', 'dell.com', '00000000-0000-0000-0000-000000000001', true),
+  ('HP Inc', 'hp', 'Keep reinventing', 'https://github.com/shadcn.png', 'hp.com', '00000000-0000-0000-0000-000000000001', true);
+
+-- Insert test members
+INSERT INTO members (user_id, organization_id, role, joined_at, last_active_at, is_active) VALUES
+  ('00000000-0000-0000-0000-000000000001', (SELECT id FROM organizations WHERE slug = 'nito'), 'OWNER', NOW(), NOW(), true),
+  ('00000000-0000-0000-0000-000000000001', (SELECT id FROM organizations WHERE slug = 'apple'), 'OWNER', NOW(), NOW(), true),
+  ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'google'), 'OWNER', NOW(), NOW(), true),
+  ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'meta'), 'OWNER', NOW(), NOW(), true),
+  ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'nito'), 'DEVELOPER', NOW(), NOW(), true);
