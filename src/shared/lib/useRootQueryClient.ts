@@ -90,27 +90,27 @@ export function getQueryClient(t: TFunction) {
 					toast.error(message);
 				},
 			}),
-			mutationCache: new MutationCache({
-				onError: (error) => {
-					const errorMessage =
-						error instanceof Error ? error.message : "Unknown error";
+			// mutationCache: new MutationCache({
+			// 	onError: (error) => {
+			// 		const errorMessage =
+			// 			error instanceof Error ? error.message : "Unknown error";
 
-					// Select message key based on error type
-					let messageKey = "mutationError";
+			// 		// Select message key based on error type
+			// 		let messageKey = "mutationError";
 
-					// Change message based on HTTP status code for ResponseError
-					if (error instanceof ResponseError && error.code !== undefined) {
-						if (error.code >= 400 && error.code < 500) {
-							messageKey = "clientError";
-						} else if (error.code >= 500) {
-							messageKey = "serverError";
-						}
-					}
+			// 		// Change message based on HTTP status code for ResponseError
+			// 		if (error instanceof ResponseError && error.code !== undefined) {
+			// 			if (error.code >= 400 && error.code < 500) {
+			// 				messageKey = "clientError";
+			// 			} else if (error.code >= 500) {
+			// 				messageKey = "serverError";
+			// 			}
+			// 		}
 
-					const message = t(messageKey, { message: errorMessage });
-					toast.error(message);
-				},
-			}),
+			// 		const message = t(messageKey, { message: errorMessage });
+			// 		toast.error(message);
+			// 	},
+			// }),
 		});
 
 	// For SSG and SSR always create a new queryClient
