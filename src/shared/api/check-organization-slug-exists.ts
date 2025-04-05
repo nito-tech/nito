@@ -15,7 +15,7 @@ export async function checkOrganizationSlugExists(slug: OrganizationSlugInput) {
 	const { data: existingOrganization } = await supabase
 		.from("organizations")
 		.select("id")
-		.eq("slug", slug)
+		.ilike("slug", slug)
 		.single();
 
 	if (existingOrganization) {

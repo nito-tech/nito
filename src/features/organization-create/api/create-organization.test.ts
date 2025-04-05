@@ -310,5 +310,35 @@ describe("createOrganization", () => {
 				"Organization.validation.slug.invalidChars",
 			);
 		});
+
+		it("should create an organization with uppercase letters in slug", async () => {
+			// Arrange
+			const mockInsert = vi.fn().mockResolvedValue({ data: null, error: null });
+			const mockFrom = vi.fn().mockReturnValue({ insert: mockInsert });
+			const mockSupabase = {
+				from: mockFrom,
+			} as unknown as SupabaseClient;
+			vi.mocked(createServerClient).mockResolvedValue(mockSupabase);
+
+			const input = {
+				data: {
+					name: "Test Organization",
+					slug: "Test-Org",
+				},
+			};
+
+			// Act
+			const result = await createOrganization(input);
+
+			// Assert
+			expect(result).toBeNull();
+			expect(mockFrom).toHaveBeenCalledWith("organizations");
+			expect(mockInsert).toHaveBeenCalledWith([
+				{
+					name: "Test Organization",
+					slug: "Test-Org",
+				},
+			]);
+		});
 	});
 });

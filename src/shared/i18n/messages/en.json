@@ -64,7 +64,7 @@
 			"nameInvalidChars": "Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
 			"slug": {
 				"required": "Please enter your organization slug",
-				"invalidChars": "Organization slug can only contain lowercase letters, numbers, and dashes",
+				"invalidChars": "Organization slug can only contain letters, numbers, and dashes",
 				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
 				"alreadyExists": "This slug is already taken"
 			}
