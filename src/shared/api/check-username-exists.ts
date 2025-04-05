@@ -7,6 +7,10 @@ import { createServerClient } from "@/shared/lib/supabase/server";
 
 /**
  * Check if the username already exists
+ *
+ * @param username - The username to check
+ * @throws Error if the username already exists
+ * @remarks This function is case-insensitive, meaning "testuser" and "TestUser" are considered the same
  */
 export async function checkUsernameExists(username: UsernameInput) {
 	const t = await getTranslations();
@@ -15,7 +19,7 @@ export async function checkUsernameExists(username: UsernameInput) {
 	const { data: existingProfile } = await supabase
 		.from("profiles")
 		.select("id")
-		.eq("username", username)
+		.ilike("username", username)
 		.single();
 
 	if (existingProfile) {
