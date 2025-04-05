@@ -55,6 +55,7 @@
 		"name": "組織名",
 		"slug": "組織のURL",
 		"createdAt": "作成日",
+		"noOrganizations": "組織に所属していません",
 		"error": {
 			"failedToLoadOrganizations": "組織の読み込みに失敗しました"
 		},
