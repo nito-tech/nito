@@ -20,7 +20,8 @@ describe("checkUsernameExists", () => {
 			data: { id: "test-id" },
 			error: null,
 		};
-		const mockIlike = vi.fn().mockResolvedValue(mockResponse);
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
 		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
 		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
 		const mockSupabase = {
@@ -35,6 +36,7 @@ describe("checkUsernameExists", () => {
 		expect(mockFrom).toHaveBeenCalledWith("profiles");
 		expect(mockSelect).toHaveBeenCalledWith("id");
 		expect(mockIlike).toHaveBeenCalledWith("username", "testuser");
+		expect(mockSingle).toHaveBeenCalled();
 	});
 
 	it("should not throw an error when username does not exist", async () => {
@@ -43,7 +45,8 @@ describe("checkUsernameExists", () => {
 			data: null,
 			error: null,
 		};
-		const mockIlike = vi.fn().mockResolvedValue(mockResponse);
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
 		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
 		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
 		const mockSupabase = {
@@ -58,6 +61,7 @@ describe("checkUsernameExists", () => {
 		expect(mockFrom).toHaveBeenCalledWith("profiles");
 		expect(mockSelect).toHaveBeenCalledWith("id");
 		expect(mockIlike).toHaveBeenCalledWith("username", "testuser");
+		expect(mockSingle).toHaveBeenCalled();
 	});
 
 	it("should not throw an error when username exists with different case", async () => {
@@ -66,7 +70,8 @@ describe("checkUsernameExists", () => {
 			data: null,
 			error: null,
 		};
-		const mockIlike = vi.fn().mockResolvedValue(mockResponse);
+		const mockSingle = vi.fn().mockResolvedValue(mockResponse);
+		const mockIlike = vi.fn().mockReturnValue({ single: mockSingle });
 		const mockSelect = vi.fn().mockReturnValue({ ilike: mockIlike });
 		const mockFrom = vi.fn().mockReturnValue({ select: mockSelect });
 		const mockSupabase = {
@@ -81,5 +86,6 @@ describe("checkUsernameExists", () => {
 		expect(mockFrom).toHaveBeenCalledWith("profiles");
 		expect(mockSelect).toHaveBeenCalledWith("id");
 		expect(mockIlike).toHaveBeenCalledWith("username", "TestUser");
+		expect(mockSingle).toHaveBeenCalled();
 	});
 });
