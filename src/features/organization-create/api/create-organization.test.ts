@@ -191,12 +191,27 @@ describe("createOrganization", () => {
 			);
 		});
 
+		it("should throw an error when slug contains uppercase characters", async () => {
+			// Arrange
+			const input = {
+				data: {
+					name: "Test Organization",
+					slug: "Test-Org", // Uppercase characters
+				},
+			};
+
+			// Act & Assert
+			await expect(createOrganization(input)).rejects.toThrow(
+				"Organization.validation.slug.invalidChars",
+			);
+		});
+
 		it("should throw an error when slug format is invalid", async () => {
 			// Arrange
 			const input = {
 				data: {
 					name: "Test Organization",
-					slug: "Test-Org", // Uppercase characters are included
+					slug: "test-", // Invalid format: ends with a hyphen
 				},
 			};
 
@@ -247,7 +262,7 @@ describe("createOrganization", () => {
 
 			// Act & Assert
 			await expect(createOrganization(input)).rejects.toThrow(
-				"Organization.validation.slug.invalidFormat",
+				"Organization.validation.slug.invalidChars",
 			);
 		});
 
@@ -262,7 +277,7 @@ describe("createOrganization", () => {
 
 			// Act & Assert
 			await expect(createOrganization(input)).rejects.toThrow(
-				"Organization.validation.slug.invalidFormat",
+				"Organization.validation.slug.invalidChars",
 			);
 		});
 
@@ -277,7 +292,7 @@ describe("createOrganization", () => {
 
 			// Act & Assert
 			await expect(createOrganization(input)).rejects.toThrow(
-				"Organization.validation.slug.invalidFormat",
+				"Organization.validation.slug.invalidChars",
 			);
 		});
 
@@ -292,7 +307,7 @@ describe("createOrganization", () => {
 
 			// Act & Assert
 			await expect(createOrganization(input)).rejects.toThrow(
-				"Organization.validation.slug.invalidFormat",
+				"Organization.validation.slug.invalidChars",
 			);
 		});
 	});

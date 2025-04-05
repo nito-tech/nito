@@ -65,7 +65,7 @@
 			"slug": {
 				"required": "Please enter your organization slug",
 				"invalidChars": "Organization slug can only contain lowercase letters, numbers, and dashes",
-				"invalidFormat": "Organization slug must be lowercase, begin with an alphanumeric character, contain only alphanumeric characters or dashes, and end with an alphanumeric character"
+				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end"
 			}
 		}
 	},
