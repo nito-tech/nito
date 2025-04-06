@@ -1,15 +1,19 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-import { useUserOrganizations } from "@/features/user-organizations/model/useUserOrganizations";
-import { useRequiredAuth } from "@/shared/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
+import { useRequiredAuth } from "#shared/contexts/AuthContext";
+
+// FIXME: Mock not working in Storybook.
+import { useUserOrganizations } from "../../model/useUserOrganizations";
 
 export function UserOrganizationSelector() {
+	const t = useTranslations();
 	const { user } = useRequiredAuth();
 	const { data: organizations } = useUserOrganizations(user.id);
 
@@ -25,21 +29,27 @@ export function UserOrganizationSelector() {
 			<div className="p-3 text-sm">
 				<div className="text-sm text-muted-foreground mb-3">Organizations</div>
 				<div className="space-y-2">
-					{organizations?.map((organization) => (
-						<div
-							key={organization.id}
-							className="flex items-center gap-2 rounded-md hover:bg-secondary cursor-pointer"
-						>
-							<Avatar className="h-8 w-8">
-								{/* FIXME: {organization.logo_url} */}
-								<AvatarImage src="" alt={`${organization.name} logo`} />
-								<AvatarFallback>
-									{organization.name.substring(0, 2).toUpperCase()}
-								</AvatarFallback>
-							</Avatar>
-							<span className="text-foreground">{organization.name}</span>
+					{!organizations || organizations.length === 0 ? (
+						<div className="text-muted-foreground">
+							{t("Organization.noOrganizations")}
 						</div>
-					))}
+					) : (
+						organizations.map((organization) => (
+							<div
+								key={organization.id}
+								className="flex items-center gap-2 rounded-md hover:bg-secondary cursor-pointer"
+							>
+								<Avatar className="h-8 w-8">
+									{/* FIXME: {organization.logo_url} */}
+									<AvatarImage src="" alt={`${organization.name} logo`} />
+									<AvatarFallback>
+										{organization.name.substring(0, 2).toUpperCase()}
+									</AvatarFallback>
+								</Avatar>
+								<span className="text-foreground">{organization.name}</span>
+							</div>
+						))
+					)}
 				</div>
 				<Button
 					variant="outline"

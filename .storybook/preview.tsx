@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
 import React from "react";
 
+import { AuthProvider } from "../src/shared/contexts/AuthContext";
 import messages from "../src/shared/i18n/messages/en.json";
 import "../src/app/globals.css";
 import "./mockNextImage";
@@ -13,6 +14,14 @@ const withNextIntl: Decorator = (Story) => {
 		<NextIntlClientProvider locale="en" messages={messages}>
 			<Story />
 		</NextIntlClientProvider>
+	);
+};
+
+const withAuthProvider: Decorator = (Story) => {
+	return (
+		<AuthProvider>
+			<Story />
+		</AuthProvider>
 	);
 };
 
@@ -52,6 +61,7 @@ const preview: Preview = {
 	},
 	decorators: [
 		withNextIntl,
+		withAuthProvider,
 		withQueryClient,
 		withThemeByClassName({
 			themes: {

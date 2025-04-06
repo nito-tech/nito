@@ -32,6 +32,10 @@
 			"storybook": "./src/features/*.mock.ts",
 			"default": "./src/features/*.ts"
 		},
+		"#shared/contexts/*": {
+			"storybook": "./src/shared/contexts/*.mock.tsx",
+			"default": "./src/shared/contexts/*.tsx"
+		},
 		"#shared/*": {
 			"storybook": "./src/shared/*.mock.ts",
 			"default": "./src/shared/*.ts"
