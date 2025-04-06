@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect } from "react";
 
-import { getSession } from "@/shared/lib/queries/auth";
+import { getSession } from "@/shared/api/auth";
 import { queryKeys } from "@/shared/lib/query-keys";
 import { createBrowserClient } from "@/shared/lib/supabase/client";
 import type { AuthState } from "@/shared/types/auth";
