@@ -1,8 +1,9 @@
 "use server";
 
-import { createServerClient } from "@/shared/lib/supabase/server";
+import type { User } from "@supabase/supabase-js";
 
-import type { GetOrganizationSelect } from "../model/get-organization-schema";
+import { createServerClient } from "@/shared/lib/supabase/server";
+import type { Organization } from "@/shared/schema";
 
 /**
  * Fetch organizations where the user is a member
@@ -10,9 +11,11 @@ import type { GetOrganizationSelect } from "../model/get-organization-schema";
  * @param userId The ID of the user whose organizations to fetch
  * @returns A promise that resolves to an array of organizations
  */
-export async function getOrganizations(
-	userId: string,
-): Promise<GetOrganizationSelect[]> {
+export async function getUserOrganizations(
+	userId: User["id"],
+): Promise<
+	Pick<Organization, "id" | "name" | "slug" | "created_at" | "updated_at">[]
+> {
 	const supabase = await createServerClient();
 
 	// First, get the organization IDs where the user is a member
@@ -23,7 +26,6 @@ export async function getOrganizations(
 		.eq("is_active", true);
 
 	if (memberError) {
-		// TODO: 所属している組織が無い場合の処理
 		throw new Error(memberError.message);
 	}
 

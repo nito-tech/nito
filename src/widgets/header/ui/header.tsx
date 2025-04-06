@@ -3,7 +3,7 @@
 import { ChevronsUpDown, Plus } from "lucide-react";
 import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { UserOrganizationSelector } from "@/features/user-organizations/ui/user-organization-selector/user-organization-selector";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
@@ -12,50 +12,6 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import { Input } from "@/shared/ui/input";
 import { Slash } from "@/shared/ui/slash";
-
-function OrganizationSelector() {
-	return (
-		<div className="w-64 border-r border-border">
-			<div className="p-3 border-b border-border">
-				<Input
-					placeholder="Find Organization..."
-					className="bg-transparent text-sm rounded-md block w-full pl-10 p-2.5"
-				/>
-			</div>
-
-			<div className="p-3">
-				<div className="text-sm text-muted-foreground mb-3">Organizations</div>
-				<div className="space-y-2">
-					<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-						<Avatar className="h-8 w-8">
-							<AvatarImage src={undefined} alt={""} />
-							<AvatarFallback>
-								{"nito".substring(0, 2).toUpperCase()}
-							</AvatarFallback>
-						</Avatar>
-						<span className="text-foreground">saneatsu</span>
-					</div>
-					<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-						<Avatar className="h-8 w-8">
-							<AvatarImage src={undefined} alt={""} />
-							<AvatarFallback>
-								{"ALIA".substring(0, 2).toUpperCase()}
-							</AvatarFallback>
-						</Avatar>
-						<span className="text-foreground">ALIA</span>
-					</div>
-				</div>
-				<Button
-					variant="outline"
-					className="w-full mt-3 bg-primary-foreground flex items-center justify-center gap-2 p-2 text-sm rounded-md border border-border"
-				>
-					<Plus className="h-4 w-4" />
-					<span>Create Team</span>
-				</Button>
-			</div>
-		</div>
-	);
-}
 
 function ProjectSelector() {
 	return (
@@ -145,7 +101,7 @@ export default function Header() {
 							sideOffset={10}
 						>
 							<div className="flex">
-								<OrganizationSelector />
+								<UserOrganizationSelector />
 								<ProjectSelector />
 							</div>
 						</DropdownMenuContent>
@@ -173,7 +129,7 @@ export default function Header() {
 							sideOffset={10}
 						>
 							<div className="flex">
-								<OrganizationSelector />
+								<UserOrganizationSelector />
 								<ProjectSelector />
 							</div>
 						</DropdownMenuContent>
