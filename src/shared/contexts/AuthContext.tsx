@@ -1,6 +1,6 @@
 "use client";
 
-import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
+import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect } from "react";
@@ -176,4 +176,28 @@ export function useAuth(): AuthState {
 		throw new Error("useAuth must be used within an AuthProvider");
 	}
 	return context;
+}
+
+/**
+ * Hooks to access authenticated user information
+ *
+ * Ensures that the user is always present
+ * Use on /dashboard/* pages
+ *
+ * @returns {Omit<AuthState, 'user'> & { user: User }} Authenticated user information
+ */
+export function useRequiredAuth(): Omit<AuthState, "user"> & { user: User } {
+	const context = useContext(AuthContext);
+	if (context === undefined) {
+		throw new Error("useRequiredAuth must be used within an AuthProvider");
+	}
+
+	if (!context.user) {
+		throw new Error("User must be authenticated");
+	}
+
+	return {
+		...context,
+		user: context.user,
+	};
 }
