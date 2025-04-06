@@ -1,5 +1,5 @@
-import Header from "@/entities/header/ui/header";
-import Sidebar from "@/entities/sidebar/ui/sidebar";
+import Header from "@/widgets/header/ui/header";
+import Sidebar from "@/widgets/sidebar/ui/sidebar";
 
 export default function DashboardLayout({
 	children,

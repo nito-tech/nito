@@ -15,6 +15,10 @@
 ## Tips
 
 ```sh
+# Generate schema from local db
+supabase gen types typescript --local > src/shared/_schema.ts
+npx better-supabase-types
+
 # Stop local DB
 npx supabase@latest stop
 

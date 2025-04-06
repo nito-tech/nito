@@ -1,0 +1,6 @@
+{
+	"input": "./src/shared/original-supabase-schema.ts",
+	"output": "./src/shared/schema.ts",
+	"force": true,
+	"singular": true
+}

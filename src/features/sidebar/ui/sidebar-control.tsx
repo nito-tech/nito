@@ -14,7 +14,7 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
-import type { SidebarState } from "./sidebar";
+import type { SidebarState } from "../model/sidebar-state";
 import { SidebarItem } from "./sidebar-item";
 
 type SidebarControlOption = {

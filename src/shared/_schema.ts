@@ -34,23 +34,79 @@ export type Database = {
 	};
 	public: {
 		Tables: {
+			members: {
+				Row: {
+					id: string;
+					is_active: boolean;
+					joined_at: string;
+					last_active_at: string;
+					organization_id: string;
+					role: string;
+					user_id: string;
+				};
+				Insert: {
+					id?: string;
+					is_active?: boolean;
+					joined_at?: string;
+					last_active_at?: string;
+					organization_id: string;
+					role: string;
+					user_id: string;
+				};
+				Update: {
+					id?: string;
+					is_active?: boolean;
+					joined_at?: string;
+					last_active_at?: string;
+					organization_id?: string;
+					role?: string;
+					user_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "members_organization_id_fkey";
+						columns: ["organization_id"];
+						isOneToOne: false;
+						referencedRelation: "organizations";
+						referencedColumns: ["id"];
+					},
+				];
+			};
 			organizations: {
 				Row: {
 					created_at: string;
+					created_by: string | null;
+					description: string | null;
+					domain: string | null;
 					id: string;
+					is_active: boolean;
+					logo_url: string | null;
 					name: string;
+					slug: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
+					created_by?: string | null;
+					description?: string | null;
+					domain?: string | null;
 					id?: string;
+					is_active?: boolean;
+					logo_url?: string | null;
 					name: string;
+					slug: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
+					created_by?: string | null;
+					description?: string | null;
+					domain?: string | null;
 					id?: string;
+					is_active?: boolean;
+					logo_url?: string | null;
 					name?: string;
+					slug?: string;
 					updated_at?: string;
 				};
 				Relationships: [];

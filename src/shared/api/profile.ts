@@ -1,6 +1,5 @@
-import type { Profile, ProfileUpdate } from "@/shared/types/profile";
-
 import { createBrowserClient } from "@/shared/lib/supabase/client";
+import type { Profile, UpdateProfile } from "@/shared/schema";
 
 /**
  * Fetches a user's profile from the database
@@ -34,7 +33,7 @@ export const getProfile = async (
  *
  * @param data The profile data to update
  */
-export const updateProfile = async (data: ProfileUpdate): Promise<void> => {
+export const updateProfile = async (data: UpdateProfile): Promise<void> => {
 	const supabase = createBrowserClient();
 	const { error } = await supabase
 		.from("profiles")

@@ -17,15 +17,13 @@ import {
 import type React from "react";
 import { useState } from "react";
 
+import type { SidebarState } from "@/features/sidebar/model/sidebar-state";
+import { SidebarControl } from "@/features/sidebar/ui/sidebar-control";
+import { SidebarItem } from "@/features/sidebar/ui/sidebar-item";
+import SidebarUserProfile from "@/features/sidebar/ui/sidebar-user-profile";
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 import { Separator } from "@/shared/ui/separator";
 import { cn } from "@/shared/utils/cn";
-
-import { SidebarControl } from "./sidebar-control";
-import { SidebarItem } from "./sidebar-item";
-import SidebarUserProfile from "./sidebar-user-profile";
-
-export type SidebarState = "expanded" | "collapsed" | "hover";
 
 type NavItem = {
 	icon: React.ReactNode;

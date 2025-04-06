@@ -54,6 +54,12 @@
 	"Organization": {
 		"name": "Organization Name",
 		"slug": "Organization URL",
+		"createdAt": "Created At",
+		"noOrganizations": "No organizations found",
+		"findOrganization": "Find Organization",
+		"error": {
+			"failedToLoadOrganizations": "Failed to load organizations"
+		},
 		"create": {
 			"organization": "Create Organization",
 			"organizationDescription": "Create a new organization to manage your projects and teams.",
