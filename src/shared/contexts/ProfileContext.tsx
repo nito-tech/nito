@@ -5,9 +5,42 @@ import { createContext, useContext } from "react";
 
 import { getProfile, updateProfile } from "@/shared/lib/queries/profile";
 import { queryKeys } from "@/shared/lib/query-keys";
-import type { ProfileContextType } from "@/shared/types/profile";
+import type { Profile, UpdateProfile } from "@/shared/schema";
+import type { ResponseError } from "@/shared/types/base";
 
 import { useAuth } from "./AuthContext";
+
+export type ProfileContextType = {
+	/**
+	 * The current user's profile data
+	 * null if no profile exists or if the user is not authenticated
+	 */
+	profile: Profile | null;
+
+	/**
+	 * Whether the profile data is currently being loaded
+	 */
+	isLoading: boolean;
+
+	/**
+	 * Any error that occurred while loading or updating the profile
+	 */
+	error: ResponseError | null;
+
+	/**
+	 * Function to update the user's profile
+	 * @param data The profile data to update
+	 * @returns A promise that resolves when the update is complete
+	 */
+	updateProfile: (data: UpdateProfile) => Promise<void>;
+
+	/**
+	 * Function to refresh the profile data
+	 * This is useful when you need to force a refresh of the profile data
+	 * @returns A promise that resolves when the refresh is complete
+	 */
+	refreshProfile: () => Promise<void>;
+};
 
 /**
  * Context for managing user profile data
