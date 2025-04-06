@@ -21,7 +21,7 @@ export function UserOrganizationSelector() {
 		<div className="w-64 border-r border-border">
 			<div className="p-3 border-b border-border">
 				<Input
-					placeholder="Find Organization..."
+					placeholder={t("Organization.findOrganization")}
 					className="bg-transparent text-sm rounded-md block w-full pl-10 p-2.5"
 				/>
 			</div>
