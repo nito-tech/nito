@@ -21,7 +21,8 @@
 		"e2e:ui": "playwright test --ui",
 		"e2e:watch": "PWTEST_WATCH=1 playwright test",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"generate-schema": "supabase gen types typescript --local > src/shared/_schema.ts && better-supabase-types generate --config .betterrc.json"
 	},
 	"imports": {
 		"#entities/*": {
