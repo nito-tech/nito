@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { describe, expect, it, vi } from "vitest";
 
 import { createServerClient } from "@/shared/lib/supabase/server";
+
 import { checkUsernameExists } from "./check-username-exists";
 
 vi.mock("@/shared/lib/supabase/server", () => ({

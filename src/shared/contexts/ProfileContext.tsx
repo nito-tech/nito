@@ -3,7 +3,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
-import { getProfile, updateProfile } from "@/shared/api/profile";
+import { getProfile, updateProfile } from "@/entities/profile/api/profile";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { Profile, UpdateProfile } from "@/shared/schema";
 import type { ResponseError } from "@/shared/types/base";

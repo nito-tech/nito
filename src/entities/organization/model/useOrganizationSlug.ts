@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-import { checkOrganizationSlugExists } from "@/shared/api/check-organization-slug-exists";
+import { checkOrganizationSlugExists } from "@/entities/organization/api/check-organization-slug-exists";
 
 export function useOrganizationSlug() {
 	const { mutateAsync, isPending: isLoading } = useMutation({

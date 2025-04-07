@@ -3,7 +3,7 @@
 import type { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
-import { getUserOrganizations } from "@/shared/api/organizations";
+import { getUserOrganizations } from "@/entities/organization/api/organizations";
 
 /**
  * Hook to fetch and manage organization list
