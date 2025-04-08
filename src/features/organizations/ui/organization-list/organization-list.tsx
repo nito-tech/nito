@@ -13,7 +13,7 @@ import {
 	TableRow,
 } from "@/shared/ui/table";
 
-import { useUserOrganizations } from "../../model/useUserOrganizations";
+import { useOrganizations } from "../../model/useOrganizations";
 
 type OrganizationListProps = {
 	userId: string;
@@ -29,7 +29,7 @@ export function OrganizationList({ userId }: OrganizationListProps) {
 		data: organizations,
 		isLoading,
 		error,
-	} = useUserOrganizations(userId);
+	} = useOrganizations({ userId });
 
 	if (error) {
 		return (

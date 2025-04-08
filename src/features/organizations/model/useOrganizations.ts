@@ -3,13 +3,13 @@
 import type { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
-import { getUserOrganizations } from "@/entities/organization/api/organizations";
+import { getOrganizations } from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { QueryConfig } from "@/shared/lib/reqct-query";
 
-type UseUserOrganizationsOptions = {
+type UseOrganizationsOptions = {
 	userId: User["id"];
-	queryConfig?: QueryConfig<typeof getUserOrganizations>;
+	queryConfig?: QueryConfig<typeof getOrganizations>;
 };
 
 /**
@@ -18,13 +18,13 @@ type UseUserOrganizationsOptions = {
  * @param userId The ID of the user whose organizations to fetch
  * @returns Query result containing the list of organizations
  */
-export function useUserOrganizations({
+export function useOrganizations({
 	userId,
 	queryConfig,
-}: UseUserOrganizationsOptions) {
+}: UseOrganizationsOptions) {
 	return useQuery({
 		queryKey: queryKeys.organization,
-		queryFn: () => getUserOrganizations(userId),
+		queryFn: () => getOrganizations(userId),
 		enabled: !!userId,
 		...queryConfig,
 	});

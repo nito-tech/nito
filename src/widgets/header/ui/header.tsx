@@ -3,7 +3,7 @@
 import { ChevronsUpDown, Plus } from "lucide-react";
 import React from "react";
 
-import { UserOrganizationSelector } from "@/features/user-organizations/ui/user-organization-selector/user-organization-selector";
+import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
@@ -101,7 +101,7 @@ export default function Header() {
 							sideOffset={10}
 						>
 							<div className="flex">
-								<UserOrganizationSelector />
+								<OrganizationSelector />
 								<ProjectSelector />
 							</div>
 						</DropdownMenuContent>
@@ -129,7 +129,7 @@ export default function Header() {
 							sideOffset={10}
 						>
 							<div className="flex">
-								<UserOrganizationSelector />
+								<OrganizationSelector />
 								<ProjectSelector />
 							</div>
 						</DropdownMenuContent>

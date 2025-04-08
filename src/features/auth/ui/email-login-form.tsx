@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
-import { useUserOrganizations } from "@/features/user-organizations/model/useUserOrganizations";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";
 import { cn } from "@/shared/utils/cn";
+import { useOrganizations } from "#features/organizations/model/useOrganizations";
 
 import { LogInWithEmailSchema } from "../model/log-in-with-email-schemas";
 import type { LogInWithEmailInput } from "../model/log-in-with-email-schemas";
@@ -59,7 +59,7 @@ export function EmailLogInForm({ className }: Props) {
 	// ----------------------------------------------
 	// Get organizations if login succeeds and save it to Store
 	// ----------------------------------------------
-	const { data: organizations } = useUserOrganizations({
+	const { data: organizations } = useOrganizations({
 		userId: session?.user?.id || "", // Run if login succeeds
 		queryConfig: {
 			staleTime: 0, // Get organizations even if there is a cache
@@ -70,8 +70,9 @@ export function EmailLogInForm({ className }: Props) {
 
 	useEffect(() => {
 		if (organizations && organizations.length > 0) {
-			setCurrentOrganization(organizations[0]);
-			router.push("/dashboard");
+			const organization = organizations[0];
+			setCurrentOrganization(organization);
+			router.push(`/dashboard/${organization.id}`);
 		}
 	}, [organizations, setCurrentOrganization, router]);
 

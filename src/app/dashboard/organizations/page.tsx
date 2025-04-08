@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { OrganizationList } from "@/features/user-organizations/ui/organization-list/organization-list";
+import { OrganizationList } from "@/features/organizations/ui/organization-list/organization-list";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Button } from "@/shared/ui/button";
 

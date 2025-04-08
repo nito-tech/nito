@@ -11,7 +11,7 @@ import type { Organization } from "@/shared/schema";
  * @param userId The ID of the user whose organizations to fetch
  * @returns A promise that resolves to an array of organizations
  */
-export async function getUserOrganizations(
+export async function getOrganizations(
 	userId: User["id"],
 ): Promise<Organization[]> {
 	const supabase = await createServerClient();

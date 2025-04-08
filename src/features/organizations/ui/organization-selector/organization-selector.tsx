@@ -10,12 +10,12 @@ import { Input } from "@/shared/ui/input";
 import { useRequiredAuth } from "#shared/contexts/AuthContext";
 
 // FIXME: Mock not working in Storybook.
-import { useUserOrganizations } from "../../model/useUserOrganizations";
+import { useOrganizations } from "../../model/useOrganizations";
 
-export function UserOrganizationSelector() {
+export function OrganizationSelector() {
 	const t = useTranslations();
 	const { user } = useRequiredAuth();
-	const { data: organizations } = useUserOrganizations(user.id);
+	const { data: organizations } = useOrganizations({ userId: user.id });
 
 	return (
 		<div className="w-64 border-r border-border">
