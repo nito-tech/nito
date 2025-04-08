@@ -13,8 +13,4 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-	args: {
-		userId: "00000000-0000-0000-0000-000000000001",
-	},
-};
+export const Default: Story = {};
