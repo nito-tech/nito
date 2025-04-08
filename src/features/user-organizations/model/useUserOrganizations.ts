@@ -4,6 +4,7 @@ import type { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
 import { getUserOrganizations } from "@/entities/organization/api/organizations";
+import { queryKeys } from "@/shared/lib/query-keys";
 
 /**
  * Hook to fetch and manage organization list
@@ -13,7 +14,7 @@ import { getUserOrganizations } from "@/entities/organization/api/organizations"
  */
 export function useUserOrganizations(userId: User["id"]) {
 	return useQuery({
-		queryKey: ["organizations", userId],
+		queryKey: queryKeys.organization,
 		queryFn: () => getUserOrganizations(userId),
 		enabled: !!userId,
 	});

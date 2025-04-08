@@ -7,4 +7,5 @@ export const queryKeys = {
 	profile: {
 		get: (profileId: Profile["id"] | undefined) => ["profile", profileId],
 	},
+	organization: ["organization"],
 } as const;
