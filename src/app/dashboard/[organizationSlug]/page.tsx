@@ -5,7 +5,7 @@ import { redirect, useParams } from "next/navigation";
 import { useOrganizationBySlug } from "@/features/organizations/model/useOrganizations";
 import type { Organization } from "@/shared/schema";
 
-export default function OrganizationDashboardPage() {
+export default function DashboardOrganizationSlugPage() {
 	const params = useParams();
 
 	if (!params || !params.organizationSlug) {

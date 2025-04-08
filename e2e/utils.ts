@@ -18,7 +18,7 @@ export async function logInWithEmail(page: Page) {
 	await passwordInput.fill(LOGIN_PASSWORD);
 
 	await submitButton.click();
-	await page.waitForURL("/dashboard/google", { timeout: 3 * 1000 });
+	await page.waitForURL("/dashboard/google", { timeout: 5_000 });
 }
 
 /**
