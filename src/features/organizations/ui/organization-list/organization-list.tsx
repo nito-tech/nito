@@ -15,21 +15,12 @@ import {
 
 import { useOrganizations } from "../../model/useOrganizations";
 
-type OrganizationListProps = {
-	userId: string;
-};
-
 /**
  * Component that displays a list of organizations
- * @param userId The ID of the user whose organizations to display
  */
-export function OrganizationList({ userId }: OrganizationListProps) {
+export function OrganizationList() {
 	const t = useTranslations();
-	const {
-		data: organizations,
-		isLoading,
-		error,
-	} = useOrganizations({ userId });
+	const { data: organizations, isLoading, error } = useOrganizations();
 
 	if (error) {
 		return (

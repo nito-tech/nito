@@ -60,9 +60,9 @@ export function EmailLogInForm({ className }: Props) {
 	// Get organizations if login succeeds and save it to Store
 	// ----------------------------------------------
 	const { data: organizations } = useOrganizations({
-		userId: session?.user?.id || "", // Run if login succeeds
 		queryConfig: {
 			staleTime: 0, // Get organizations even if there is a cache
+			enabled: !!session, // Run if login succeeds
 		},
 	});
 	const { setCurrentOrganization } = useOrganizationStore();

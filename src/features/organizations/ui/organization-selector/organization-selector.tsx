@@ -7,15 +7,13 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
-import { useRequiredAuth } from "#shared/contexts/AuthContext";
 
 // FIXME: Mock not working in Storybook.
 import { useOrganizations } from "../../model/useOrganizations";
 
 export function OrganizationSelector() {
 	const t = useTranslations();
-	const { user } = useRequiredAuth();
-	const { data: organizations } = useOrganizations({ userId: user.id });
+	const { data: organizations } = useOrganizations();
 
 	return (
 		<div className="w-64 border-r border-border">

@@ -4,16 +4,10 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { OrganizationList } from "@/features/organizations/ui/organization-list/organization-list";
-import { useAuth } from "@/shared/contexts/AuthContext";
 import { Button } from "@/shared/ui/button";
 
 export default function OrganizationsPage() {
-	const { user } = useAuth();
 	const t = useTranslations();
-
-	if (!user) {
-		return <div>User is not authenticated</div>;
-	}
 
 	return (
 		<div className="container py-10">
@@ -32,7 +26,7 @@ export default function OrganizationsPage() {
 			</div>
 
 			<div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				<OrganizationList userId={user?.id} />
+				<OrganizationList />
 			</div>
 		</div>
 	);
