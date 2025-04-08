@@ -27,7 +27,7 @@ export const mockOrganizations: Organization[] = [
 	},
 ];
 
-export const useUserOrganizations = () => ({
+export const useOrganizations = () => ({
 	data: mockOrganizations,
 	isLoading: false,
 });
