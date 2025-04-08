@@ -1,10 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
+import { useUserOrganizations } from "@/features/user-organizations/model/useUserOrganizations";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";
@@ -24,7 +27,14 @@ export function EmailLogInForm({ className }: Props) {
 	const [messageType, setMessageType] = useState<string | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 
-	const { mutate: logInWithEmail, isPending } = useLogInWithEmail();
+	// ----------------------------------------------
+	// Log in with email
+	// ----------------------------------------------
+	const {
+		data: session,
+		mutate: logInWithEmail,
+		isPending,
+	} = useLogInWithEmail();
 
 	async function onSubmit(data: LogInWithEmailInput) {
 		setMessageType(null);
@@ -45,6 +55,25 @@ export function EmailLogInForm({ className }: Props) {
 			},
 		);
 	}
+
+	// ----------------------------------------------
+	// Get organizations if login succeeds and save it to Store
+	// ----------------------------------------------
+	const { data: organizations } = useUserOrganizations({
+		userId: session?.user?.id || "", // Run if login succeeds
+		queryConfig: {
+			staleTime: 0, // Get organizations even if there is a cache
+		},
+	});
+	const { setCurrentOrganization } = useOrganizationStore();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (organizations && organizations.length > 0) {
+			setCurrentOrganization(organizations[0]);
+			router.push("/dashboard");
+		}
+	}, [organizations, setCurrentOrganization, router]);
 
 	return (
 		<Form
