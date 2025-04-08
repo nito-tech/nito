@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig } from "@/shared/lib/reqct-query";
@@ -14,7 +13,6 @@ export const useLogInWithEmail = ({
 	mutationConfig,
 }: UseLogInWithEmailOptions = {}) => {
 	const queryClient = useQueryClient();
-	const router = useRouter();
 
 	return useMutation({
 		mutationFn: logInWithEmail,
@@ -29,8 +27,6 @@ export const useLogInWithEmail = ({
 			await queryClient.invalidateQueries({
 				queryKey: queryKeys.auth.session,
 			});
-
-			router.push("/dashboard");
 
 			mutationConfig?.onSuccess?.(...args);
 		},

@@ -23,7 +23,7 @@ export function useOrganizations({
 	queryConfig = {},
 }: UseOrganizationsOptions = {}) {
 	return useQuery({
-		queryKey: queryKeys.organization,
+		queryKey: queryKeys.organization.all,
 		queryFn: () => getOrganizations(),
 		...queryConfig,
 	});
@@ -46,7 +46,7 @@ export function useOrganizationBySlug({
 	queryConfig,
 }: UseOrganizationBySlugOptions) {
 	return useQuery({
-		queryKey: queryKeys.organization,
+		queryKey: queryKeys.organization.bySlug(slug),
 		queryFn: () => getOrganizationBySlug(slug),
 		enabled: !!slug,
 		...queryConfig,
