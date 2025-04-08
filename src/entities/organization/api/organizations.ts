@@ -13,9 +13,7 @@ import type { Organization } from "@/shared/schema";
  */
 export async function getUserOrganizations(
 	userId: User["id"],
-): Promise<
-	Pick<Organization, "id" | "name" | "slug" | "created_at" | "updated_at">[]
-> {
+): Promise<Organization[]> {
 	const supabase = await createServerClient();
 
 	// First, get the organization IDs where the user is a member
@@ -35,13 +33,7 @@ export async function getUserOrganizations(
 	// Then, get the organizations
 	const { data, error } = await supabase
 		.from("organizations")
-		.select(`
-			id,
-			name,
-			slug,
-			created_at,
-			updated_at
-		`)
+		.select()
 		.in("id", organizationIds)
 		.order("name", { ascending: true });
 

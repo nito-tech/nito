@@ -1,4 +1,8 @@
-import type { DefaultOptions, UseMutationOptions } from "@tanstack/react-query";
+import type {
+	DefaultOptions,
+	UseMutationOptions,
+	UseQueryOptions,
+} from "@tanstack/react-query";
 
 export const queryConfig = {
 	queries: {
@@ -11,7 +15,7 @@ export const queryConfig = {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type QueryConfig<T extends (...args: any[]) => any> = Omit<
-	ReturnType<T>,
+	UseQueryOptions<Awaited<ReturnType<T>>, Error>,
 	"queryKey" | "queryFn"
 >;
 
