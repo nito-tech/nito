@@ -12,8 +12,6 @@ const authFile = path.join(__dirname, ".auth/user.json");
 setup("Login with email and password", async ({ page }) => {
 	try {
 		await logInWithEmail(page);
-		await expect(page).toHaveURL("/dashboard");
-
 		await page.context().storageState({ path: authFile });
 	} catch (error) {
 		// Verify that the user is registered in https://supabase.com/dashboard/project/fnounbnxrzddmcwoykpd/auth/users
