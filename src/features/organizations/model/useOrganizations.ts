@@ -1,31 +1,54 @@
 "use client";
 
-import type { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
-import { getOrganizations } from "@/entities/organization/api/organizations";
+import {
+	getOrganizationBySlug,
+	getOrganizations,
+} from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { QueryConfig } from "@/shared/lib/reqct-query";
+import type { Organization } from "@/shared/schema";
 
 type UseOrganizationsOptions = {
-	userId: User["id"];
 	queryConfig?: QueryConfig<typeof getOrganizations>;
 };
 
 /**
  * Get user organizations
  *
- * @param userId The ID of the user whose organizations to fetch
  * @returns Query result containing the list of organizations
  */
 export function useOrganizations({
-	userId,
-	queryConfig,
-}: UseOrganizationsOptions) {
+	queryConfig = {},
+}: UseOrganizationsOptions = {}) {
 	return useQuery({
 		queryKey: queryKeys.organization,
-		queryFn: () => getOrganizations(userId),
-		enabled: !!userId,
+		queryFn: () => getOrganizations(),
+		...queryConfig,
+	});
+}
+
+type UseOrganizationBySlugOptions = {
+	slug: Organization["slug"];
+	queryConfig?: QueryConfig<typeof getOrganizationBySlug>;
+};
+
+/**
+ * Get organization by slug
+ *
+ * @param slug The slug of the organization to fetch
+ * @param userId The ID of the user whose organization to fetch
+ * @returns Query result containing the organization
+ */
+export function useOrganizationBySlug({
+	slug,
+	queryConfig,
+}: UseOrganizationBySlugOptions) {
+	return useQuery({
+		queryKey: queryKeys.organization,
+		queryFn: () => getOrganizationBySlug(slug),
+		enabled: !!slug,
 		...queryConfig,
 	});
 }

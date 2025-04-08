@@ -8,7 +8,6 @@ import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
 import { OrganizationSlugSchema } from "@/entities/organization/model/organization-slug-schema";
-import { useOrganizationSlug } from "@/entities/organization/model/useOrganizationSlug";
 import {
 	FormControl,
 	FormField,
@@ -19,6 +18,7 @@ import {
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import { cn } from "@/shared/utils/cn";
+import { useOrganizationSlug } from "#entities/organization/model/useOrganizationSlug";
 
 interface Props<T extends FieldValues> {
 	name: Path<T>;
