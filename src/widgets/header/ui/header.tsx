@@ -82,7 +82,7 @@ export default function Header() {
 
 				<Slash />
 
-				<div className="flex items-center border border-muted rounded-lg">
+				<div className="flex items-center border rounded-lg">
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
@@ -95,11 +95,7 @@ export default function Header() {
 								<ChevronsUpDown className="text-muted-foreground -mr-1" />
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="start"
-							className="w-auto p-0 bg-primary-foreground border border-muted rounded-md shadow-lg"
-							sideOffset={10}
-						>
+						<DropdownMenuContent align="start" className="p-0">
 							<div className="flex">
 								<OrganizationSelector />
 								<ProjectSelector />
