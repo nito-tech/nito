@@ -5,19 +5,18 @@ import Link from "next/link";
 
 import { OrganizationList } from "@/features/organizations/ui/organization-list/organization-list";
 import { Button } from "@/shared/ui/button";
+import { PageTitle } from "@/shared/ui/page-title/page-title";
 
 export default function OrganizationsPage() {
 	const t = useTranslations();
 
 	return (
-		<div className="container py-10">
+		<div className="container">
 			<div className="flex items-center justify-between">
-				<div>
-					<h1 className="text-3xl font-bold">Organizations</h1>
-					<p className="text-muted-foreground">
-						Manage your organizations and teams
-					</p>
-				</div>
+				<PageTitle
+					title="Organizations"
+					description="Manage your organizations and teams"
+				/>
 				<Button asChild>
 					<Link href="/organizations/create">
 						{t("Organization.create.organization")}
