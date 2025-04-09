@@ -13,10 +13,8 @@ import {
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuSub,
 } from "@/shared/ui/dropdown-menu";
-import { Input } from "@/shared/ui/input";
 
 // FIXME: Mock not working in Storybook.
 import { useOrganizations } from "../../model/useOrganizations";
@@ -36,7 +34,7 @@ export function OrganizationSelector() {
 
 	return (
 		<DropdownMenuGroup className="w-64">
-			<DropdownMenuSub>
+			{/* <DropdownMenuSub>
 				<div className="p-2">
 					<Input
 						placeholder={t("Organization.findOrganization")}
@@ -45,7 +43,7 @@ export function OrganizationSelector() {
 				</div>
 			</DropdownMenuSub>
 
-			<DropdownMenuSeparator />
+			<DropdownMenuSeparator /> */}
 
 			<DropdownMenuSub>
 				<DropdownMenuLabel className="text-muted-foreground">
