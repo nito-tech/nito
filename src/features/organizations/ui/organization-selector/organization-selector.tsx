@@ -25,7 +25,7 @@ export function OrganizationSelector() {
 			</div>
 
 			<div className="p-3 text-sm">
-				<div className="text-sm text-muted-foreground mb-3">Organizations</div>
+				<div className="text-muted-foreground mb-3">Organizations</div>
 				<div className="space-y-2">
 					{!organizations || organizations.length === 0 ? (
 						<div className="text-muted-foreground">
@@ -33,9 +33,10 @@ export function OrganizationSelector() {
 						</div>
 					) : (
 						organizations.map((organization) => (
-							<div
+							<Button
 								key={organization.id}
-								className="flex items-center gap-2 rounded-md hover:bg-secondary cursor-pointer"
+								variant="ghost"
+								className="w-full justify-start gap-2 px-2 py-5"
 							>
 								<Avatar className="h-8 w-8">
 									{/* FIXME: {organization.logo_url} */}
@@ -45,7 +46,7 @@ export function OrganizationSelector() {
 									</AvatarFallback>
 								</Avatar>
 								<span className="text-foreground">{organization.name}</span>
-							</div>
+							</Button>
 						))
 					)}
 				</div>

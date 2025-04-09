@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronsUpDown, Plus } from "lucide-react";
-import React from "react";
+import type React from "react";
 
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { Button } from "@/shared/ui/button";
@@ -53,6 +53,35 @@ function ProjectSelector() {
 	);
 }
 
+function HeaderDropdownMenu({
+	label,
+	children,
+}: {
+	label: string;
+	children: React.ReactNode;
+}) {
+	return (
+		<div className="flex items-center border rounded-lg">
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button
+						variant="ghost"
+						className="focus:outline-none hover:cursor-pointer"
+					>
+						<span className="text-sm text-secondary-foreground mr-1">
+							{label}
+						</span>
+						<ChevronsUpDown className="text-muted-foreground -mr-1" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="start" className="p-0">
+					<div className="flex">{children}</div>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
+	);
+}
+
 export default function Header() {
 	const plan = "Free";
 
@@ -82,55 +111,15 @@ export default function Header() {
 
 				<Slash />
 
-				<div className="flex items-center border rounded-lg">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								className="focus:outline-none hover:cursor-pointer"
-							>
-								<span className="text-sm text-secondary-foreground mr-1">
-									nito
-								</span>
-								<ChevronsUpDown className="text-muted-foreground -mr-1" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="start" className="p-0">
-							<div className="flex">
-								<OrganizationSelector />
-								<ProjectSelector />
-							</div>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
+				<HeaderDropdownMenu label="nito">
+					<OrganizationSelector />
+				</HeaderDropdownMenu>
 
 				<Slash />
 
-				<div className="flex items-center border border-muted rounded-lg">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								className="focus:outline-none hover:cursor-pointer"
-							>
-								<span className="text-sm text-secondary-foreground mr-1">
-									My Project
-								</span>
-								<ChevronsUpDown className="text-muted-foreground -mr-1" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="start"
-							className="w-auto p-0 bg-primary-foreground border border-muted rounded-md shadow-lg"
-							sideOffset={10}
-						>
-							<div className="flex">
-								<OrganizationSelector />
-								<ProjectSelector />
-							</div>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
+				<HeaderDropdownMenu label="My Project">
+					<ProjectSelector />
+				</HeaderDropdownMenu>
 			</div>
 
 			{/* Right section: Actions */}
