@@ -19,7 +19,7 @@ type UseOrganizationsOptions = {
  *
  * @returns Query result containing the list of organizations
  */
-export function useOrganizations({
+export function useGetOrganizations({
 	queryConfig = {},
 }: UseOrganizationsOptions = {}) {
 	return useQuery({
@@ -42,7 +42,7 @@ type UseOrganizationBySlugOptions = {
  * @param userId The ID of the user whose organization to fetch
  * @returns Query result containing the organization
  */
-export function useOrganizationBySlug({
+export function useGetOrganizationBySlug({
 	slug,
 	queryConfig,
 }: UseOrganizationBySlugOptions) {

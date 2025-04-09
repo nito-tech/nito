@@ -27,17 +27,8 @@ export const mockOrganizations: Organization[] = [
 	},
 ];
 
-export const useOrganizations = () => ({
+export const useGetOrganizations = () => ({
 	data: mockOrganizations,
 	isLoading: false,
-});
-
-export const useUserOrganizationsLoading = () => ({
-	data: [],
-	isLoading: true,
-});
-
-export const useUserOrganizationsEmpty = () => ({
-	data: [],
-	isLoading: false,
+	error: null,
 });

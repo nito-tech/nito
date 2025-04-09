@@ -11,7 +11,7 @@ import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 import { Notice } from "@/shared/ui/notice/notice";
 import { cn } from "@/shared/utils/cn";
-import { useOrganizations } from "#features/organizations/model/useOrganizations";
+import { useGetOrganizations } from "#features/organizations/model/useOrganization";
 
 import { Loader2 } from "lucide-react";
 import { LogInWithEmailSchema } from "../model/log-in-with-email-schemas";
@@ -69,7 +69,7 @@ export function EmailLogInForm({ className }: Props) {
 		data: organizations,
 		refetch: refetchOrganizations,
 		isLoading: isOrganizationsLoading,
-	} = useOrganizations({
+	} = useGetOrganizations({
 		queryConfig: {
 			enabled: isLoggedIn, // Run if login succeeds
 		},

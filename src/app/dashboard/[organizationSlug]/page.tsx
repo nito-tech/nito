@@ -2,7 +2,7 @@
 
 import { redirect, useParams } from "next/navigation";
 
-import { useOrganizationBySlug } from "@/features/organizations/model/useOrganizations";
+import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
 import type { Organization } from "@/shared/schema";
 
 export default function DashboardOrganizationSlugPage() {
@@ -12,7 +12,7 @@ export default function DashboardOrganizationSlugPage() {
 		redirect("/not-found");
 	}
 
-	const { data: organization } = useOrganizationBySlug({
+	const { data: organization } = useGetOrganizationBySlug({
 		slug: params.organizationSlug as Organization["slug"],
 	});
 
@@ -21,7 +21,7 @@ export default function DashboardOrganizationSlugPage() {
 	}
 
 	return (
-		<div className="container mx-auto py-8">
+		<div className="container">
 			<h1 className="text-2xl font-bold mb-4">{organization.name}</h1>
 			<p className="text-gray-600">{organization.description}</p>
 		</div>

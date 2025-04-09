@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
+import { useProjectStore } from "@/entities/project/model/project-store";
 import type { Organization } from "@/shared/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
@@ -17,18 +18,19 @@ import {
 } from "@/shared/ui/dropdown-menu";
 
 // FIXME: Mock not working in Storybook.
-import { useOrganizations } from "../../model/useOrganizations";
+import { useGetOrganizations } from "../../model/useOrganization";
 
 export function OrganizationSelector() {
 	const t = useTranslations();
-	const { data: organizations } = useOrganizations();
+	const { data: organizations } = useGetOrganizations();
 	const { currentOrganization, setCurrentOrganization } =
 		useOrganizationStore();
+	const { setCurrentProject } = useProjectStore();
 
 	const router = useRouter();
 	function handleOrganizationClick(organization: Organization) {
 		setCurrentOrganization(organization);
-		console.log(organization.slug);
+		setCurrentProject(null);
 		router.push(`/dashboard/${organization.slug}`);
 	}
 
@@ -89,7 +91,13 @@ export function OrganizationSelector() {
 			</DropdownMenuSub>
 
 			<DropdownMenuItem className="focus:bg-transparent">
-				<Button variant="outline" className="w-full bg-primary-foreground">
+				<Button
+					variant="outline"
+					className="w-full bg-primary-foreground"
+					onClick={() => {
+						router.push("/dashboard/new-organization");
+					}}
+				>
 					<Plus className="h-4 w-4" />
 					<span>Create Organization</span>
 				</Button>

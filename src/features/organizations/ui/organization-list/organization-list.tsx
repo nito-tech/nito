@@ -13,14 +13,14 @@ import {
 	TableRow,
 } from "@/shared/ui/table";
 
-import { useOrganizations } from "../../model/useOrganizations";
+import { useGetOrganizations } from "../../model/useOrganization";
 
 /**
  * Component that displays a list of organizations
  */
 export function OrganizationList() {
 	const t = useTranslations();
-	const { data: organizations, isLoading, error } = useOrganizations();
+	const { data: organizations, isLoading, error } = useGetOrganizations();
 
 	if (error) {
 		return (
