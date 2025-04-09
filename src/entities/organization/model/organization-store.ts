@@ -17,7 +17,6 @@ const rfState: StateCreator<RFState> = (set) => ({
 
 const persistOptions = {
 	name: "organization",
-	skipHydration: true,
 };
 
 /**
