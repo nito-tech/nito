@@ -11,4 +11,7 @@ export const queryKeys = {
 		all: ["organization"],
 		bySlug: (slug: Organization["slug"]) => ["organization", slug],
 	} as const,
+	project: {
+		all: ["project"],
+	} as const,
 } as const;
