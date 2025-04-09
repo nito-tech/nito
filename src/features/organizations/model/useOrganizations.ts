@@ -26,6 +26,7 @@ export function useOrganizations({
 		queryKey: queryKeys.organization.all,
 		queryFn: () => getOrganizations(),
 		...queryConfig,
+		staleTime: 24 * 60 * 60 * 1000, // 1 day
 	});
 }
 
