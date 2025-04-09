@@ -1,58 +1,18 @@
 "use client";
 
-import { ChevronsUpDown, Plus } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import type React from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
+import { ProjectSelector } from "@/features/project/ui/projector-selector/project-selector";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-import { Input } from "@/shared/ui/input";
 import { Slash } from "@/shared/ui/slash";
-
-function ProjectSelector() {
-	return (
-		<div className="w-64">
-			<div className="p-3 border-b border-border">
-				<Input
-					placeholder="Find Project..."
-					className="bg-transparent text-sm rounded-md block w-full pl-10 p-2.5"
-				/>
-			</div>
-
-			<div className="p-3 border-b border-border">
-				<div className="text-sm text-muted-foreground mb-3">Favorites</div>
-				<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-					<div className="w-6 h-6 flex items-center justify-center text-muted-foreground">
-						▲
-					</div>
-					<span className="text-foreground">nito</span>
-				</div>
-			</div>
-
-			<div className="p-3">
-				<div className="text-sm text-muted-foreground mb-3">Projects</div>
-				<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-					<div className="w-6 h-6 flex items-center justify-center text-muted-foreground">
-						▲
-					</div>
-					<span className="text-foreground">nito</span>
-				</div>
-				<Button
-					variant="outline"
-					className="w-full mt-3 bg-primary-foreground flex items-center justify-center gap-2 p-2 text-sm rounded-md border border-border"
-				>
-					<Plus className="h-4 w-4" />
-					<span>Create Project</span>
-				</Button>
-			</div>
-		</div>
-	);
-}
 
 function HeaderDropdownMenu({
 	label,

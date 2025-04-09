@@ -77,6 +77,10 @@
 		},
 		"noSearchResults": "検索結果が見つかりません"
 	},
+	"Project": {
+		"noProjects": "プロジェクトが見つかりません",
+		"findProject": "プロジェクトを検索..."
+	},
 	"Action": {
 		"cancel": "キャンセル",
 		"delete": "削除",
