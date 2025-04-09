@@ -80,30 +80,20 @@ export async function getOrganizationBySlug(
 ): Promise<Organization> {
 	const supabase = await createServerClient();
 
-	const { data: organizationData, error: organizationError } = await supabase
-		.from("organizations")
-		.select("id")
-		.eq("slug", slug);
-
-	if (organizationError) {
-		throw new Error(organizationError.message);
-	}
-
-	const isMember = await isUserOrganizationMember(organizationData[0].id);
-	if (!isMember) {
-		redirect("/not-found");
-	}
-
 	const { data, error } = await supabase
 		.from("organizations")
 		.select()
-		.eq("slug", slug);
-
-	console.log(data);
+		.eq("slug", slug)
+		.single();
 
 	if (error) {
 		throw new Error(error.message);
 	}
 
-	return data[0];
+	const isMember = await isUserOrganizationMember(data.id);
+	if (!isMember) {
+		redirect("/not-found");
+	}
+
+	return data;
 }
