@@ -1,29 +1,59 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { redirect, useParams } from "next/navigation";
 
 import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
+import { useGetProjects } from "@/features/project/model/useProject";
 import type { Organization } from "@/shared/schema";
+import { PageTitle } from "@/shared/ui/page-title/page-title";
 
 export default function DashboardOrganizationSlugPage() {
 	const params = useParams();
+
+	console.log(params);
 
 	if (!params || !params.organizationSlug) {
 		redirect("/not-found");
 	}
 
-	const { data: organization } = useGetOrganizationBySlug({
-		slug: params.organizationSlug as Organization["slug"],
+	const { data: organization, isPending: isOrganizationPending } =
+		useGetOrganizationBySlug({
+			slug: params.organizationSlug as Organization["slug"],
+			queryConfig: {
+				enabled: !!params.organizationSlug,
+			},
+		});
+
+	const { data: projects, isPending: isProjectsPending } = useGetProjects({
+		organizationId: organization?.id ?? "",
+		queryConfig: {
+			enabled: !!organization,
+		},
 	});
 
-	if (!organization) {
+	const t = useTranslations();
+
+	if (isOrganizationPending || isProjectsPending) {
 		return <div>Loading...</div>;
+	}
+
+	if (!organization) {
+		return <div>Organization not found</div>;
 	}
 
 	return (
 		<div className="container">
-			<h1 className="text-2xl font-bold mb-4">{organization.name}</h1>
-			<p className="text-gray-600">{organization.description}</p>
+			<PageTitle
+				title={organization.name}
+				description={organization.description ?? ""}
+			/>
+
+			{projects?.length === 0 ? (
+				<div className="text-muted-foreground">{t("Project.noProjects")}</div>
+			) : (
+				projects?.map((project) => <div key={project.id}>{project.name}</div>)
+			)}
 		</div>
 	);
 }
