@@ -3,6 +3,7 @@
 import { ChevronsUpDown, Plus } from "lucide-react";
 import type React from "react";
 
+import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { Button } from "@/shared/ui/button";
 import {
@@ -61,29 +62,29 @@ function HeaderDropdownMenu({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className="flex items-center border rounded-lg">
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button
-						variant="ghost"
-						className="focus:outline-none hover:cursor-pointer"
-					>
-						<span className="text-sm text-secondary-foreground mr-1">
-							{label}
-						</span>
-						<ChevronsUpDown className="text-muted-foreground -mr-1" />
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align="start" className="p-0">
-					<div className="flex">{children}</div>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		</div>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="ghost"
+					className="focus:outline-none hover:cursor-pointer"
+				>
+					<span className="text-sm text-secondary-foreground mr-1">
+						{label}
+					</span>
+					<ChevronsUpDown className="text-muted-foreground -mr-1" />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="start" className="">
+				<div className="flex">{children}</div>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }
 
 export default function Header() {
 	const plan = "Free";
+
+	const { currentOrganization } = useOrganizationStore();
 
 	return (
 		<header className="h-14 border-b border-border flex items-center justify-between px-4 bg-background sticky top-0 z-50">
@@ -111,7 +112,7 @@ export default function Header() {
 
 				<Slash />
 
-				<HeaderDropdownMenu label="nito">
+				<HeaderDropdownMenu label={currentOrganization?.name ?? "-"}>
 					<OrganizationSelector />
 				</HeaderDropdownMenu>
 
