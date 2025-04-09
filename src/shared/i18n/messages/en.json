@@ -56,7 +56,7 @@
 		"slug": "Organization URL",
 		"createdAt": "Created At",
 		"noOrganizations": "No organizations found",
-		"findOrganization": "Find Organization",
+		"findOrganization": "Find organization...",
 		"error": {
 			"failedToLoadOrganizations": "Failed to load organizations"
 		},
@@ -74,7 +74,8 @@
 				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
 				"alreadyExists": "This slug is already taken"
 			}
-		}
+		},
+		"noSearchResults": "No search results found"
 	},
 	"Action": {
 		"cancel": "Cancel",
