@@ -91,3 +91,40 @@ INSERT INTO members (user_id, organization_id, role, joined_at, last_active_at, 
   ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'google'), 'OWNER', NOW(), NOW(), true),
   ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'meta'), 'OWNER', NOW(), NOW(), true),
   ('00000000-0000-0000-0000-000000000002', (SELECT id FROM organizations WHERE slug = 'nito'), 'DEVELOPER', NOW(), NOW(), true);
+
+-- Insert test projects
+INSERT INTO projects (name, status, organization_id) VALUES
+  ('Nito Website', 'active', (SELECT id FROM organizations WHERE slug = 'nito')),
+  ('Nito Mobile App', 'active', (SELECT id FROM organizations WHERE slug = 'nito')),
+  ('Nito API', 'archived', (SELECT id FROM organizations WHERE slug = 'nito')),
+  ('iPhone 15', 'active', (SELECT id FROM organizations WHERE slug = 'apple')),
+  ('MacBook Pro', 'active', (SELECT id FROM organizations WHERE slug = 'apple')),
+  ('Vision Pro', 'archived', (SELECT id FROM organizations WHERE slug = 'apple')),
+  ('Google Search', 'active', (SELECT id FROM organizations WHERE slug = 'google')),
+  ('Gmail', 'active', (SELECT id FROM organizations WHERE slug = 'google')),
+  ('Google Maps', 'active', (SELECT id FROM organizations WHERE slug = 'google')),
+  ('Instagram', 'active', (SELECT id FROM organizations WHERE slug = 'meta')),
+  ('WhatsApp', 'active', (SELECT id FROM organizations WHERE slug = 'meta')),
+  ('Oculus Quest', 'archived', (SELECT id FROM organizations WHERE slug = 'meta'));
+
+-- Insert test project members
+INSERT INTO project_members (project_id, member_id, role) VALUES
+  -- Nito projects
+  ((SELECT id FROM projects WHERE name = 'Nito Website'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Nito Website'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'EDITOR'),
+  ((SELECT id FROM projects WHERE name = 'Nito Mobile App'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Nito Mobile App'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'EDITOR'),
+  ((SELECT id FROM projects WHERE name = 'Nito API'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Nito API'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'nito')), 'VIEWER'),
+  -- Apple projects
+  ((SELECT id FROM projects WHERE name = 'iPhone 15'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'apple')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'MacBook Pro'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'apple')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Vision Pro'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000001' AND organization_id = (SELECT id FROM organizations WHERE slug = 'apple')), 'OWNER'),
+  -- Google projects
+  ((SELECT id FROM projects WHERE name = 'Google Search'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'google')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Gmail'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'google')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Google Maps'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'google')), 'OWNER'),
+  -- Meta projects
+  ((SELECT id FROM projects WHERE name = 'Instagram'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'meta')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'WhatsApp'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'meta')), 'OWNER'),
+  ((SELECT id FROM projects WHERE name = 'Oculus Quest'), (SELECT id FROM members WHERE user_id = '00000000-0000-0000-0000-000000000002' AND organization_id = (SELECT id FROM organizations WHERE slug = 'meta')), 'OWNER');
