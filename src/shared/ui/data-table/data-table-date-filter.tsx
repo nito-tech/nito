@@ -173,7 +173,9 @@ export function DataTableDateFilter<TData>({
 			<PopoverTrigger asChild>
 				<Button variant="outline" size="sm" className="border-dashed">
 					{hasValue ? (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 						<div
+							// biome-ignore lint/a11y/useSemanticElements: <explanation>
 							role="button"
 							aria-label={`Clear ${title} filter`}
 							tabIndex={0}

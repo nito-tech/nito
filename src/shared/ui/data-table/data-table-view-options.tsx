@@ -39,6 +39,7 @@ export function DataTableViewOptions<TData>({
 			<PopoverTrigger asChild>
 				<Button
 					aria-label="Toggle columns"
+					// biome-ignore lint/a11y/useSemanticElements: <explanation>
 					role="combobox"
 					variant="outline"
 					size="sm"
