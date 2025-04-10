@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useMemo } from "react";
 
+import { useProjectStore } from "@/entities/project/model/project-store";
 import { useDataTable } from "@/shared/hooks/use-data-table";
 import type { Project } from "@/shared/schema";
 import { Badge } from "@/shared/ui/badge";
@@ -47,10 +48,12 @@ const statusConfig: Record<
 
 const createColumns = ({
 	pathname,
+	setCurrentProject,
 	onEdit,
 	onDelete,
 }: {
 	pathname: string;
+	setCurrentProject: (project: Project) => void;
 	onEdit: (id: string) => void;
 	onDelete: (id: string) => void;
 }): ColumnDef<Project>[] => [
@@ -83,13 +86,17 @@ const createColumns = ({
 		header: ({ column }: { column: Column<Project, unknown> }) => (
 			<DataTableColumnHeader column={column} title="Name" />
 		),
-		cell: ({ cell }) => {
+		cell: ({ row }) => {
+			const project = row.original satisfies Project;
+
 			return (
 				<Link
-					href={`${pathname}/projects/${cell.getValue<Project["id"]>()}`}
+					href={`${pathname}/projects/${project.name}`}
+					// Display selectedproject in the header
+					onClick={() => setCurrentProject(project)}
 					className="underline hover:cursor-pointer"
 				>
-					{cell.getValue<Project["name"]>()}
+					{project.name}
 				</Link>
 			);
 		},
@@ -208,10 +215,17 @@ export default function ProjectDataTable({ projects }: Props) {
 		return <div>Pathname not found</div>;
 	}
 
+	const { setCurrentProject } = useProjectStore();
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const columns = useMemo(
 		() =>
-			createColumns({ pathname, onEdit: handleEdit, onDelete: handleDelete }),
+			createColumns({
+				pathname,
+				setCurrentProject,
+				onEdit: handleEdit,
+				onDelete: handleDelete,
+			}),
 		[],
 	);
 
