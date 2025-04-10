@@ -3,6 +3,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useTranslations } from "next-intl";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -41,8 +42,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 		<ErrorBoundary FallbackComponent={MainErrorFallback}>
 			<QueryClientProvider client={queryClient}>
 				<AuthProvider>
-					{process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
-					<ProfileProvider>{children}</ProfileProvider>
+					<NuqsAdapter>
+						{process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
+						<ProfileProvider>{children}</ProfileProvider>
+					</NuqsAdapter>
 				</AuthProvider>
 			</QueryClientProvider>
 		</ErrorBoundary>
