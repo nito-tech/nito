@@ -11,6 +11,8 @@ import {
 	XCircle,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import { useMemo } from "react";
 
@@ -44,9 +46,11 @@ const statusConfig: Record<
 };
 
 const createColumns = ({
+	pathname,
 	onEdit,
 	onDelete,
 }: {
+	pathname: string;
 	onEdit: (id: string) => void;
 	onDelete: (id: string) => void;
 }): ColumnDef<Project>[] => [
@@ -79,7 +83,16 @@ const createColumns = ({
 		header: ({ column }: { column: Column<Project, unknown> }) => (
 			<DataTableColumnHeader column={column} title="Name" />
 		),
-		cell: ({ cell }) => <div>{cell.getValue<Project["name"]>()}</div>,
+		cell: ({ cell }) => {
+			return (
+				<Link
+					href={`${pathname}/projects/${cell.getValue<Project["id"]>()}`}
+					className="underline hover:cursor-pointer"
+				>
+					{cell.getValue<Project["name"]>()}
+				</Link>
+			);
+		},
 		meta: {
 			label: "Name",
 			placeholder: "Search project names...",
@@ -190,9 +203,15 @@ export default function ProjectDataTable({ projects }: Props) {
 		// TODO: 削除の確認ダイアログと削除処理
 	};
 
+	const pathname = usePathname();
+	if (!pathname) {
+		return <div>Pathname not found</div>;
+	}
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const columns = useMemo(
-		() => createColumns({ onEdit: handleEdit, onDelete: handleDelete }),
+		() =>
+			createColumns({ pathname, onEdit: handleEdit, onDelete: handleDelete }),
 		[],
 	);
 

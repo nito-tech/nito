@@ -65,3 +65,40 @@ export async function getProjects(
 
 	return data;
 }
+
+export async function getProjectByName(
+	organizationId: Organization["id"],
+	projectName: Project["name"],
+): Promise<Project> {
+	const supabase = await createServerClient();
+	const user = await getUser();
+
+	// First, get the member ID for the user in this organization
+	const { data: memberData, error: memberError } = await supabase
+		.from("members")
+		.select("id")
+		.eq("user_id", user.id)
+		.eq("organization_id", organizationId)
+		.single();
+
+	if (memberError) {
+		throw new Error(memberError.message);
+	}
+
+	if (!memberData) {
+		throw new Error("Member not found");
+	}
+
+	const { data, error } = await supabase
+		.from("projects")
+		.select("*")
+		.eq("name", projectName)
+		.eq("organization_id", organizationId)
+		.single();
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data;
+}

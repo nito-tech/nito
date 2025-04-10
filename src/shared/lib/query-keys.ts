@@ -1,4 +1,4 @@
-import type { Organization, Profile } from "@/shared/schema";
+import type { Organization, Profile, Project } from "@/shared/schema";
 
 export const queryKeys = {
 	auth: {
@@ -13,5 +13,6 @@ export const queryKeys = {
 	} as const,
 	project: {
 		all: ["project"],
+		byName: (name: Project["name"]) => ["project", name],
 	} as const,
 } as const;
