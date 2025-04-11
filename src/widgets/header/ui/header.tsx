@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import type React from "react";
 
@@ -22,26 +22,34 @@ import { cn } from "@/shared/utils/cn";
 
 function HeaderDropdownMenu({
 	label,
+	onClick,
 	children,
 }: {
 	label: string;
+	onClick: () => void;
 	children: React.ReactNode;
 }) {
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button
-					variant="ghost"
-					className="focus:outline-none hover:cursor-pointer"
-				>
-					<span className="text-sm text-secondary-foreground mr-1">
-						{label}
-					</span>
-					<ChevronsUpDown className="text-muted-foreground -mr-1" />
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start">{children}</DropdownMenuContent>
-		</DropdownMenu>
+		<div className="flex items-center border border-border rounded-lg">
+			<Button
+				variant="ghost"
+				className="focus:outline-none hover:cursor-pointer rounded-r-none border-r border-border"
+				onClick={onClick}
+			>
+				<span className="text-sm text-secondary-foreground mr-1">{label}</span>
+			</Button>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button
+						variant="ghost"
+						className="focus:outline-none hover:cursor-pointer rounded-l-none w-7"
+					>
+						<ChevronsUpDown className="text-muted-foreground" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>{children}</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
 	);
 }
 
@@ -79,8 +87,10 @@ function projectTabs(project: Project): SubHeaderTab[] {
 export default function Header() {
 	const plan = "Free";
 	const pathname = usePathname();
-	const { currentOrganization } = useOrganizationStore();
-	const { currentProject } = useProjectStore();
+	const router = useRouter();
+	const { currentOrganization, setCurrentOrganization } =
+		useOrganizationStore();
+	const { currentProject, setCurrentProject } = useProjectStore();
 
 	const subHeaderTabs = useMemo(() => {
 		// TODO: Check pathname
@@ -124,16 +134,29 @@ export default function Header() {
 					{currentOrganization && (
 						<>
 							<Slash />
-							<HeaderDropdownMenu label={currentOrganization.name}>
+							<HeaderDropdownMenu
+								label={currentOrganization.name}
+								onClick={() => {
+									setCurrentProject(null);
+									router.push(`/dashboard/${currentOrganization.slug}`);
+								}}
+							>
 								<OrganizationSelector />
 							</HeaderDropdownMenu>
 						</>
 					)}
 
-					{currentProject && (
+					{currentOrganization && currentProject && (
 						<>
 							<Slash />
-							<HeaderDropdownMenu label={currentProject.name}>
+							<HeaderDropdownMenu
+								label={currentProject.name}
+								onClick={() => {
+									router.push(
+										`/dashboard/${currentOrganization.slug}/projects/${currentProject.name}`,
+									);
+								}}
+							>
 								<ProjectSelector />
 							</HeaderDropdownMenu>
 						</>
