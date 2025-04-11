@@ -3,13 +3,14 @@
 import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import type React from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { useProjectStore } from "@/entities/project/model/project-store";
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { ProjectSelector } from "@/features/project/ui/projector-selector/project-selector";
-import type { Organization } from "@/shared/schema";
+import type { Organization, Project } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
@@ -44,15 +45,33 @@ function HeaderDropdownMenu({
 	);
 }
 
-function organizationTabs(organization: Organization) {
+type SubHeaderTab = {
+	label: string;
+	href: string;
+};
+
+function organizationTabs(organization: Organization): SubHeaderTab[] {
 	return [
 		{
-			label: "Overview",
+			label: "Overview(organization)",
 			href: `/dashboard/${organization.slug}`,
 		},
 		{
-			label: "Settings",
+			label: "Settings(organization)",
 			href: `/dashboard/${organization.slug}/settings`,
+		},
+	];
+}
+
+function projectTabs(project: Project): SubHeaderTab[] {
+	return [
+		{
+			label: "Overview(project)",
+			href: `/dashboard/${project.organization_id}/projects/${project.name}`,
+		},
+		{
+			label: "Settings(project)",
+			href: `/dashboard/${project.organization_id}/projects/${project.name}/settings`,
 		},
 	];
 }
@@ -62,6 +81,20 @@ export default function Header() {
 	const pathname = usePathname();
 	const { currentOrganization } = useOrganizationStore();
 	const { currentProject } = useProjectStore();
+
+	const subHeaderTabs = useMemo(() => {
+		// TODO: Check pathname
+
+		if (currentProject && currentOrganization) {
+			return projectTabs(currentProject);
+		}
+
+		if (currentOrganization) {
+			return organizationTabs(currentOrganization);
+		}
+
+		return [];
+	}, [currentOrganization, currentProject]);
 
 	return (
 		<header className="border-b border-border bg-background sticky top-0 z-50">
@@ -115,11 +148,10 @@ export default function Header() {
 				</div>
 			</div>
 
-			{/* Second row for Organization */}
-			{currentOrganization && (
+			{subHeaderTabs.length > 0 && (
 				<div className="h-12 px-4">
 					<nav className="flex h-full gap-4">
-						{organizationTabs(currentOrganization).map((tab) => (
+						{subHeaderTabs.map((tab) => (
 							<Link
 								key={tab.label}
 								href={tab.href}
