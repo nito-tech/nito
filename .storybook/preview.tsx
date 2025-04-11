@@ -4,9 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NextIntlClientProvider } from "next-intl";
 import React from "react";
 
+import "@/app/globals.css";
+
 import { AuthProvider } from "../src/shared/contexts/AuthContext";
 import messages from "../src/shared/i18n/messages/en.json";
-import "../app/globals.css";
 import "./mockNextImage";
 
 const withNextIntl: Decorator = (Story) => {

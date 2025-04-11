@@ -5,13 +5,13 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 // import { Geist, Geist_Mono } from "next/font/google";
 
+import "@/app/globals.css";
 import PublicHeader from "@/entities/public-header/ui/public-header";
 import { ThemeProvider } from "@/shared/contexts/theme-provider";
 import { Breakpoint } from "@/shared/ui/breakpoint/breakpoint";
 import { Toaster } from "@/shared/ui/sonner";
 
 import { AppProvider } from "./provider";
-import "./globals.css";
 
 // const geistSans = Geist({
 // 	variable: "--font-geist-sans",
