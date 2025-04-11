@@ -71,15 +71,18 @@ function organizationTabs(organization: Organization): SubHeaderTab[] {
 	];
 }
 
-function projectTabs(project: Project): SubHeaderTab[] {
+function projectTabs(
+	project: Project,
+	organization: Organization,
+): SubHeaderTab[] {
 	return [
 		{
 			label: "Overview(project)",
-			href: `/dashboard/${project.organization_id}/projects/${project.name}`,
+			href: `/dashboard/${organization.slug}/projects/${project.name}`,
 		},
 		{
 			label: "Settings(project)",
-			href: `/dashboard/${project.organization_id}/projects/${project.name}/settings`,
+			href: `/dashboard/${organization.slug}/projects/${project.name}/settings`,
 		},
 	];
 }
@@ -96,7 +99,7 @@ export default function Header() {
 		// TODO: Check pathname
 
 		if (currentProject && currentOrganization) {
-			return projectTabs(currentProject);
+			return projectTabs(currentProject, currentOrganization);
 		}
 
 		if (currentOrganization) {
