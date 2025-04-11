@@ -31,7 +31,9 @@ export function ProjectSelector() {
 	const router = useRouter();
 	function handleProjectClick(project: Project) {
 		setCurrentProject(project);
-		router.push(`/dashboard/${currentOrganization?.slug}/${project.name}`);
+		router.push(
+			`/dashboard/${currentOrganization?.slug}/projects/${project.name}`,
+		);
 	}
 
 	return (
