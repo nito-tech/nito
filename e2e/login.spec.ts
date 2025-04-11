@@ -7,7 +7,7 @@ test.describe("Login", () => {
 	test.beforeEach(async ({ page }) => {
 		await logOut(page.context());
 		await logInWithEmail(page);
-		await expect(page).toHaveURL("/dashboard");
+		await expect(page).toHaveURL("/dashboard/google");
 	});
 
 	test("should login successfully and display user info in sidebar", async ({

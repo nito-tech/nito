@@ -1,13 +1,16 @@
-export function PageTitle({
-	title,
-	description,
-}: { title: string; description?: string }) {
+import { cn } from "@/shared/utils/cn";
+
+type Props = {
+	title: string;
+	description?: string;
+	className?: string;
+};
+
+export function PageTitle({ title, description, className }: Props) {
 	return (
-		<div className="mb-6">
-			<h1 className="text-xl font-bold">{title}</h1>
-			{description && (
-				<p className="text-muted-foreground text-sm">{description}</p>
-			)}
+		<div className={cn("space-y-2 mb-6", className)}>
+			<h1 className="text-3xl font-bold">{title}</h1>
+			{description && <p className="text-muted-foreground">{description}</p>}
 		</div>
 	);
 }

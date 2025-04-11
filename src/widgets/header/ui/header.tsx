@@ -1,148 +1,199 @@
 "use client";
 
-import { ChevronsUpDown, Plus } from "lucide-react";
-import React from "react";
+import { ChevronsUpDown } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo } from "react";
+import type React from "react";
 
-import { UserOrganizationSelector } from "@/features/user-organizations/ui/user-organization-selector/user-organization-selector";
+import { useOrganizationStore } from "@/entities/organization/model/organization-store";
+import { useProjectStore } from "@/entities/project/model/project-store";
+import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
+import { ProjectSelector } from "@/features/project/ui/projector-selector/project-selector";
+import type { Organization, Project } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-import { Input } from "@/shared/ui/input";
 import { Slash } from "@/shared/ui/slash";
+import { cn } from "@/shared/utils/cn";
 
-function ProjectSelector() {
+function HeaderDropdownMenu({
+	label,
+	onClick,
+	children,
+}: {
+	label: string;
+	onClick: () => void;
+	children: React.ReactNode;
+}) {
 	return (
-		<div className="w-64">
-			<div className="p-3 border-b border-border">
-				<Input
-					placeholder="Find Project..."
-					className="bg-transparent text-sm rounded-md block w-full pl-10 p-2.5"
-				/>
-			</div>
-
-			<div className="p-3 border-b border-border">
-				<div className="text-sm text-muted-foreground mb-3">Favorites</div>
-				<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-					<div className="w-6 h-6 flex items-center justify-center text-muted-foreground">
-						▲
-					</div>
-					<span className="text-foreground">nito</span>
-				</div>
-			</div>
-
-			<div className="p-3">
-				<div className="text-sm text-muted-foreground mb-3">Projects</div>
-				<div className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary cursor-pointer">
-					<div className="w-6 h-6 flex items-center justify-center text-muted-foreground">
-						▲
-					</div>
-					<span className="text-foreground">nito</span>
-				</div>
-				<Button
-					variant="outline"
-					className="w-full mt-3 bg-primary-foreground flex items-center justify-center gap-2 p-2 text-sm rounded-md border border-border"
-				>
-					<Plus className="h-4 w-4" />
-					<span>Create Project</span>
-				</Button>
-			</div>
+		<div className="flex items-center border border-border rounded-lg">
+			<Button
+				variant="ghost"
+				className="focus:outline-none hover:cursor-pointer rounded-r-none border-r border-border"
+				onClick={onClick}
+			>
+				<span className="text-sm text-secondary-foreground mr-1">{label}</span>
+			</Button>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button
+						variant="ghost"
+						className="focus:outline-none hover:cursor-pointer rounded-l-none w-7"
+					>
+						<ChevronsUpDown className="text-muted-foreground" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>{children}</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	);
 }
 
+type SubHeaderTab = {
+	label: string;
+	href: string;
+};
+
+function organizationTabs(organization: Organization): SubHeaderTab[] {
+	return [
+		{
+			label: "Overview(organization)",
+			href: `/dashboard/${organization.slug}`,
+		},
+		{
+			label: "Settings(organization)",
+			href: `/dashboard/${organization.slug}/settings`,
+		},
+	];
+}
+
+function projectTabs(
+	project: Project,
+	organization: Organization,
+): SubHeaderTab[] {
+	return [
+		{
+			label: "Overview(project)",
+			href: `/dashboard/${organization.slug}/projects/${project.name}`,
+		},
+		{
+			label: "Settings(project)",
+			href: `/dashboard/${organization.slug}/projects/${project.name}/settings`,
+		},
+	];
+}
+
 export default function Header() {
 	const plan = "Free";
+	const pathname = usePathname();
+	const router = useRouter();
+	const { currentOrganization, setCurrentOrganization } =
+		useOrganizationStore();
+	const { currentProject, setCurrentProject } = useProjectStore();
+
+	const subHeaderTabs = useMemo(() => {
+		// TODO: Check pathname
+
+		if (currentProject && currentOrganization) {
+			return projectTabs(currentProject, currentOrganization);
+		}
+
+		if (currentOrganization) {
+			return organizationTabs(currentOrganization);
+		}
+
+		return [];
+	}, [currentOrganization, currentProject]);
 
 	return (
-		<header className="h-14 border-b border-border flex items-center justify-between px-4 bg-background sticky top-0 z-50">
-			{/* Left section: Logo and navigation */}
-			<div className="flex items-center space-x-4">
-				<div className="flex items-center gap-2">
-					<div className="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center flex-shrink-0 text-white">
-						{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-						<svg
-							viewBox="0 0 24 24"
-							width="20"
-							height="20"
-							stroke="currentColor"
-							strokeWidth="2"
-							fill="none"
-						>
-							<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-						</svg>
+		<header className="border-b border-border bg-background sticky top-0 z-50">
+			{/* First row: Logo and navigation */}
+			<div className="h-14 flex items-center justify-between px-4">
+				<div className="flex items-center space-x-4">
+					<div className="flex items-center gap-2">
+						<div className="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center flex-shrink-0 text-white">
+							{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+							<svg
+								viewBox="0 0 24 24"
+								width="20"
+								height="20"
+								stroke="currentColor"
+								strokeWidth="2"
+								fill="none"
+							>
+								<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+							</svg>
+						</div>
+						<span className="font-bold">Nito</span>
+						<span className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground">
+							{plan}
+						</span>
 					</div>
-					<span className="font-bold">Nito</span>
-					<span className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground">
-						{plan}
-					</span>
+
+					{currentOrganization && (
+						<>
+							<Slash />
+							<HeaderDropdownMenu
+								label={currentOrganization.name}
+								onClick={() => {
+									setCurrentProject(null);
+									router.push(`/dashboard/${currentOrganization.slug}`);
+								}}
+							>
+								<OrganizationSelector />
+							</HeaderDropdownMenu>
+						</>
+					)}
+
+					{currentOrganization && currentProject && (
+						<>
+							<Slash />
+							<HeaderDropdownMenu
+								label={currentProject.name}
+								onClick={() => {
+									router.push(
+										`/dashboard/${currentOrganization.slug}/projects/${currentProject.name}`,
+									);
+								}}
+							>
+								<ProjectSelector />
+							</HeaderDropdownMenu>
+						</>
+					)}
 				</div>
 
-				<Slash />
-
-				<div className="flex items-center border border-muted rounded-lg">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								className="focus:outline-none hover:cursor-pointer"
-							>
-								<span className="text-sm text-secondary-foreground mr-1">
-									nito
-								</span>
-								<ChevronsUpDown className="text-muted-foreground -mr-1" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="start"
-							className="w-auto p-0 bg-primary-foreground border border-muted rounded-md shadow-lg"
-							sideOffset={10}
-						>
-							<div className="flex">
-								<UserOrganizationSelector />
-								<ProjectSelector />
-							</div>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
-
-				<Slash />
-
-				<div className="flex items-center border border-muted rounded-lg">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								className="focus:outline-none hover:cursor-pointer"
-							>
-								<span className="text-sm text-secondary-foreground mr-1">
-									My Project
-								</span>
-								<ChevronsUpDown className="text-muted-foreground -mr-1" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="start"
-							className="w-auto p-0 bg-primary-foreground border border-muted rounded-md shadow-lg"
-							sideOffset={10}
-						>
-							<div className="flex">
-								<UserOrganizationSelector />
-								<ProjectSelector />
-							</div>
-						</DropdownMenuContent>
-					</DropdownMenu>
+				{/* Right section: Actions */}
+				<div className="flex items-center space-x-2">
+					<div className="w-8 h-8 rounded flex items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-500 text-white font-medium">
+						N
+					</div>
 				</div>
 			</div>
 
-			{/* Right section: Actions */}
-			<div className="flex items-center space-x-2">
-				<div className="w-8 h-8 rounded flex items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-500 text-white font-medium">
-					N
+			{subHeaderTabs.length > 0 && (
+				<div className="h-12 px-4">
+					<nav className="flex h-full gap-4">
+						{subHeaderTabs.map((tab) => (
+							<Link
+								key={tab.label}
+								href={tab.href}
+								className={cn(
+									"flex items-center px-2 border-b-2 text-sm font-medium transition-colors hover:text-foreground",
+									pathname === tab.href
+										? "border-primary text-foreground"
+										: "border-transparent text-muted-foreground hover:border-muted",
+								)}
+							>
+								{tab.label}
+							</Link>
+						))}
+					</nav>
 				</div>
-			</div>
+			)}
 		</header>
 	);
 }

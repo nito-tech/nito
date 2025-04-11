@@ -56,7 +56,7 @@
 		"slug": "Organization URL",
 		"createdAt": "Created At",
 		"noOrganizations": "No organizations found",
-		"findOrganization": "Find Organization",
+		"findOrganization": "Find organization...",
 		"error": {
 			"failedToLoadOrganizations": "Failed to load organizations"
 		},
@@ -73,6 +73,19 @@
 				"invalidChars": "Organization slug can only contain letters, numbers, and dashes",
 				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
 				"alreadyExists": "This slug is already taken"
+			}
+		},
+		"noSearchResults": "No search results found"
+	},
+	"Project": {
+		"noProjects": "No projects found",
+		"findProject": "Find project...",
+		"validation": {
+			"name": {
+				"required": "Project name is required",
+				"maxLength": "Project name must be less than 100 characters",
+				"format": "Project name must be lowercase and can only contain letters, numbers, and the following characters: '.', '_', '-'",
+				"noSpaces": "Spaces are not allowed in project name"
 			}
 		}
 	},

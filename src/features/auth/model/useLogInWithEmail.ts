@@ -1,21 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 
 import { queryKeys } from "@/shared/lib/query-keys";
+import type { MutationConfig } from "@/shared/lib/reqct-query";
 
 import { logInWithEmail } from "../api/log-in-with-email";
 
 type UseLogInWithEmailOptions = {
-	mutationConfig?: Omit<Parameters<typeof useMutation>[0], "mutationFn">;
+	mutationConfig?: MutationConfig<typeof logInWithEmail>;
 };
 
 export const useLogInWithEmail = ({
 	mutationConfig,
 }: UseLogInWithEmailOptions = {}) => {
 	const queryClient = useQueryClient();
-	const router = useRouter();
 
 	return useMutation({
+		mutationFn: logInWithEmail,
 		onSuccess: async (...args) => {
 			// Since login is performed server-side, the onAuthStateChange in AuthProvider that executes client-side doesn't fire
 			// As a result, user information doesn't appear in the sidebar
@@ -28,11 +28,8 @@ export const useLogInWithEmail = ({
 				queryKey: queryKeys.auth.session,
 			});
 
-			router.push("/dashboard");
-
 			mutationConfig?.onSuccess?.(...args);
 		},
-		mutationFn: logInWithEmail,
 		...mutationConfig,
 	});
 };

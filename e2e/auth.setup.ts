@@ -12,7 +12,7 @@ const authFile = path.join(__dirname, ".auth/user.json");
 setup("Login with email and password", async ({ page }) => {
 	try {
 		await logInWithEmail(page);
-		await expect(page).toHaveURL("/dashboard");
+		await expect(page).toHaveURL("/dashboard/google");
 
 		await page.context().storageState({ path: authFile });
 	} catch (error) {
