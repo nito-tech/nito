@@ -134,7 +134,6 @@
 		"@vitest/coverage-v8": "^3.1.1",
 		"better-supabase-types": "^2.7.6",
 		"glob": "^11.0.1",
-		"husky": "^9.1.7",
 		"jsdom": "^26.0.0",
 		"lefthook": "^1.11.8",
 		"playwright": "^1.51.1",
