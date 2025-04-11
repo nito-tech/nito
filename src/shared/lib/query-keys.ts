@@ -12,7 +12,14 @@ export const queryKeys = {
 		bySlug: (slug: Organization["slug"]) => ["organization", slug],
 	} as const,
 	project: {
-		all: ["project"],
-		byName: (name: Project["name"]) => ["project", name],
+		all: (organizationSlug: Organization["slug"]) => [
+			"project",
+			organizationSlug,
+		],
+		byName: (organizationSlug: Organization["slug"], name: Project["name"]) => [
+			"project",
+			organizationSlug,
+			name,
+		],
 	} as const,
 } as const;

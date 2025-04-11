@@ -22,7 +22,7 @@ export function useGetProjects({
 	queryConfig,
 }: UseProjectOptions) {
 	return useQuery({
-		queryKey: queryKeys.project.all,
+		queryKey: queryKeys.project.all(organizationId),
 		queryFn: () => getProjects(organizationId),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
@@ -46,7 +46,7 @@ export function useGetProjectByName({
 	queryConfig,
 }: UseProjectByNameOptions) {
 	return useQuery({
-		queryKey: queryKeys.project.byName(projectName),
+		queryKey: queryKeys.project.byName(organizationId, projectName),
 		queryFn: () => getProjectByName(organizationId, projectName),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
