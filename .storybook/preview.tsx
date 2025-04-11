@@ -6,7 +6,7 @@ import React from "react";
 
 import { AuthProvider } from "../src/shared/contexts/AuthContext";
 import messages from "../src/shared/i18n/messages/en.json";
-import "../src/app/globals.css";
+import "../app/globals.css";
 import "./mockNextImage";
 
 const withNextIntl: Decorator = (Story) => {
