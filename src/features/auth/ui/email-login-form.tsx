@@ -1,10 +1,12 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
+import { useProjectStore } from "@/entities/project/model/project-store";
 import { EmailField } from "@/entities/user/ui/email-field/email-field";
 import { PasswordField } from "@/entities/user/ui/password-field/password-field";
 import { Button } from "@/shared/ui/button";
@@ -13,7 +15,6 @@ import { Notice } from "@/shared/ui/notice/notice";
 import { cn } from "@/shared/utils/cn";
 import { useGetOrganizations } from "#features/organizations/model/useOrganization";
 
-import { Loader2 } from "lucide-react";
 import { LogInWithEmailSchema } from "../model/log-in-with-email-schemas";
 import type { LogInWithEmailInput } from "../model/log-in-with-email-schemas";
 import { useLogInWithEmail } from "../model/useLogInWithEmail";
@@ -75,16 +76,26 @@ export function EmailLogInForm({ className }: Props) {
 		},
 	});
 	const { setCurrentOrganization } = useOrganizationStore();
+	const { setCurrentProject } = useProjectStore();
 	const router = useRouter();
 
 	useEffect(() => {
 		if (isLoggedIn && organizations && organizations.length > 0) {
 			const organization = organizations[0];
+
+			// Initialize store
 			setCurrentOrganization(organization);
-			console.log("organization", organization);
+			setCurrentProject(null);
+
 			router.push(`/dashboard/${organization.slug}`);
 		}
-	}, [organizations, setCurrentOrganization, router, isLoggedIn]);
+	}, [
+		organizations,
+		setCurrentOrganization,
+		setCurrentProject,
+		router,
+		isLoggedIn,
+	]);
 
 	return (
 		<Form
