@@ -46,10 +46,10 @@ pre-commit:
   commands:
     format:
       glob: "**/*.{js,jsx,ts,tsx,json,css,md}"
-      run: pnpm run format
+      run: pnpm format
     check:
       glob: "**/*.{js,jsx,ts,tsx}"
-      run: pnpm run check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      run: pnpm check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
       stage_fixed: true
     test:
       run: pnpm test

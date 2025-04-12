@@ -2,8 +2,9 @@ import { cleanup, render } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, test } from "vitest";
 
-import HomePage from "@/app/page";
 import type { Locale } from "@/shared/i18n/config";
+
+import HomePage from "../../../../app/page";
 
 /**
  * Helper function to render the HomePage component with NextIntlClientProvider.
