@@ -85,7 +85,10 @@
 			"userId": "ユーザーID",
 			"role": "ロール",
 			"joinedAt": "参加日時",
-			"lastActiveAt": "最終アクティブ日時"
+			"lastActiveAt": "最終アクティブ日時",
+			"actions": "操作",
+			"manageAccess": "アクセス権限を編集",
+			"removeFromOrganization": "組織から削除"
 		},
 		"noMembers": "メンバーが見つかりません"
 	},

@@ -1,9 +1,19 @@
 "use client";
 
+import { MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { useProfile } from "@/shared/contexts/ProfileContext";
+import type { Organization } from "@/shared/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/shared/ui/dropdown-menu";
 import { Skeleton } from "@/shared/ui/skeleton";
 import {
 	Table,
@@ -14,8 +24,6 @@ import {
 	TableRow,
 } from "@/shared/ui/table";
 
-import { useProfile } from "@/shared/contexts/ProfileContext";
-import type { Organization } from "@/shared/schema";
 import { useGetOrganizationMembers } from "../../model/useOrganization";
 
 interface Props {
@@ -68,6 +76,7 @@ export function MemberList({ organization }: Props) {
 					<TableHead>{t("Member.role")}</TableHead>
 					<TableHead>{t("Member.joinedAt")}</TableHead>
 					<TableHead>{t("Member.lastActiveAt")}</TableHead>
+					<TableHead className="w-[50px]" />
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -85,7 +94,7 @@ export function MemberList({ organization }: Props) {
 										alt={member.user_id}
 									/>
 									<AvatarFallback>
-										{member.user_id.substring(0, 2).toUpperCase()}
+										{member.profile.display_name?.substring(0, 2).toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 
@@ -107,6 +116,27 @@ export function MemberList({ organization }: Props) {
 						</TableCell>
 						<TableCell>
 							{new Date(member.last_active_at).toLocaleDateString()}
+						</TableCell>
+						<TableCell>
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button
+										variant="ghost"
+										className="h-8 w-8 p-0"
+										aria-label={t("Organization.member.actions")}
+									>
+										<MoreHorizontal className="h-4 w-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end">
+									<DropdownMenuItem>
+										{t("Organization.member.manageAccess")}
+									</DropdownMenuItem>
+									<DropdownMenuItem className="text-destructive focus:text-destructive">
+										{t("Organization.member.removeFromOrganization")}
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</TableCell>
 					</TableRow>
 				))}

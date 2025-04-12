@@ -85,7 +85,10 @@
 			"userId": "User ID",
 			"role": "Role",
 			"joinedAt": "Joined At",
-			"lastActiveAt": "Last Active At"
+			"lastActiveAt": "Last Active At",
+			"actions": "Actions",
+			"manageAccess": "Manage Access",
+			"removeFromOrganization": "Remove from Organization"
 		},
 		"noMembers": "No members found"
 	},
