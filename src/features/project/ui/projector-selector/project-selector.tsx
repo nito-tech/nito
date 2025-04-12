@@ -97,7 +97,7 @@ export function ProjectSelector() {
 					variant="outline"
 					className="w-full bg-primary-foreground"
 					onClick={() => {
-						router.push("/dashboard/new-organization");
+						router.push("/dashboard/organizations/new");
 					}}
 				>
 					<Plus className="h-4 w-4" />

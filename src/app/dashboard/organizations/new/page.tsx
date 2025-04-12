@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { CreateOrganizationForm } from "@/features/organization-create/ui/create-organization-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-export default function NewOrganizationPage() {
+export default function DashboardOrganizationsNewPage() {
 	const t = useTranslations("Organization");
 
 	return (
