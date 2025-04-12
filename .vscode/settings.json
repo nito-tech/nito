@@ -9,7 +9,7 @@
 	 */
 	"editor.formatOnSave": true,
 	"editor.formatOnPaste": true,
-	"editor.minimap.enabled": true,
+	// "editor.minimap.enabled": true,
 	"editor.codeActionsOnSave": {
 		// Format on save
 		"source.fixAll.biome": "explicit",

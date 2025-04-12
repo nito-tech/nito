@@ -1,0 +1,152 @@
+{
+	"HomePage": {
+		"title": "Home"
+	},
+	"FeaturesPage": {
+		"title": "Features"
+	},
+	"PricingPage": {
+		"title": "Pricing"
+	},
+	"LocaleSwitcher": {
+		"label": "Language",
+		"ja": "日本語",
+		"en": "English"
+	},
+	"Auth": {
+		"logIn": "Log in",
+		"signUp": "Sign up",
+		"logOut": "Log out",
+		"dontHaveAccount": "Don't have an account?",
+		"alreadyHaveAccount": "Already have an account?",
+		"logInWithGithub": "Continue with GitHub",
+		"username": "Username",
+		"usernameCanBeChanged": "Can be changed later",
+		"validation": {
+			"emailRequired": "Please enter your email",
+			"emailInvalid": "Please enter a valid email address",
+			"emailMinLength": "Please enter your email",
+			"passwordRequired": "Please enter your password",
+			"passwordMinLength": "Password must be at least 10 characters",
+			"passwordMaxLength": "Password must be less than 128 characters",
+			"usernameRequired": "Please enter your username",
+			"usernameMinLength": "Please enter your username",
+			"usernameMaxLength": "Username must be less than 50 characters",
+			"usernameInvalidChars": "Username can only contain letters, numbers, and underscores",
+			"usernameReserved": "This username is not available",
+			"usernameAlreadyExists": "Username already exists"
+		}
+	},
+	"UserInfo": {
+		"email": "Email",
+		"password": "Password",
+		"username": "Username",
+		"accountPreferences": "Account preferences",
+		"accountPreferencesDescription": "Manage your account settings and preferences.",
+		"dangerZone": "Danger Zone",
+		"dangerZoneDescription": "Irreversible and destructive actions.",
+		"deleteAccount": "Delete Account",
+		"deleteAccountDescription": "Permanently delete your account and all associated data.",
+		"deleteAccountConfirmation": "Are you absolutely sure?",
+		"deleteAccountConfirmationDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+		"deleteAccountConfirm": "Delete Account"
+	},
+	"Organization": {
+		"name": "Organization Name",
+		"slug": "Organization URL",
+		"createdAt": "Created At",
+		"noOrganizations": "No organizations found",
+		"findOrganization": "Find organization...",
+		"settings": {
+			"title": "Settings",
+			"description": "Manage your organization settings",
+			"general": "General Settings",
+			"nameDescription": "This is your organization's visible name within Vercel. For example, the name of your company or department.",
+			"namePlaceholder": "Enter your organization name",
+			"slugDescription": "This is your organization's URL namespace on Vercel. Within it, your organization can inspect their projects, check out any recent activity, or configure settings to their liking.",
+			"slugPlaceholder": "Enter your organization URL",
+			"updateSuccess": "Organization settings updated successfully",
+			"updateError": "Failed to update organization settings"
+		},
+		"error": {
+			"failedToLoadOrganizations": "Failed to load organizations",
+			"failedToLoadMembers": "Failed to load members",
+			"organizationNotFound": "Organization not found"
+		},
+		"create": {
+			"organization": "Create Organization",
+			"organizationDescription": "Create a new organization to manage your projects and teams.",
+			"organizationConfirm": "Create Organization"
+		},
+		"validation": {
+			"nameRequired": "Please enter your organization name",
+			"nameInvalidChars": "Organization name can only contain letters, numbers, half-width spaces, underscores, and dashes",
+			"slug": {
+				"required": "Please enter your organization slug",
+				"invalidChars": "Organization slug can only contain letters, numbers, and dashes",
+				"invalidFormat": "Organization slug must start and end with an alphanumeric character, and cannot contain hyphens at the beginning or end",
+				"alreadyExists": "This slug is already taken"
+			}
+		},
+		"noSearchResults": "No search results found",
+		"members": "Members",
+		"membersDescription": "Manage your organization members",
+		"member": {
+			"avatar": "Avatar",
+			"userId": "User ID",
+			"role": "Role",
+			"joinedAt": "Joined At",
+			"lastActiveAt": "Last Active At",
+			"actions": "Actions",
+			"manageAccess": "Manage Access",
+			"removeFromOrganization": "Remove from Organization"
+		},
+		"noMembers": "No members found"
+	},
+	"Project": {
+		"noProjects": "No projects found",
+		"findProject": "Find project...",
+		"create": {
+			"project": "Create Project",
+			"projectDescription": "Create a new project to manage your projects and teams.",
+			"projectConfirm": "Create Project"
+		},
+		"validation": {
+			"name": {
+				"required": "Project name is required",
+				"maxLength": "Project name must be less than 100 characters",
+				"format": "Project name must be lowercase and can only contain letters, numbers, and the following characters: '.', '_', '-'",
+				"noSpaces": "Spaces are not allowed in project name"
+			}
+		}
+	},
+	"Member": {
+		"username": "Username",
+		"email": "Email",
+		"role": "Role",
+		"joinedAt": "Joined At",
+		"lastActiveAt": "Last Active At"
+	},
+	"Action": {
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"deleting": "Deleting...",
+		"save": "Save"
+	},
+	"commingSoon": "Comming soon...",
+	"connectToRepository": "Connect to repository",
+	"Error": {
+		"title": "Oops, something went wrong :( ",
+		"queryError": "We encountered a problem while fetching data: {message}",
+		"mutationError": "We encountered a problem while processing your request: {message}",
+		"clientError": "Please check your input and try again: {message}",
+		"serverError": "We're having some technical difficulties. Please try again later: {message}",
+		"unknownError": "An unexpected error occurred. Please try again later."
+	},
+	"refresh": "Refresh",
+	"notFound": {
+		"title": "Page Not Found",
+		"description": "The page you're looking for doesn't exist or has been moved. Don't worry, even the best explorers get lost sometimes.",
+		"goToHome": "Go to Home"
+	}
+}
