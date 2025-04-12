@@ -106,6 +106,13 @@
 			}
 		}
 	},
+	"Member": {
+		"username": "ユーザー名",
+		"email": "メールアドレス",
+		"role": "ロール",
+		"joinedAt": "参加日時",
+		"lastActiveAt": "最終アクティブ日時"
+	},
 	"Action": {
 		"cancel": "キャンセル",
 		"delete": "削除",

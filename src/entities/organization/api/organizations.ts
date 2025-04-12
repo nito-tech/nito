@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/shared/api/user";
 import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Organization } from "@/shared/schema";
+import type { Member, Organization, Profile } from "@/shared/schema";
 import type { Database } from "@/shared/schema";
 
 /**
@@ -107,19 +107,48 @@ export async function getOrganizationBySlug(
  */
 export async function getOrganizationMembers(
 	organizationId: Organization["id"],
-): Promise<Database["public"]["Tables"]["members"]["Row"][]> {
+): Promise<
+	(Member & {
+		profile: Pick<Profile, "id" | "email" | "display_name" | "avatar_url">;
+	})[]
+> {
 	const supabase = await createServerClient();
 
-	const { data, error } = await supabase
+	// First, get the members
+	const { data: members, error: membersError } = await supabase
 		.from("members")
 		.select("*")
 		.eq("organization_id", organizationId)
 		.eq("is_active", true)
 		.order("joined_at", { ascending: false });
 
-	if (error) {
-		throw new Error(error.message);
+	if (membersError) {
+		throw new Error(membersError.message);
 	}
+
+	// Then, get the profiles for these members
+	const { data: profiles, error: profilesError } = await supabase
+		.from("profiles")
+		.select("id, email, display_name, avatar_url")
+		.in(
+			"id",
+			members.map((member) => member.user_id),
+		);
+
+	if (profilesError) {
+		throw new Error(profilesError.message);
+	}
+
+	const data = members.map((member) => {
+		const profile = profiles.find((profile) => profile.id === member.user_id);
+		if (!profile) {
+			throw new Error(`Profile not found for user ${member.user_id}`);
+		}
+		return {
+			...member,
+			profile,
+		};
+	});
 
 	return data;
 }

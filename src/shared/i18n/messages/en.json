@@ -106,6 +106,13 @@
 			}
 		}
 	},
+	"Member": {
+		"username": "Username",
+		"email": "Email",
+		"role": "Role",
+		"joinedAt": "Joined At",
+		"lastActiveAt": "Last Active At"
+	},
 	"Action": {
 		"cancel": "Cancel",
 		"delete": "Delete",

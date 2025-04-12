@@ -64,32 +64,41 @@ export function MemberList({ organization }: Props) {
 		<Table>
 			<TableHeader>
 				<TableRow>
-					<TableHead>{t("Organization.member.avatar")}</TableHead>
-					<TableHead>{t("Organization.member.userId")}</TableHead>
-					<TableHead>{t("Organization.member.role")}</TableHead>
-					<TableHead>{t("Organization.member.joinedAt")}</TableHead>
-					<TableHead>{t("Organization.member.lastActiveAt")}</TableHead>
+					<TableHead>{t("Member.username")}</TableHead>
+					<TableHead>{t("Member.role")}</TableHead>
+					<TableHead>{t("Member.joinedAt")}</TableHead>
+					<TableHead>{t("Member.lastActiveAt")}</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
 				{members.map((member) => (
 					<TableRow key={member.id}>
 						<TableCell>
-							<Avatar className="h-8 w-8">
-								<AvatarImage
-									src={
-										member.user_id === profile?.id
-											? profile?.avatar_url || undefined
-											: undefined
-									}
-									alt={member.user_id}
-								/>
-								<AvatarFallback>
-									{member.user_id.substring(0, 2).toUpperCase()}
-								</AvatarFallback>
-							</Avatar>
+							<div className="flex items-center gap-3">
+								<Avatar className="h-8 w-8">
+									<AvatarImage
+										src={
+											member.user_id === profile?.id
+												? profile?.avatar_url || undefined
+												: undefined
+										}
+										alt={member.user_id}
+									/>
+									<AvatarFallback>
+										{member.user_id.substring(0, 2).toUpperCase()}
+									</AvatarFallback>
+								</Avatar>
+
+								<div className="flex flex-col">
+									<span className="font-medium">
+										{member.profile.display_name}
+									</span>
+									<span className="text-sm text-muted-foreground">
+										{member.profile.email || "No email"}
+									</span>
+								</div>
+							</div>
 						</TableCell>
-						<TableCell>{member.user_id}</TableCell>
 						<TableCell>
 							<Badge variant="outline">{member.role}</Badge>
 						</TableCell>
