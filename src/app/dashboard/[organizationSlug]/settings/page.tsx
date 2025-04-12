@@ -1,50 +1,88 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { redirect, useParams } from "next/navigation";
+import { use } from "react";
 
+import { UpdateOrganizationNameForm } from "@/features/organization-create/ui/update-organization-name-form";
+import { UpdateOrganizationSlugForm } from "@/features/organization-create/ui/update-organization-slug-form";
 import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
-import { useGetProjects } from "@/features/project/model/useProject";
-import type { Organization } from "@/shared/schema";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { PageTitle } from "@/shared/ui/page-title/page-title";
 
-export default function DashboardOrganizationSlugSettingsPage() {
-	const params = useParams();
+interface Props {
+	params: Promise<{ organizationSlug: string }>;
+}
 
-	console.log(params);
-
-	if (!params || !params.organizationSlug) {
-		redirect("/not-found");
-	}
-
-	const { data: organization, isPending: isOrganizationPending } =
-		useGetOrganizationBySlug({
-			slug: params.organizationSlug as Organization["slug"],
-			queryConfig: {
-				enabled: !!params.organizationSlug,
-			},
-		});
-
-	const { data: projects, isPending: isProjectsPending } = useGetProjects({
-		organizationId: organization?.id ?? "",
-		queryConfig: {
-			enabled: !!organization,
-		},
+export default function OrganizationSettingsPage({ params }: Props) {
+	const t = useTranslations();
+	const { organizationSlug } = use(params);
+	const {
+		data: organization,
+		isLoading,
+		error,
+	} = useGetOrganizationBySlug({
+		slug: organizationSlug,
 	});
 
-	const t = useTranslations();
-
-	if (isOrganizationPending || isProjectsPending) {
-		return <div>Loading...</div>;
+	if (isLoading) {
+		return (
+			<div className="container mx-auto py-8">
+				<PageTitle
+					title={t("Organization.settings.title")}
+					description={t("Organization.settings.description")}
+				/>
+				<div className="mt-8">
+					<div className="h-96 flex items-center justify-center">
+						<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary" />
+					</div>
+				</div>
+			</div>
+		);
 	}
 
-	if (!organization) {
-		return <div>Organization not found</div>;
+	if (error || !organization) {
+		return (
+			<div className="container mx-auto py-8">
+				<PageTitle
+					title={t("Organization.settings.title")}
+					description={t("Organization.settings.description")}
+				/>
+				<div className="mt-8">
+					<div className="h-96 flex items-center justify-center">
+						<div className="text-destructive">
+							{t("Organization.error.organizationNotFound")}
+						</div>
+					</div>
+				</div>
+			</div>
+		);
 	}
 
 	return (
-		<div className="container">
-			<PageTitle title={"Settings"} />
+		<div className="container mx-auto py-8">
+			<PageTitle
+				title={t("Organization.settings.title")}
+				description={t("Organization.settings.description")}
+			/>
+			<div className="mt-8 space-y-8">
+				<Card>
+					<CardHeader>
+						<CardTitle>{t("Organization.name")}</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<UpdateOrganizationNameForm organization={organization} />
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle>{t("Organization.slug")}</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<UpdateOrganizationSlugForm organization={organization} />
+					</CardContent>
+				</Card>
+			</div>
 		</div>
 	);
 }

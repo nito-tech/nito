@@ -57,8 +57,21 @@
 		"createdAt": "Created At",
 		"noOrganizations": "No organizations found",
 		"findOrganization": "Find organization...",
+		"settings": {
+			"title": "Settings",
+			"description": "Manage your organization settings",
+			"general": "General Settings",
+			"nameDescription": "This is your organization's visible name within Vercel. For example, the name of your company or department.",
+			"namePlaceholder": "Enter your organization name",
+			"slugDescription": "This is your organization's URL namespace on Vercel. Within it, your organization can inspect their projects, check out any recent activity, or configure settings to their liking.",
+			"slugPlaceholder": "Enter your organization URL",
+			"updateSuccess": "Organization settings updated successfully",
+			"updateError": "Failed to update organization settings"
+		},
 		"error": {
-			"failedToLoadOrganizations": "Failed to load organizations"
+			"failedToLoadOrganizations": "Failed to load organizations",
+			"failedToLoadMembers": "Failed to load members",
+			"organizationNotFound": "Organization not found"
 		},
 		"create": {
 			"organization": "Create Organization",
@@ -75,7 +88,20 @@
 				"alreadyExists": "This slug is already taken"
 			}
 		},
-		"noSearchResults": "No search results found"
+		"noSearchResults": "No search results found",
+		"members": "Members",
+		"membersDescription": "Manage your organization members",
+		"member": {
+			"avatar": "Avatar",
+			"userId": "User ID",
+			"role": "Role",
+			"joinedAt": "Joined At",
+			"lastActiveAt": "Last Active At",
+			"actions": "Actions",
+			"manageAccess": "Manage Access",
+			"removeFromOrganization": "Remove from Organization"
+		},
+		"noMembers": "No members found"
 	},
 	"Project": {
 		"noProjects": "No projects found",
@@ -94,10 +120,18 @@
 			}
 		}
 	},
+	"Member": {
+		"username": "Username",
+		"email": "Email",
+		"role": "Role",
+		"joinedAt": "Joined At",
+		"lastActiveAt": "Last Active At"
+	},
 	"Action": {
 		"cancel": "Cancel",
 		"delete": "Delete",
-		"deleting": "Deleting..."
+		"deleting": "Deleting...",
+		"save": "Save"
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository",

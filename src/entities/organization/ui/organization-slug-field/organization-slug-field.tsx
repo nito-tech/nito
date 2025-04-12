@@ -8,6 +8,7 @@ import type { FieldValues, Path } from "react-hook-form";
 import { z } from "zod";
 
 import { OrganizationSlugSchema } from "@/entities/organization/model/organization-slug-schema";
+import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import {
 	FormControl,
 	FormField,
@@ -40,6 +41,7 @@ export function OrganizationSlugField<T extends FieldValues>({
 
 	const slug = form.watch(name);
 	const { checkOrganizationSlugExists, isLoading } = useOrganizationSlug();
+	const { currentOrganization } = useOrganizationStore();
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -48,7 +50,12 @@ export function OrganizationSlugField<T extends FieldValues>({
 
 			try {
 				OrganizationSlugSchema(t).parse(slug);
-				await checkOrganizationSlugExists(slug);
+
+				// Skip slug existence check if the slug matches the current organization's slug
+				if (slug.toLowerCase() !== currentOrganization?.slug?.toLowerCase()) {
+					await checkOrganizationSlugExists(slug);
+				}
+
 				form.clearErrors(name);
 			} catch (error) {
 				// If the error is a parse error, don't set the error

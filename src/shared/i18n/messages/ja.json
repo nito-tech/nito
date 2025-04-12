@@ -19,20 +19,20 @@
 		"logOut": "ログアウト",
 		"dontHaveAccount": "アカウントをお持ちでない方",
 		"alreadyHaveAccount": "すでにアカウントをお持ちの方",
-		"logInWithGithub": "GitHubでログイン",
+		"logInWithGithub": "GitHubで続ける",
 		"username": "ユーザー名",
-		"usernameCanBeChanged": "あとで変更できます",
+		"usernameCanBeChanged": "後で変更可能です",
 		"validation": {
 			"emailRequired": "メールアドレスを入力してください",
 			"emailInvalid": "有効なメールアドレスを入力してください",
 			"emailMinLength": "メールアドレスを入力してください",
 			"passwordRequired": "パスワードを入力してください",
 			"passwordMinLength": "パスワードは10文字以上で入力してください",
-			"passwordMaxLength": "パスワードは128文字以下で入力してください",
+			"passwordMaxLength": "パスワードは128文字未満で入力してください",
 			"usernameRequired": "ユーザー名を入力してください",
 			"usernameMinLength": "ユーザー名を入力してください",
-			"usernameMaxLength": "ユーザー名は50文字以下で入力してください",
-			"usernameInvalidChars": "ユーザー名は半角英数字とアンダースコアのみ使用できます",
+			"usernameMaxLength": "ユーザー名は50文字未満で入力してください",
+			"usernameInvalidChars": "ユーザー名は英数字とアンダースコアのみ使用できます",
 			"usernameReserved": "このユーザー名は使用できません",
 			"usernameAlreadyExists": "このユーザー名は既に使用されています"
 		}
@@ -44,75 +44,113 @@
 		"accountPreferences": "アカウント設定",
 		"accountPreferencesDescription": "アカウントの設定と環境設定を管理します。",
 		"dangerZone": "危険な操作",
-		"dangerZoneDescription": "取り消しできない破壊的な操作です。",
-		"deleteAccount": "アカウントの削除",
+		"dangerZoneDescription": "取り消し不可能で破壊的な操作です。",
+		"deleteAccount": "アカウントを削除",
 		"deleteAccountDescription": "アカウントと関連するすべてのデータを完全に削除します。",
-		"deleteAccountConfirmation": "本当によろしいですか？",
-		"deleteAccountConfirmationDescription": "この操作は取り消すことができません。アカウントとデータがサーバーから完全に削除されます。",
+		"deleteAccountConfirmation": "本当に削除しますか？",
+		"deleteAccountConfirmationDescription": "この操作は取り消せません。アカウントを完全に削除し、サーバーからデータを削除します。",
 		"deleteAccountConfirm": "アカウントを削除"
 	},
 	"Organization": {
 		"name": "組織名",
-		"slug": "組織のURL",
+		"slug": "組織URL",
 		"createdAt": "作成日時",
 		"noOrganizations": "組織が見つかりません",
 		"findOrganization": "組織を検索...",
+		"settings": {
+			"title": "設定",
+			"description": "組織の設定を管理します",
+			"general": "一般設定",
+			"nameDescription": "これはVercel上で表示される組織名です。例えば、会社名や部署名などを設定します。",
+			"namePlaceholder": "組織名を入力",
+			"slugDescription": "これはVercel上での組織のURLネームスペースです。このURLを通じて、組織のメンバーはプロジェクトの確認、最近のアクティビティの確認、設定の変更などを行うことができます。",
+			"slugPlaceholder": "組織URLを入力",
+			"updateSuccess": "組織設定を更新しました",
+			"updateError": "組織設定の更新に失敗しました"
+		},
 		"error": {
-			"failedToLoadOrganizations": "組織の読み込みに失敗しました"
+			"failedToLoadOrganizations": "組織の読み込みに失敗しました",
+			"failedToLoadMembers": "メンバーの読み込みに失敗しました",
+			"organizationNotFound": "組織が見つかりません"
 		},
 		"create": {
 			"organization": "組織を作成",
-			"organizationDescription": "プロジェクトとチームを管理する新しい組織を作成します。",
+			"organizationDescription": "プロジェクトとチームを管理するための新しい組織を作成します。",
 			"organizationConfirm": "組織を作成"
 		},
 		"validation": {
 			"nameRequired": "組織名を入力してください",
-			"nameInvalidChars": "組織名は半角英数字、半角スペース、アンダースコア、ハイフンのみ使用できます",
+			"nameInvalidChars": "組織名は英数字、半角スペース、アンダースコア、ハイフンのみ使用できます",
+			"nameMinLength": "組織名は2文字以上で入力してください",
+			"nameMaxLength": "組織名は50文字未満で入力してください",
 			"slug": {
-				"required": "組織のURLを入力してください",
-				"invalidChars": "組織のURLは半角英数字とハイフンのみ使用できます",
-				"invalidFormat": "組織のURLは英数字で始まり、英数字で終わる必要があります。また、先頭と末尾にハイフンは使用できません",
-				"alreadyExists": "このURLは既に使用されています"
+				"required": "組織URLを入力してください",
+				"invalidChars": "組織URLは英数字とハイフンのみ使用できます",
+				"invalidFormat": "組織URLは英数字で始まり、英数字で終わる必要があります。先頭または末尾にハイフンを含めることはできません",
+				"alreadyExists": "このURLは既に使用されています",
+				"minLength": "組織URLは2文字以上で入力してください",
+				"maxLength": "組織URLは50文字未満で入力してください"
 			}
 		},
-		"noSearchResults": "検索結果が見つかりません"
+		"noSearchResults": "検索結果が見つかりません",
+		"members": "メンバー",
+		"membersDescription": "組織のメンバーを管理します",
+		"member": {
+			"avatar": "アバター",
+			"userId": "ユーザーID",
+			"role": "ロール",
+			"joinedAt": "参加日時",
+			"lastActiveAt": "最終アクティブ日時",
+			"actions": "操作",
+			"manageAccess": "アクセス権限を編集",
+			"removeFromOrganization": "組織から削除"
+		},
+		"noMembers": "メンバーが見つかりません"
 	},
 	"Project": {
 		"noProjects": "プロジェクトが見つかりません",
 		"findProject": "プロジェクトを検索...",
 		"create": {
 			"project": "プロジェクトを作成",
-			"projectDescription": "プロジェクトとチームを管理する新しいプロジェクトを作成します。",
+			"projectDescription": "プロジェクトとチームを管理するための新しいプロジェクトを作成します。",
 			"projectConfirm": "プロジェクトを作成"
 		},
 		"validation": {
 			"name": {
-				"required": "プロジェクト名を入力してください",
-				"maxLength": "プロジェクト名は100文字以下で入力してください",
-				"format": "プロジェクト名は小文字のアルファベット、数字、および次の記号のみ使用できます: '.', '_', '-'",
+				"required": "プロジェクト名は必須です",
+				"maxLength": "プロジェクト名は100文字未満で入力してください",
+				"format": "プロジェクト名は小文字で、英数字と '.', '_', '-' のみ使用できます",
 				"noSpaces": "プロジェクト名にスペースは使用できません"
 			}
 		}
 	},
+	"Member": {
+		"username": "ユーザー名",
+		"email": "メールアドレス",
+		"role": "ロール",
+		"joinedAt": "参加日時",
+		"lastActiveAt": "最終アクティブ日時"
+	},
 	"Action": {
 		"cancel": "キャンセル",
 		"delete": "削除",
-		"deleting": "削除中..."
+		"deleting": "削除中...",
+		"save": "保存"
 	},
-	"commingSoon": "準備中...",
+	"commingSoon": "近日公開...",
 	"connectToRepository": "リポジトリに接続",
 	"Error": {
-		"title": "エラーが発生しました :(",
+		"title": "申し訳ありません。何か問題が発生しました :( ",
 		"queryError": "データの取得中に問題が発生しました: {message}",
 		"mutationError": "リクエストの処理中に問題が発生しました: {message}",
-		"clientError": "入力を確認して再度お試しください: {message}",
-		"serverError": "技術的な問題が発生しています。後でもう一度お試しください: {message}",
-		"unknownError": "予期せぬエラーが発生しました。後でもう一度お試しください。"
+		"clientError": "入力内容を確認して再度お試しください: {message}",
+		"serverError": "技術的な問題が発生しています。後ほど再度お試しください: {message}",
+		"unknownError": "予期せぬエラーが発生しました。後ほど再度お試しください。"
 	},
 	"refresh": "更新",
 	"notFound": {
 		"title": "ページが見つかりません",
-		"description": "お探しのページは存在しないか、移動した可能性があります。ご心配なく、優れた探検家でも時には道に迷うことがあります。",
+		"description": "お探しのページは存在しないか、移動された可能性があります。心配しないでください。最高の探検家でも時々道に迷うことがあります。",
 		"goToHome": "ホームに戻る"
 	}
 }

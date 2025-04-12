@@ -1,13 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
 	getOrganizationBySlug,
+	getOrganizationMembers,
 	getOrganizations,
+	updateOrganization,
 } from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
-import type { QueryConfig } from "@/shared/lib/reqct-query";
+import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
 import type { Organization } from "@/shared/schema";
 
 type UseOrganizationsOptions = {
@@ -50,6 +52,45 @@ export function useGetOrganizationBySlug({
 		queryKey: queryKeys.organization.bySlug(slug),
 		queryFn: () => getOrganizationBySlug(slug),
 		enabled: !!slug,
+		...queryConfig,
+	});
+}
+
+type UseOrganizationMembersOptions = {
+	organizationId: Organization["id"];
+	queryConfig?: QueryConfig<typeof getOrganizationMembers>;
+};
+
+/**
+ * Get members of an organization
+ *
+ * @param organizationId The ID of the organization whose members to fetch
+ * @returns Query result containing the list of members
+ */
+export function useGetOrganizationMembers({
+	organizationId,
+	queryConfig = {},
+}: UseOrganizationMembersOptions) {
+	return useQuery({
+		queryKey: queryKeys.organization.members(organizationId),
+		queryFn: () => getOrganizationMembers(organizationId),
+		enabled: !!organizationId,
+		...queryConfig,
+	});
+}
+
+type UseUpdateOrganizationOptions = {
+	organization: { id: Organization["id"] };
+	queryConfig?: MutationConfig<typeof updateOrganization>;
+};
+
+export function useUpdateOrganization({
+	organization,
+	queryConfig,
+}: UseUpdateOrganizationOptions) {
+	return useMutation({
+		mutationFn: (data: Partial<Pick<Organization, "name" | "slug">>) =>
+			updateOrganization({ id: organization.id, ...data }),
 		...queryConfig,
 	});
 }

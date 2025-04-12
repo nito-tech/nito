@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/shared/api/user";
 import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Organization } from "@/shared/schema";
+import type { Member, Organization, Profile } from "@/shared/schema";
+import type { Database } from "@/shared/schema";
 
 /**
  * Fetch organizations where the user is a member
@@ -96,4 +97,79 @@ export async function getOrganizationBySlug(
 	}
 
 	return data;
+}
+
+/**
+ * Fetch members of an organization
+ *
+ * @param organizationId The ID of the organization whose members to fetch
+ * @returns A promise that resolves to an array of members
+ */
+export async function getOrganizationMembers(
+	organizationId: Organization["id"],
+): Promise<
+	(Member & {
+		profile: Pick<Profile, "id" | "email" | "display_name" | "avatar_url">;
+	})[]
+> {
+	const supabase = await createServerClient();
+
+	// First, get the members
+	const { data: members, error: membersError } = await supabase
+		.from("members")
+		.select("*")
+		.eq("organization_id", organizationId)
+		.eq("is_active", true)
+		.order("joined_at", { ascending: false });
+
+	if (membersError) {
+		throw new Error(membersError.message);
+	}
+
+	// Then, get the profiles for these members
+	const { data: profiles, error: profilesError } = await supabase
+		.from("profiles")
+		.select("id, email, display_name, avatar_url")
+		.in(
+			"id",
+			members.map((member) => member.user_id),
+		);
+
+	if (profilesError) {
+		throw new Error(profilesError.message);
+	}
+
+	const data = members.map((member) => {
+		const profile = profiles.find((profile) => profile.id === member.user_id);
+		if (!profile) {
+			throw new Error(`Profile not found for user ${member.user_id}`);
+		}
+		return {
+			...member,
+			profile,
+		};
+	});
+
+	return data;
+}
+
+export async function updateOrganization(
+	data: { id: Organization["id"] } & Partial<
+		Pick<Organization, "name" | "slug">
+	>,
+) {
+	const supabase = await createServerClient();
+
+	const updateData: Partial<Pick<Organization, "name" | "slug">> = {};
+	if (data.name !== undefined) updateData.name = data.name;
+	if (data.slug !== undefined) updateData.slug = data.slug;
+
+	const { error } = await supabase
+		.from("organizations")
+		.update(updateData)
+		.eq("id", data.id);
+
+	if (error) {
+		throw new Error(error.message);
+	}
 }
