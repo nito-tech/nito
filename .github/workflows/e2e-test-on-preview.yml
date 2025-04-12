@@ -72,13 +72,13 @@ jobs:
 
     - name: Install Playwright Browsers
       if: steps.playwright-browsers-cache.outputs.cache-hit != 'true'
-      run: pnpm exec playwright install --with-deps
+      run: pnpm --filter @nito/web exec playwright install --with-deps
 
     # Install only dependencies
     # Browser installation uses cache, but dependencies must be installed without using cache or the following error occurs
     # `Error: browserType.launch: Target page, context or browser has been closed`
     - name: Install Playwright dependencies
-      run: pnpm exec playwright install-deps
+      run: pnpm --filter @nito/web exec playwright install-deps
 
     # ------------------------------------
     # Run Playwright tests
