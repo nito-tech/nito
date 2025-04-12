@@ -57,6 +57,17 @@
 		"createdAt": "Created At",
 		"noOrganizations": "No organizations found",
 		"findOrganization": "Find organization...",
+		"settings": {
+			"title": "Settings",
+			"description": "Manage your organization settings",
+			"general": "General Settings",
+			"nameDescription": "This is your organization's visible name within Vercel. For example, the name of your company or department.",
+			"namePlaceholder": "Enter your organization name",
+			"slugDescription": "This is your organization's URL namespace on Vercel. Within it, your organization can inspect their projects, check out any recent activity, or configure settings to their liking.",
+			"slugPlaceholder": "Enter your organization URL",
+			"updateSuccess": "Organization settings updated successfully",
+			"updateError": "Failed to update organization settings"
+		},
 		"error": {
 			"failedToLoadOrganizations": "Failed to load organizations",
 			"failedToLoadMembers": "Failed to load members",
@@ -119,7 +130,8 @@
 	"Action": {
 		"cancel": "Cancel",
 		"delete": "Delete",
-		"deleting": "Deleting..."
+		"deleting": "Deleting...",
+		"save": "Save"
 	},
 	"commingSoon": "Comming soon...",
 	"connectToRepository": "Connect to repository",

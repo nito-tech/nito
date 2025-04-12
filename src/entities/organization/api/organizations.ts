@@ -152,3 +152,24 @@ export async function getOrganizationMembers(
 
 	return data;
 }
+
+export async function updateOrganization(
+	data: { id: Organization["id"] } & Partial<
+		Pick<Organization, "name" | "slug">
+	>,
+) {
+	const supabase = await createServerClient();
+
+	const updateData: Partial<Pick<Organization, "name" | "slug">> = {};
+	if (data.name !== undefined) updateData.name = data.name;
+	if (data.slug !== undefined) updateData.slug = data.slug;
+
+	const { error } = await supabase
+		.from("organizations")
+		.update(updateData)
+		.eq("id", data.id);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+}

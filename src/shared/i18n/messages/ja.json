@@ -57,6 +57,17 @@
 		"createdAt": "作成日時",
 		"noOrganizations": "組織が見つかりません",
 		"findOrganization": "組織を検索...",
+		"settings": {
+			"title": "設定",
+			"description": "組織の設定を管理します",
+			"general": "一般設定",
+			"nameDescription": "これはVercel上で表示される組織名です。例えば、会社名や部署名などを設定します。",
+			"namePlaceholder": "組織名を入力",
+			"slugDescription": "これはVercel上での組織のURLネームスペースです。このURLを通じて、組織のメンバーはプロジェクトの確認、最近のアクティビティの確認、設定の変更などを行うことができます。",
+			"slugPlaceholder": "組織URLを入力",
+			"updateSuccess": "組織設定を更新しました",
+			"updateError": "組織設定の更新に失敗しました"
+		},
 		"error": {
 			"failedToLoadOrganizations": "組織の読み込みに失敗しました",
 			"failedToLoadMembers": "メンバーの読み込みに失敗しました",
@@ -70,11 +81,15 @@
 		"validation": {
 			"nameRequired": "組織名を入力してください",
 			"nameInvalidChars": "組織名は英数字、半角スペース、アンダースコア、ハイフンのみ使用できます",
+			"nameMinLength": "組織名は2文字以上で入力してください",
+			"nameMaxLength": "組織名は50文字未満で入力してください",
 			"slug": {
 				"required": "組織URLを入力してください",
 				"invalidChars": "組織URLは英数字とハイフンのみ使用できます",
 				"invalidFormat": "組織URLは英数字で始まり、英数字で終わる必要があります。先頭または末尾にハイフンを含めることはできません",
-				"alreadyExists": "このURLは既に使用されています"
+				"alreadyExists": "このURLは既に使用されています",
+				"minLength": "組織URLは2文字以上で入力してください",
+				"maxLength": "組織URLは50文字未満で入力してください"
 			}
 		},
 		"noSearchResults": "検索結果が見つかりません",
@@ -119,7 +134,8 @@
 	"Action": {
 		"cancel": "キャンセル",
 		"delete": "削除",
-		"deleting": "削除中..."
+		"deleting": "削除中...",
+		"save": "保存"
 	},
 	"commingSoon": "近日公開...",
 	"connectToRepository": "リポジトリに接続",
