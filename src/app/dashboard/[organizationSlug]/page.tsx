@@ -1,12 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 
 import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
 import { useGetProjects } from "@/features/project/model/useProject";
 import ProjectDataTable from "@/features/project/ui/project-data-table/project-data-table";
 import type { Organization } from "@/shared/schema";
+import { Button } from "@/shared/ui/button";
 import { PageTitle } from "@/shared/ui/page-title/page-title";
 
 export default function DashboardOrganizationSlugPage() {
@@ -42,12 +44,16 @@ export default function DashboardOrganizationSlugPage() {
 	}
 
 	return (
-		<div className="container">
+		<div className="container space-y-4">
 			<PageTitle
 				title={organization.name}
 				description={organization.description ?? ""}
 			/>
-
+			<div className="flex justify-end">
+				<Link href="/projects/new">
+					<Button>{t("Project.create.project")}</Button>
+				</Link>
+			</div>
 			<ProjectDataTable projects={projects ?? []} />
 		</div>
 	);

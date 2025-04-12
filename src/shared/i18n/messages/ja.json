@@ -80,6 +80,11 @@
 	"Project": {
 		"noProjects": "プロジェクトが見つかりません",
 		"findProject": "プロジェクトを検索...",
+		"create": {
+			"project": "プロジェクトを作成",
+			"projectDescription": "プロジェクトとチームを管理する新しいプロジェクトを作成します。",
+			"projectConfirm": "プロジェクトを作成"
+		},
 		"validation": {
 			"name": {
 				"required": "プロジェクト名を入力してください",
