@@ -6,7 +6,20 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@commitlint/cli':
+        specifier: ^19.8.0
+        version: 19.8.0(@types/node@22.14.1)(typescript@5.8.3)
+      '@commitlint/config-conventional':
+        specifier: ^19.8.0
+        version: 19.8.0
+      '@commitlint/types':
+        specifier: ^19.8.0
+        version: 19.8.0
+      lefthook:
+        specifier: ^1.11.9
+        version: 1.11.9
 
   apps/web:
     dependencies:

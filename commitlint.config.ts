@@ -23,6 +23,8 @@ const config: UserConfig = {
 		 */
 		"body-max-line-length": [0, "always", 0],
 	},
+	helpUrl:
+		"https://github.com/conventional-changelog/commitlint/#what-is-commitlint",
 };
 
 export default config;
