@@ -80,6 +80,11 @@
 	"Project": {
 		"noProjects": "No projects found",
 		"findProject": "Find project...",
+		"create": {
+			"project": "Create Project",
+			"projectDescription": "Create a new project to manage your projects and teams.",
+			"projectConfirm": "Create Project"
+		},
 		"validation": {
 			"name": {
 				"required": "Project name is required",
