@@ -1,5 +1,6 @@
 "use client";
 
+import { format } from "date-fns";
 import { MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -111,12 +112,8 @@ export function MemberList({ organization }: Props) {
 						<TableCell>
 							<Badge variant="outline">{member.role}</Badge>
 						</TableCell>
-						<TableCell>
-							{new Date(member.joined_at).toLocaleDateString()}
-						</TableCell>
-						<TableCell>
-							{new Date(member.last_active_at).toLocaleDateString()}
-						</TableCell>
+						<TableCell>{format(member.joined_at, "yyyy-MM-dd")}</TableCell>
+						<TableCell>{format(member.last_active_at, "yyyy-MM-dd")}</TableCell>
 						<TableCell>
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
