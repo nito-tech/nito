@@ -10,6 +10,7 @@ import { useOrganizationStore } from "@/entities/organization/model/organization
 import { useProjectStore } from "@/entities/project/model/project-store";
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { ProjectSelector } from "@/features/project/ui/projector-selector/project-selector";
+import ProfileControler from "@/features/user/ui/profile-controler/profile-controler";
 import type { Organization, Project } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import {
@@ -171,11 +172,7 @@ export default function Header() {
 				</div>
 
 				{/* Right section: Actions */}
-				<div className="flex items-center space-x-2">
-					<div className="w-8 h-8 rounded flex items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-500 text-white font-medium">
-						N
-					</div>
-				</div>
+				<ProfileControler />
 			</div>
 
 			{subHeaderTabs.length > 0 && (
