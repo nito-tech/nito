@@ -61,11 +61,15 @@ type SubHeaderTab = {
 function organizationTabs(organization: Organization): SubHeaderTab[] {
 	return [
 		{
-			label: "Overview(organization)",
+			label: "Overview",
 			href: `/dashboard/${organization.slug}`,
 		},
 		{
-			label: "Settings(organization)",
+			label: "Members",
+			href: `/dashboard/${organization.slug}/members`,
+		},
+		{
+			label: "Settings",
 			href: `/dashboard/${organization.slug}/settings`,
 		},
 	];
@@ -77,11 +81,11 @@ function projectTabs(
 ): SubHeaderTab[] {
 	return [
 		{
-			label: "Overview(project)",
+			label: "Overview",
 			href: `/dashboard/${organization.slug}/projects/${project.name}`,
 		},
 		{
-			label: "Settings(project)",
+			label: "Settings",
 			href: `/dashboard/${organization.slug}/projects/${project.name}/settings`,
 		},
 	];
