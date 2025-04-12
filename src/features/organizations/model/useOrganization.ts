@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import {
 	getOrganizationBySlug,
+	getOrganizationMembers,
 	getOrganizations,
 } from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
@@ -50,6 +51,29 @@ export function useGetOrganizationBySlug({
 		queryKey: queryKeys.organization.bySlug(slug),
 		queryFn: () => getOrganizationBySlug(slug),
 		enabled: !!slug,
+		...queryConfig,
+	});
+}
+
+type UseOrganizationMembersOptions = {
+	organizationId: Organization["id"];
+	queryConfig?: QueryConfig<typeof getOrganizationMembers>;
+};
+
+/**
+ * Get members of an organization
+ *
+ * @param organizationId The ID of the organization whose members to fetch
+ * @returns Query result containing the list of members
+ */
+export function useGetOrganizationMembers({
+	organizationId,
+	queryConfig = {},
+}: UseOrganizationMembersOptions) {
+	return useQuery({
+		queryKey: queryKeys.organization.members(organizationId),
+		queryFn: () => getOrganizationMembers(organizationId),
+		enabled: !!organizationId,
 		...queryConfig,
 	});
 }

@@ -8,8 +8,10 @@ export const queryKeys = {
 		get: (profileId: Profile["id"] | undefined) => ["profile", profileId],
 	},
 	organization: {
-		all: ["organization"],
-		bySlug: (slug: Organization["slug"]) => ["organization", slug],
+		all: ["organization"] as const,
+		bySlug: (slug: string) => ["organization", slug] as const,
+		members: (organizationId: string) =>
+			["organization", organizationId, "members"] as const,
 	} as const,
 	project: {
 		all: (organizationSlug: Organization["slug"]) => [

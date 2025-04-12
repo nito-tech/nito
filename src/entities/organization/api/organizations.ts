@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getUser } from "@/shared/api/user";
 import { createServerClient } from "@/shared/lib/supabase/server";
 import type { Organization } from "@/shared/schema";
+import type { Database } from "@/shared/schema";
 
 /**
  * Fetch organizations where the user is a member
@@ -93,6 +94,31 @@ export async function getOrganizationBySlug(
 	const isMember = await isUserOrganizationMember(data.id);
 	if (!isMember) {
 		redirect("/not-found");
+	}
+
+	return data;
+}
+
+/**
+ * Fetch members of an organization
+ *
+ * @param organizationId The ID of the organization whose members to fetch
+ * @returns A promise that resolves to an array of members
+ */
+export async function getOrganizationMembers(
+	organizationId: Organization["id"],
+): Promise<Database["public"]["Tables"]["members"]["Row"][]> {
+	const supabase = await createServerClient();
+
+	const { data, error } = await supabase
+		.from("members")
+		.select("*")
+		.eq("organization_id", organizationId)
+		.eq("is_active", true)
+		.order("joined_at", { ascending: false });
+
+	if (error) {
+		throw new Error(error.message);
 	}
 
 	return data;

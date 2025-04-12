@@ -58,7 +58,9 @@
 		"noOrganizations": "No organizations found",
 		"findOrganization": "Find organization...",
 		"error": {
-			"failedToLoadOrganizations": "Failed to load organizations"
+			"failedToLoadOrganizations": "Failed to load organizations",
+			"failedToLoadMembers": "Failed to load members",
+			"organizationNotFound": "Organization not found"
 		},
 		"create": {
 			"organization": "Create Organization",
@@ -75,7 +77,17 @@
 				"alreadyExists": "This slug is already taken"
 			}
 		},
-		"noSearchResults": "No search results found"
+		"noSearchResults": "No search results found",
+		"members": "Members",
+		"membersDescription": "Manage your organization members",
+		"member": {
+			"avatar": "Avatar",
+			"userId": "User ID",
+			"role": "Role",
+			"joinedAt": "Joined At",
+			"lastActiveAt": "Last Active At"
+		},
+		"noMembers": "No members found"
 	},
 	"Project": {
 		"noProjects": "No projects found",
