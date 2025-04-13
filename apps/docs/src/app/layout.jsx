@@ -1,26 +1,27 @@
-/* eslint-env node */
+import Image from "next/image";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Banner, Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import "nextra-theme-docs/style.css";
 
+// TODO: Commonize with apps/web
+import githubSvg from "../../icon/github.svg";
+
 export const metadata = {
-	metadataBase: new URL("https://nextra.site"),
 	title: {
-		template: "%s - Nextra",
+		template: "%s - Nito",
 	},
-	description: "Nextra: the Next.js site builder",
-	applicationName: "Nextra",
+	applicationName: "Nito",
 	generator: "Next.js",
 	appleWebApp: {
-		title: "Nextra",
+		title: "Nito Docs",
 	},
 	other: {
 		"msapplication-TileImage": "/ms-icon-144x144.png",
 		"msapplication-TileColor": "#fff",
 	},
 	twitter: {
-		site: "https://nextra.site",
+		site: "https://nito.tech",
 	},
 };
 
@@ -29,12 +30,20 @@ export default async function RootLayout({ children }) {
 		<Navbar
 			logo={
 				<div>
-					<b>Nextra</b>{" "}
-					<span style={{ opacity: "60%" }}>The Next Docs Builder</span>
+					<b>Nito Docs</b>{" "}
+					<span style={{ opacity: "60%" }}>for Developers</span>
 				</div>
 			}
-			// Next.js discord server
-			chatLink="https://discord.gg/hEM84NMkRv"
+			chatIcon={
+				<Image
+					src={githubSvg}
+					alt="GitHub Icon"
+					width={24}
+					height={24}
+					className="invert dark:invert-0"
+				/>
+			}
+			chatLink="https://github.com/nito-tech/nito"
 		/>
 	);
 	const pageMap = await getPageMap();
@@ -43,11 +52,11 @@ export default async function RootLayout({ children }) {
 			<Head faviconGlyph="✦" />
 			<body>
 				<Layout
-					banner={<Banner storageKey="Nextra 2">Nextra 2 Alpha</Banner>}
+					// banner={<Banner storageKey="Nextra 2">Nextra 2 Alpha</Banner>}
 					navbar={navbar}
-					footer={<Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>}
+					footer={<Footer>MIT {new Date().getFullYear()} © Nito.</Footer>}
 					editLink="Edit this page on GitHub"
-					docsRepositoryBase="https://github.com/shuding/nextra/blob/main/examples/docs"
+					docsRepositoryBase="https://github.com/nito-tech/nito/tree/main/apps/docs"
 					sidebar={{ defaultMenuCollapseLevel: 1 }}
 					pageMap={pageMap}
 				>
