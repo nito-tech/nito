@@ -7,13 +7,9 @@ import { cn } from "@/shared/utils/cn";
 const getVariantIcon = (variant: Variant) => {
 	switch (variant) {
 		case "info":
-			return (
-				<InfoIcon className="text-info-foreground dark:text-info-foreground h-5 w-5" />
-			);
+			return <InfoIcon className="text-info-foreground h-5 w-5" />;
 		case "success":
-			return (
-				<CircleCheckIcon className="text-success-foreground dark:text-success-foreground/70 h-5 w-5" />
-			);
+			return <CircleCheckIcon className="text-success-foreground h-5 w-5" />;
 		case "destructive":
 			return (
 				<CircleXIcon className="text-destructive dark:text-invalid/70 h-5 w-5" />

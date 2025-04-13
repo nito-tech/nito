@@ -32,4 +32,4 @@ jobs:
         run: pnpm --filter @nito/web exec playwright install chromium
 
       - name: Run Storybook tests
-        run: pnpm --filter @nito/web test -- --project=storybook -- --no-threads
+        run: pnpm --filter @nito/web test -- --project=storybook

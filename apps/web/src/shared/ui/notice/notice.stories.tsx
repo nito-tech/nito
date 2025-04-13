@@ -24,9 +24,6 @@ export const Default: Story = {
 		text: "This is a default notice message.",
 	},
 	tags: ["code-only"],
-	play: async () => {
-		// Empty play function to fix Vitest bug
-	},
 };
 
 /**
