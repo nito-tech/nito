@@ -10,8 +10,32 @@ permissions:
   pull-requests: write
 
 jobs:
-  # Check if there have been any changes in supabase/migrations/*.
+  # Skip if no changes in apps/web
+  check-web-app-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.check_changes.outputs.has_changes }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in apps/web
+        id: check_changes
+        run: |
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD)
+          if echo "$CHANGED_FILES" | grep -q "^apps/web/"; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "There is a change in apps/web"
+          else
+            echo "No changes in apps/web, skipping migration and reset DB"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Check if there have been any changes in apps/websupabase/migrations/*.
   check-paths:
+    needs: check-web-app-changes
+    if: needs.check-web-app-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     outputs:
       should_run_migration: ${{ steps.check-migration-files.outputs.should_run_migration }}
