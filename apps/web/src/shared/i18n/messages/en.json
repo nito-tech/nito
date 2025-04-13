@@ -104,6 +104,7 @@
 		"noMembers": "No members found"
 	},
 	"Project": {
+		"name": "Project Name",
 		"noProjects": "No projects found",
 		"findProject": "Find project...",
 		"create": {

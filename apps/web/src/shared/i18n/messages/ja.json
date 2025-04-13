@@ -108,6 +108,7 @@
 		"noMembers": "メンバーが見つかりません"
 	},
 	"Project": {
+		"name": "プロジェクト名",
 		"noProjects": "プロジェクトが見つかりません",
 		"findProject": "プロジェクトを検索...",
 		"create": {
