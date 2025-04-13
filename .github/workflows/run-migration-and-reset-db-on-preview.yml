@@ -24,7 +24,7 @@ jobs:
           git fetch --prune --unshallow
 
           # Check if the migration file has changed
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E '^supabase/migrations/' || true)
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E '^apps/web/supabase/migrations/' || true)
           if [ -n "$CHANGED_FILES" ]; then
             echo "Migration files were changed, should run migration"
             echo "should_run_migration=true" >> $GITHUB_OUTPUT
@@ -58,7 +58,7 @@ jobs:
       run: npm install --global vercel@latest
 
     - name: Pull Preview Environment Variables
-      run: vercel env pull .env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+      run: vercel env pull apps/web/.env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -74,14 +74,14 @@ jobs:
     # Use Vercel environment variables
     - name: Link to the project
       run: |
-        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID .env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD .env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN .env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
         if [ -z "$SUPABASE_PROJECT_ID" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
           echo "Error: Missing Supabase environment variables"
           exit 1
         fi
-        supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+        cd apps/web && supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
       env:
         SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
 
@@ -90,7 +90,7 @@ jobs:
       run: |
         set -e
         # supabase migration up
-        supabase db push
+        cd apps/web && supabase db push
 
     # ------------------------------------
     # Reset Supabase Database
@@ -98,7 +98,7 @@ jobs:
     - name: Reset Supabase Database
       run: |
         set -e
-        echo "yes" | supabase db reset --linked
+        cd apps/web && echo "yes" | supabase db reset --linked
 
   result:
     needs: [check-paths, migration]

@@ -5,10 +5,6 @@
 		"clientKind": "git",
 		"useIgnoreFile": false
 	},
-	"files": {
-		"ignoreUnknown": false,
-		"ignore": [".next", "coverage", "storybook-static/**", "playwright-report"]
-	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"

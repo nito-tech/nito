@@ -29,10 +29,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install chromium
+        run: pnpm --filter @nito/web exec playwright install chromium
 
-      - name: Run Vitest tests
-        run: pnpm test -- --coverage.enabled true --project=vitest
+      - name: Run Vitest tests with coverage
+        run: pnpm --filter @nito/web test -- --coverage.enabled true --project=vitest
+
+      - name: Copy coverage files to root directory
+        run: |
+          mkdir -p coverage
+          cp -r ./apps/web/coverage/* ./coverage/
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2

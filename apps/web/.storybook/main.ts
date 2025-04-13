@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { StorybookConfig } from "@storybook/experimental-nextjs-vite";
 
 const config: StorybookConfig = {
@@ -20,31 +21,34 @@ const config: StorybookConfig = {
 	core: {
 		disableTelemetry: true,
 	},
-	// viteFinal: async (config) => {
-	// 	return {
-	// 		...config,
-	// 		server: {
-	// 			...config.server,
-	// 			port: 6006,
-	// 		},
-	// 		resolve: {
-	// 			alias: {
-	// 				"@": path.resolve(__dirname, "../src"),
-	// 				components: path.resolve(__dirname, "../src/components"),
-	// 				lib: path.resolve(__dirname, "../src/lib"),
-	// 			},
-	// 		},
-	// 		optimizeDeps: {
-	// 			include: [
-	// 				"react-hook-form",
-	// 				"@hookform/resolvers/zod",
-	// 				"next-intl",
-	// 				"lucide-react",
-	// 				"next/image",
-	// 			],
-	// 		},
-	// 	};
-	// },
+	viteFinal: async (config) => {
+		return {
+			...config,
+			server: {
+				...config.server,
+				port: 6006,
+			},
+			resolve: {
+				alias: {
+					"@": path.resolve(__dirname, "../src"),
+					// "#features": path.resolve(__dirname, "../src/features"),
+					// "#entities": path.resolve(__dirname, "../src/entities"),
+					// "#shared": path.resolve(__dirname, "../src/shared"),
+					components: path.resolve(__dirname, "../src/components"),
+					lib: path.resolve(__dirname, "../src/lib"),
+				},
+			},
+			optimizeDeps: {
+				include: [
+					"react-hook-form",
+					"@hookform/resolvers/zod",
+					"next-intl",
+					"lucide-react",
+					"next/image",
+				],
+			},
+		};
+	},
 };
 
 export default config;

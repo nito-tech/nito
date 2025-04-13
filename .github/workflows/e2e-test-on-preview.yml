@@ -40,7 +40,7 @@ jobs:
       run: npm install --global vercel@latest
 
     - name: Pull Preview Environment Variables
-      run: vercel env pull .env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+      run: vercel env pull apps/web/.env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -52,12 +52,12 @@ jobs:
       id: cache-build
       uses: actions/cache@v4
       with:
-        path: .next/cache
+        path: apps/web/.next/cache
         key: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
         restore-keys: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
     - name: Run Build
-      run: pnpm build
+      run: pnpm --filter @nito/web build
 
     # ------------------------------------
     # Install Playwright using cache
@@ -72,19 +72,19 @@ jobs:
 
     - name: Install Playwright Browsers
       if: steps.playwright-browsers-cache.outputs.cache-hit != 'true'
-      run: pnpm exec playwright install --with-deps
+      run: pnpm --filter @nito/web exec playwright install --with-deps
 
     # Install only dependencies
     # Browser installation uses cache, but dependencies must be installed without using cache or the following error occurs
     # `Error: browserType.launch: Target page, context or browser has been closed`
     - name: Install Playwright dependencies
-      run: pnpm exec playwright install-deps
+      run: pnpm --filter @nito/web exec playwright install-deps
 
     # ------------------------------------
     # Run Playwright tests
     # ------------------------------------
     - name: Run Playwright tests
-      run: pnpm e2e
+      run: pnpm --filter @nito/web e2e
 
     # ------------------------------------
     # Upload report
@@ -93,5 +93,5 @@ jobs:
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        path: playwright-report/
+        path: apps/web/playwright-report/
         retention-days: 30
