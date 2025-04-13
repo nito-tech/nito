@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "**/*.{js,jsx,ts,tsx,json,css,md}"
+      run: npx @biomejs/biome format --write {staged_files}
+    check:
+      glob: "**/*.{js,jsx,ts,tsx}"
+      run: npx @biomejs/biome check --write {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  parallel: false
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}

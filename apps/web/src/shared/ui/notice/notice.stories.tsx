@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Notice } from "./notice";
 
 const meta = {
-	title: "Components/Notice",
+	title: "shared/ui/Notice",
 	component: Notice,
 	parameters: {
 		layout: "centered",

@@ -49,14 +49,14 @@
 	--accent: hsl(0 0% 96.1%);
 	--accent-foreground: hsl(0 0% 9%);
 	--info: hsl(204, 94%, 94%);
-	--info-foreground: hsl(200, 98%, 39%);
+	--info-foreground: hsl(200, 98%, 34%);
 	--success: hsl(149, 80%, 90%);
 	--success-foreground: hsl(143, 64%, 24%);
 	--warning: hsl(48, 96%, 89%);
 	--warning-foreground: hsl(38, 92%, 50%);
 	--destructive: hsl(0 84.2% 60.2%);
 	--destructive-foreground: hsl(0 0% 98%);
-	--invalid: hsl(0, 72%, 51%);
+	--invalid: hsl(0, 72%, 44%);
 	--border: hsl(0 0% 89.8%);
 	--input: hsl(0 0% 89.8%);
 	--ring: hsl(0 0% 3.9%);
