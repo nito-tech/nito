@@ -1,10 +1,14 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getProjectByName, getProjects } from "@/entities/project/api/projects";
+import {
+	createProject,
+	getProjectByName,
+	getProjects,
+} from "@/entities/project/api/projects";
 import { queryKeys } from "@/shared/lib/query-keys";
-import type { QueryConfig } from "@/shared/lib/reqct-query";
+import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
 import type { Organization, Project } from "@/shared/schema";
 
 type UseProjectOptions = {
@@ -50,5 +54,20 @@ export function useGetProjectByName({
 		queryFn: () => getProjectByName(organizationId, projectName),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
+	});
+}
+
+type UseCreateProjectOptions = {
+	organizationId: Organization["id"];
+	queryConfig: MutationConfig<typeof createProject>;
+};
+
+export function useCreateProject({
+	organizationId,
+	queryConfig,
+}: UseCreateProjectOptions) {
+	return useMutation<Project, Error, Project["name"]>({
+		mutationFn: (projectName) => createProject(organizationId, projectName),
+		...queryConfig,
 	});
 }
