@@ -25,7 +25,10 @@
 		"ms-playwright.playwright",
 
 		// Debug
-		"usernamehw.errorlens" // Display error messages without hover
+		"usernamehw.errorlens", // Display error messages without hover
+
+		// Markdown
+		"unifiedjs.vscode-mdx"
 	],
 	"unwantedRecommendations": [
 		// Use VSCode's default features
