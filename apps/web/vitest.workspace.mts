@@ -39,6 +39,11 @@ export default defineWorkspace([
 			name: "storybook",
 			// environment: "jsdom",
 			include: ["**/*.stories.?(m)[jt]s?(x)"],
+			// TODO: Remove these once the Vitest bugs in GitHub Actions are fixed
+			exclude: [
+				"**/shared/ui/notice/notice.stories.tsx",
+				"**/organization-selector.stories.tsx",
+			],
 			setupFiles: ["./.storybook/vitest.setup.ts"],
 			// isolate: true,
 			browser: {
