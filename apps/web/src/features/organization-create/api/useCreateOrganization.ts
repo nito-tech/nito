@@ -6,12 +6,12 @@ import type { CreateOrganizationInput } from "../model/create-organization-schem
 import { createOrganization } from "./create-organization";
 
 type UseCreateOrganizationOptions = {
-	mutationConfig: MutationConfig<typeof createOrganization>;
+	mutationConfig?: MutationConfig<typeof createOrganization>;
 };
 
 export const useCreateOrganization = ({
 	mutationConfig,
-}: UseCreateOrganizationOptions) => {
+}: UseCreateOrganizationOptions = {}) => {
 	return useMutation({
 		mutationFn: (data: { data: CreateOrganizationInput }) =>
 			createOrganization(data),
