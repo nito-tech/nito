@@ -86,6 +86,10 @@ function projectTabs(
 			href: `/dashboard/${organization.slug}/projects/${project.name}`,
 		},
 		{
+			label: "Members",
+			href: `/dashboard/${organization.slug}/projects/${project.name}/members`,
+		},
+		{
 			label: "Settings",
 			href: `/dashboard/${organization.slug}/projects/${project.name}/settings`,
 		},

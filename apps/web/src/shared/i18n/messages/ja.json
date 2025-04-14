@@ -109,6 +109,11 @@
 	},
 	"Project": {
 		"name": "プロジェクト名",
+		"members": "プロジェクトメンバー",
+		"membersDescription": "プロジェクトのメンバーを管理します",
+		"error": {
+			"projectNotFound": "プロジェクトが見つかりません"
+		},
 		"noProjects": "プロジェクトが見つかりません",
 		"findProject": "プロジェクトを検索...",
 		"create": {
