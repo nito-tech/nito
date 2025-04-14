@@ -141,29 +141,77 @@ export type Database = {
 				};
 				Relationships: [];
 			};
-			projects: {
+			project_members: {
 				Row: {
 					created_at: string;
 					id: string;
-					name: string;
-					organization_id: string;
-					status: string;
+					member_id: string;
+					project_id: string;
+					role: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
 					id?: string;
-					name: string;
-					organization_id: string;
-					status?: string;
+					member_id: string;
+					project_id: string;
+					role?: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
 					id?: string;
+					member_id?: string;
+					project_id?: string;
+					role?: string;
+					updated_at?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "project_members_member_id_fkey";
+						columns: ["member_id"];
+						isOneToOne: false;
+						referencedRelation: "members";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "project_members_project_id_fkey";
+						columns: ["project_id"];
+						isOneToOne: false;
+						referencedRelation: "projects";
+						referencedColumns: ["id"];
+					},
+				];
+			};
+			projects: {
+				Row: {
+					created_at: string;
+					description: string | null;
+					id: string;
+					is_active: boolean;
+					name: string;
+					organization_id: string;
+					status: Database["public"]["Enums"]["project_status"];
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					description?: string | null;
+					id?: string;
+					is_active?: boolean;
+					name: string;
+					organization_id: string;
+					status?: Database["public"]["Enums"]["project_status"];
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					description?: string | null;
+					id?: string;
+					is_active?: boolean;
 					name?: string;
 					organization_id?: string;
-					status?: string;
+					status?: Database["public"]["Enums"]["project_status"];
 					updated_at?: string;
 				};
 				Relationships: [
@@ -184,7 +232,7 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			[_ in never]: never;
+			project_status: "active" | "archived" | "draft";
 		};
 		CompositeTypes: {
 			[_ in never]: never;
@@ -302,7 +350,9 @@ export const Constants = {
 		Enums: {},
 	},
 	public: {
-		Enums: {},
+		Enums: {
+			project_status: ["active", "archived", "draft"],
+		},
 	},
 } as const;
 
@@ -314,6 +364,13 @@ export type ReturnTypeGraphql =
 	Database["graphql_public"]["Functions"]["graphql"]["Returns"];
 
 // Schema: public
+// Enums
+export enum ProjectStatus {
+	active = "active",
+	archived = "archived",
+	draft = "draft",
+}
+
 // Tables
 export type Member = Database["public"]["Tables"]["members"]["Row"];
 export type InsertMember = Database["public"]["Tables"]["members"]["Insert"];
@@ -328,6 +385,13 @@ export type UpdateOrganization =
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type InsertProfile = Database["public"]["Tables"]["profiles"]["Insert"];
 export type UpdateProfile = Database["public"]["Tables"]["profiles"]["Update"];
+
+export type ProjectMember =
+	Database["public"]["Tables"]["project_members"]["Row"];
+export type InsertProjectMember =
+	Database["public"]["Tables"]["project_members"]["Insert"];
+export type UpdateProjectMember =
+	Database["public"]["Tables"]["project_members"]["Update"];
 
 export type Project = Database["public"]["Tables"]["projects"]["Row"];
 export type InsertProject = Database["public"]["Tables"]["projects"]["Insert"];
