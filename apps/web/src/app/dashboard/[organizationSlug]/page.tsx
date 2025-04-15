@@ -50,7 +50,7 @@ export default function DashboardOrganizationSlugPage() {
 				description={organization.description ?? ""}
 			/>
 			<div className="flex justify-end">
-				<Link href="/projects/new">
+				<Link href={`/dashboard/${params.organizationSlug}/new`}>
 					<Button>{t("Project.create.project")}</Button>
 				</Link>
 			</div>

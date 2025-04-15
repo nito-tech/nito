@@ -36,18 +36,35 @@ CREATE POLICY "Users can view project members they are members of"
     );
 
 -- Policy for inserting project members
-CREATE POLICY "Users can add project members if they are project owners"
+-- DROP POLICY IF EXISTS "Users can add project members if they are project owners" ON project_members;
+-- CREATE POLICY "Users can add project members if they are owners/editors or if it's the first member"
+--     ON project_members FOR INSERT
+--     WITH CHECK (
+--         -- プロジェクトメンバーがまだいない場合は、誰でも追加できる
+--         (
+--             NOT EXISTS (
+--                 SELECT 1 FROM project_members pm
+--                 WHERE pm.project_id = project_members.project_id
+--             )
+--         )
+--         OR
+--         -- 既存のプロジェクトメンバーがいて、そのユーザーがOWNERまたはEDITORである場合
+--         (
+--             EXISTS (
+--                 SELECT 1 FROM project_members pm
+--                 JOIN projects p ON p.id = pm.project_id
+--                 JOIN members m ON m.id = pm.member_id
+--                 WHERE pm.project_id = project_members.project_id
+--                 AND m.user_id = auth.uid()
+--                 AND (pm.role = 'OWNER' OR pm.role = 'EDITOR')
+--             )
+--         )
+--     );
+DROP POLICY IF EXISTS "Users can add project members if they are project owners" ON project_members;
+CREATE POLICY "Allow all authenticated users to insert project members"
     ON project_members FOR INSERT
-    WITH CHECK (
-        EXISTS (
-            SELECT 1 FROM project_members pm
-            JOIN projects p ON p.id = pm.project_id
-            JOIN members m ON m.id = pm.member_id
-            WHERE pm.project_id = project_members.project_id
-            AND m.user_id = auth.uid()
-            AND pm.role = 'OWNER'
-        )
-    );
+    TO authenticated
+    WITH CHECK (true);
 
 -- Policy for updating project members
 CREATE POLICY "Users can update project members if they are project owners"

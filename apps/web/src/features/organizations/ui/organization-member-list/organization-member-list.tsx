@@ -34,7 +34,7 @@ interface Props {
 /**
  * Component that displays a list of organization members
  */
-export function MemberList({ organization }: Props) {
+export function OrganizationMemberList({ organization }: Props) {
 	const t = useTranslations();
 	const { profile } = useProfile();
 	const {

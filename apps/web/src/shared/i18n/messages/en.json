@@ -104,6 +104,12 @@
 		"noMembers": "No members found"
 	},
 	"Project": {
+		"name": "Project Name",
+		"members": "Project Members",
+		"membersDescription": "Manage your project members",
+		"error": {
+			"projectNotFound": "Project not found"
+		},
 		"noProjects": "No projects found",
 		"findProject": "Find project...",
 		"create": {

@@ -1,10 +1,11 @@
 "use client";
 
-import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
-import { MemberList } from "@/features/organizations/ui/member-list/member-list";
-import { PageTitle } from "@/shared/ui/page-title/page-title";
 import { useTranslations } from "next-intl";
 import { use } from "react";
+
+import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
+import { OrganizationMemberList } from "@/features/organizations/ui/organization-member-list/organization-member-list";
+import { PageTitle } from "@/shared/ui/page-title/page-title";
 
 interface Props {
 	params: Promise<{ organizationSlug: string }>;
@@ -23,7 +24,7 @@ export default function OrganizationMembersPage({ params }: Props) {
 
 	if (isLoading) {
 		return (
-			<div className="container mx-auto py-8">
+			<div className="container">
 				<PageTitle
 					title={t("Organization.members")}
 					description={t("Organization.membersDescription")}
@@ -39,7 +40,7 @@ export default function OrganizationMembersPage({ params }: Props) {
 
 	if (error || !organization) {
 		return (
-			<div className="container mx-auto py-8">
+			<div className="container">
 				<PageTitle
 					title={t("Organization.members")}
 					description={t("Organization.membersDescription")}
@@ -56,13 +57,13 @@ export default function OrganizationMembersPage({ params }: Props) {
 	}
 
 	return (
-		<div className="container mx-auto py-8">
+		<div className="container">
 			<PageTitle
 				title={t("Organization.members")}
 				description={t("Organization.membersDescription")}
 			/>
 			<div className="mt-8">
-				<MemberList organization={organization} />
+				<OrganizationMemberList organization={organization} />
 			</div>
 		</div>
 	);
