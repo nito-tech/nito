@@ -7,6 +7,7 @@ export const env = createEnv({
 			.enum(["development", "test", "production"])
 			.default("development"),
 		GITHUB_CLIENT_SECRET: z.string(),
+		DATABASE_URL: z.string().url(),
 	},
 	client: {
 		NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -29,6 +30,11 @@ export const env = createEnv({
 		 */
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 		NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+
+		/**
+		 * Database
+		 */
+		DATABASE_URL: process.env.DATABASE_URL,
 
 		/**
 		 * GitHub
