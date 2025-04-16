@@ -10,14 +10,15 @@ import {
 } from "drizzle-orm/pg-core";
 import { authUsers, authenticatedRole } from "drizzle-orm/supabase";
 
-export const users = pgTable(
+export const usersTable = pgTable(
 	"users",
 	{
 		id: uuid("id").defaultRandom().primaryKey().notNull(),
 		username: varchar("username", { length: 50 }).unique(),
 		display_name: varchar("display_name", { length: 100 }),
-		email: text().notNull(),
-		avatar_url: text(),
+		email: text("email").notNull(),
+		email_verified: timestamp("email_verified", { withTimezone: true }),
+		avatar_url: text("avatar_url"),
 		created_at: timestamp("created_at", { withTimezone: true })
 			.defaultNow()
 			.notNull(),
@@ -26,7 +27,6 @@ export const users = pgTable(
 			.notNull(),
 	},
 	(table) => [
-		// auth.usersテーブルとの外部キー制約
 		foreignKey({
 			columns: [table.id],
 			foreignColumns: [authUsers.id],
@@ -44,22 +44,26 @@ export const users = pgTable(
 		// avatar_urlのフォーマット制約：有効なURL形式であること（nullは許可）
 		sql`CHECK (${table.avatar_url} IS NULL OR ${table.avatar_url} ~ '^https?://[a-zA-Z0-9][a-zA-Z0-9\-\._\~:/\?#@!$&''()*+,;=]*$')`,
 		// RLSポリシー
-		pgPolicy("authenticated can view all profiles", {
+		// 閲覧ポリシー：認証済みユーザーは全てのプロフィール情報を閲覧能
+		pgPolicy("Authenticated can view all profiles", {
 			for: "select",
 			to: authenticatedRole,
 			using: sql`true`,
 		}),
-		pgPolicy("users can update own profile", {
+		// 更新ポリシー：認証済みユーザーは自分のプロフィールを更新可能
+		pgPolicy("Users can update own profile", {
 			for: "update",
 			to: authenticatedRole,
 			using: sql`auth.uid() = id`,
 		}),
-		pgPolicy("users can insert own profile", {
+		// 作成ポリシー：認証済みユーザーは自分のプロフィールを作成可能
+		pgPolicy("Users can insert own profile", {
 			for: "insert",
 			to: authenticatedRole,
 			withCheck: sql`auth.uid() = id`,
 		}),
-		pgPolicy("users can delete own profile", {
+		// 削除ポリシー：認証済みユーザーは自分のプロフィールを削除可能
+		pgPolicy("Users can delete own profile", {
 			for: "delete",
 			to: authenticatedRole,
 			using: sql`auth.uid() = id`,

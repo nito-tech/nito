@@ -1,0 +1,113 @@
+import { relations, sql } from "drizzle-orm";
+import {
+	foreignKey,
+	pgEnum,
+	pgPolicy,
+	pgTable,
+	timestamp,
+	uuid,
+} from "drizzle-orm/pg-core";
+import { authenticatedRole } from "drizzle-orm/supabase";
+
+import { organizationsTable } from "./organizations";
+import { usersTable } from "./users";
+
+export const organizationRoleEnum = pgEnum("organization_role", [
+	"OWNER",
+	"DEVELOPER",
+	"BILLING",
+	"VIEWER",
+]);
+
+export const organizationMembersTable = pgTable(
+	"organization_members",
+	{
+		id: uuid().primaryKey().defaultRandom(),
+		organization_id: uuid().notNull(),
+		user_id: uuid().notNull(),
+		role: organizationRoleEnum("role").notNull().default("VIEWER"),
+		created_at: timestamp("created_at", { withTimezone: true })
+			.defaultNow()
+			.notNull(),
+		updated_at: timestamp("updated_at", { withTimezone: true })
+			.defaultNow()
+			.notNull(),
+	},
+	(table) => [
+		// 外部キー制約
+		foreignKey({
+			columns: [table.organization_id],
+			foreignColumns: [organizationsTable.id],
+			name: "organization_members_organization_id_fk",
+		}),
+		foreignKey({
+			columns: [table.user_id],
+			foreignColumns: [usersTable.id],
+			name: "organization_members_user_id_fk",
+		}),
+		// 一意制約：同じユーザーが同じ組織に複数回所属できない
+		sql`UNIQUE (${table.organization_id}, ${table.user_id})`,
+		// 閲覧ポリシー：認証済みユーザーは全ての組織メンバー情報を閲覧可能
+		pgPolicy("authenticated users can view organization members", {
+			for: "select",
+			to: authenticatedRole,
+			using: sql`EXISTS (
+				SELECT 1 FROM organization_members
+				WHERE organization_members.organization_id = organization_id
+				AND organization_members.user_id = auth.uid()
+				AND organization_members.role = 'OWNER'
+			)`,
+		}),
+		// 作成ポリシー：組織のオーナーのみが新しいメンバーを追加可能
+		// 組織のオーナーかどうかは、organization_membersテーブルで確認
+		pgPolicy("only owners can insert organization members", {
+			for: "insert",
+			to: authenticatedRole,
+			using: sql`EXISTS (
+				SELECT 1 FROM organization_members
+				WHERE organization_members.organization_id = organization_id
+				AND organization_members.user_id = auth.uid()
+				AND organization_members.role = 'OWNER'
+			)`,
+		}),
+		// 更新ポリシー：組織のオーナーのみがメンバー情報を更新可能
+		// 組織のオーナーかどうかは、organization_membersテーブルで確認
+		pgPolicy("only owners can update organization members", {
+			for: "update",
+			to: authenticatedRole,
+			using: sql`EXISTS (
+				SELECT 1 FROM organization_members
+				WHERE organization_members.organization_id = organization_id
+				AND organization_members.user_id = auth.uid()
+				AND organization_members.role = 'OWNER'
+			)`,
+		}),
+		// 削除ポリシー：組織のオーナーのみがメンバーを削除可能
+		// 組織のオーナーかどうかは、organization_membersテーブルで確認
+		pgPolicy("only owners can delete organization members", {
+			for: "delete",
+			to: authenticatedRole,
+			using: sql`EXISTS (
+				SELECT 1 FROM organization_members
+				WHERE organization_members.organization_id = organization_id
+				AND organization_members.user_id = auth.uid()
+				AND organization_members.role = 'OWNER'
+			)`,
+		}),
+	],
+).enableRLS();
+
+// 組織メンバーのリレーション定義
+export const organizationMembersRelations = relations(
+	organizationMembersTable,
+	({ one }) => ({
+		organization: one(organizationsTable, {
+			fields: [organizationMembersTable.organization_id],
+			references: [organizationsTable.id],
+		}),
+		user: one(usersTable, {
+			fields: [organizationMembersTable.user_id],
+			references: [usersTable.id],
+		}),
+	}),
+);
