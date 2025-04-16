@@ -2,13 +2,18 @@ import { sql } from "drizzle-orm";
 import { authUsers } from "drizzle-orm/supabase";
 
 import {
-	type InsertOrganizationMembers,
-	type InsertOrganizations,
-	type InsertProfiles,
-	type InsertProjects,
+	type InsertOrganization,
+	type InsertOrganizationMember,
+	type InsertProfile,
+	type InsertProject,
+	type InsertProjectMember,
+	type SelectOrganization,
+	type SelectOrganizationMember,
+	type SelectProject,
 	organizationMembersTable,
 	organizationsTable,
 	profilesTable,
+	projectMembersTable,
 	projectsTable,
 } from "../schema";
 
@@ -348,7 +353,7 @@ const seedProfiles = [
 		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
 		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
 	},
-] as const satisfies InsertProfiles[];
+] as const satisfies InsertProfile[];
 
 const seedOrganizations = [
 	{
@@ -541,17 +546,17 @@ const seedOrganizations = [
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
-] satisfies InsertOrganizations[];
+] satisfies InsertOrganization[];
 
 /**
  * Dynamically create organization members from seed profiles and organizations
  * This creates a random distribution of members across organizations
  */
-const seedOrganizationMembers = (() => {
-	const members: InsertOrganizationMembers[] = [];
+const seedOrganizationMembers = (organizations: SelectOrganization[]) => {
+	const members: InsertOrganizationMember[] = [];
 
 	// For each organization, assign some random members
-	for (const org of seedOrganizations) {
+	for (const org of organizations) {
 		// Always assign the first profile as OWNER
 		members.push({
 			id: crypto.randomUUID(),
@@ -591,14 +596,14 @@ const seedOrganizationMembers = (() => {
 	}
 
 	return members;
-})();
+};
 
 /**
  * Dynamically create projects for each organization
  * This creates a random distribution of projects across organizations
  */
-const seedProjects = (() => {
-	const projects: InsertProjects[] = [];
+const seedProjects = (organizations: SelectOrganization[]) => {
+	const projects: InsertProject[] = [];
 
 	// Project name prefixes for generating unique project names
 	const projectPrefixes = [
@@ -620,7 +625,7 @@ const seedProjects = (() => {
 	];
 
 	// For each organization, create some random projects
-	for (const org of seedOrganizations) {
+	for (const org of organizations) {
 		// Generate 1-5 projects for each organization
 		const numProjects = Math.floor(Math.random() * 5) + 1;
 
@@ -646,7 +651,68 @@ const seedProjects = (() => {
 	}
 
 	return projects;
-})();
+};
+
+/**
+ * Dynamically create project members from projects
+ * This creates a random distribution of members across projects
+ * @param projects - List of projects to create members for
+ */
+const seedProjectMembers = (
+	organizationMembers: SelectOrganizationMember[],
+	projects: SelectProject[],
+) => {
+	const projectMembers: InsertProjectMember[] = [];
+
+	// For each project, assign some random members
+	for (const project of projects) {
+		// Get organization members for this project's organization
+		const projectOrgMembers = organizationMembers.filter(
+			(member) => member.organizationId === project.organizationId,
+		);
+
+		// Skip if no organization members found
+		if (projectOrgMembers.length === 0) continue;
+
+		// Always assign the first member as OWNER
+		const firstMember = projectOrgMembers[0];
+		projectMembers.push({
+			id: crypto.randomUUID(),
+			projectId: project.id,
+			memberId: firstMember.id, // Use organization_member's id
+			role: "OWNER",
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+
+		// Randomly assign other members to the project
+		// Skip the first member as it's already assigned as OWNER
+		const shuffledMembers = [...projectOrgMembers.slice(1)].sort(
+			() => Math.random() - 0.5,
+		);
+
+		// Assign 1-3 random members to each project
+		const numMembers = Math.floor(Math.random() * 3) + 1;
+		const selectedMembers = shuffledMembers.slice(0, numMembers);
+
+		for (const member of selectedMembers) {
+			// Randomly assign a role
+			const roles = ["OWNER", "EDITOR", "VIEWER"] as const;
+			const randomRole = roles[Math.floor(Math.random() * roles.length)];
+
+			projectMembers.push({
+				id: crypto.randomUUID(),
+				projectId: project.id,
+				memberId: member.id, // Use organization_member's id
+				role: randomRole,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			});
+		}
+	}
+
+	return projectMembers;
+};
 
 /**
  * Main seed function that populates the database with initial data
@@ -667,6 +733,9 @@ async function main() {
 				set: { email: sql`EXCLUDED.email` },
 			});
 
+		// ----------------------------------------------
+		// public.profiles
+		// ----------------------------------------------
 		console.log("public.profiles");
 		await db
 			.insert(profilesTable)
@@ -681,92 +750,72 @@ async function main() {
 		// ----------------------------------------------
 		console.log("public.organizations");
 
-		// Get existing organizations
-		const existingOrganizations = await db.select().from(organizationsTable);
-		const existingSlugs = new Set(existingOrganizations.map((org) => org.slug));
+		await db
+			.insert(organizationsTable)
+			.values(seedOrganizations)
+			.onConflictDoUpdate({
+				target: [organizationsTable.slug],
+				set: {
+					name: sql`EXCLUDED.name`,
+					description: sql`EXCLUDED.description`,
+					avatarUrl: sql`EXCLUDED.avatar_url`,
+				},
+			});
 
-		// Filter only organizations with non-overlapping slugs
-		const filteredOrganizations = seedOrganizations.filter(
-			(org) => !existingSlugs.has(org.slug),
-		);
-
-		if (filteredOrganizations.length > 0) {
-			await db
-				.insert(organizationsTable)
-				.values(filteredOrganizations)
-				.onConflictDoUpdate({
-					target: [organizationsTable.id],
-					set: {
-						name: sql`EXCLUDED.name`,
-						description: sql`EXCLUDED.description`,
-						avatarUrl: sql`EXCLUDED.avatar_url`,
-					},
-				});
-		}
+		const organizations = await db.select().from(organizationsTable);
 
 		// ----------------------------------------------
 		// public.organization_members
 		// ----------------------------------------------
 		console.log("public.organization_members");
 
-		// Get existing organization members
-		const existingOrganizationMembers = await db
-			.select()
-			.from(organizationMembersTable);
-		const existingOrganizationMembersByProfileId = new Set(
-			existingOrganizationMembers.map((member) => member.profileId),
-		);
-
-		// Filter only organization members with non-overlapping profileIds
-		const filteredOrganizationMembers = seedOrganizationMembers.filter(
-			(member) => !existingOrganizationMembersByProfileId.has(member.profileId),
-		);
-
-		if (filteredOrganizationMembers.length > 0) {
-			await db
-				.insert(organizationMembersTable)
-				.values(filteredOrganizationMembers)
-				.onConflictDoUpdate({
-					target: [organizationMembersTable.id],
-					set: {
-						role: sql`EXCLUDED.role`,
-					},
-				});
-		}
+		await db
+			.insert(organizationMembersTable)
+			.values(seedOrganizationMembers(organizations))
+			.onConflictDoUpdate({
+				target: [organizationMembersTable.id],
+				set: {
+					role: sql`EXCLUDED.role`,
+				},
+			});
 
 		// ----------------------------------------------
 		// public.projects
 		// ----------------------------------------------
 		console.log("public.projects");
 
-		// Get existing projects and organizations
-		const existingProjects = await db.select().from(projectsTable);
-		const existingProjectNames = new Set(
-			existingProjects.map((project) => project.name),
-		);
+		await db
+			.insert(projectsTable)
+			.values(seedProjects(organizations))
+			.onConflictDoUpdate({
+				target: [projectsTable.id],
+				set: {
+					name: sql`EXCLUDED.name`,
+					description: sql`EXCLUDED.description`,
+				},
+			});
 
-		const existingOrgs = await db.select().from(organizationsTable);
-		const existingOrganizationIds = new Set(existingOrgs.map((org) => org.id));
+		const projects = await db.select().from(projectsTable);
 
-		// Filter only projects with non-overlapping names and existing organization IDs
-		const filteredProjects = seedProjects.filter(
-			(project) =>
-				!existingProjectNames.has(project.name) &&
-				existingOrganizationIds.has(project.organizationId),
-		);
+		// ----------------------------------------------
+		// public.project_members
+		// ----------------------------------------------
+		console.log("public.project_members");
 
-		if (filteredProjects.length > 0) {
-			await db
-				.insert(projectsTable)
-				.values(filteredProjects)
-				.onConflictDoUpdate({
-					target: [projectsTable.id],
-					set: {
-						name: sql`EXCLUDED.name`,
-						description: sql`EXCLUDED.description`,
-					},
-				});
-		}
+		const organizationMembers = await db
+			.select()
+			.from(organizationMembersTable);
+		const projectMembers = seedProjectMembers(organizationMembers, projects);
+		await db
+			.insert(projectMembersTable)
+			.values(projectMembers)
+			.onConflictDoUpdate({
+				target: [projectMembersTable.id],
+				set: {
+					role: sql`EXCLUDED.role`,
+				},
+			});
+
 		console.log("✨ Seed process completed!");
 		process.exit(0);
 	} catch (error) {

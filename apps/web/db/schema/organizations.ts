@@ -103,5 +103,5 @@ export const organizationsRelations = relations(
 	}),
 );
 
-export type InsertOrganizations = typeof organizationsTable.$inferInsert;
-export type SelectOrganizations = typeof organizationsTable.$inferSelect;
+export type InsertOrganization = typeof organizationsTable.$inferInsert;
+export type SelectOrganization = typeof organizationsTable.$inferSelect;

@@ -99,5 +99,5 @@ export const projectsRelations = relations(projectsTable, ({ one }) => ({
 	}),
 }));
 
-export type InsertProjects = typeof projectsTable.$inferInsert;
-export type SelectProjects = typeof projectsTable.$inferSelect;
+export type InsertProject = typeof projectsTable.$inferInsert;
+export type SelectProject = typeof projectsTable.$inferSelect;
