@@ -13,10 +13,10 @@ export default defineConfig({
 	// introspect: {
 	// 	casing: "camel",
 	// },
-	// migrations: {
-	// 	prefix: "timestamp",
-	// 	table: "__drizzle_migrations__",
-	// },
+	migrations: {
+		prefix: "timestamp",
+		table: "__drizzle_migrations__",
+	},
 	// strict: true,
 	// verbose: true,
 });
