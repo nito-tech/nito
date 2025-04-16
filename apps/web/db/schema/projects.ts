@@ -37,7 +37,7 @@ export const projectsTable = pgTable(
 		 */
 		check(
 			"project_name_check",
-			sql`${table.name} ~ '^[a-z0-9._-]+$' AND length(${table.name}) <= 100 AND ${table.name} !~ '[\s　]'`,
+			sql`${table.name} ~ '^[a-z0-9._-]+$' AND length(${table.name}) <= 100 AND ${table.name} !~ '[\\s　]'`,
 		),
 		// プロジェクト名は組織内で一意
 		sql`UNIQUE (${table.organizationId}, ${table.name})`,
@@ -98,3 +98,6 @@ export const projectsRelations = relations(projectsTable, ({ one }) => ({
 		references: [organizationsTable.id],
 	}),
 }));
+
+export type InsertProjects = typeof projectsTable.$inferInsert;
+export type SelectProjects = typeof projectsTable.$inferSelect;

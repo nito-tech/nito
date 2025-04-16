@@ -2,11 +2,14 @@ import { sql } from "drizzle-orm";
 import { authUsers } from "drizzle-orm/supabase";
 
 import {
+	type InsertOrganizationMembers,
 	type InsertOrganizations,
 	type InsertProfiles,
+	type InsertProjects,
 	organizationMembersTable,
 	organizationsTable,
 	profilesTable,
+	projectsTable,
 } from "../schema";
 
 import { db } from "..";
@@ -545,15 +548,7 @@ const seedOrganizations = [
  * This creates a random distribution of members across organizations
  */
 const seedOrganizationMembers = (() => {
-	const members: Array<{
-		id: string;
-		organizationId: string;
-		profileId: string;
-		// userId: string;
-		role: "OWNER" | "DEVELOPER" | "BILLING" | "VIEWER";
-		createdAt: Date;
-		updatedAt: Date;
-	}> = [];
+	const members: InsertOrganizationMembers[] = [];
 
 	// For each organization, assign some random members
 	for (const org of seedOrganizations) {
@@ -600,6 +595,61 @@ const seedOrganizationMembers = (() => {
 	}
 
 	return members;
+})();
+
+/**
+ * Dynamically create projects for each organization
+ * This creates a random distribution of projects across organizations
+ */
+const seedProjects = (() => {
+	const projects: InsertProjects[] = [];
+
+	// Project name prefixes for generating unique project names
+	const projectPrefixes = [
+		"core",
+		"api",
+		"web",
+		"mobile",
+		"backend",
+		"frontend",
+		"data",
+		"analytics",
+		"infra",
+		"security",
+		"auth",
+		"payment",
+		"notification",
+		"messaging",
+		"storage",
+	];
+
+	// For each organization, create some random projects
+	for (const org of seedOrganizations) {
+		// Generate 1-5 projects for each organization
+		const numProjects = Math.floor(Math.random() * 5) + 1;
+
+		// Shuffle project prefixes to get random unique names
+		const shuffledPrefixes = [...projectPrefixes].sort(
+			() => Math.random() - 0.5,
+		);
+
+		for (let i = 0; i < numProjects; i++) {
+			// Generate a unique project name using organization slug and prefix
+			const projectName = `${org.slug}-${shuffledPrefixes[i]}`.toLowerCase();
+
+			// Create project
+			projects.push({
+				id: crypto.randomUUID(),
+				name: projectName,
+				description: `${projectName} project for ${org.name}`,
+				organizationId: org.id,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			});
+		}
+	}
+
+	return projects;
 })();
 
 /**
@@ -688,6 +738,34 @@ async function main() {
 				});
 		}
 
+		// ----------------------------------------------
+		// public.projects
+		// ----------------------------------------------
+		console.log("public.projects");
+
+		// Get existing projects
+		const existingProjects = await db.select().from(projectsTable);
+		const existingProjectNames = new Set(
+			existingProjects.map((project) => project.name),
+		);
+
+		// Filter only projects with non-overlapping names
+		const filteredProjects = seedProjects.filter(
+			(project) => !existingProjectNames.has(project.name),
+		);
+
+		if (filteredProjects.length > 0) {
+			await db
+				.insert(projectsTable)
+				.values(filteredProjects)
+				.onConflictDoUpdate({
+					target: [projectsTable.id],
+					set: {
+						name: sql`EXCLUDED.name`,
+						description: sql`EXCLUDED.description`,
+					},
+				});
+		}
 		console.log("✨ Seed process completed!");
 		process.exit(0);
 	} catch (error) {
