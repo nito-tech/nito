@@ -25,7 +25,7 @@ export const organizationMembersTable = pgTable(
 	{
 		id,
 		organizationId: uuid("organization_id").notNull(),
-		userId: uuid("user_id").notNull(),
+		profileId: uuid("profile_id").notNull(),
 		role: organizationRoleEnum("role").notNull().default("VIEWER"),
 		createdAt,
 		updatedAt,
@@ -38,12 +38,12 @@ export const organizationMembersTable = pgTable(
 			name: "organization_members_organization_id_fk",
 		}),
 		foreignKey({
-			columns: [table.userId],
+			columns: [table.profileId],
 			foreignColumns: [profilesTable.id],
-			name: "organization_members_user_id_fk",
+			name: "organization_members_profile_id_fk",
 		}),
-		// 一意制約：同じユーザーが同じ組織に複数回所属できない
-		sql`UNIQUE (${table.organizationId}, ${table.userId})`,
+		// 一意制約：同じプロファイル（= ユーザー）が同じ組織に複数回所属できない
+		sql`UNIQUE (${table.organizationId}, ${table.profileId})`,
 		// 閲覧ポリシー：認証済みユーザーは全ての組織メンバー情報を閲覧可能
 		pgPolicy("authenticated users can view organization members", {
 			for: "select",
@@ -102,8 +102,8 @@ export const organizationMembersRelations = relations(
 			fields: [organizationMembersTable.organizationId],
 			references: [organizationsTable.id],
 		}),
-		user: one(profilesTable, {
-			fields: [organizationMembersTable.userId],
+		profile: one(profilesTable, {
+			fields: [organizationMembersTable.profileId],
 			references: [profilesTable.id],
 		}),
 	}),

@@ -4,6 +4,7 @@ import { authUsers } from "drizzle-orm/supabase";
 import {
 	type InsertOrganizations,
 	type InsertProfiles,
+	organizationMembersTable,
 	organizationsTable,
 	profilesTable,
 } from "../schema";
@@ -59,6 +60,198 @@ const seedAuthUsers = [
 			avatar_url: "https://github.com/shadcn.png",
 		},
 	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000003",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "john.doe@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "johndoe",
+			display_name: "John Doe",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000004",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "jane.smith@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "janesmith",
+			display_name: "Jane Smith",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000005",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "mike.johnson@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "mikej",
+			display_name: "Mike Johnson",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000006",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "sarah.wilson@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "sarahw",
+			display_name: "Sarah Wilson",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000007",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "david.brown@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "davidb",
+			display_name: "David Brown",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000008",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "emily.davis@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "emilyd",
+			display_name: "Emily Davis",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000009",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "chris.taylor@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "christ",
+			display_name: "Chris Taylor",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
+	{
+		instance_id: "00000000-0000-0000-0000-000000000000",
+		id: "00000000-0000-0000-0000-000000000010",
+		aud: "authenticated",
+		role: "authenticated",
+		email: "lisa.anderson@example.com",
+		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
+		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		invited_at: null,
+		confirmation_token: "",
+		confirmation_sent_at: null,
+		recovery_token: "",
+		recovery_sent_at: null,
+		email_change_token_new: "",
+		email_change: "",
+		email_change_sent_at: null,
+		created_at: new Date("2025-03-22T22:22:23.093826Z"),
+		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		raw_user_meta_data: {
+			username: "lisaa",
+			display_name: "Lisa Anderson",
+			avatar_url: "https://github.com/shadcn.png",
+		},
+	},
 ];
 
 const seedProfiles = [
@@ -76,6 +269,78 @@ const seedProfiles = [
 		username: "saneatsu",
 		displayName: "Saneatsu Wakana",
 		email: "saneatsu.wakana@gmail.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000003",
+		username: "johndoe",
+		displayName: "John Doe",
+		email: "john.doe@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000004",
+		username: "janesmith",
+		displayName: "Jane Smith",
+		email: "jane.smith@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000005",
+		username: "mikej",
+		displayName: "Mike Johnson",
+		email: "mike.johnson@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000006",
+		username: "sarahw",
+		displayName: "Sarah Wilson",
+		email: "sarah.wilson@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000007",
+		username: "davidb",
+		displayName: "David Brown",
+		email: "david.brown@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000008",
+		username: "emilyd",
+		displayName: "Emily Davis",
+		email: "emily.davis@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000009",
+		username: "christ",
+		displayName: "Chris Taylor",
+		email: "chris.taylor@example.com",
+		avatarUrl: "https://github.com/shadcn.png",
+		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
+		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
+	},
+	{
+		id: "00000000-0000-0000-0000-000000000010",
+		username: "lisaa",
+		displayName: "Lisa Anderson",
+		email: "lisa.anderson@example.com",
 		avatarUrl: "https://github.com/shadcn.png",
 		createdAt: new Date("2025-03-22T22:22:23.093826Z"),
 		updatedAt: new Date("2025-03-22T22:22:58.384429Z"),
@@ -276,12 +541,77 @@ const seedOrganizations = [
 ] satisfies InsertOrganizations[];
 
 /**
+ * Dynamically create organization members from seed profiles and organizations
+ * This creates a random distribution of members across organizations
+ */
+const seedOrganizationMembers = (() => {
+	const members: Array<{
+		id: string;
+		organizationId: string;
+		profileId: string;
+		// userId: string;
+		role: "OWNER" | "DEVELOPER" | "BILLING" | "VIEWER";
+		createdAt: Date;
+		updatedAt: Date;
+	}> = [];
+
+	// For each organization, assign some random members
+	for (const org of seedOrganizations) {
+		// Always assign the first profile as OWNER
+		members.push({
+			id: crypto.randomUUID(),
+			organizationId: org.id,
+			profileId: seedProfiles[0].id,
+			// userId: seedProfiles[0].id,
+			role: "OWNER",
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+
+		// Randomly assign other profiles to the organization
+		// Skip the first profile as it's already assigned as OWNER
+		const shuffledProfiles = [...seedProfiles.slice(1)].sort(
+			() => Math.random() - 0.5,
+		);
+
+		// Assign 1-3 random members to each organization
+		const numMembers = Math.floor(Math.random() * 3) + 1;
+		const selectedProfiles = shuffledProfiles.slice(0, numMembers);
+
+		for (const profile of selectedProfiles) {
+			// Randomly assign a role
+			const roles: Array<"OWNER" | "DEVELOPER" | "BILLING" | "VIEWER"> = [
+				"DEVELOPER",
+				"BILLING",
+				"VIEWER",
+			];
+			const randomRole = roles[Math.floor(Math.random() * roles.length)];
+
+			members.push({
+				id: crypto.randomUUID(),
+				organizationId: org.id,
+				profileId: profile.id,
+				// userId: profile.id,
+				role: randomRole,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			});
+		}
+	}
+
+	return members;
+})();
+
+/**
  * Main seed function that populates the database with initial data
  */
 async function main() {
 	console.log("🌱 Starting seed process...");
 
 	try {
+		// ----------------------------------------------
+		// auth.users
+		// ----------------------------------------------
 		console.log("auth.users");
 		await db
 			.insert(authUsers)
@@ -300,19 +630,63 @@ async function main() {
 				set: { email: sql`EXCLUDED.email` },
 			});
 
+		// ----------------------------------------------
+		// public.organizations
+		// ----------------------------------------------
 		console.log("public.organizations");
-		await db
-			.insert(organizationsTable)
-			.values(seedOrganizations)
-			.onConflictDoUpdate({
-				target: [organizationsTable.id],
-				set: {
-					name: sql`EXCLUDED.name`,
-					slug: sql`EXCLUDED.slug`,
-					description: sql`EXCLUDED.description`,
-					avatarUrl: sql`EXCLUDED.avatar_url`,
-				},
-			});
+
+		// Get existing organizations
+		const existingOrganizations = await db.select().from(organizationsTable);
+		const existingSlugs = new Set(existingOrganizations.map((org) => org.slug));
+
+		// Filter only organizations with non-overlapping slugs
+		const filteredOrganizations = seedOrganizations.filter(
+			(org) => !existingSlugs.has(org.slug),
+		);
+
+		if (filteredOrganizations.length > 0) {
+			await db
+				.insert(organizationsTable)
+				.values(filteredOrganizations)
+				.onConflictDoUpdate({
+					target: [organizationsTable.id],
+					set: {
+						name: sql`EXCLUDED.name`,
+						description: sql`EXCLUDED.description`,
+						avatarUrl: sql`EXCLUDED.avatar_url`,
+					},
+				});
+		}
+
+		// ----------------------------------------------
+		// public.organization_members
+		// ----------------------------------------------
+		console.log("public.organization_members");
+
+		// Get existing organization members
+		const existingOrganizationMembers = await db
+			.select()
+			.from(organizationMembersTable);
+		const existingOrganizationMembersByProfileId = new Set(
+			existingOrganizationMembers.map((member) => member.profileId),
+		);
+
+		// Filter only organization members with non-overlapping profileIds
+		const filteredOrganizationMembers = seedOrganizationMembers.filter(
+			(member) => !existingOrganizationMembersByProfileId.has(member.profileId),
+		);
+
+		if (filteredOrganizationMembers.length > 0) {
+			await db
+				.insert(organizationMembersTable)
+				.values(filteredOrganizationMembers)
+				.onConflictDoUpdate({
+					target: [organizationMembersTable.id],
+					set: {
+						role: sql`EXCLUDED.role`,
+					},
+				});
+		}
 
 		console.log("✨ Seed process completed!");
 		process.exit(0);
