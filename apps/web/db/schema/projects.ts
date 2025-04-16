@@ -11,23 +11,20 @@ import {
 } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
+import { createdAt, id, updatedAt } from "./_utils";
 import { organizationsTable } from "./organizations";
 
 export const projectsTable = pgTable(
 	"projects",
 	{
-		id: uuid("id").defaultRandom().primaryKey(),
+		id,
 		name: varchar("name", { length: 100 }).notNull(), // used as slug
 		description: text("description"),
 		organizationId: uuid("organization_id")
 			.notNull()
 			.references(() => organizationsTable.id, { onDelete: "cascade" }),
-		createdAt: timestamp("created_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp("updated_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
+		createdAt,
+		updatedAt,
 	},
 	(table) => [
 		/**

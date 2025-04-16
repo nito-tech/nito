@@ -3,12 +3,16 @@ import postgres from "postgres";
 
 import { env } from "@/shared/config/env";
 
-import { users } from "./schema/users";
+import { organizationMembersTable } from "./schema/organization_members";
+import { organizationsTable } from "./schema/organizations";
+import { profilesTable } from "./schema/profiles";
 
-async function main() {
-	console.log("Drizzle: main");
-	const client = postgres(env.DATABASE_URL); // , { prepare: false }
-	const db = drizzle(client, { schema: { users } });
-}
+const client = postgres(
+	"postgresql://postgres:postgres@127.0.0.1:54322/postgres",
+);
 
-main();
+export const db = drizzle(client, {
+	schema: { profilesTable, organizationsTable, organizationMembersTable },
+});
+
+export { profilesTable, organizationsTable, organizationMembersTable };

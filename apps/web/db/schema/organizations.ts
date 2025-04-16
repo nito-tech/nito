@@ -10,6 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
+import { createdAt, id, updatedAt } from "./_utils";
 import { organizationMembersTable } from "./organization_members";
 
 // 予約語の定義
@@ -31,17 +32,13 @@ const RESERVED_ORGANIZATION_SLUGS = [
 export const organizationsTable = pgTable(
 	"organizations",
 	{
-		id: uuid().primaryKey().defaultRandom(),
+		id,
 		name: varchar("name", { length: 100 }).notNull(),
 		slug: varchar("slug", { length: 50 }).notNull().unique(),
 		description: text("description"),
-		avatar_url: text("avatar_url"),
-		created_at: timestamp("created_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
-		updated_at: timestamp("updated_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
+		avatarUrl: text("avatar_url"),
+		createdAt,
+		updatedAt,
 	},
 	(table) => [
 		// 組織名の制約：1文字以上必要で、改行を含まない
@@ -56,7 +53,7 @@ export const organizationsTable = pgTable(
 		// アバターURLの制約：nullまたは有効なURL形式
 		check(
 			"avatar_url_format",
-			sql`${table.avatar_url} IS NULL OR ${table.avatar_url} ~ '^https?://.*'`,
+			sql`${table.avatarUrl} IS NULL OR ${table.avatarUrl} ~ '^https?://.*'`,
 		),
 		// 閲覧ポリシー：組織メンバーのみが組織情報を閲覧可能
 		pgPolicy("Organization members can view organizations", {
@@ -99,10 +96,12 @@ export const organizationsTable = pgTable(
 	],
 ).enableRLS();
 
-// 組織のリレーション定義
 export const organizationsRelations = relations(
 	organizationsTable,
 	({ many }) => ({
 		members: many(organizationMembersTable),
 	}),
 );
+
+export type InsertOrganizations = typeof organizationsTable.$inferInsert;
+export type SelectOrganizations = typeof organizationsTable.$inferSelect;

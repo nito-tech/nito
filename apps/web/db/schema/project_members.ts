@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
+import { createdAt, id, updatedAt } from "./_utils";
 import { organizationMembersTable } from "./organization_members";
 import { projectsTable } from "./projects";
 
@@ -21,7 +22,7 @@ export const projectMemberRoleEnum = pgEnum("project_member_role", [
 export const projectMembersTable = pgTable(
 	"project_members",
 	{
-		id: uuid("id").defaultRandom().primaryKey().notNull(),
+		id,
 		projectId: uuid("project_id")
 			.notNull()
 			.references(() => projectsTable.id, { onDelete: "cascade" }),
@@ -29,12 +30,8 @@ export const projectMembersTable = pgTable(
 			.notNull()
 			.references(() => organizationMembersTable.id, { onDelete: "cascade" }),
 		role: projectMemberRoleEnum("role").notNull().default("EDITOR"),
-		createdAt: timestamp("created_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
-		updatedAt: timestamp("updated_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
+		createdAt,
+		updatedAt,
 	},
 	(table) => [
 		// プロジェクトとメンバーの組み合わせは一意

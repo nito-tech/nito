@@ -9,8 +9,9 @@ import {
 } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
+import { createdAt, id, updatedAt } from "./_utils";
 import { organizationsTable } from "./organizations";
-import { usersTable } from "./users";
+import { profilesTable } from "./profiles";
 
 export const organizationRoleEnum = pgEnum("organization_role", [
 	"OWNER",
@@ -22,31 +23,27 @@ export const organizationRoleEnum = pgEnum("organization_role", [
 export const organizationMembersTable = pgTable(
 	"organization_members",
 	{
-		id: uuid().primaryKey().defaultRandom(),
-		organization_id: uuid().notNull(),
-		user_id: uuid().notNull(),
+		id,
+		organizationId: uuid("organization_id").notNull(),
+		userId: uuid("user_id").notNull(),
 		role: organizationRoleEnum("role").notNull().default("VIEWER"),
-		created_at: timestamp("created_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
-		updated_at: timestamp("updated_at", { withTimezone: true })
-			.defaultNow()
-			.notNull(),
+		createdAt,
+		updatedAt,
 	},
 	(table) => [
 		// 外部キー制約
 		foreignKey({
-			columns: [table.organization_id],
+			columns: [table.organizationId],
 			foreignColumns: [organizationsTable.id],
 			name: "organization_members_organization_id_fk",
 		}),
 		foreignKey({
-			columns: [table.user_id],
-			foreignColumns: [usersTable.id],
+			columns: [table.userId],
+			foreignColumns: [profilesTable.id],
 			name: "organization_members_user_id_fk",
 		}),
 		// 一意制約：同じユーザーが同じ組織に複数回所属できない
-		sql`UNIQUE (${table.organization_id}, ${table.user_id})`,
+		sql`UNIQUE (${table.organizationId}, ${table.userId})`,
 		// 閲覧ポリシー：認証済みユーザーは全ての組織メンバー情報を閲覧可能
 		pgPolicy("authenticated users can view organization members", {
 			for: "select",
@@ -102,12 +99,12 @@ export const organizationMembersRelations = relations(
 	organizationMembersTable,
 	({ one }) => ({
 		organization: one(organizationsTable, {
-			fields: [organizationMembersTable.organization_id],
+			fields: [organizationMembersTable.organizationId],
 			references: [organizationsTable.id],
 		}),
-		user: one(usersTable, {
-			fields: [organizationMembersTable.user_id],
-			references: [usersTable.id],
+		user: one(profilesTable, {
+			fields: [organizationMembersTable.userId],
+			references: [profilesTable.id],
 		}),
 	}),
 );
