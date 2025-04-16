@@ -100,3 +100,6 @@ export const projectMembersRelations = relations(
 		}),
 	}),
 );
+
+export type InsertProjectMembers = typeof projectMembersTable.$inferInsert;
+export type SelectProjectMembers = typeof projectMembersTable.$inferSelect;

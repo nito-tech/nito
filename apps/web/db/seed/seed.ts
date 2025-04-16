@@ -575,11 +575,7 @@ const seedOrganizationMembers = (() => {
 
 		for (const profile of selectedProfiles) {
 			// Randomly assign a role
-			const roles: Array<"OWNER" | "DEVELOPER" | "BILLING" | "VIEWER"> = [
-				"DEVELOPER",
-				"BILLING",
-				"VIEWER",
-			];
+			const roles = ["OWNER", "DEVELOPER", "BILLING", "VIEWER"] as const;
 			const randomRole = roles[Math.floor(Math.random() * roles.length)];
 
 			members.push({
@@ -743,15 +739,20 @@ async function main() {
 		// ----------------------------------------------
 		console.log("public.projects");
 
-		// Get existing projects
+		// Get existing projects and organizations
 		const existingProjects = await db.select().from(projectsTable);
 		const existingProjectNames = new Set(
 			existingProjects.map((project) => project.name),
 		);
 
-		// Filter only projects with non-overlapping names
+		const existingOrgs = await db.select().from(organizationsTable);
+		const existingOrganizationIds = new Set(existingOrgs.map((org) => org.id));
+
+		// Filter only projects with non-overlapping names and existing organization IDs
 		const filteredProjects = seedProjects.filter(
-			(project) => !existingProjectNames.has(project.name),
+			(project) =>
+				!existingProjectNames.has(project.name) &&
+				existingOrganizationIds.has(project.organizationId),
 		);
 
 		if (filteredProjects.length > 0) {
