@@ -1,13 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import {
-	check,
-	pgPolicy,
-	pgTable,
-	text,
-	timestamp,
-	uuid,
-	varchar,
-} from "drizzle-orm/pg-core";
+import { check, pgPolicy, pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
 import { createdAt, id, updatedAt } from "./_utils";

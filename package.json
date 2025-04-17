@@ -26,12 +26,13 @@
 		"docs:build": "pnpm --filter @nito/docs build",
 		"docs:start": "pnpm --filter @nito/docs start"
 	},
-	"packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.0",
 		"@commitlint/config-conventional": "^19.8.0",
 		"@commitlint/types": "^19.8.0",
 		"lefthook": "^1.11.10",
 		"@biomejs/biome": "1.9.4"
-	}
+	},
+	"workspaces": ["apps/*", "packages/*"],
+	"packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
 }

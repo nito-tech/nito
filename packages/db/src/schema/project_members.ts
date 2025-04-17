@@ -1,12 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import {
-	index,
-	pgEnum,
-	pgPolicy,
-	pgTable,
-	timestamp,
-	uuid,
-} from "drizzle-orm/pg-core";
+import { index, pgEnum, pgPolicy, pgTable, uuid } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";
 
 import { createdAt, id, updatedAt } from "./_utils";

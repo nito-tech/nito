@@ -4,7 +4,6 @@ import {
 	pgEnum,
 	pgPolicy,
 	pgTable,
-	timestamp,
 	uuid,
 } from "drizzle-orm/pg-core";
 import { authenticatedRole } from "drizzle-orm/supabase";

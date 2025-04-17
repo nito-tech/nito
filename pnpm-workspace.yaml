@@ -1,4 +1,3 @@
 packages:
   - 'apps/*'
-  # 将来的に共有パッケージを追加する場合
-  # - 'packages/*'
+  - 'packages/*'

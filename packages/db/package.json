@@ -1,0 +1,26 @@
+{
+	"name": "@nito/db",
+	"version": "0.0.1",
+	"private": true,
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"scripts": {
+		"generate": "drizzle-kit generate",
+		"push": "drizzle-kit push",
+		"seed": "tsx src/seed/seed.ts"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.41.0",
+		"postgres": "^3.4.5"
+	},
+	"devDependencies": {
+		"@types/node": "^22.14.1",
+		"drizzle-kit": "^0.30.6",
+		"tsx": "^4.7.1",
+		"typescript": "^5.4.2"
+	}
+}

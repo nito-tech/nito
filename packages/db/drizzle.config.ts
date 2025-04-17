@@ -1,13 +1,19 @@
 import { defineConfig } from "drizzle-kit";
 
-import { env } from "@/shared/config/env";
+// import { env } from "@/shared/config/env";
+
+const postgresUrl = process.env.DATABASE_URL;
+
+if (!postgresUrl) {
+	throw new Error("DATABASE_URL is not set in .env");
+}
 
 export default defineConfig({
 	dialect: "postgresql",
-	out: "./db/migrations",
-	schema: "./db/schema/*.ts",
+	out: "./src/migrations",
+	schema: "./src/schema/*.ts",
 	dbCredentials: {
-		url: env.DATABASE_URL,
+		url: postgresUrl,
 	},
 	strict: false, // 一時的
 	// introspect: {
