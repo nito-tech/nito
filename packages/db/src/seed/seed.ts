@@ -1,5 +1,4 @@
 import { sql } from "drizzle-orm";
-import { authUsers } from "drizzle-orm/supabase";
 
 import {
 	type InsertOrganization,
@@ -27,7 +26,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "nito.tech.official@gmail.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -36,8 +35,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "nito",
 			display_name: "Nito Tech",
@@ -51,7 +50,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "saneatsu.wakana@gmail.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -60,8 +59,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "saneatsu",
 			display_name: "Saneatsu Wakana",
@@ -75,7 +74,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "john.doe@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -84,8 +83,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "johndoe",
 			display_name: "John Doe",
@@ -99,7 +98,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "jane.smith@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -108,8 +107,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "janesmith",
 			display_name: "Jane Smith",
@@ -123,7 +122,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "mike.johnson@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -132,8 +131,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "mikej",
 			display_name: "Mike Johnson",
@@ -147,7 +146,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "sarah.wilson@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -156,8 +155,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "sarahw",
 			display_name: "Sarah Wilson",
@@ -171,7 +170,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "david.brown@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -180,8 +179,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "davidb",
 			display_name: "David Brown",
@@ -195,7 +194,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "emily.davis@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -204,8 +203,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "emilyd",
 			display_name: "Emily Davis",
@@ -219,7 +218,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "chris.taylor@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -228,8 +227,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "christ",
 			display_name: "Chris Taylor",
@@ -243,7 +242,7 @@ const seedAuthUsers = [
 		role: "authenticated",
 		email: "lisa.anderson@example.com",
 		encrypted_password: sql`crypt('Password123!', gen_salt('bf'))`,
-		email_confirmed_at: new Date("2025-03-22T22:22:23.105643Z"),
+		email_confirmed_at: "2025-03-22T22:22:23.105643Z",
 		invited_at: null,
 		confirmation_token: "",
 		confirmation_sent_at: null,
@@ -252,8 +251,8 @@ const seedAuthUsers = [
 		email_change_token_new: "",
 		email_change: "",
 		email_change_sent_at: null,
-		created_at: new Date("2025-03-22T22:22:23.093826Z"),
-		updated_at: new Date("2025-03-22T22:22:58.384429Z"),
+		created_at: "2025-03-22T22:22:23.093826Z",
+		updated_at: "2025-03-22T22:22:58.384429Z",
 		raw_user_meta_data: {
 			username: "lisaa",
 			display_name: "Lisa Anderson",
@@ -725,13 +724,54 @@ async function main() {
 		// auth.users
 		// ----------------------------------------------
 		console.log("auth.users");
-		await db
-			.insert(authUsers)
-			.values(seedAuthUsers)
-			.onConflictDoUpdate({
-				target: [authUsers.id],
-				set: { email: sql`EXCLUDED.email` },
-			});
+		// authUsers in drizzle-orm/supabase does not have columns such as encrypted_password,
+		// so execute SQL directly
+		for (const user of seedAuthUsers) {
+			await db.execute(sql`
+				INSERT INTO auth.users (
+					id, instance_id, aud, role, email, encrypted_password,
+					email_confirmed_at, invited_at, confirmation_token,
+					confirmation_sent_at, recovery_token, recovery_sent_at,
+					email_change_token_new, email_change, email_change_sent_at,
+					created_at, updated_at, raw_user_meta_data
+				)
+				VALUES (
+					${user.id}, ${user.instance_id}, ${user.aud}, ${user.role}, ${user.email},
+					crypt('Password123!', gen_salt('bf')),
+					${user.email_confirmed_at},
+					${(user.invited_at as Date | null)?.toISOString() ?? null},
+					${user.confirmation_token},
+					${(user.confirmation_sent_at as Date | null)?.toISOString() ?? null},
+					${user.recovery_token},
+					${(user.recovery_sent_at as Date | null)?.toISOString() ?? null},
+					${user.email_change_token_new},
+					${user.email_change},
+					${(user.email_change_sent_at as Date | null)?.toISOString() ?? null},
+					${user.created_at},
+					${user.updated_at},
+					${JSON.stringify(user.raw_user_meta_data)}
+				)
+				ON CONFLICT (id) DO UPDATE SET
+					id = EXCLUDED.id,
+					instance_id = EXCLUDED.instance_id,
+					aud = EXCLUDED.aud,
+					role = EXCLUDED.role,
+					email = EXCLUDED.email,
+					encrypted_password = crypt('Password123!', gen_salt('bf')),
+					email_confirmed_at = EXCLUDED.email_confirmed_at,
+					invited_at = EXCLUDED.invited_at,
+					confirmation_token = EXCLUDED.confirmation_token,
+					confirmation_sent_at = EXCLUDED.confirmation_sent_at,
+					recovery_token = EXCLUDED.recovery_token,
+					recovery_sent_at = EXCLUDED.recovery_sent_at,
+					email_change_token_new = EXCLUDED.email_change_token_new,
+					email_change = EXCLUDED.email_change,
+					email_change_sent_at = EXCLUDED.email_change_sent_at,
+					created_at = EXCLUDED.created_at,
+					updated_at = EXCLUDED.updated_at,
+					raw_user_meta_data = EXCLUDED.raw_user_meta_data
+			`);
+		}
 
 		// ----------------------------------------------
 		// public.profiles
