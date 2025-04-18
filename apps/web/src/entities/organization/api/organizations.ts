@@ -1,12 +1,5 @@
 "use server";
 
-import { and, desc, eq, sql } from "drizzle-orm";
-import { redirect } from "next/navigation";
-
-import { getUser } from "@/shared/api/user";
-import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Member, Organization, Profile } from "@/shared/schema";
-
 import {
 	type InsertOrganization,
 	type SelectOrganization,
@@ -15,6 +8,12 @@ import {
 	organizationMembersTable,
 	organizationsTable,
 } from "@nito/db";
+import { and, desc, eq, sql } from "drizzle-orm";
+import { redirect } from "next/navigation";
+
+import { getUser } from "@/shared/api/user";
+import { createServerClient } from "@/shared/lib/supabase/server";
+import type { Member, Organization, Profile } from "@/shared/schema";
 
 type GetOrganizationsOptions = {
 	profileId?: SelectProfile["id"];
@@ -95,22 +94,32 @@ export const getOrganizations = async ({
  * @returns A promise that resolves to a boolean indicating if the user has access to the organization
  */
 async function isUserOrganizationMember(
-	organizationId: Organization["id"],
+	organizationId: SelectOrganization["id"],
 ): Promise<boolean> {
-	const supabase = await createServerClient();
-	const user = await getUser();
+	try {
+		const user = await getUser();
 
-	const { data, error } = await supabase
-		.from("members")
-		.select()
-		.eq("organization_id", organizationId)
-		.eq("user_id", user.id);
+		const [{ count }] = await db
+			.select({
+				count: sql<number>`count(*)`,
+			})
+			.from(organizationMembersTable)
+			.where(
+				and(
+					eq(organizationMembersTable.organizationId, organizationId),
+					eq(organizationMembersTable.profileId, user.id),
+				),
+			);
 
-	if (error) {
-		throw new Error(error.message);
+		return count > 0;
+	} catch (error) {
+		console.error("Error checking organization membership:", error);
+		throw new Error(
+			error instanceof Error
+				? error.message
+				: "An unexpected error occurred while checking organization membership",
+		);
 	}
-
-	return data.length > 0;
 }
 
 /**
@@ -121,25 +130,40 @@ async function isUserOrganizationMember(
  */
 export async function getOrganizationBySlug(
 	slug: Organization["slug"],
-): Promise<Organization> {
-	const supabase = await createServerClient();
+): Promise<SelectOrganization> {
+	try {
+		const [organization] = await db
+			.select()
+			.from(organizationsTable)
+			.where(eq(organizationsTable.slug, slug))
+			.limit(1);
 
-	const { data, error } = await supabase
-		.from("organizations")
-		.select()
-		.eq("slug", slug)
-		.single();
+		if (!organization) {
+			throw new Error("Organization not found");
+		}
 
-	if (error) {
-		throw new Error(error.message);
+		const isMember = await isUserOrganizationMember(organization.id);
+		if (!isMember) {
+			redirect("/not-found");
+		}
+
+		return {
+			id: organization.id,
+			name: organization.name,
+			slug: organization.slug,
+			description: organization.description,
+			avatarUrl: organization.avatarUrl,
+			createdAt: organization.createdAt,
+			updatedAt: organization.updatedAt,
+		};
+	} catch (error) {
+		console.error("Error fetching organization by slug:", error);
+		throw new Error(
+			error instanceof Error
+				? error.message
+				: "An unexpected error occurred while fetching the organization",
+		);
 	}
-
-	const isMember = await isUserOrganizationMember(data.id);
-	if (!isMember) {
-		redirect("/not-found");
-	}
-
-	return data;
 }
 
 /**

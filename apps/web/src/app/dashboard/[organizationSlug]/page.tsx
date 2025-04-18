@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
@@ -7,7 +8,6 @@ import { redirect, useParams } from "next/navigation";
 import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
 import { useGetProjects } from "@/features/project/model/useProject";
 import ProjectDataTable from "@/features/project/ui/project-data-table/project-data-table";
-import type { Organization } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import { PageTitle } from "@/shared/ui/page-title/page-title";
 
@@ -20,18 +20,19 @@ export default function DashboardOrganizationSlugPage() {
 
 	const { data: organization, isPending: isOrganizationPending } =
 		useGetOrganizationBySlug({
-			slug: params.organizationSlug as Organization["slug"],
+			slug: params.organizationSlug as SelectOrganization["slug"],
 			queryConfig: {
 				enabled: !!params.organizationSlug,
 			},
 		});
 
-	const { data: projects, isPending: isProjectsPending } = useGetProjects({
-		organizationId: organization?.id ?? "",
-		queryConfig: {
-			enabled: !!organization,
-		},
-	});
+	const { data: getProjectsData, isPending: isProjectsPending } =
+		useGetProjects({
+			organizationId: organization?.id ?? "",
+			queryConfig: {
+				enabled: !!organization,
+			},
+		});
 
 	const t = useTranslations();
 
@@ -54,7 +55,7 @@ export default function DashboardOrganizationSlugPage() {
 					<Button>{t("Project.create.project")}</Button>
 				</Link>
 			</div>
-			<ProjectDataTable projects={projects ?? []} />
+			<ProjectDataTable projects={getProjectsData?.projects ?? []} />
 		</div>
 	);
 }

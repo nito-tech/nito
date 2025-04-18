@@ -1,11 +1,11 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { format } from "date-fns";
 import { MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { useProfile } from "@/shared/contexts/ProfileContext";
-import type { Organization } from "@/shared/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
@@ -28,7 +28,7 @@ import {
 import { useGetOrganizationMembers } from "../../model/useOrganization";
 
 interface Props {
-	organization: Organization;
+	organization: SelectOrganization;
 }
 
 /**
