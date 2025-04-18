@@ -1,25 +1,24 @@
 "use client";
 
+import type { SelectProject } from "@nito/db";
 import type { Column, ColumnDef } from "@tanstack/react-table";
 import {
 	CheckCircle2,
 	Clock,
 	type LucideIcon,
 	MoreHorizontal,
-	PlayCircle,
 	Text,
 	XCircle,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
-import { useMemo } from "react";
+import { parseAsString, useQueryState } from "nuqs";
+import * as React from "react";
 
 import { useProjectStore } from "@/entities/project/model/project-store";
 import { useDataTable } from "@/shared/hooks/use-data-table";
 import type { Project } from "@/shared/schema";
-import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { DataTable } from "@/shared/ui/data-table/data-table";
@@ -53,10 +52,10 @@ const createColumns = ({
 	onDelete,
 }: {
 	pathname: string;
-	setCurrentProject: (project: Project) => void;
+	setCurrentProject: (project: Project | null) => void;
 	onEdit: (id: string) => void;
 	onDelete: (id: string) => void;
-}): ColumnDef<Project>[] => [
+}): ColumnDef<SelectProject>[] => [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -83,16 +82,25 @@ const createColumns = ({
 	{
 		id: "name",
 		accessorKey: "name",
-		header: ({ column }: { column: Column<Project, unknown> }) => (
+		header: ({ column }: { column: Column<SelectProject, unknown> }) => (
 			<DataTableColumnHeader column={column} title="Name" />
 		),
 		cell: ({ row }) => {
-			const project = row.original satisfies Project;
+			const selectProject = row.original;
+			const project: Project = {
+				id: selectProject.id,
+				name: selectProject.name,
+				description: selectProject.description,
+				organization_id: selectProject.organizationId,
+				created_at: selectProject.createdAt.toISOString(),
+				updated_at: selectProject.updatedAt.toISOString(),
+				is_active: true,
+				status: "active",
+			};
 
 			return (
 				<Link
 					href={`${pathname}/projects/${project.name}`}
-					// Display selectedproject in the header
 					onClick={() => setCurrentProject(project)}
 					className="underline hover:cursor-pointer"
 				>
@@ -109,41 +117,13 @@ const createColumns = ({
 		enableColumnFilter: true,
 	},
 	{
-		id: "status",
-		accessorKey: "status",
-		header: ({ column }: { column: Column<Project, unknown> }) => (
-			<DataTableColumnHeader column={column} title="Status" />
-		),
-		cell: ({ cell }) => {
-			const status = cell.getValue<ProjectStatus>();
-			const config = statusConfig[status];
-
-			return (
-				<Badge variant={config.variant} className="capitalize">
-					<config.icon className="mr-1 h-3 w-3" />
-					{status}
-				</Badge>
-			);
-		},
-		meta: {
-			label: "Status",
-			variant: "multiSelect",
-			options: [
-				{ label: "Active", value: "active", icon: PlayCircle },
-				{ label: "Inactive", value: "inactive", icon: XCircle },
-				{ label: "Draft", value: "draft", icon: Clock },
-			],
-		},
-		enableColumnFilter: true,
-	},
-	{
-		id: "updated_at",
-		accessorKey: "updated_at",
-		header: ({ column }: { column: Column<Project, unknown> }) => (
+		id: "updatedAt",
+		accessorKey: "updatedAt",
+		header: ({ column }: { column: Column<SelectProject, unknown> }) => (
 			<DataTableColumnHeader column={column} title="Last Updated" />
 		),
-		cell: ({ cell }) => {
-			const date = new Date(cell.getValue<string>());
+		cell: ({ row }) => {
+			const date = row.original.updatedAt;
 			return <div>{date.toLocaleDateString()}</div>;
 		},
 	},
@@ -177,38 +157,30 @@ const createColumns = ({
 ];
 
 type Props = {
-	projects: Project[];
+	projects: SelectProject[];
 };
 
 export default function ProjectDataTable({ projects }: Props) {
 	const t = useTranslations();
-
 	const [name] = useQueryState("name", parseAsString.withDefault(""));
-	const [status] = useQueryState(
-		"status",
-		parseAsArrayOf(parseAsString).withDefault([]),
-	);
 
-	const filteredData = useMemo(() => {
+	const filteredData = React.useMemo(() => {
 		return projects?.filter((project) => {
 			const matchesName =
 				name === "" || project.name.toLowerCase().includes(name.toLowerCase());
-			const matchesStatus =
-				status.length === 0 || status.includes(project.status);
-
-			return matchesName && matchesStatus;
+			return matchesName;
 		});
-	}, [name, status, projects]);
+	}, [name, projects]);
 
-	const handleEdit = (id: string) => {
+	const handleEdit = React.useCallback((id: string) => {
 		console.log("Edit project:", id);
 		// TODO: 編集画面への遷移処理
-	};
+	}, []);
 
-	const handleDelete = (id: string) => {
+	const handleDelete = React.useCallback((id: string) => {
 		console.log("Delete project:", id);
 		// TODO: 削除の確認ダイアログと削除処理
-	};
+	}, []);
 
 	const pathname = usePathname();
 	if (!pathname) {
@@ -217,8 +189,7 @@ export default function ProjectDataTable({ projects }: Props) {
 
 	const { setCurrentProject } = useProjectStore();
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	const columns = useMemo(
+	const columns = React.useMemo(
 		() =>
 			createColumns({
 				pathname,
@@ -226,15 +197,15 @@ export default function ProjectDataTable({ projects }: Props) {
 				onEdit: handleEdit,
 				onDelete: handleDelete,
 			}),
-		[],
+		[pathname, setCurrentProject, handleEdit, handleDelete],
 	);
 
-	const { table } = useDataTable({
+	const { table } = useDataTable<SelectProject>({
 		data: filteredData ?? [],
 		columns,
 		pageCount: 1,
 		initialState: {
-			sorting: [{ id: "updated_at", desc: true }],
+			sorting: [{ id: "updatedAt", desc: true }],
 			columnPinning: { right: ["actions"] },
 		},
 		getRowId: (row) => row.id,

@@ -3,68 +3,97 @@
 import { getUser } from "@/shared/api/user";
 import { createServerClient } from "@/shared/lib/supabase/server";
 import type { Organization, Project } from "@/shared/schema";
+import { and, desc, eq, sql } from "drizzle-orm";
+
+import {
+	type InsertProject,
+	type SelectProject,
+	db,
+	projectMembersTable,
+	projectsTable,
+} from "@nito/db";
+
+type GetProjectsOptions = {
+	organizationId: Organization["id"];
+	memberId?: string;
+	limit?: number;
+	offset?: number;
+	orderBy?: keyof InsertProject;
+	orderDirection?: "asc" | "desc";
+};
 
 /**
- * Fetch projects where the user is a member of the organization and a project member
+ * Get projects with pagination and filtering options
  *
- * @param organizationId The ID of the organization whose projects to fetch
- * @returns A promise that resolves to an array of projects with their members
+ * @param options - Query options for projects
+ * @returns Projects and total count
  */
-export async function getProjects(
-	organizationId: Organization["id"],
-): Promise<Project[]> {
-	const supabase = await createServerClient();
-	const user = await getUser();
+export const getProjects = async ({
+	organizationId,
+	memberId,
+	limit = 10,
+	offset = 0,
+	orderBy = "createdAt",
+	orderDirection = "desc",
+}: GetProjectsOptions): Promise<{
+	projects: SelectProject[];
+	count: number;
+}> => {
+	try {
+		// Base query for projects
+		const baseQuery = db
+			.select({
+				id: projectsTable.id,
+				name: projectsTable.name,
+				description: projectsTable.description,
+				organizationId: projectsTable.organizationId,
+				createdAt: projectsTable.createdAt,
+				updatedAt: projectsTable.updatedAt,
+			})
+			.from(projectsTable)
+			.where(eq(projectsTable.organizationId, organizationId));
 
-	// First, get the member ID for the user in this organization
-	const { data: memberData, error: memberError } = await supabase
-		.from("members")
-		.select("id")
-		.eq("user_id", user.id)
-		.eq("organization_id", organizationId)
-		.single();
+		// If memberId is provided, filter projects where user is a member
+		if (memberId) {
+			baseQuery.innerJoin(
+				projectMembersTable,
+				and(
+					eq(projectMembersTable.projectId, projectsTable.id),
+					eq(projectMembersTable.memberId, memberId),
+				),
+			);
+		}
 
-	if (memberError) {
-		throw new Error(memberError.message);
+		// Get total count
+		const [{ count }] = await db
+			.select({
+				count: sql<number>`count(*)`,
+			})
+			.from(baseQuery.as("base"));
+
+		// Get projects with pagination and ordering
+		const projects = (await baseQuery
+			.orderBy(
+				orderDirection === "desc"
+					? desc(projectsTable[orderBy])
+					: projectsTable[orderBy],
+			)
+			.limit(limit)
+			.offset(offset)) satisfies SelectProject[];
+
+		return {
+			projects,
+			count,
+		};
+	} catch (error) {
+		console.error("Error fetching projects:", error);
+		throw new Error(
+			error instanceof Error
+				? error.message
+				: "An unexpected error occurred while fetching projects",
+		);
 	}
-
-	if (!memberData) {
-		return [];
-	}
-
-	// Then, get the project IDs where the user is a project member
-	const { data: projectIds, error: projectIdsError } = await supabase
-		.from("project_members")
-		.select("project_id")
-		.eq("member_id", memberData.id);
-	// .eq("user_id", user.id);
-
-	if (projectIdsError) {
-		throw new Error(projectIdsError.message);
-	}
-
-	if (!projectIds || projectIds.length === 0) {
-		return [];
-	}
-
-	// Finally, get the projects
-	const { data, error } = await supabase
-		.from("projects")
-		.select("*")
-		.eq("organization_id", organizationId)
-		.eq("status", "active")
-		.in(
-			"id",
-			projectIds.map((p) => p.project_id),
-		)
-		.order("name", { ascending: true });
-
-	if (error) {
-		throw new Error(error.message);
-	}
-
-	return data;
-}
+};
 
 export async function getProjectByName(
 	organizationId: Organization["id"],
