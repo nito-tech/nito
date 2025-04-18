@@ -1,11 +1,11 @@
 "use client";
 
+import type { SelectProfile } from "@nito/db";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
 import { getProfile, updateProfile } from "@/entities/profile/api/profile";
 import { queryKeys } from "@/shared/lib/query-keys";
-import type { Profile, UpdateProfile } from "@/shared/schema";
 import type { ResponseError } from "@/shared/types/base";
 
 import { useAuth } from "./AuthContext";
@@ -15,7 +15,7 @@ export type ProfileContextType = {
 	 * The current user's profile data
 	 * null if no profile exists or if the user is not authenticated
 	 */
-	profile: Profile | null;
+	profile: SelectProfile | null;
 
 	/**
 	 * Whether the profile data is currently being loaded
@@ -32,7 +32,7 @@ export type ProfileContextType = {
 	 * @param data The profile data to update
 	 * @returns A promise that resolves when the update is complete
 	 */
-	updateProfile: (data: UpdateProfile) => Promise<void>;
+	updateProfile: (data: SelectProfile) => Promise<void>;
 
 	/**
 	 * Function to refresh the profile data
@@ -72,7 +72,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
 		error,
 	} = useQuery({
 		queryKey: queryKeys.profile.get(user?.id),
-		queryFn: () => getProfile(user?.id),
+		queryFn: () => getProfile(),
 		enabled: !!user?.id,
 	});
 
