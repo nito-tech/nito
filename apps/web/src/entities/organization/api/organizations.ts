@@ -14,8 +14,6 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/shared/api/user";
-import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Member, Organization, Profile } from "@/shared/schema";
 
 type GetOrganizationsOptions = {
 	profileId?: SelectProfile["id"];
@@ -131,7 +129,7 @@ async function isUserOrganizationMember(
  * @returns A promise that resolves to the organization
  */
 export async function getOrganizationBySlug(
-	slug: Organization["slug"],
+	slug: SelectOrganization["slug"],
 ): Promise<SelectOrganization> {
 	try {
 		const [organization] = await db
@@ -207,22 +205,24 @@ export async function getOrganizationMembersWithProfiles(
 }
 
 export async function updateOrganization(
-	data: { id: Organization["id"] } & Partial<
-		Pick<Organization, "name" | "slug">
+	data: { id: SelectOrganization["id"] } & Partial<
+		Pick<SelectOrganization, "name" | "slug">
 	>,
-) {
-	const supabase = await createServerClient();
+): Promise<SelectOrganization> {
+	try {
+		const updateData: Partial<Pick<SelectOrganization, "name" | "slug">> = {};
+		if (data.name !== undefined) updateData.name = data.name;
+		if (data.slug !== undefined) updateData.slug = data.slug;
 
-	const updateData: Partial<Pick<Organization, "name" | "slug">> = {};
-	if (data.name !== undefined) updateData.name = data.name;
-	if (data.slug !== undefined) updateData.slug = data.slug;
+		const [updatedOrganization] = await db
+			.update(organizationsTable)
+			.set(updateData)
+			.where(eq(organizationsTable.id, data.id))
+			.returning();
 
-	const { error } = await supabase
-		.from("organizations")
-		.update(updateData)
-		.eq("id", data.id);
-
-	if (error) {
-		throw new Error(error.message);
+		return updatedOrganization;
+	} catch (error) {
+		console.error("Error updating organization:", error);
+		throw error;
 	}
 }

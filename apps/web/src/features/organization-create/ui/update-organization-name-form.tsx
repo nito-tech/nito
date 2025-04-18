@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -7,12 +8,12 @@ import { z } from "zod";
 import { OrganizationNameSchema } from "@/entities/organization/model/organization-name-schema";
 import { OrganizationNameField } from "@/entities/organization/ui/organization-name-field/organization-name-field";
 import { useUpdateOrganization } from "@/features/organizations/model/useOrganization";
-import type { Organization } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
+import { useOrganizationStore } from "#entities/organization/model/organization-store";
 
 interface Props {
-	organization: Pick<Organization, "id" | "name">;
+	organization: Pick<SelectOrganization, "id" | "name">;
 	className?: string;
 }
 
@@ -27,6 +28,8 @@ export function UpdateOrganizationNameForm({ organization, className }: Props) {
 	});
 	type UpdateOrganizationNameInput = z.infer<typeof schema>;
 
+	const { setCurrentOrganization } = useOrganizationStore();
+
 	const { mutate: updateOrganization, isPending } = useUpdateOrganization({
 		organization: { id: organization.id },
 	});
@@ -35,7 +38,8 @@ export function UpdateOrganizationNameForm({ organization, className }: Props) {
 		updateOrganization(
 			{ id: organization.id, name: data.name },
 			{
-				onSuccess: () => {
+				onSuccess: (updatedOrganization) => {
+					setCurrentOrganization(updatedOrganization);
 					toast.success(t("Organization.settings.updateSuccess"));
 				},
 				onError: () => {

@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
@@ -10,7 +11,6 @@ import {
 } from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
-import type { Organization } from "@/shared/schema";
 
 type UseOrganizationsOptions = {
 	queryConfig?: QueryConfig<typeof getOrganizations>;
@@ -33,7 +33,7 @@ export function useGetOrganizations({
 }
 
 type UseOrganizationBySlugOptions = {
-	slug: Organization["slug"];
+	slug: SelectOrganization["slug"];
 	queryConfig?: QueryConfig<typeof getOrganizationBySlug>;
 };
 
@@ -57,7 +57,7 @@ export function useGetOrganizationBySlug({
 }
 
 type UseOrganizationMembersOptions = {
-	organizationId: Organization["id"];
+	organizationId: SelectOrganization["id"];
 	queryConfig?: QueryConfig<typeof getOrganizationMembersWithProfiles>;
 };
 
@@ -80,7 +80,7 @@ export function useGetOrganizationMembersWithProfiles({
 }
 
 type UseUpdateOrganizationOptions = {
-	organization: { id: Organization["id"] };
+	organization: { id: SelectOrganization["id"] };
 	queryConfig?: MutationConfig<typeof updateOrganization>;
 };
 
@@ -89,7 +89,7 @@ export function useUpdateOrganization({
 	queryConfig,
 }: UseUpdateOrganizationOptions) {
 	return useMutation({
-		mutationFn: (data: Partial<Pick<Organization, "name" | "slug">>) =>
+		mutationFn: (data: Partial<Pick<SelectOrganization, "name" | "slug">>) =>
 			updateOrganization({ id: organization.id, ...data }),
 		...queryConfig,
 	});
