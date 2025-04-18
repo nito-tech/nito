@@ -2,11 +2,11 @@ import { create } from "zustand";
 import type { StateCreator } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import type { Organization } from "@/shared/schema";
+import type { SelectOrganization } from "@nito/db";
 
 type RFState = {
-	currentOrganization: Organization | null;
-	setCurrentOrganization: (organization: Organization | null) => void;
+	currentOrganization: SelectOrganization | null;
+	setCurrentOrganization: (organization: SelectOrganization | null) => void;
 };
 
 const rfState: StateCreator<RFState> = (set) => ({

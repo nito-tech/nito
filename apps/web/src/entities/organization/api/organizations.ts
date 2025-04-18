@@ -1,48 +1,91 @@
 "use server";
 
+import { and, desc, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/shared/api/user";
 import { createServerClient } from "@/shared/lib/supabase/server";
 import type { Member, Organization, Profile } from "@/shared/schema";
-import type { Database } from "@/shared/schema";
+
+import {
+	type InsertOrganization,
+	type SelectOrganization,
+	type SelectProfile,
+	db,
+	organizationMembersTable,
+	organizationsTable,
+} from "@nito/db";
+
+type GetOrganizationsOptions = {
+	profileId?: SelectProfile["id"];
+	limit?: number;
+	offset?: number;
+	orderBy?: keyof InsertOrganization;
+	orderDirection?: "asc" | "desc";
+};
 
 /**
- * Fetch organizations where the user is a member
+ * Get organizations with pagination and filtering options
  *
- * @returns A promise that resolves to an array of organizations
+ * @param options - Query options for organizations
+ * @returns Organizations and total count
  */
-export async function getOrganizations(): Promise<Organization[]> {
-	const supabase = await createServerClient();
-	const user = await getUser();
+export const getOrganizations = async ({
+	profileId,
+	limit = 10,
+	offset = 0,
+	orderBy = "createdAt",
+	orderDirection = "desc",
+}: GetOrganizationsOptions = {}): Promise<{
+	organizations: SelectOrganization[];
+	count: number;
+}> => {
+	// Base query for organizations
+	const baseQuery = db
+		.select({
+			id: organizationsTable.id,
+			name: organizationsTable.name,
+			slug: organizationsTable.slug,
+			description: organizationsTable.description,
+			avatarUrl: organizationsTable.avatarUrl,
+			createdAt: organizationsTable.createdAt,
+			updatedAt: organizationsTable.updatedAt,
+		})
+		.from(organizationsTable);
 
-	// First, get the organization IDs where the user is a member
-	const { data: memberData, error: memberError } = await supabase
-		.from("members")
-		.select("organization_id")
-		.eq("user_id", user.id)
-		.eq("is_active", true);
-
-	if (memberError) {
-		throw new Error(memberError.message);
+	// If profileId is provided, filter organizations where user is a member
+	if (profileId) {
+		baseQuery.innerJoin(
+			organizationMembersTable,
+			and(
+				eq(organizationMembersTable.organizationId, organizationsTable.id),
+				eq(organizationMembersTable.profileId, profileId),
+			),
+		);
 	}
 
-	// Extract organization IDs from the member data
-	const organizationIds = memberData.map((member) => member.organization_id);
+	// Get total count
+	const [{ count }] = await db
+		.select({
+			count: sql<number>`count(*)`,
+		})
+		.from(baseQuery.as("base"));
 
-	// Then, get the organizations
-	const { data, error } = await supabase
-		.from("organizations")
-		.select()
-		.in("id", organizationIds)
-		.order("name", { ascending: true });
+	// Get organizations with pagination and ordering
+	const organizations = (await baseQuery
+		.orderBy(
+			orderDirection === "desc"
+				? desc(organizationsTable[orderBy])
+				: organizationsTable[orderBy],
+		)
+		.limit(limit)
+		.offset(offset)) satisfies SelectOrganization[];
 
-	if (error) {
-		throw new Error(error.message);
-	}
-
-	return data;
-}
+	return {
+		organizations,
+		count,
+	};
+};
 
 /**
  * Check if the user has access to the organization
