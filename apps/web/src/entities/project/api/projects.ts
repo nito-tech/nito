@@ -6,9 +6,12 @@ import type { Organization, Project } from "@/shared/schema";
 import { and, desc, eq, sql } from "drizzle-orm";
 
 import {
+	type InsertOrganization,
 	type InsertProject,
+	type SelectOrganization,
 	type SelectProject,
 	db,
+	organizationMembersTable,
 	projectMembersTable,
 	projectsTable,
 } from "@nito/db";
@@ -132,67 +135,75 @@ export async function getProjectByName(
 	return data;
 }
 
-export async function createProject(
-	organizationId: Organization["id"],
-	projectName: Project["name"],
-): Promise<Project> {
-	const supabase = await createServerClient();
-	const user = await getUser();
+export async function createProject({
+	organizationId,
+	projectName,
+}: {
+	organizationId: SelectOrganization["id"];
+	projectName: InsertProject["name"];
+}): Promise<SelectProject> {
+	try {
+		const user = await getUser();
 
-	// Check if the project name already exists in the organization
-	const { data: existingProject } = await supabase
-		.from("projects")
-		.select("*")
-		.eq("name", projectName)
-		.eq("organization_id", organizationId)
-		.single();
+		// Check if the project name already exists in the organization
+		const [existingProject] = await db
+			.select()
+			.from(projectsTable)
+			.where(
+				and(
+					eq(projectsTable.name, projectName),
+					eq(projectsTable.organizationId, organizationId as string),
+				),
+			)
+			.limit(1);
 
-	if (existingProject) {
-		throw new Error("Project name already exists");
-	}
+		if (existingProject) {
+			throw new Error("Project name already exists");
+		}
 
-	const { data, error } = await supabase
-		.from("projects")
-		.insert({
-			name: projectName,
-			organization_id: organizationId,
-			status: "active",
-		})
-		.select("*")
-		.single();
+		// Create the project
+		const [project] = await db
+			.insert(projectsTable)
+			.values({
+				name: projectName,
+				organizationId: organizationId as string,
+			})
+			.returning();
 
-	if (error) {
-		throw new Error(error.message);
-	}
+		if (!project) {
+			throw new Error("Failed to create project");
+		}
 
-	// Get the member ID for the user in this organization
-	const { data: memberData, error: memberError } = await supabase
-		.from("members")
-		.select("id")
-		.eq("user_id", user.id)
-		.eq("organization_id", organizationId)
-		.single();
+		// Get the member ID for the user in this organization
+		const [member] = await db
+			.select()
+			.from(organizationMembersTable)
+			.where(
+				and(
+					eq(organizationMembersTable.organizationId, organizationId as string),
+					eq(organizationMembersTable.profileId, user.id),
+				),
+			)
+			.limit(1);
 
-	if (memberError) {
-		throw new Error(memberError.message);
-	}
+		if (!member) {
+			throw new Error("Member not found");
+		}
 
-	if (!memberData) {
-		throw new Error("Member not found");
-	}
-
-	// Add user as a project member
-	const { error: projectMemberError } = await supabase
-		.from("project_members")
-		.insert({
-			project_id: data.id,
-			member_id: memberData.id,
+		// Add user as a project member
+		await db.insert(projectMembersTable).values({
+			projectId: project.id,
+			memberId: member.id,
 			role: "OWNER",
 		});
 
-	if (projectMemberError) {
-		throw new Error(projectMemberError.message);
+		return project;
+	} catch (error) {
+		console.error("Error creating project:", error);
+		throw new Error(
+			error instanceof Error
+				? error.message
+				: "An unexpected error occurred while creating the project",
+		);
 	}
-
-	return data;
 }

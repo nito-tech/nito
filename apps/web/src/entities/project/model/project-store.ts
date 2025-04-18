@@ -1,12 +1,11 @@
+import type { SelectProject } from "@nito/db";
 import { create } from "zustand";
 import type { StateCreator } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import type { Project } from "@/shared/schema";
-
 type RFState = {
-	currentProject: Project | null;
-	setCurrentProject: (project: Project | null) => void;
+	currentProject: SelectProject | null;
+	setCurrentProject: (project: SelectProject | null) => void;
 };
 
 const rfState: StateCreator<RFState> = (set) => ({

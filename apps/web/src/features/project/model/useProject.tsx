@@ -10,10 +10,16 @@ import {
 } from "@/entities/project/api/projects";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
-import type { Organization, Project } from "@/shared/schema";
+
+import type {
+	InsertOrganization,
+	InsertProject,
+	SelectOrganization,
+	SelectProject,
+} from "@nito/db";
 
 type UseProjectOptions = {
-	organizationId: Organization["id"];
+	organizationId: SelectOrganization["id"];
 	queryConfig?: QueryConfig<typeof getProjects>;
 };
 
@@ -35,8 +41,8 @@ export function useGetProjects({
 }
 
 type UseProjectByNameOptions = {
-	organizationId: Organization["id"];
-	projectName: Project["name"];
+	organizationId: SelectOrganization["id"];
+	projectName: SelectProject["name"];
 	queryConfig?: QueryConfig<typeof getProjectByName>;
 };
 
@@ -59,7 +65,7 @@ export function useGetProjectByName({
 }
 
 type UseCreateProjectOptions = {
-	organizationId: Organization["id"];
+	organizationId: SelectOrganization["id"];
 	queryConfig: MutationConfig<typeof createProject>;
 };
 
@@ -67,15 +73,19 @@ export function useCreateProject({
 	organizationId,
 	queryConfig,
 }: UseCreateProjectOptions) {
-	return useMutation<Project, Error, Project["name"]>({
-		mutationFn: (projectName) => createProject(organizationId, projectName),
+	return useMutation({
+		mutationFn: ({ projectName }: { projectName: InsertProject["name"] }) =>
+			createProject({
+				organizationId,
+				projectName,
+			}),
 		...queryConfig,
 	});
 }
 
 type UseGetProjectMembersOptions = {
-	id: Project["id"];
-	organizationId: Organization["id"];
+	id: SelectProject["id"];
+	organizationId: SelectOrganization["id"];
 	queryConfig?: QueryConfig<typeof getProjectMembers>;
 };
 

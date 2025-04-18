@@ -46,7 +46,12 @@ export function CreateProjectForm({
 	return (
 		<Form
 			schema={CreateProjectSchema(t)}
-			onSubmit={(data: CreateProjectInput) => createProject(data.name)}
+			onSubmit={(data: CreateProjectInput) =>
+				createProject({
+					organizationId: organization.id, // TODO: remove this
+					projectName: data.name,
+				})
+			}
 			aria-label={t("Project.create.project")}
 		>
 			{() => (
