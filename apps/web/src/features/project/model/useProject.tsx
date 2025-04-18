@@ -1,8 +1,13 @@
 "use client";
 
+import type {
+	InsertProject,
+	SelectOrganization,
+	SelectProject,
+} from "@nito/db";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getProjectMembers } from "@/entities/project/api/get-project";
+import { getProjectMembersWithProfiles } from "@/entities/project/api/get-project";
 import {
 	createProject,
 	getProjectByName,
@@ -10,13 +15,6 @@ import {
 } from "@/entities/project/api/projects";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
-
-import type {
-	InsertOrganization,
-	InsertProject,
-	SelectOrganization,
-	SelectProject,
-} from "@nito/db";
 
 type UseProjectOptions = {
 	organizationId: SelectOrganization["id"];
@@ -86,7 +84,7 @@ export function useCreateProject({
 type UseGetProjectMembersOptions = {
 	id: SelectProject["id"];
 	organizationId: SelectOrganization["id"];
-	queryConfig?: QueryConfig<typeof getProjectMembers>;
+	queryConfig?: QueryConfig<typeof getProjectMembersWithProfiles>;
 };
 
 /**
@@ -94,14 +92,14 @@ type UseGetProjectMembersOptions = {
  *
  * @returns Query result containing the list of project members
  */
-export function useGetProjectMembers({
+export function useGetProjectMembersWithProfiles({
 	id,
 	organizationId,
 	queryConfig,
 }: UseGetProjectMembersOptions) {
 	return useQuery({
 		queryKey: queryKeys.project.members(id),
-		queryFn: () => getProjectMembers(organizationId, id),
+		queryFn: () => getProjectMembersWithProfiles(organizationId, id),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
 	});

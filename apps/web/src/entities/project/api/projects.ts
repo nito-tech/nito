@@ -1,12 +1,6 @@
 "use server";
 
-import { getUser } from "@/shared/api/user";
-import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Organization, Project } from "@/shared/schema";
-import { and, desc, eq, sql } from "drizzle-orm";
-
 import {
-	type InsertOrganization,
 	type InsertProject,
 	type SelectOrganization,
 	type SelectProject,
@@ -15,6 +9,10 @@ import {
 	projectMembersTable,
 	projectsTable,
 } from "@nito/db";
+import { and, desc, eq, sql } from "drizzle-orm";
+
+import { getUser } from "@/shared/api/user";
+import type { Organization } from "@/shared/schema";
 
 type GetProjectsOptions = {
 	organizationId: Organization["id"];
