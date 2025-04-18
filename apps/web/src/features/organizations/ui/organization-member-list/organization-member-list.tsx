@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { MoreHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { useProfile } from "@/shared/contexts/ProfileContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
@@ -25,7 +24,7 @@ import {
 	TableRow,
 } from "@/shared/ui/table";
 
-import { useGetOrganizationMembers } from "../../model/useOrganization";
+import { useGetOrganizationMembersWithProfiles } from "../../model/useOrganization";
 
 interface Props {
 	organization: SelectOrganization;
@@ -36,12 +35,11 @@ interface Props {
  */
 export function OrganizationMemberList({ organization }: Props) {
 	const t = useTranslations();
-	const { profile } = useProfile();
 	const {
 		data: members,
 		isLoading,
 		error,
-	} = useGetOrganizationMembers({
+	} = useGetOrganizationMembersWithProfiles({
 		organizationId: organization.id,
 	});
 
@@ -87,21 +85,17 @@ export function OrganizationMemberList({ organization }: Props) {
 							<div className="flex items-center gap-3">
 								<Avatar className="h-8 w-8">
 									<AvatarImage
-										src={
-											member.user_id === profile?.id
-												? profile?.avatar_url || undefined
-												: undefined
-										}
-										alt={member.user_id}
+										src={member.profile.avatarUrl ?? undefined}
+										alt={member.profile.id}
 									/>
 									<AvatarFallback>
-										{member.profile.display_name?.substring(0, 2).toUpperCase()}
+										{member.profile.displayName?.substring(0, 2).toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 
 								<div className="flex flex-col">
 									<span className="font-medium">
-										{member.profile.display_name}
+										{member.profile.displayName}
 									</span>
 									<span className="text-sm text-muted-foreground">
 										{member.profile.email || "No email"}
@@ -112,8 +106,7 @@ export function OrganizationMemberList({ organization }: Props) {
 						<TableCell>
 							<Badge variant="outline">{member.role}</Badge>
 						</TableCell>
-						<TableCell>{format(member.joined_at, "yyyy-MM-dd")}</TableCell>
-						<TableCell>{format(member.last_active_at, "yyyy-MM-dd")}</TableCell>
+						<TableCell>{format(member.createdAt, "yyyy-MM-dd")}</TableCell>
 						<TableCell>
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>

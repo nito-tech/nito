@@ -3,10 +3,12 @@
 import {
 	type InsertOrganization,
 	type SelectOrganization,
+	type SelectOrganizationMember,
 	type SelectProfile,
 	db,
 	organizationMembersTable,
 	organizationsTable,
+	profilesTable,
 } from "@nito/db";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
@@ -147,15 +149,7 @@ export async function getOrganizationBySlug(
 			redirect("/not-found");
 		}
 
-		return {
-			id: organization.id,
-			name: organization.name,
-			slug: organization.slug,
-			description: organization.description,
-			avatarUrl: organization.avatarUrl,
-			createdAt: organization.createdAt,
-			updatedAt: organization.updatedAt,
-		};
+		return organization;
 	} catch (error) {
 		console.error("Error fetching organization by slug:", error);
 		throw new Error(
@@ -172,52 +166,44 @@ export async function getOrganizationBySlug(
  * @param organizationId The ID of the organization whose members to fetch
  * @returns A promise that resolves to an array of members
  */
-export async function getOrganizationMembers(
-	organizationId: Organization["id"],
+export async function getOrganizationMembersWithProfiles(
+	organizationId: SelectOrganization["id"],
 ): Promise<
-	(Member & {
-		profile: Pick<Profile, "id" | "email" | "display_name" | "avatar_url">;
+	(SelectOrganizationMember & {
+		profile: Pick<
+			SelectProfile,
+			"id" | "email" | "displayName" | "avatarUrl" | "username"
+		>;
 	})[]
 > {
-	const supabase = await createServerClient();
-
-	// First, get the members
-	const { data: members, error: membersError } = await supabase
-		.from("members")
-		.select("*")
-		.eq("organization_id", organizationId)
-		.eq("is_active", true)
-		.order("joined_at", { ascending: false });
-
-	if (membersError) {
-		throw new Error(membersError.message);
+	try {
+		return await db
+			.select({
+				id: organizationMembersTable.id,
+				organizationId: organizationMembersTable.organizationId,
+				profileId: organizationMembersTable.profileId,
+				role: organizationMembersTable.role,
+				createdAt: organizationMembersTable.createdAt,
+				updatedAt: organizationMembersTable.updatedAt,
+				profile: {
+					id: profilesTable.id,
+					email: profilesTable.email,
+					displayName: profilesTable.displayName,
+					avatarUrl: profilesTable.avatarUrl,
+					username: profilesTable.username,
+				},
+			})
+			.from(organizationMembersTable)
+			.innerJoin(
+				profilesTable,
+				eq(profilesTable.id, organizationMembersTable.profileId),
+			)
+			.where(eq(organizationMembersTable.organizationId, organizationId))
+			.orderBy(desc(organizationMembersTable.createdAt));
+	} catch (error) {
+		console.error("Error fetching organization members:", error);
+		throw error;
 	}
-
-	// Then, get the profiles for these members
-	const { data: profiles, error: profilesError } = await supabase
-		.from("profiles")
-		.select("id, email, display_name, avatar_url")
-		.in(
-			"id",
-			members.map((member) => member.user_id),
-		);
-
-	if (profilesError) {
-		throw new Error(profilesError.message);
-	}
-
-	const data = members.map((member) => {
-		const profile = profiles.find((profile) => profile.id === member.user_id);
-		if (!profile) {
-			throw new Error(`Profile not found for user ${member.user_id}`);
-		}
-		return {
-			...member,
-			profile,
-		};
-	});
-
-	return data;
 }
 
 export async function updateOrganization(

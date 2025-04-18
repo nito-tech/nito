@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
 	getOrganizationBySlug,
-	getOrganizationMembers,
+	getOrganizationMembersWithProfiles,
 	getOrganizations,
 	updateOrganization,
 } from "@/entities/organization/api/organizations";
@@ -58,7 +58,7 @@ export function useGetOrganizationBySlug({
 
 type UseOrganizationMembersOptions = {
 	organizationId: Organization["id"];
-	queryConfig?: QueryConfig<typeof getOrganizationMembers>;
+	queryConfig?: QueryConfig<typeof getOrganizationMembersWithProfiles>;
 };
 
 /**
@@ -67,13 +67,13 @@ type UseOrganizationMembersOptions = {
  * @param organizationId The ID of the organization whose members to fetch
  * @returns Query result containing the list of members
  */
-export function useGetOrganizationMembers({
+export function useGetOrganizationMembersWithProfiles({
 	organizationId,
 	queryConfig = {},
 }: UseOrganizationMembersOptions) {
 	return useQuery({
 		queryKey: queryKeys.organization.members(organizationId),
-		queryFn: () => getOrganizationMembers(organizationId),
+		queryFn: () => getOrganizationMembersWithProfiles(organizationId),
 		enabled: !!organizationId,
 		...queryConfig,
 	});
