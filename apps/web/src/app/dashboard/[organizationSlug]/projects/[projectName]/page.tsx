@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization, SelectProject } from "@nito/db";
 import { useTranslations } from "next-intl";
 import { redirect, useParams } from "next/navigation";
 
@@ -7,7 +8,6 @@ import CycleTimeDashboard from "@/features/github/components/cycle-time";
 import GitHubConnectRepositoryCard from "@/features/github/components/github-connect-repository-card";
 import { useGetOrganizationBySlug } from "@/features/organizations/model/useOrganization";
 import { useGetProjectByName } from "@/features/project/model/useProject";
-import type { Organization, Project } from "@/shared/schema";
 import { PageTitle } from "@/shared/ui/page-title/page-title";
 
 export default function DashboardOrganizationSlugProjectsProjectNamePage() {
@@ -19,7 +19,7 @@ export default function DashboardOrganizationSlugProjectsProjectNamePage() {
 
 	const { data: organization, isPending: isOrganizationPending } =
 		useGetOrganizationBySlug({
-			slug: params.organizationSlug as Organization["slug"],
+			slug: params.organizationSlug as SelectOrganization["slug"],
 			queryConfig: {
 				enabled: !!params.organizationSlug,
 			},
@@ -27,7 +27,7 @@ export default function DashboardOrganizationSlugProjectsProjectNamePage() {
 
 	const { data: project, isPending: isProjectPending } = useGetProjectByName({
 		organizationId: organization?.id ?? "",
-		projectName: params.projectName as Project["name"],
+		projectName: params.projectName as SelectProject["name"],
 		queryConfig: {
 			enabled: !!params.projectName,
 		},
