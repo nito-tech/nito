@@ -12,10 +12,9 @@ import {
 import { and, desc, eq, sql } from "drizzle-orm";
 
 import { getUser } from "@/shared/api/user";
-import type { Organization } from "@/shared/schema";
 
 type GetProjectsOptions = {
-	organizationId: Organization["id"];
+	organizationId: SelectOrganization["id"];
 	memberId?: string;
 	limit?: number;
 	offset?: number;

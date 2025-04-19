@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -9,12 +10,12 @@ import { OrganizationSlugSchema } from "@/entities/organization/model/organizati
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { OrganizationSlugField } from "@/entities/organization/ui/organization-slug-field/organization-slug-field";
 import { useUpdateOrganization } from "@/features/organizations/model/useOrganization";
-import type { Organization } from "@/shared/schema";
+
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 
 interface Props {
-	organization: Pick<Organization, "id" | "slug">;
+	organization: Pick<SelectOrganization, "id" | "slug">;
 	className?: string;
 }
 
