@@ -356,8 +356,8 @@ const seedProfiles = [
 
 const seedOrganizations = [
 	{
-		id: crypto.randomUUID(),
-		name: "Nito",
+		id: "00000000-0000-0000-0000-000000000010",
+		name: "Nito Inc",
 		slug: "nito",
 		description: "Nito",
 		avatarUrl: "https://github.com/shadcn.png",
@@ -365,7 +365,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000011",
 		name: "Apple Inc",
 		slug: "apple",
 		description: "Think Different",
@@ -374,7 +374,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000012",
 		name: "Microsoft Corporation",
 		slug: "microsoft",
 		description:
@@ -384,7 +384,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000013",
 		name: "Google LLC",
 		slug: "google",
 		description: "Don't be evil",
@@ -393,7 +393,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000014",
 		name: "Amazon Inc",
 		slug: "amazon",
 		description: "Work hard, have fun, make history",
@@ -402,7 +402,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000015",
 		name: "Meta Platforms Inc",
 		slug: "meta",
 		description: "Connect with friends and the world around you on Facebook",
@@ -411,7 +411,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000016",
 		name: "Netflix Inc",
 		slug: "netflix",
 		description: "See what's next",
@@ -420,7 +420,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000017",
 		name: "Tesla Inc",
 		slug: "tesla",
 		description: "Accelerate the world's transition to sustainable energy",
@@ -429,7 +429,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000018",
 		name: "NVIDIA Corporation",
 		slug: "nvidia",
 		description: "The pioneer of GPU-accelerated computing",
@@ -438,7 +438,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000019",
 		name: "Adobe Inc",
 		slug: "adobe",
 		description: "Creativity for all",
@@ -447,7 +447,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000020",
 		name: "Salesforce Inc",
 		slug: "salesforce",
 		description: "We bring companies and customers together",
@@ -456,7 +456,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000021",
 		name: "Intel Corporation",
 		slug: "intel",
 		description: "Intel inside",
@@ -465,7 +465,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000022",
 		name: "AMD Inc",
 		slug: "amd",
 		description: "The future of computing",
@@ -474,7 +474,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000023",
 		name: "Oracle Corporation",
 		slug: "oracle",
 		description: "Oracle Cloud Infrastructure",
@@ -483,7 +483,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000024",
 		name: "IBM Corporation",
 		slug: "ibm",
 		description: "Let's put smart to work",
@@ -492,7 +492,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000025",
 		name: "Cisco Systems Inc",
 		slug: "cisco",
 		description: "The bridge to possible",
@@ -501,7 +501,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000026",
 		name: "Qualcomm Inc",
 		slug: "qualcomm",
 		description: "Inventing the technology the world loves",
@@ -510,7 +510,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000027",
 		name: "Samsung Electronics",
 		slug: "samsung",
 		description: "Do what you can't",
@@ -519,7 +519,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000028",
 		name: "Sony Group Corporation",
 		slug: "sony",
 		description: "Make. Believe",
@@ -528,7 +528,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000029",
 		name: "Dell Technologies",
 		slug: "dell",
 		description: "The power to do more",
@@ -537,7 +537,7 @@ const seedOrganizations = [
 		updatedAt: new Date(),
 	},
 	{
-		id: crypto.randomUUID(),
+		id: "00000000-0000-0000-0000-000000000030",
 		name: "HP Inc",
 		slug: "hp",
 		description: "Keep reinventing",
@@ -556,63 +556,51 @@ const seedOrganizations = [
  * 3. Each profile can only be assigned once to an organization (no duplicates)
  * 4. Roles are randomly assigned from OWNER, DEVELOPER, BILLING, or VIEWER
  *
+ * The randomization is deterministic based on the SALT value and organization/profile IDs
+ *
  * @param organizations - List of organizations to create members for
  * @returns Array of organization members to be inserted into the database
  */
 const seedOrganizationMembers = (organizations: SelectOrganization[]) => {
 	const members: InsertOrganizationMember[] = [];
+	let memberIndex = 1;
 
-	// For each organization, assign some random members
+	// For each organization, assign members in a deterministic way
 	for (const org of organizations) {
 		// Create a set to track which profiles have been assigned to this organization
-		// This ensures that each profile is only assigned once to an organization
 		const assignedProfileIds = new Set<string>();
 
 		// Always assign the first profile as OWNER
-		// This ensures that each organization has at least one member with full access
 		members.push({
-			id: crypto.randomUUID(),
+			id: `00000000-0000-0000-0000-${String(memberIndex).padStart(12, "0")}`,
 			organizationId: org.id,
 			profileId: seedProfiles[0].id,
 			role: "OWNER",
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
+		memberIndex++;
 		assignedProfileIds.add(seedProfiles[0].id);
 
-		// Randomly assign other profiles to the organization
+		// Assign other profiles to the organization in a deterministic way
 		// Skip the first profile as it's already assigned as OWNER
-		// Filter out any profiles that have already been assigned to this organization
 		const availableProfiles = seedProfiles
 			.slice(1)
-			.filter((profile) => !assignedProfileIds.has(profile.id))
-			.sort(() => Math.random() - 0.5);
+			.filter((profile) => !assignedProfileIds.has(profile.id));
 
-		// Assign 1-3 random members to each organization (or fewer if not enough profiles)
-		// This ensures that organizations have a varying number of members
-		const numMembers = Math.min(
-			Math.floor(Math.random() * 3) + 1,
-			availableProfiles.length,
-		);
-		const selectedProfiles = availableProfiles.slice(0, numMembers);
-
-		// Assign roles to each selected profile
-		for (const profile of selectedProfiles) {
-			// Randomly assign a role from the available roles
-			const roles = ["OWNER", "DEVELOPER", "BILLING", "VIEWER"] as const;
-			const randomRole = roles[Math.floor(Math.random() * roles.length)];
-
-			// Create the organization member record
+		// Assign roles in a fixed order: DEVELOPER, BILLING, VIEWER
+		const roles = ["DEVELOPER", "BILLING", "VIEWER"] as const;
+		for (let i = 0; i < Math.min(availableProfiles.length, roles.length); i++) {
+			const profile = availableProfiles[i];
 			members.push({
-				id: crypto.randomUUID(),
+				id: `00000000-0000-0000-0000-${String(memberIndex).padStart(12, "0")}`,
 				organizationId: org.id,
 				profileId: profile.id,
-				// userId: profile.id,
-				role: randomRole,
+				role: roles[i],
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
-			// Mark this profile as assigned to this organization
+			memberIndex++;
 			assignedProfileIds.add(profile.id);
 		}
 	}
@@ -626,6 +614,7 @@ const seedOrganizationMembers = (organizations: SelectOrganization[]) => {
  */
 const seedProjects = (organizations: SelectOrganization[]) => {
 	const projects: InsertProject[] = [];
+	let projectIndex = 1;
 
 	// Project name prefixes for generating unique project names
 	const projectPrefixes = [
@@ -646,29 +635,26 @@ const seedProjects = (organizations: SelectOrganization[]) => {
 		"storage",
 	];
 
-	// For each organization, create some random projects
+	// For each organization, create a fixed number of projects
 	for (const org of organizations) {
-		// Generate 1-5 projects for each organization
-		const numProjects = Math.floor(Math.random() * 5) + 1;
+		// Always create 3 projects for each organization
+		const numProjects = 3;
 
-		// Shuffle project prefixes to get random unique names
-		const shuffledPrefixes = [...projectPrefixes].sort(
-			() => Math.random() - 0.5,
-		);
-
+		// Use a fixed order of prefixes
 		for (let i = 0; i < numProjects; i++) {
 			// Generate a unique project name using organization slug and prefix
-			const projectName = `${org.slug}-${shuffledPrefixes[i]}`.toLowerCase();
+			const projectName = `${org.slug}-${projectPrefixes[i]}`.toLowerCase();
 
-			// Create project
+			// Create project with deterministic ID
 			projects.push({
-				id: crypto.randomUUID(),
+				id: `00000000-0000-0000-0000-${String(projectIndex).padStart(12, "0")}`,
 				name: projectName,
 				description: `${projectName} project for ${org.name}`,
 				organizationId: org.id,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
+			projectIndex++;
 		}
 	}
 
@@ -685,8 +671,9 @@ const seedProjectMembers = (
 	projects: SelectProject[],
 ) => {
 	const projectMembers: InsertProjectMember[] = [];
+	let memberIndex = 1;
 
-	// For each project, assign some random members
+	// For each project, assign members in a deterministic way
 	for (const project of projects) {
 		// Get organization members for this project's organization
 		const projectOrgMembers = organizationMembers.filter(
@@ -699,37 +686,32 @@ const seedProjectMembers = (
 		// Always assign the first member as OWNER
 		const firstMember = projectOrgMembers[0];
 		projectMembers.push({
-			id: crypto.randomUUID(),
+			id: `00000000-0000-0000-0000-${String(memberIndex).padStart(12, "0")}`,
 			projectId: project.id,
 			memberId: firstMember.id, // Use organization_member's id
 			role: "OWNER",
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
+		memberIndex++;
 
-		// Randomly assign other members to the project
+		// Assign other members to the project in a deterministic way
 		// Skip the first member as it's already assigned as OWNER
-		const shuffledMembers = [...projectOrgMembers.slice(1)].sort(
-			() => Math.random() - 0.5,
-		);
+		const otherMembers = projectOrgMembers.slice(1);
 
-		// Assign 1-3 random members to each project
-		const numMembers = Math.floor(Math.random() * 3) + 1;
-		const selectedMembers = shuffledMembers.slice(0, numMembers);
-
-		for (const member of selectedMembers) {
-			// Randomly assign a role
-			const roles = ["OWNER", "EDITOR", "VIEWER"] as const;
-			const randomRole = roles[Math.floor(Math.random() * roles.length)];
-
+		// Assign up to 2 other members with fixed roles
+		const roles = ["EDITOR", "VIEWER"] as const;
+		for (let i = 0; i < Math.min(otherMembers.length, roles.length); i++) {
+			const member = otherMembers[i];
 			projectMembers.push({
-				id: crypto.randomUUID(),
+				id: `00000000-0000-0000-0000-${String(memberIndex).padStart(12, "0")}`,
 				projectId: project.id,
-				memberId: member.id, // Use organization_member's id
-				role: randomRole,
+				memberId: member.id,
+				role: roles[i],
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
+			memberIndex++;
 		}
 	}
 
@@ -775,11 +757,10 @@ async function main() {
 					${JSON.stringify(user.raw_user_meta_data)}
 				)
 				ON CONFLICT (id) DO UPDATE SET
-					id = EXCLUDED.id
-					-- instance_id = EXCLUDED.instance_id,
+					instance_id = EXCLUDED.instance_id
 					-- aud = EXCLUDED.aud,
 					-- role = EXCLUDED.role,
-					-- email = EXCLUDED.email
+					-- email = EXCLUDED.email,
 					-- encrypted_password = crypt('Password123!', gen_salt('bf')),
 					-- email_confirmed_at = EXCLUDED.email_confirmed_at,
 					-- invited_at = EXCLUDED.invited_at,
@@ -805,7 +786,13 @@ async function main() {
 			.values(seedProfiles)
 			.onConflictDoUpdate({
 				target: [profilesTable.id],
-				set: { email: sql`EXCLUDED.email` },
+				set: {
+					username: sql`EXCLUDED.username`,
+					displayName: sql`EXCLUDED.display_name`,
+					email: sql`EXCLUDED.email`,
+					avatarUrl: sql`EXCLUDED.avatar_url`,
+					updatedAt: sql`EXCLUDED.updated_at`,
+				},
 			});
 
 		// ----------------------------------------------
@@ -847,7 +834,6 @@ async function main() {
 		// ----------------------------------------------
 		console.log("public.projects");
 
-		await db.delete(projectsTable);
 		await db
 			.insert(projectsTable)
 			.values(seedProjects(organizations))
@@ -856,6 +842,8 @@ async function main() {
 				set: {
 					name: sql`EXCLUDED.name`,
 					description: sql`EXCLUDED.description`,
+					organizationId: sql`EXCLUDED.organization_id`,
+					updatedAt: sql`EXCLUDED.updated_at`,
 				},
 			});
 
@@ -870,14 +858,17 @@ async function main() {
 			.select()
 			.from(organizationMembersTable);
 		const projectMembers = seedProjectMembers(organizationMembers, projects);
-		await db.delete(projectMembersTable);
+
 		await db
 			.insert(projectMembersTable)
 			.values(projectMembers)
 			.onConflictDoUpdate({
 				target: [projectMembersTable.id],
 				set: {
+					projectId: sql`EXCLUDED.project_id`,
+					memberId: sql`EXCLUDED.member_id`,
 					role: sql`EXCLUDED.role`,
+					updatedAt: sql`EXCLUDED.updated_at`,
 				},
 			});
 
