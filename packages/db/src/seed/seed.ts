@@ -548,40 +548,61 @@ const seedOrganizations = [
 ] satisfies InsertOrganization[];
 
 /**
- * Dynamically create organization members from seed profiles and organizations
- * This creates a random distribution of members across organizations
+ * Creates organization members for each organization
+ *
+ * This function assigns profiles to organizations with the following rules:
+ * 1. The first profile is always assigned as OWNER to each organization
+ * 2. Additional profiles (1-3) are randomly assigned to each organization
+ * 3. Each profile can only be assigned once to an organization (no duplicates)
+ * 4. Roles are randomly assigned from OWNER, DEVELOPER, BILLING, or VIEWER
+ *
+ * @param organizations - List of organizations to create members for
+ * @returns Array of organization members to be inserted into the database
  */
 const seedOrganizationMembers = (organizations: SelectOrganization[]) => {
 	const members: InsertOrganizationMember[] = [];
 
 	// For each organization, assign some random members
 	for (const org of organizations) {
+		// Create a set to track which profiles have been assigned to this organization
+		// This ensures that each profile is only assigned once to an organization
+		const assignedProfileIds = new Set<string>();
+
 		// Always assign the first profile as OWNER
+		// This ensures that each organization has at least one member with full access
 		members.push({
 			id: crypto.randomUUID(),
 			organizationId: org.id,
 			profileId: seedProfiles[0].id,
-			// userId: seedProfiles[0].id,
 			role: "OWNER",
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
+		assignedProfileIds.add(seedProfiles[0].id);
 
 		// Randomly assign other profiles to the organization
 		// Skip the first profile as it's already assigned as OWNER
-		const shuffledProfiles = [...seedProfiles.slice(1)].sort(
-			() => Math.random() - 0.5,
+		// Filter out any profiles that have already been assigned to this organization
+		const availableProfiles = seedProfiles
+			.slice(1)
+			.filter((profile) => !assignedProfileIds.has(profile.id))
+			.sort(() => Math.random() - 0.5);
+
+		// Assign 1-3 random members to each organization (or fewer if not enough profiles)
+		// This ensures that organizations have a varying number of members
+		const numMembers = Math.min(
+			Math.floor(Math.random() * 3) + 1,
+			availableProfiles.length,
 		);
+		const selectedProfiles = availableProfiles.slice(0, numMembers);
 
-		// Assign 1-3 random members to each organization
-		const numMembers = Math.floor(Math.random() * 3) + 1;
-		const selectedProfiles = shuffledProfiles.slice(0, numMembers);
-
+		// Assign roles to each selected profile
 		for (const profile of selectedProfiles) {
-			// Randomly assign a role
+			// Randomly assign a role from the available roles
 			const roles = ["OWNER", "DEVELOPER", "BILLING", "VIEWER"] as const;
 			const randomRole = roles[Math.floor(Math.random() * roles.length)];
 
+			// Create the organization member record
 			members.push({
 				id: crypto.randomUUID(),
 				organizationId: org.id,
@@ -591,6 +612,8 @@ const seedOrganizationMembers = (organizations: SelectOrganization[]) => {
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});
+			// Mark this profile as assigned to this organization
+			assignedProfileIds.add(profile.id);
 		}
 	}
 
@@ -752,24 +775,24 @@ async function main() {
 					${JSON.stringify(user.raw_user_meta_data)}
 				)
 				ON CONFLICT (id) DO UPDATE SET
-					id = EXCLUDED.id,
-					instance_id = EXCLUDED.instance_id,
-					aud = EXCLUDED.aud,
-					role = EXCLUDED.role,
-					email = EXCLUDED.email,
-					encrypted_password = crypt('Password123!', gen_salt('bf')),
-					email_confirmed_at = EXCLUDED.email_confirmed_at,
-					invited_at = EXCLUDED.invited_at,
-					confirmation_token = EXCLUDED.confirmation_token,
-					confirmation_sent_at = EXCLUDED.confirmation_sent_at,
-					recovery_token = EXCLUDED.recovery_token,
-					recovery_sent_at = EXCLUDED.recovery_sent_at,
-					email_change_token_new = EXCLUDED.email_change_token_new,
-					email_change = EXCLUDED.email_change,
-					email_change_sent_at = EXCLUDED.email_change_sent_at,
-					created_at = EXCLUDED.created_at,
-					updated_at = EXCLUDED.updated_at,
-					raw_user_meta_data = EXCLUDED.raw_user_meta_data
+					id = EXCLUDED.id
+					-- instance_id = EXCLUDED.instance_id,
+					-- aud = EXCLUDED.aud,
+					-- role = EXCLUDED.role,
+					-- email = EXCLUDED.email
+					-- encrypted_password = crypt('Password123!', gen_salt('bf')),
+					-- email_confirmed_at = EXCLUDED.email_confirmed_at,
+					-- invited_at = EXCLUDED.invited_at,
+					-- confirmation_token = EXCLUDED.confirmation_token,
+					-- confirmation_sent_at = EXCLUDED.confirmation_sent_at,
+					-- recovery_token = EXCLUDED.recovery_token,
+					-- recovery_sent_at = EXCLUDED.recovery_sent_at,
+					-- email_change_token_new = EXCLUDED.email_change_token_new,
+					-- email_change = EXCLUDED.email_change,
+					-- email_change_sent_at = EXCLUDED.email_change_sent_at,
+					-- created_at = EXCLUDED.created_at,
+					-- updated_at = EXCLUDED.updated_at,
+					-- raw_user_meta_data = EXCLUDED.raw_user_meta_data
 			`);
 		}
 
@@ -824,6 +847,7 @@ async function main() {
 		// ----------------------------------------------
 		console.log("public.projects");
 
+		await db.delete(projectsTable);
 		await db
 			.insert(projectsTable)
 			.values(seedProjects(organizations))
@@ -846,6 +870,7 @@ async function main() {
 			.select()
 			.from(organizationMembersTable);
 		const projectMembers = seedProjectMembers(organizationMembers, projects);
+		await db.delete(projectMembersTable);
 		await db
 			.insert(projectMembersTable)
 			.values(projectMembers)
