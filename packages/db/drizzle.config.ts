@@ -8,7 +8,7 @@ if (!postgresUrl) {
 
 export default defineConfig({
 	dialect: "postgresql",
-	out: "./src/migrations",
+	out: "./supabase/migrations",
 	schema: "./src/schema/*.ts",
 	dbCredentials: {
 		url: postgresUrl,
