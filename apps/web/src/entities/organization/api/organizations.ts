@@ -39,6 +39,10 @@ export const getOrganizations = async ({
 	organizations: SelectOrganization[];
 	count: number;
 }> => {
+	const user = await getUser();
+
+	// TODO: ユーザーが所属している組織を取得する
+
 	// Base query for organizations
 	const baseQuery = db
 		.select({
@@ -128,34 +132,23 @@ async function isUserOrganizationMember(
  * @param slug The slug of the organization to fetch
  * @returns A promise that resolves to the organization
  */
-export async function getOrganizationBySlug(
-	slug: SelectOrganization["slug"],
-): Promise<SelectOrganization> {
-	try {
-		const [organization] = await db
-			.select()
-			.from(organizationsTable)
-			.where(eq(organizationsTable.slug, slug))
-			.limit(1);
+export async function getOrganizationBySlug(slug: SelectOrganization["slug"]) {
+	const [organization] = await db
+		.select()
+		.from(organizationsTable)
+		.where(eq(organizationsTable.slug, slug))
+		.limit(1);
 
-		if (!organization) {
-			throw new Error("Organization not found");
-		}
-
-		const isMember = await isUserOrganizationMember(organization.id);
-		if (!isMember) {
-			redirect("/not-found");
-		}
-
-		return organization;
-	} catch (error) {
-		console.error("Error fetching organization by slug:", error);
-		throw new Error(
-			error instanceof Error
-				? error.message
-				: "An unexpected error occurred while fetching the organization",
-		);
+	if (!organization) {
+		throw new Error("Organization not found");
 	}
+
+	const isMember = await isUserOrganizationMember(organization.id);
+	if (!isMember) {
+		redirect("/not-found");
+	}
+
+	return organization;
 }
 
 /**
