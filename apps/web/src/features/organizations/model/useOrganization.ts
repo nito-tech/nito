@@ -12,8 +12,10 @@ import {
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
 
-type UseOrganizationsOptions = {
-	queryConfig?: QueryConfig<typeof getOrganizations>;
+type UseOrganizationsOptions<
+	TData = Awaited<ReturnType<typeof getOrganizations>>,
+> = {
+	queryConfig?: QueryConfig<typeof getOrganizations, TData>;
 };
 
 /**
@@ -21,9 +23,9 @@ type UseOrganizationsOptions = {
  *
  * @returns Query result containing the list of organizations
  */
-export function useGetOrganizations({
-	queryConfig = {},
-}: UseOrganizationsOptions = {}) {
+export function useGetOrganizations<
+	TData = Awaited<ReturnType<typeof getOrganizations>>,
+>({ queryConfig = {} }: UseOrganizationsOptions<TData> = {}) {
 	return useQuery({
 		queryKey: queryKeys.organization.all,
 		queryFn: () => getOrganizations(),

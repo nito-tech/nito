@@ -16,9 +16,9 @@ import {
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
 
-type UseProjectOptions = {
+type UseProjectOptions<TData = Awaited<ReturnType<typeof getProjects>>> = {
 	organizationId: SelectOrganization["id"];
-	queryConfig?: QueryConfig<typeof getProjects>;
+	queryConfig?: QueryConfig<typeof getProjects, TData>;
 };
 
 /**
@@ -26,10 +26,9 @@ type UseProjectOptions = {
  *
  * @returns Query result containing the list of projects
  */
-export function useGetProjects({
-	organizationId,
-	queryConfig,
-}: UseProjectOptions) {
+export function useGetProjects<
+	TData = Awaited<ReturnType<typeof getProjects>>,
+>({ organizationId, queryConfig }: UseProjectOptions<TData>) {
 	return useQuery({
 		queryKey: queryKeys.project.all(organizationId),
 		queryFn: () => getProjects({ organizationId }),
