@@ -67,12 +67,13 @@ export function EmailLogInForm({ className }: Props) {
 	// Get organizations if login succeeds and save it to Store
 	// ----------------------------------------------
 	const {
-		data: getOrganizationsData,
+		data: organizations,
 		refetch: refetchOrganizations,
 		isLoading: isOrganizationsLoading,
 	} = useGetOrganizations({
 		queryConfig: {
 			enabled: isLoggedIn, // Run if login succeeds
+			select: (data) => data.organizations,
 		},
 	});
 	const { setCurrentOrganization } = useOrganizationStore();
@@ -80,12 +81,8 @@ export function EmailLogInForm({ className }: Props) {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (
-			isLoggedIn &&
-			getOrganizationsData &&
-			getOrganizationsData.organizations.length > 0
-		) {
-			const organization = getOrganizationsData.organizations[0];
+		if (isLoggedIn && organizations && organizations.length > 0) {
+			const organization = organizations[0];
 
 			// Initialize store
 			setCurrentOrganization(organization);
@@ -94,7 +91,7 @@ export function EmailLogInForm({ className }: Props) {
 			router.push(`/dashboard/${organization.slug}`);
 		}
 	}, [
-		getOrganizationsData,
+		organizations,
 		setCurrentOrganization,
 		setCurrentProject,
 		router,
