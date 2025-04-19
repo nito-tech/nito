@@ -15,6 +15,7 @@ vercel link
 
 # 3.Pull the development environment variables
 vercel env pull apps/web/.env --environment development
+vercel env pull packages/db/.env --environment development
 ```
 
 ### 2. Run server
