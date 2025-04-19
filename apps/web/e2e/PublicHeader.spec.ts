@@ -165,21 +165,21 @@ test.describe("When logged in", () => {
 	test("should not display PublicHeader on dashboard page", async ({
 		page,
 	}) => {
-		await page.goto("/dashboard/google");
-		await page.waitForURL("/dashboard/google");
+		await page.goto("/dashboard/apple");
+		await page.waitForURL("/dashboard/apple");
 		await expectPublicHeaderNotVisible(page);
 	});
 
 	test("should display PublicHeader after logging out from dashboard", async ({
 		page,
 	}) => {
-		await page.goto("/dashboard/google");
-		await page.waitForURL("/dashboard/google");
+		await page.goto("/dashboard/apple");
+		await page.waitForURL("/dashboard/apple");
 		await expectPublicHeaderNotVisible(page);
 
 		await logOut(page.context());
 
-		await page.goto("/dashboard/google");
+		await page.goto("/dashboard/apple");
 		await page.waitForURL("/login");
 		await expectPublicHeaderVisible(page);
 	});

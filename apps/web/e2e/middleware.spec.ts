@@ -36,18 +36,18 @@ test.describe("page redirection testing by login status", () => {
 	test.describe("when logged in", () => {
 		test("redirects to /dashboard when accessing /login", async ({ page }) => {
 			await page.goto("/login");
-			await page.waitForURL("/dashboard/google");
+			await page.waitForURL("/dashboard/apple");
 
 			const currentPath = new URL(page.url()).pathname;
-			expect(currentPath).toBe("/dashboard/google");
+			expect(currentPath).toBe("/dashboard/apple");
 		});
 
 		test("redirects to /dashboard when accessing /signup", async ({ page }) => {
 			await page.goto("/signup");
-			await page.waitForURL("/dashboard/google");
+			await page.waitForURL("/dashboard/apple");
 
 			const currentPath = new URL(page.url()).pathname;
-			expect(currentPath).toBe("/dashboard/google");
+			expect(currentPath).toBe("/dashboard/apple");
 		});
 
 		test("does not redirect when accessing /", async ({ page }) => {
@@ -61,10 +61,10 @@ test.describe("page redirection testing by login status", () => {
 			page,
 		}) => {
 			await page.goto("/dashboard");
-			await page.waitForURL("/dashboard/google");
+			await page.waitForURL("/dashboard/apple");
 
 			const currentPath = new URL(page.url()).pathname;
-			expect(currentPath).toBe("/dashboard/google");
+			expect(currentPath).toBe("/dashboard/apple");
 		});
 	});
 });

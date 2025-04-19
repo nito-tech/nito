@@ -7,13 +7,13 @@ test.describe("Login", () => {
 	test.beforeEach(async ({ page }) => {
 		await logOut(page.context());
 		await logInWithEmail(page);
-		await expect(page).toHaveURL("/dashboard/google");
+		await expect(page).toHaveURL("/dashboard/apple");
 	});
 
 	test("should login successfully and display user info in sidebar", async ({
 		page,
 	}) => {
-		await expect(page.getByText("Google LLC", { exact: true })).toBeVisible();
+		await expect(page.getByText("Apple Inc", { exact: true })).toBeVisible();
 		// await expect(
 		// 	page.getByText("saneatsu.wakana@gmail.com", { exact: true }),
 		// ).toBeVisible();
