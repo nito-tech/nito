@@ -16,7 +16,6 @@ import { redirect } from "next/navigation";
 import { getUser } from "@/shared/api/user";
 
 type GetOrganizationsOptions = {
-	profileId?: SelectProfile["id"];
 	limit?: number;
 	offset?: number;
 	orderBy?: keyof InsertOrganization;
@@ -26,11 +25,13 @@ type GetOrganizationsOptions = {
 /**
  * Get organizations with pagination and filtering options
  *
- * @param options - Query options for organizations
+ * This function returns only the organizations that the current user is a member of.
+ * It uses the organization_members table to filter organizations based on the current user's membership.
+ *
+ * @param options - Query options for organizations (limit, offset, orderBy, orderDirection)
  * @returns Organizations and total count
  */
 export const getOrganizations = async ({
-	profileId,
 	limit = 10,
 	offset = 0,
 	orderBy = "createdAt",
@@ -40,8 +41,6 @@ export const getOrganizations = async ({
 	count: number;
 }> => {
 	const user = await getUser();
-
-	// TODO: ユーザーが所属している組織を取得する
 
 	// Base query for organizations
 	const baseQuery = db
@@ -54,18 +53,14 @@ export const getOrganizations = async ({
 			createdAt: organizationsTable.createdAt,
 			updatedAt: organizationsTable.updatedAt,
 		})
-		.from(organizationsTable);
-
-	// If profileId is provided, filter organizations where user is a member
-	if (profileId) {
-		baseQuery.innerJoin(
+		.from(organizationsTable)
+		.innerJoin(
 			organizationMembersTable,
 			and(
 				eq(organizationMembersTable.organizationId, organizationsTable.id),
-				eq(organizationMembersTable.profileId, profileId),
+				eq(organizationMembersTable.profileId, user.id),
 			),
 		);
-	}
 
 	// Get total count
 	const [{ count }] = await db
