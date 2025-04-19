@@ -139,9 +139,9 @@ jobs:
         cd packages/db && supabase db push
 
     # ------------------------------------
-    # Reset Supabase Database
+    # Reset Supabase Database using packages/db/supabase/seed.sql
     # ------------------------------------
-    - name: Reset Supabase Database
+    - name: Reset Database
       run: |
         set -e
         cd packages/db && echo "yes" | supabase db reset --linked

@@ -36,15 +36,19 @@ npx supabase@latest db reset
 # 1. Update drizzle schema files
 
 # 2. Push to db
-npx drizzle-kit push
+npx drizzle-kit push 
+# or supabase db push
 
 # 3. Generate migration file
 pnpm drizzle-kit generate --name=<YOUR_MIGRATION_MESSAGE>
 
 # 4. Update seed.ts
 
-# 5. Apply seed data
+# 5. Apply seed data to local
 pnpm seed
+
+# 6. Generate seed.sql for initialize Preview database in GitHub Actions
+npx supabase db dump --db-url postgresql://postgres:postgres@localhost:54322/postgres --data-only > packages/db/supabase/seed.sql
 ```
 
 ## Tips
