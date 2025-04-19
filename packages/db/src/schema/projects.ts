@@ -50,7 +50,7 @@ export const projectsTable = pgTable(
 			using: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER', 'BILLING', 'VIEWER')
 			)`,
 		}),
@@ -58,10 +58,10 @@ export const projectsTable = pgTable(
 		pgPolicy("Owners and developers can create projects", {
 			for: "insert",
 			to: authenticatedRole,
-			using: sql`EXISTS (
+			withCheck: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER')
 			)`,
 		}),
@@ -72,21 +72,21 @@ export const projectsTable = pgTable(
 			using: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER')
 			)`,
 		}),
 		// 削除ポリシー（ソフトデリート）：オーナーのみがプロジェクトを削除可能
-		pgPolicy("Only owners can delete projects", {
-			for: "update",
-			to: authenticatedRole,
-			using: sql`EXISTS (
-				SELECT 1 FROM organization_members
-				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
-				AND organization_members.role = 'OWNER'
-			) AND NOT is_active`,
-		}),
+		// pgPolicy("Only owners can delete projects", {
+		// 	for: "update",
+		// 	to: authenticatedRole,
+		// 	using: sql`EXISTS (
+		// 		SELECT 1 FROM organization_members
+		// 		WHERE organization_members.organization_id = organization_id
+		// 		AND organization_members.profile_id = auth.uid()
+		// 		AND organization_members.role = 'OWNER'
+		// 	) AND NOT is_active`,
+		// }),
 	],
 ).enableRLS();
 

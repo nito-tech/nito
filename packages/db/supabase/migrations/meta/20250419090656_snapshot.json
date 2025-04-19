@@ -1,5 +1,5 @@
 {
-	"id": "ef639096-debf-44ba-b938-5727543cf2f9",
+	"id": "5e24ec01-e516-4545-be0f-facf150708cf",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"version": "7",
 	"dialect": "postgresql",
@@ -79,28 +79,28 @@
 					"as": "PERMISSIVE",
 					"for": "SELECT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				},
 				"only owners can insert organization members": {
 					"name": "only owners can insert organization members",
 					"as": "PERMISSIVE",
 					"for": "INSERT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"withCheck": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				},
 				"only owners can update organization members": {
 					"name": "only owners can update organization members",
 					"as": "PERMISSIVE",
 					"for": "UPDATE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				},
 				"only owners can delete organization members": {
 					"name": "only owners can delete organization members",
 					"as": "PERMISSIVE",
 					"for": "DELETE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				}
 			},
 			"checkConstraints": {},
@@ -172,28 +172,28 @@
 					"as": "PERMISSIVE",
 					"for": "SELECT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t)"
 				},
 				"Authenticated users can create organizations": {
 					"name": "Authenticated users can create organizations",
 					"as": "PERMISSIVE",
 					"for": "INSERT",
 					"to": ["authenticated"],
-					"using": "true"
+					"withCheck": "true"
 				},
 				"Only owners can update organizations": {
 					"name": "Only owners can update organizations",
 					"as": "PERMISSIVE",
 					"for": "UPDATE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				},
 				"Only owners can delete organizations": {
 					"name": "Only owners can delete organizations",
 					"as": "PERMISSIVE",
 					"for": "DELETE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t)"
 				}
 			},
 			"checkConstraints": {
@@ -445,28 +445,28 @@
 					"as": "PERMISSIVE",
 					"for": "SELECT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM projects p\n\t\t\t\tJOIN organization_members m ON m.organization_id = p.organization_id\n\t\t\t\tWHERE p.id = project_id\n\t\t\t\tAND m.user_id = auth.uid()\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM projects p\n\t\t\t\tJOIN organization_members m ON m.organization_id = p.organization_id\n\t\t\t\tWHERE p.id = project_id\n\t\t\t\tAND m.profile_id = auth.uid()\n\t\t\t)"
 				},
 				"Allow all authenticated users to insert project members": {
 					"name": "Allow all authenticated users to insert project members",
 					"as": "PERMISSIVE",
 					"for": "INSERT",
 					"to": ["authenticated"],
-					"using": "true"
+					"withCheck": "true"
 				},
 				"Users can update project members if they are project owners": {
 					"name": "Users can update project members if they are project owners",
 					"as": "PERMISSIVE",
 					"for": "UPDATE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM project_members pm\n\t\t\t\tJOIN projects p ON p.id = pm.project_id\n\t\t\t\tJOIN organization_members m ON m.id = pm.member_id\n\t\t\t\tWHERE pm.project_id = project_id\n\t\t\t\tAND m.user_id = auth.uid()\n\t\t\t\tAND pm.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM project_members pm\n\t\t\t\tJOIN projects p ON p.id = pm.project_id\n\t\t\t\tJOIN organization_members m ON m.id = pm.member_id\n\t\t\t\tWHERE pm.project_id = project_id\n\t\t\t\tAND m.profile_id = auth.uid()\n\t\t\t\tAND pm.role = 'OWNER'\n\t\t\t)"
 				},
 				"Users can delete project members if they are project owners": {
 					"name": "Users can delete project members if they are project owners",
 					"as": "PERMISSIVE",
 					"for": "DELETE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM project_members pm\n\t\t\t\tJOIN projects p ON p.id = pm.project_id\n\t\t\t\tJOIN organization_members m ON m.id = pm.member_id\n\t\t\t\tWHERE pm.project_id = project_id\n\t\t\t\tAND m.user_id = auth.uid()\n\t\t\t\tAND pm.role = 'OWNER'\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM project_members pm\n\t\t\t\tJOIN projects p ON p.id = pm.project_id\n\t\t\t\tJOIN organization_members m ON m.id = pm.member_id\n\t\t\t\tWHERE pm.project_id = project_id\n\t\t\t\tAND m.profile_id = auth.uid()\n\t\t\t\tAND pm.role = 'OWNER'\n\t\t\t)"
 				}
 			},
 			"checkConstraints": {},
@@ -567,28 +567,21 @@
 					"as": "PERMISSIVE",
 					"for": "SELECT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER', 'BILLING', 'VIEWER')\n\t\t\t)"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER', 'BILLING', 'VIEWER')\n\t\t\t)"
 				},
 				"Owners and developers can create projects": {
 					"name": "Owners and developers can create projects",
 					"as": "PERMISSIVE",
 					"for": "INSERT",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER')\n\t\t\t)"
+					"withCheck": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER')\n\t\t\t)"
 				},
 				"Owners and developers can update projects": {
 					"name": "Owners and developers can update projects",
 					"as": "PERMISSIVE",
 					"for": "UPDATE",
 					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER')\n\t\t\t)"
-				},
-				"Only owners can delete projects": {
-					"name": "Only owners can delete projects",
-					"as": "PERMISSIVE",
-					"for": "UPDATE",
-					"to": ["authenticated"],
-					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.user_id = auth.uid()\n\t\t\t\tAND organization_members.role = 'OWNER'\n\t\t\t) AND NOT is_active"
+					"using": "EXISTS (\n\t\t\t\tSELECT 1 FROM organization_members\n\t\t\t\tWHERE organization_members.organization_id = organization_id\n\t\t\t\tAND organization_members.profile_id = auth.uid()\n\t\t\t\tAND organization_members.role IN ('OWNER', 'DEVELOPER')\n\t\t\t)"
 				}
 			},
 			"checkConstraints": {

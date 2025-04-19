@@ -41,14 +41,14 @@ export const projectMembersTable = pgTable(
 				SELECT 1 FROM projects p
 				JOIN organization_members m ON m.organization_id = p.organization_id
 				WHERE p.id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 			)`,
 		}),
 		// 作成ポリシー：認証済みユーザーはプロジェクトメンバーを追加可能
 		pgPolicy("Allow all authenticated users to insert project members", {
 			for: "insert",
 			to: authenticatedRole,
-			using: sql`true`,
+			withCheck: sql`true`,
 		}),
 		// 更新ポリシー：プロジェクトのオーナーのみがメンバー情報を更新可能
 		pgPolicy("Users can update project members if they are project owners", {
@@ -59,7 +59,7 @@ export const projectMembersTable = pgTable(
 				JOIN projects p ON p.id = pm.project_id
 				JOIN organization_members m ON m.id = pm.member_id
 				WHERE pm.project_id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 				AND pm.role = 'OWNER'
 			)`,
 		}),
@@ -72,7 +72,7 @@ export const projectMembersTable = pgTable(
 				JOIN projects p ON p.id = pm.project_id
 				JOIN organization_members m ON m.id = pm.member_id
 				WHERE pm.project_id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 				AND pm.role = 'OWNER'
 			)`,
 		}),

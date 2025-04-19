@@ -54,14 +54,14 @@ export const organizationsTable = pgTable(
 			using: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 			)`,
 		}),
 		// 作成ポリシー：認証済みユーザーは組織を作成可能
 		pgPolicy("Authenticated users can create organizations", {
 			for: "insert",
 			to: authenticatedRole,
-			using: sql`true`,
+			withCheck: sql`true`,
 		}),
 		// 更新ポリシー：組織のオーナーのみが組織情報を更新可能
 		pgPolicy("Only owners can update organizations", {
@@ -70,7 +70,7 @@ export const organizationsTable = pgTable(
 			using: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			)`,
 		}),
@@ -81,7 +81,7 @@ export const organizationsTable = pgTable(
 			using: sql`EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			)`,
 		}),

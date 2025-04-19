@@ -75,43 +75,43 @@ CREATE INDEX "projects_name_idx" ON "projects" USING btree ("name");--> statemen
 CREATE POLICY "authenticated users can view organization members" ON "organization_members" AS PERMISSIVE FOR SELECT TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
-CREATE POLICY "only owners can insert organization members" ON "organization_members" AS PERMISSIVE FOR INSERT TO "authenticated" USING (EXISTS (
+CREATE POLICY "only owners can insert organization members" ON "organization_members" AS PERMISSIVE FOR INSERT TO "authenticated" WITH CHECK (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "only owners can update organization members" ON "organization_members" AS PERMISSIVE FOR UPDATE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "only owners can delete organization members" ON "organization_members" AS PERMISSIVE FOR DELETE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "Organization members can view organizations" ON "organizations" AS PERMISSIVE FOR SELECT TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 			));--> statement-breakpoint
-CREATE POLICY "Authenticated users can create organizations" ON "organizations" AS PERMISSIVE FOR INSERT TO "authenticated" USING (true);--> statement-breakpoint
+CREATE POLICY "Authenticated users can create organizations" ON "organizations" AS PERMISSIVE FOR INSERT TO "authenticated" WITH CHECK (true);--> statement-breakpoint
 CREATE POLICY "Only owners can update organizations" ON "organizations" AS PERMISSIVE FOR UPDATE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "Only owners can delete organizations" ON "organizations" AS PERMISSIVE FOR DELETE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "Authenticated can view all profiles" ON "profiles" AS PERMISSIVE FOR SELECT TO "authenticated" USING (true);--> statement-breakpoint
@@ -122,15 +122,15 @@ CREATE POLICY "Users can view project members they are members of" ON "project_m
 				SELECT 1 FROM projects p
 				JOIN organization_members m ON m.organization_id = p.organization_id
 				WHERE p.id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 			));--> statement-breakpoint
-CREATE POLICY "Allow all authenticated users to insert project members" ON "project_members" AS PERMISSIVE FOR INSERT TO "authenticated" USING (true);--> statement-breakpoint
+CREATE POLICY "Allow all authenticated users to insert project members" ON "project_members" AS PERMISSIVE FOR INSERT TO "authenticated" WITH CHECK (true);--> statement-breakpoint
 CREATE POLICY "Users can update project members if they are project owners" ON "project_members" AS PERMISSIVE FOR UPDATE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM project_members pm
 				JOIN projects p ON p.id = pm.project_id
 				JOIN organization_members m ON m.id = pm.member_id
 				WHERE pm.project_id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 				AND pm.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "Users can delete project members if they are project owners" ON "project_members" AS PERMISSIVE FOR DELETE TO "authenticated" USING (EXISTS (
@@ -138,30 +138,24 @@ CREATE POLICY "Users can delete project members if they are project owners" ON "
 				JOIN projects p ON p.id = pm.project_id
 				JOIN organization_members m ON m.id = pm.member_id
 				WHERE pm.project_id = project_id
-				AND m.user_id = auth.uid()
+				AND m.profile_id = auth.uid()
 				AND pm.role = 'OWNER'
 			));--> statement-breakpoint
 CREATE POLICY "Members can view projects" ON "projects" AS PERMISSIVE FOR SELECT TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER', 'BILLING', 'VIEWER')
 			));--> statement-breakpoint
-CREATE POLICY "Owners and developers can create projects" ON "projects" AS PERMISSIVE FOR INSERT TO "authenticated" USING (EXISTS (
+CREATE POLICY "Owners and developers can create projects" ON "projects" AS PERMISSIVE FOR INSERT TO "authenticated" WITH CHECK (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER')
 			));--> statement-breakpoint
 CREATE POLICY "Owners and developers can update projects" ON "projects" AS PERMISSIVE FOR UPDATE TO "authenticated" USING (EXISTS (
 				SELECT 1 FROM organization_members
 				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
+				AND organization_members.profile_id = auth.uid()
 				AND organization_members.role IN ('OWNER', 'DEVELOPER')
-			));--> statement-breakpoint
-CREATE POLICY "Only owners can delete projects" ON "projects" AS PERMISSIVE FOR UPDATE TO "authenticated" USING (EXISTS (
-				SELECT 1 FROM organization_members
-				WHERE organization_members.organization_id = organization_id
-				AND organization_members.user_id = auth.uid()
-				AND organization_members.role = 'OWNER'
-			) AND NOT is_active);
+			));
