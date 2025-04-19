@@ -107,10 +107,16 @@
 		"name": "Project Name",
 		"members": "Project Members",
 		"membersDescription": "Manage your project members",
+		"member": {
+			"actions": "Actions",
+			"manageAccess": "Manage Access",
+			"removeFromProject": "Remove from Project"
+		},
 		"error": {
 			"projectNotFound": "Project not found"
 		},
 		"noProjects": "No projects found",
+		"noMembers": "No members found",
 		"findProject": "Find project...",
 		"create": {
 			"project": "Create Project",

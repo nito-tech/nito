@@ -111,10 +111,16 @@
 		"name": "プロジェクト名",
 		"members": "プロジェクトメンバー",
 		"membersDescription": "プロジェクトのメンバーを管理します",
+		"member": {
+			"actions": "操作",
+			"manageAccess": "アクセス権限を編集",
+			"removeFromProject": "プロジェクトから削除"
+		},
 		"error": {
 			"projectNotFound": "プロジェクトが見つかりません"
 		},
 		"noProjects": "プロジェクトが見つかりません",
+		"noMembers": "メンバーが見つかりません",
 		"findProject": "プロジェクトを検索...",
 		"create": {
 			"project": "プロジェクトを作成",
