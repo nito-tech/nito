@@ -34,7 +34,7 @@ jobs:
       run: pnpm install --frozen-lockfile
 
     # ------------------------------------
-    # Set Vercel environment to .env.local
+    # Set Vercel environment to .env
     # ------------------------------------
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
