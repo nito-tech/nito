@@ -9,6 +9,7 @@
 		}
 	},
 	"scripts": {
+		"build": "tsc",
 		"generate": "drizzle-kit generate",
 		"push": "drizzle-kit push",
 		"seed": "tsx src/seed/seed.ts"

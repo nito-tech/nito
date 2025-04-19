@@ -81,11 +81,33 @@ jobs:
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
 
-    - name: Pull Preview Environment Variables
-      run: vercel env pull apps/web/.env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+    - name: Pull Preview Environment Variables to apps/web/.env
+      run: vercel env pull apps/web/.env --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    - name: Pull Preview Environment Variables to packages/db/.env
+      run: vercel env pull packages/db/.env --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+      env:
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    # ------------------------------------
+    # Build packages using cache
+    # ------------------------------------
+    - name: Cache Next.js build
+      id: cache-build
+      uses: actions/cache@v4
+      with:
+        path: |
+          apps/web/.next/cache
+          packages/db/dist
+        key: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+        restore-keys: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+    - name: Build db package
+      run: pnpm --filter @nito/db build
 
     # ------------------------------------
     # Run migrations

@@ -3,9 +3,17 @@ import postgres from "postgres";
 
 import * as schema from "./schema";
 
-const client = postgres(
-	"postgresql://postgres:postgres@127.0.0.1:54322/postgres",
-);
+const postgresUrl = process.env.DATABASE_URL;
+
+console.log("=======================================");
+console.log("process.env.DATABASE_URL", process.env.DATABASE_URL);
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
+if (!postgresUrl) {
+	throw new Error("DATABASE_URL is not set in .env");
+}
+
+const client = postgres(postgresUrl);
 
 export const db = drizzle(client, { schema });
 

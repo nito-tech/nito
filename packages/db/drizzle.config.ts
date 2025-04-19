@@ -1,7 +1,5 @@
 import { defineConfig } from "drizzle-kit";
 
-// import { env } from "@/shared/config/env";
-
 const postgresUrl = process.env.DATABASE_URL;
 
 if (!postgresUrl) {
