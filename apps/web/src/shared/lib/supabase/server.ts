@@ -8,6 +8,14 @@ import { supabaseAnonKey, supabaseUrl } from "./config";
 export async function createServerClient() {
 	const cookieStore = await cookies();
 
+	if (!supabaseUrl || !supabaseAnonKey) {
+		console.error("Supabase configuration is missing:", {
+			url: supabaseUrl ? "set" : "missing",
+			key: supabaseAnonKey ? "set" : "missing",
+		});
+		throw new Error("Supabase configuration is missing");
+	}
+
 	return createClient(supabaseUrl, supabaseAnonKey, {
 		cookies: {
 			getAll() {
