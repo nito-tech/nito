@@ -25,10 +25,7 @@ type GetOrganizationsOptions = {
 /**
  * Get organizations with pagination and filtering options
  *
- * This function returns only the organizations that the current user is a member of.
- * It uses the organization_members table to filter organizations based on the current user's membership.
- *
- * @param options - Query options for organizations (limit, offset, orderBy, orderDirection)
+ * @param options - Query options for organizations
  * @returns Organizations and total count
  */
 export const getOrganizations = async ({
@@ -42,35 +39,35 @@ export const getOrganizations = async ({
 }> => {
 	const user = await getUser();
 
-	// Base query for organizations
-	const baseQuery = db
-		.select({
-			id: organizationsTable.id,
-			name: organizationsTable.name,
-			slug: organizationsTable.slug,
-			description: organizationsTable.description,
-			avatarUrl: organizationsTable.avatarUrl,
-			createdAt: organizationsTable.createdAt,
-			updatedAt: organizationsTable.updatedAt,
-		})
-		.from(organizationsTable)
-		.innerJoin(
-			organizationMembersTable,
-			and(
-				eq(organizationMembersTable.organizationId, organizationsTable.id),
-				eq(organizationMembersTable.profileId, user.id),
-			),
-		);
+	// If user is not authenticated, return empty result immediately
+	if (!user.id) {
+		return {
+			organizations: [],
+			count: 0,
+		};
+	}
+
+	// Get organization IDs where the user is a member
+	const memberOrganizationIds = await db
+		.select({ organizationId: organizationMembersTable.organizationId })
+		.from(organizationMembersTable)
+		.where(eq(organizationMembersTable.profileId, user.id));
+
+	const organizationIds = memberOrganizationIds.map((m) => m.organizationId);
 
 	// Get total count
 	const [{ count }] = await db
 		.select({
 			count: sql<number>`count(*)`,
 		})
-		.from(baseQuery.as("base"));
+		.from(organizationsTable)
+		.where(sql`${organizationsTable.id} IN ${organizationIds}`);
 
 	// Get organizations with pagination and ordering
-	const organizations = (await baseQuery
+	const organizations = (await db
+		.select()
+		.from(organizationsTable)
+		.where(sql`${organizationsTable.id} IN ${organizationIds}`)
 		.orderBy(
 			orderDirection === "desc"
 				? desc(organizationsTable[orderBy])
