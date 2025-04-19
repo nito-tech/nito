@@ -1,8 +1,13 @@
 "use client";
 
+import type {
+	InsertProject,
+	SelectOrganization,
+	SelectProject,
+} from "@nito/db";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getProjectMembers } from "@/entities/project/api/get-project";
+import { getProjectMembersWithProfiles } from "@/entities/project/api/get-project";
 import {
 	createProject,
 	getProjectByName,
@@ -10,11 +15,10 @@ import {
 } from "@/entities/project/api/projects";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
-import type { Organization, Project } from "@/shared/schema";
 
-type UseProjectOptions = {
-	organizationId: Organization["id"];
-	queryConfig?: QueryConfig<typeof getProjects>;
+type UseProjectOptions<TData = Awaited<ReturnType<typeof getProjects>>> = {
+	organizationId: SelectOrganization["id"];
+	queryConfig?: QueryConfig<typeof getProjects, TData>;
 };
 
 /**
@@ -22,21 +26,20 @@ type UseProjectOptions = {
  *
  * @returns Query result containing the list of projects
  */
-export function useGetProjects({
-	organizationId,
-	queryConfig,
-}: UseProjectOptions) {
+export function useGetProjects<
+	TData = Awaited<ReturnType<typeof getProjects>>,
+>({ organizationId, queryConfig }: UseProjectOptions<TData>) {
 	return useQuery({
 		queryKey: queryKeys.project.all(organizationId),
-		queryFn: () => getProjects(organizationId),
+		queryFn: () => getProjects({ organizationId }),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
 	});
 }
 
 type UseProjectByNameOptions = {
-	organizationId: Organization["id"];
-	projectName: Project["name"];
+	organizationId: SelectOrganization["id"];
+	projectName: SelectProject["name"];
 	queryConfig?: QueryConfig<typeof getProjectByName>;
 };
 
@@ -59,7 +62,7 @@ export function useGetProjectByName({
 }
 
 type UseCreateProjectOptions = {
-	organizationId: Organization["id"];
+	organizationId: SelectOrganization["id"];
 	queryConfig: MutationConfig<typeof createProject>;
 };
 
@@ -67,16 +70,20 @@ export function useCreateProject({
 	organizationId,
 	queryConfig,
 }: UseCreateProjectOptions) {
-	return useMutation<Project, Error, Project["name"]>({
-		mutationFn: (projectName) => createProject(organizationId, projectName),
+	return useMutation({
+		mutationFn: ({ projectName }: { projectName: InsertProject["name"] }) =>
+			createProject({
+				organizationId,
+				projectName,
+			}),
 		...queryConfig,
 	});
 }
 
 type UseGetProjectMembersOptions = {
-	id: Project["id"];
-	organizationId: Organization["id"];
-	queryConfig?: QueryConfig<typeof getProjectMembers>;
+	id: SelectProject["id"];
+	organizationId: SelectOrganization["id"];
+	queryConfig?: QueryConfig<typeof getProjectMembersWithProfiles>;
 };
 
 /**
@@ -84,14 +91,14 @@ type UseGetProjectMembersOptions = {
  *
  * @returns Query result containing the list of project members
  */
-export function useGetProjectMembers({
+export function useGetProjectMembersWithProfiles({
 	id,
 	organizationId,
 	queryConfig,
 }: UseGetProjectMembersOptions) {
 	return useQuery({
 		queryKey: queryKeys.project.members(id),
-		queryFn: () => getProjectMembers(organizationId, id),
+		queryFn: () => getProjectMembersWithProfiles(organizationId, id),
 		...queryConfig,
 		staleTime: 24 * 60 * 60 * 1000, // 1 day
 	});

@@ -1,48 +1,86 @@
 "use server";
 
+import {
+	type InsertOrganization,
+	type SelectOrganization,
+	type SelectOrganizationMember,
+	type SelectProfile,
+	db,
+	organizationMembersTable,
+	organizationsTable,
+	profilesTable,
+} from "@nito/db";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/shared/api/user";
-import { createServerClient } from "@/shared/lib/supabase/server";
-import type { Member, Organization, Profile } from "@/shared/schema";
-import type { Database } from "@/shared/schema";
+
+type GetOrganizationsOptions = {
+	limit?: number;
+	offset?: number;
+	orderBy?: keyof InsertOrganization;
+	orderDirection?: "asc" | "desc";
+};
 
 /**
- * Fetch organizations where the user is a member
+ * Get organizations with pagination and filtering options
  *
- * @returns A promise that resolves to an array of organizations
+ * @param options - Query options for organizations
+ * @returns Organizations and total count
  */
-export async function getOrganizations(): Promise<Organization[]> {
-	const supabase = await createServerClient();
+export const getOrganizations = async ({
+	limit = 10,
+	offset = 0,
+	orderBy = "createdAt",
+	orderDirection = "desc",
+}: GetOrganizationsOptions = {}): Promise<{
+	organizations: SelectOrganization[];
+	count: number;
+}> => {
 	const user = await getUser();
 
-	// First, get the organization IDs where the user is a member
-	const { data: memberData, error: memberError } = await supabase
-		.from("members")
-		.select("organization_id")
-		.eq("user_id", user.id)
-		.eq("is_active", true);
-
-	if (memberError) {
-		throw new Error(memberError.message);
+	// If user is not authenticated, return empty result immediately
+	if (!user.id) {
+		return {
+			organizations: [],
+			count: 0,
+		};
 	}
 
-	// Extract organization IDs from the member data
-	const organizationIds = memberData.map((member) => member.organization_id);
+	// Get organization IDs where the user is a member
+	const memberOrganizationIds = await db
+		.select({ organizationId: organizationMembersTable.organizationId })
+		.from(organizationMembersTable)
+		.where(eq(organizationMembersTable.profileId, user.id));
 
-	// Then, get the organizations
-	const { data, error } = await supabase
-		.from("organizations")
+	const organizationIds = memberOrganizationIds.map((m) => m.organizationId);
+
+	// Get total count
+	const [{ count }] = await db
+		.select({
+			count: sql<number>`count(*)`,
+		})
+		.from(organizationsTable)
+		.where(sql`${organizationsTable.id} IN ${organizationIds}`);
+
+	// Get organizations with pagination and ordering
+	const organizations = (await db
 		.select()
-		.in("id", organizationIds)
-		.order("name", { ascending: true });
+		.from(organizationsTable)
+		.where(sql`${organizationsTable.id} IN ${organizationIds}`)
+		.orderBy(
+			orderDirection === "desc"
+				? desc(organizationsTable[orderBy])
+				: organizationsTable[orderBy],
+		)
+		.limit(limit)
+		.offset(offset)) satisfies SelectOrganization[];
 
-	if (error) {
-		throw new Error(error.message);
-	}
-
-	return data;
-}
+	return {
+		organizations,
+		count,
+	};
+};
 
 /**
  * Check if the user has access to the organization
@@ -52,22 +90,32 @@ export async function getOrganizations(): Promise<Organization[]> {
  * @returns A promise that resolves to a boolean indicating if the user has access to the organization
  */
 async function isUserOrganizationMember(
-	organizationId: Organization["id"],
+	organizationId: SelectOrganization["id"],
 ): Promise<boolean> {
-	const supabase = await createServerClient();
-	const user = await getUser();
+	try {
+		const user = await getUser();
 
-	const { data, error } = await supabase
-		.from("members")
-		.select()
-		.eq("organization_id", organizationId)
-		.eq("user_id", user.id);
+		const [{ count }] = await db
+			.select({
+				count: sql<number>`count(*)`,
+			})
+			.from(organizationMembersTable)
+			.where(
+				and(
+					eq(organizationMembersTable.organizationId, organizationId),
+					eq(organizationMembersTable.profileId, user.id),
+				),
+			);
 
-	if (error) {
-		throw new Error(error.message);
+		return count > 0;
+	} catch (error) {
+		console.error("Error checking organization membership:", error);
+		throw new Error(
+			error instanceof Error
+				? error.message
+				: "An unexpected error occurred while checking organization membership",
+		);
 	}
-
-	return data.length > 0;
 }
 
 /**
@@ -76,27 +124,23 @@ async function isUserOrganizationMember(
  * @param slug The slug of the organization to fetch
  * @returns A promise that resolves to the organization
  */
-export async function getOrganizationBySlug(
-	slug: Organization["slug"],
-): Promise<Organization> {
-	const supabase = await createServerClient();
-
-	const { data, error } = await supabase
-		.from("organizations")
+export async function getOrganizationBySlug(slug: SelectOrganization["slug"]) {
+	const [organization] = await db
 		.select()
-		.eq("slug", slug)
-		.single();
+		.from(organizationsTable)
+		.where(eq(organizationsTable.slug, slug))
+		.limit(1);
 
-	if (error) {
-		throw new Error(error.message);
+	if (!organization) {
+		throw new Error("Organization not found");
 	}
 
-	const isMember = await isUserOrganizationMember(data.id);
+	const isMember = await isUserOrganizationMember(organization.id);
 	if (!isMember) {
 		redirect("/not-found");
 	}
 
-	return data;
+	return organization;
 }
 
 /**
@@ -105,71 +149,65 @@ export async function getOrganizationBySlug(
  * @param organizationId The ID of the organization whose members to fetch
  * @returns A promise that resolves to an array of members
  */
-export async function getOrganizationMembers(
-	organizationId: Organization["id"],
+export async function getOrganizationMembersWithProfiles(
+	organizationId: SelectOrganization["id"],
 ): Promise<
-	(Member & {
-		profile: Pick<Profile, "id" | "email" | "display_name" | "avatar_url">;
+	(SelectOrganizationMember & {
+		profile: Pick<
+			SelectProfile,
+			"id" | "email" | "displayName" | "avatarUrl" | "username"
+		>;
 	})[]
 > {
-	const supabase = await createServerClient();
-
-	// First, get the members
-	const { data: members, error: membersError } = await supabase
-		.from("members")
-		.select("*")
-		.eq("organization_id", organizationId)
-		.eq("is_active", true)
-		.order("joined_at", { ascending: false });
-
-	if (membersError) {
-		throw new Error(membersError.message);
+	try {
+		return await db
+			.select({
+				id: organizationMembersTable.id,
+				organizationId: organizationMembersTable.organizationId,
+				profileId: organizationMembersTable.profileId,
+				role: organizationMembersTable.role,
+				createdAt: organizationMembersTable.createdAt,
+				updatedAt: organizationMembersTable.updatedAt,
+				profile: {
+					id: profilesTable.id,
+					email: profilesTable.email,
+					displayName: profilesTable.displayName,
+					avatarUrl: profilesTable.avatarUrl,
+					username: profilesTable.username,
+				},
+			})
+			.from(organizationMembersTable)
+			.innerJoin(
+				profilesTable,
+				eq(profilesTable.id, organizationMembersTable.profileId),
+			)
+			.where(eq(organizationMembersTable.organizationId, organizationId))
+			.orderBy(desc(organizationMembersTable.createdAt));
+	} catch (error) {
+		console.error("Error fetching organization members:", error);
+		throw error;
 	}
-
-	// Then, get the profiles for these members
-	const { data: profiles, error: profilesError } = await supabase
-		.from("profiles")
-		.select("id, email, display_name, avatar_url")
-		.in(
-			"id",
-			members.map((member) => member.user_id),
-		);
-
-	if (profilesError) {
-		throw new Error(profilesError.message);
-	}
-
-	const data = members.map((member) => {
-		const profile = profiles.find((profile) => profile.id === member.user_id);
-		if (!profile) {
-			throw new Error(`Profile not found for user ${member.user_id}`);
-		}
-		return {
-			...member,
-			profile,
-		};
-	});
-
-	return data;
 }
 
 export async function updateOrganization(
-	data: { id: Organization["id"] } & Partial<
-		Pick<Organization, "name" | "slug">
+	data: { id: SelectOrganization["id"] } & Partial<
+		Pick<SelectOrganization, "name" | "slug">
 	>,
-) {
-	const supabase = await createServerClient();
+): Promise<SelectOrganization> {
+	try {
+		const updateData: Partial<Pick<SelectOrganization, "name" | "slug">> = {};
+		if (data.name !== undefined) updateData.name = data.name;
+		if (data.slug !== undefined) updateData.slug = data.slug;
 
-	const updateData: Partial<Pick<Organization, "name" | "slug">> = {};
-	if (data.name !== undefined) updateData.name = data.name;
-	if (data.slug !== undefined) updateData.slug = data.slug;
+		const [updatedOrganization] = await db
+			.update(organizationsTable)
+			.set(updateData)
+			.where(eq(organizationsTable.id, data.id))
+			.returning();
 
-	const { error } = await supabase
-		.from("organizations")
-		.update(updateData)
-		.eq("id", data.id);
-
-	if (error) {
-		throw new Error(error.message);
+		return updatedOrganization;
+	} catch (error) {
+		console.error("Error updating organization:", error);
+		throw error;
 	}
 }

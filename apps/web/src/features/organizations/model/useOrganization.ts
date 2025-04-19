@@ -1,19 +1,21 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
 	getOrganizationBySlug,
-	getOrganizationMembers,
+	getOrganizationMembersWithProfiles,
 	getOrganizations,
 	updateOrganization,
 } from "@/entities/organization/api/organizations";
 import { queryKeys } from "@/shared/lib/query-keys";
 import type { MutationConfig, QueryConfig } from "@/shared/lib/reqct-query";
-import type { Organization } from "@/shared/schema";
 
-type UseOrganizationsOptions = {
-	queryConfig?: QueryConfig<typeof getOrganizations>;
+type UseOrganizationsOptions<
+	TData = Awaited<ReturnType<typeof getOrganizations>>,
+> = {
+	queryConfig?: QueryConfig<typeof getOrganizations, TData>;
 };
 
 /**
@@ -21,9 +23,9 @@ type UseOrganizationsOptions = {
  *
  * @returns Query result containing the list of organizations
  */
-export function useGetOrganizations({
-	queryConfig = {},
-}: UseOrganizationsOptions = {}) {
+export function useGetOrganizations<
+	TData = Awaited<ReturnType<typeof getOrganizations>>,
+>({ queryConfig = {} }: UseOrganizationsOptions<TData> = {}) {
 	return useQuery({
 		queryKey: queryKeys.organization.all,
 		queryFn: () => getOrganizations(),
@@ -33,7 +35,7 @@ export function useGetOrganizations({
 }
 
 type UseOrganizationBySlugOptions = {
-	slug: Organization["slug"];
+	slug: SelectOrganization["slug"];
 	queryConfig?: QueryConfig<typeof getOrganizationBySlug>;
 };
 
@@ -57,8 +59,8 @@ export function useGetOrganizationBySlug({
 }
 
 type UseOrganizationMembersOptions = {
-	organizationId: Organization["id"];
-	queryConfig?: QueryConfig<typeof getOrganizationMembers>;
+	organizationId: SelectOrganization["id"];
+	queryConfig?: QueryConfig<typeof getOrganizationMembersWithProfiles>;
 };
 
 /**
@@ -67,20 +69,20 @@ type UseOrganizationMembersOptions = {
  * @param organizationId The ID of the organization whose members to fetch
  * @returns Query result containing the list of members
  */
-export function useGetOrganizationMembers({
+export function useGetOrganizationMembersWithProfiles({
 	organizationId,
 	queryConfig = {},
 }: UseOrganizationMembersOptions) {
 	return useQuery({
 		queryKey: queryKeys.organization.members(organizationId),
-		queryFn: () => getOrganizationMembers(organizationId),
+		queryFn: () => getOrganizationMembersWithProfiles(organizationId),
 		enabled: !!organizationId,
 		...queryConfig,
 	});
 }
 
 type UseUpdateOrganizationOptions = {
-	organization: { id: Organization["id"] };
+	organization: { id: SelectOrganization["id"] };
 	queryConfig?: MutationConfig<typeof updateOrganization>;
 };
 
@@ -89,7 +91,7 @@ export function useUpdateOrganization({
 	queryConfig,
 }: UseUpdateOrganizationOptions) {
 	return useMutation({
-		mutationFn: (data: Partial<Pick<Organization, "name" | "slug">>) =>
+		mutationFn: (data: Partial<Pick<SelectOrganization, "name" | "slug">>) =>
 			updateOrganization({ id: organization.id, ...data }),
 		...queryConfig,
 	});

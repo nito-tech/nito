@@ -26,13 +26,13 @@ jobs:
       run: pnpm install --frozen-lockfile
 
     # ------------------------------------
-    # Set Vercel environment to .env.local
+    # Set Vercel environment to .env
     # ------------------------------------
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
 
     - name: Pull Production Environment Variables
-      run: vercel env pull apps/web/.env.local --environment production --yes --token ${{ secrets.VERCEL_TOKEN }}
+      run: vercel env pull apps/web/.env --environment production --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -48,9 +48,9 @@ jobs:
     # Use Vercel environment variables
     - name: Link to the project
       run: |
-        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID apps/web/.env | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD apps/web/.env | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN apps/web/.env | cut -d '=' -f2 | sed 's/"//g')
         if [ -z "$SUPABASE_PROJECT_ID" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
           echo "Error: Missing Supabase environment variables"
           exit 1

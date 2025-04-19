@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -13,13 +14,12 @@ import {
 } from "@/features/project/model/create-project-schema";
 import { useCreateProject } from "@/features/project/model/useProject";
 import { queryKeys } from "@/shared/lib/query-keys";
-import type { Organization } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
 
 export function CreateProjectForm({
 	organization,
-}: { organization: Organization }) {
+}: { organization: SelectOrganization }) {
 	const t = useTranslations();
 	const router = useRouter();
 	const queryClient = useQueryClient();
@@ -46,7 +46,12 @@ export function CreateProjectForm({
 	return (
 		<Form
 			schema={CreateProjectSchema(t)}
-			onSubmit={(data: CreateProjectInput) => createProject(data.name)}
+			onSubmit={(data: CreateProjectInput) =>
+				createProject({
+					organizationId: organization.id, // TODO: remove this
+					projectName: data.name,
+				})
+			}
 			aria-label={t("Project.create.project")}
 		>
 			{() => (

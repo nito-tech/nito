@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectProject } from "@nito/db";
 import { Check, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -7,7 +8,6 @@ import React from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { useProjectStore } from "@/entities/project/model/project-store";
-import type { Project } from "@/shared/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import {
@@ -23,13 +23,17 @@ import { useGetProjects } from "../../model/useProject";
 export function ProjectSelector() {
 	const t = useTranslations();
 	const { currentOrganization } = useOrganizationStore();
-	const { data: projects } = useGetProjects({
-		organizationId: currentOrganization?.id ?? "",
-	});
 	const { currentProject, setCurrentProject } = useProjectStore();
 
+	const { data: projects } = useGetProjects({
+		organizationId: currentOrganization?.id ?? "",
+		queryConfig: {
+			select: (data) => data.projects,
+		},
+	});
+
 	const router = useRouter();
-	function handleProjectClick(project: Project) {
+	function handleProjectClick(project: SelectProject) {
 		setCurrentProject(project);
 		router.push(
 			`/dashboard/${currentOrganization?.slug}/projects/${project.name}`,

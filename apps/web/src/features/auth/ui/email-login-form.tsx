@@ -73,6 +73,7 @@ export function EmailLogInForm({ className }: Props) {
 	} = useGetOrganizations({
 		queryConfig: {
 			enabled: isLoggedIn, // Run if login succeeds
+			select: (data) => data.organizations,
 		},
 	});
 	const { setCurrentOrganization } = useOrganizationStore();

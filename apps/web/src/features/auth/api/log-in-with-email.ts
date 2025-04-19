@@ -27,16 +27,26 @@ export const logInWithEmail = async ({
 		throw error;
 	}
 
-	const supabase = await createServerClient();
+	try {
+		const supabase = await createServerClient();
 
-	const { data: response, error } = await supabase.auth.signInWithPassword({
-		email: data.email,
-		password: data.password,
-	});
+		const { data: response, error } = await supabase.auth.signInWithPassword({
+			email: data.email,
+			password: data.password,
+		});
 
-	if (error) {
-		throw new Error(error.message);
+		if (error) {
+			console.error("Supabase auth error:", error);
+			throw new Error(error.message);
+		}
+
+		if (!response?.session) {
+			throw new Error("No session returned from Supabase");
+		}
+
+		return response.session;
+	} catch (error) {
+		console.error("Login error:", error);
+		throw error;
 	}
-
-	return response.session;
 };

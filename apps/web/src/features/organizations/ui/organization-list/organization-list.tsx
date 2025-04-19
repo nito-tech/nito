@@ -20,7 +20,15 @@ import { useGetOrganizations } from "../../model/useOrganization";
  */
 export function OrganizationList() {
 	const t = useTranslations();
-	const { data: organizations, isLoading, error } = useGetOrganizations();
+	const {
+		data: organizations,
+		isLoading,
+		error,
+	} = useGetOrganizations({
+		queryConfig: {
+			select: (data) => data.organizations,
+		},
+	});
 
 	if (error) {
 		return (
@@ -58,19 +66,19 @@ export function OrganizationList() {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{organizations.map((org) => (
-					<TableRow key={org.id}>
+				{organizations.map((organization) => (
+					<TableRow key={organization.id}>
 						<TableCell>
 							<Link
-								href={`/dashboard/organizations/${org.slug}`}
+								href={`/dashboard/organizations/${organization.slug}`}
 								className="hover:underline"
 							>
-								{org.name}
+								{organization.name}
 							</Link>
 						</TableCell>
-						<TableCell>{org.slug}</TableCell>
+						<TableCell>{organization.slug}</TableCell>
 						<TableCell>
-							{new Date(org.created_at).toLocaleDateString()}
+							{new Date(organization.createdAt).toLocaleDateString()}
 						</TableCell>
 					</TableRow>
 				))}

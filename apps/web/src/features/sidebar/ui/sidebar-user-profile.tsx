@@ -43,9 +43,9 @@ export default function SidebarUserProfile({ isCollapsed }: Props) {
 		() => ({
 			username: profile?.username ?? "-",
 			email: user?.email ?? "-",
-			avatarUrl: profile?.avatar_url ?? "",
+			avatarUrl: profile?.avatarUrl ?? "",
 		}),
-		[profile?.username, user?.email, profile?.avatar_url],
+		[profile?.username, user?.email, profile?.avatarUrl],
 	);
 
 	// ----------------------------------------------

@@ -1,14 +1,22 @@
 "use client";
 
-import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
+
+import { useGetOrganizations } from "@/features/organizations/model/useOrganization";
 
 export default function DashboardPage() {
-	const { currentOrganization } = useOrganizationStore();
+	const { data: organizations } = useGetOrganizations({
+		queryConfig: {
+			select: (data) => data.organizations,
+		},
+	});
 
-	if (!currentOrganization) {
-		redirect("/login");
-	}
+	useEffect(() => {
+		if (organizations && organizations.length > 0) {
+			redirect(`/dashboard/${organizations[0].slug}`);
+		}
+	}, [organizations]);
 
-	redirect(`/dashboard/${currentOrganization.slug}`);
+	return null;
 }

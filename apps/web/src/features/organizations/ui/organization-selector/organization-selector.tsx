@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization } from "@nito/db";
 import { Check, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -7,7 +8,6 @@ import React from "react";
 
 import { useOrganizationStore } from "@/entities/organization/model/organization-store";
 import { useProjectStore } from "@/entities/project/model/project-store";
-import type { Organization } from "@/shared/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import {
@@ -22,13 +22,18 @@ import { useGetOrganizations } from "../../model/useOrganization";
 
 export function OrganizationSelector() {
 	const t = useTranslations();
-	const { data: organizations } = useGetOrganizations();
+	const { data: organizations } = useGetOrganizations({
+		queryConfig: {
+			select: (data) => data.organizations,
+		},
+	});
+
 	const { currentOrganization, setCurrentOrganization } =
 		useOrganizationStore();
 	const { setCurrentProject } = useProjectStore();
 
 	const router = useRouter();
-	function handleOrganizationClick(organization: Organization) {
+	function handleOrganizationClick(organization: SelectOrganization) {
 		setCurrentOrganization(organization);
 		setCurrentProject(null);
 		router.push(`/dashboard/${organization.slug}`);

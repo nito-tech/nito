@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  # Skip if no changes in apps/web
+  # Skip if no changes in apps/web or packages/db
   check-web-app-changes:
     runs-on: ubuntu-latest
     outputs:
@@ -20,19 +20,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check for changes in apps/web
+      - name: Check for changes in apps/web or packages/db
         id: check_changes
         run: |
           CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD)
-          if echo "$CHANGED_FILES" | grep -q "^apps/web/"; then
+          if echo "$CHANGED_FILES" | grep -q "^apps/web/" || echo "$CHANGED_FILES" | grep -q "^packages/db/"; then
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "There is a change in apps/web"
+            echo "There is a change in apps/web or packages/db"
           else
-            echo "No changes in apps/web, skipping migration and reset DB"
+            echo "No changes in apps/web or packages/db, skipping migration and reset DB"
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
 
-  # Check if there have been any changes in apps/websupabase/migrations/*.
+  # Check if there have been any changes in　　packages/db/src/migrations
   check-paths:
     needs: check-web-app-changes
     if: needs.check-web-app-changes.outputs.has_changes == 'true'
@@ -48,7 +48,7 @@ jobs:
           git fetch --prune --unshallow
 
           # Check if the migration file has changed
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E '^apps/web/supabase/migrations/' || true)
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E '^packages/db/src/migrations/' || true)
           if [ -n "$CHANGED_FILES" ]; then
             echo "Migration files were changed, should run migration"
             echo "should_run_migration=true" >> $GITHUB_OUTPUT
@@ -76,16 +76,38 @@ jobs:
       run: pnpm install --frozen-lockfile
 
     # ------------------------------------
-    # Set Vercel environment to .env.local
+    # Set Vercel environment to .env
     # ------------------------------------
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
 
-    - name: Pull Preview Environment Variables
-      run: vercel env pull apps/web/.env.local --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+    - name: Pull Preview Environment Variables to apps/web/.env
+      run: vercel env pull apps/web/.env --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    - name: Pull Preview Environment Variables to packages/db/.env
+      run: vercel env pull packages/db/.env --environment preview --yes --token ${{ secrets.VERCEL_TOKEN }}
+      env:
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    # ------------------------------------
+    # Build packages using cache
+    # ------------------------------------
+    - name: Cache Next.js build
+      id: cache-build
+      uses: actions/cache@v4
+      with:
+        path: |
+          apps/web/.next/cache
+          packages/db/dist
+        key: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+        restore-keys: build-${{ github.ref_name }}-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+    - name: Build db package
+      run: pnpm --filter @nito/db build
 
     # ------------------------------------
     # Run migrations
@@ -98,14 +120,14 @@ jobs:
     # Use Vercel environment variables
     - name: Link to the project
       run: |
-        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
-        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN apps/web/.env.local | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_PROJECT_ID=$(grep SUPABASE_PROJECT_ID packages/db/.env | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_DB_PASSWORD=$(grep SUPABASE_DB_PASSWORD packages/db/.env | cut -d '=' -f2 | sed 's/"//g')
+        export SUPABASE_ACCESS_TOKEN=$(grep SUPABASE_ACCESS_TOKEN packages/db/.env | cut -d '=' -f2 | sed 's/"//g')
         if [ -z "$SUPABASE_PROJECT_ID" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
           echo "Error: Missing Supabase environment variables"
           exit 1
         fi
-        cd apps/web && supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+        cd packages/db && supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
       env:
         SUPABASE_ACCESS_TOKEN: $SUPABASE_ACCESS_TOKEN
 
@@ -113,16 +135,16 @@ jobs:
       if: needs.check-paths.outputs.should_run_migration == 'true'
       run: |
         set -e
-        # supabase migration up
-        cd apps/web && supabase db push
+        # Push migrations
+        cd packages/db && supabase db push
 
     # ------------------------------------
-    # Reset Supabase Database
+    # Reset Supabase Database using packages/db/supabase/seed.sql
     # ------------------------------------
-    - name: Reset Supabase Database
+    - name: Reset Database
       run: |
         set -e
-        cd apps/web && echo "yes" | supabase db reset --linked
+        cd packages/db && echo "yes" | supabase db reset --linked
 
   result:
     needs: [check-paths, migration]

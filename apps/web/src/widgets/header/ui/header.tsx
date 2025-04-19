@@ -1,5 +1,6 @@
 "use client";
 
+import type { SelectOrganization, SelectProject } from "@nito/db";
 import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,7 +12,6 @@ import { useProjectStore } from "@/entities/project/model/project-store";
 import { OrganizationSelector } from "@/features/organizations/ui/organization-selector/organization-selector";
 import { ProjectSelector } from "@/features/project/ui/projector-selector/project-selector";
 import ProfileControler from "@/features/user/ui/profile-controler/profile-controler";
-import type { Organization, Project } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import {
 	DropdownMenu,
@@ -59,7 +59,7 @@ type SubHeaderTab = {
 	href: string;
 };
 
-function organizationTabs(organization: Organization): SubHeaderTab[] {
+function organizationTabs(organization: SelectOrganization): SubHeaderTab[] {
 	return [
 		{
 			label: "Overview",
@@ -77,8 +77,8 @@ function organizationTabs(organization: Organization): SubHeaderTab[] {
 }
 
 function projectTabs(
-	project: Project,
-	organization: Organization,
+	project: SelectProject,
+	organization: SelectOrganization,
 ): SubHeaderTab[] {
 	return [
 		{
@@ -100,8 +100,7 @@ export default function Header() {
 	const plan = "Free";
 	const pathname = usePathname();
 	const router = useRouter();
-	const { currentOrganization, setCurrentOrganization } =
-		useOrganizationStore();
+	const { currentOrganization } = useOrganizationStore();
 	const { currentProject, setCurrentProject } = useProjectStore();
 
 	const subHeaderTabs = useMemo(() => {

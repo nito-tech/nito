@@ -1,23 +1,59 @@
- # Supabase
+# DB
 
-## How to use on local?
+It manages Drizzle's schema for use in the database.
+Migration and seed data additions are also handled by this package.
 
-1. Run Docker Desktop
-2. Start Supabase on local
-    ```sh
-    npx supabase@latest start
-    ```
-3. Open Supabase Studio
-    ```sh
-    open http://127.0.0.1:54323/project/default
-    ```
+## Dashboard
+
+You can use either of the following.
+
+### Drizzle Studio
+
+```sh
+pnpm drizzle-kit studio
+open https://local.drizzle.studio/
+```
+
+### Supabase Studio
+
+```sh
+# 1. Run Docker Desktop
+
+# 2. Start Supabase on local
+npx supabase@latest start
+    
+# 3. Open Supabase Studio
+open http://127.0.0.1:54323/project/default
+```
+
+## How to migrate and add seed data
+
+```sh
+# 0. Reset database
+# Seed data is NOT submitted because supabase/seed.sql does not exist
+npx supabase@latest db reset
+
+# 1. Update drizzle schema files
+
+# 2. Push to db
+npx drizzle-kit push 
+# or supabase db push
+
+# 3. Generate migration file
+pnpm drizzle-kit generate --name=<YOUR_MIGRATION_MESSAGE>
+
+# 4. Update seed.ts
+
+# 5. Apply seed data to local
+pnpm seed
+
+# 6. Generate seed.sql for initialize Preview database in GitHub Actions
+npx supabase db dump --db-url postgresql://postgres:postgres@localhost:54322/postgres --data-only > packages/db/supabase/seed.sql
+```
 
 ## Tips
 
 ```sh
-# Generate schema from local db
-pnpm generate-schema
-
 # Stop local DB
 npx supabase@latest stop
 

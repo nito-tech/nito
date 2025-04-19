@@ -13,9 +13,12 @@ export const queryConfig = {
 	},
 } satisfies DefaultOptions;
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export type QueryConfig<T extends (...args: any[]) => any> = Omit<
-	UseQueryOptions<Awaited<ReturnType<T>>, Error>,
+export type QueryConfig<
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	T extends (...args: any[]) => any,
+	TData = Awaited<ReturnType<T>>,
+> = Omit<
+	UseQueryOptions<Awaited<ReturnType<T>>, Error, TData>,
 	"queryKey" | "queryFn"
 >;
 
