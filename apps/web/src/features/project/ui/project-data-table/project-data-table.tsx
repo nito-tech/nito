@@ -18,7 +18,6 @@ import * as React from "react";
 
 import { useProjectStore } from "@/entities/project/model/project-store";
 import { useDataTable } from "@/shared/hooks/use-data-table";
-import type { Project } from "@/shared/schema";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { DataTable } from "@/shared/ui/data-table/data-table";
@@ -52,7 +51,7 @@ const createColumns = ({
 	onDelete,
 }: {
 	pathname: string;
-	setCurrentProject: (project: Project | null) => void;
+	setCurrentProject: (project: SelectProject | null) => void;
 	onEdit: (id: string) => void;
 	onDelete: (id: string) => void;
 }): ColumnDef<SelectProject>[] => [
@@ -87,15 +86,13 @@ const createColumns = ({
 		),
 		cell: ({ row }) => {
 			const selectProject = row.original;
-			const project: Project = {
+			const project: SelectProject = {
 				id: selectProject.id,
 				name: selectProject.name,
 				description: selectProject.description,
-				organization_id: selectProject.organizationId,
-				created_at: selectProject.createdAt.toISOString(),
-				updated_at: selectProject.updatedAt.toISOString(),
-				is_active: true,
-				status: "active",
+				organizationId: selectProject.organizationId,
+				createdAt: selectProject.createdAt,
+				updatedAt: selectProject.updatedAt,
 			};
 
 			return (

@@ -72,18 +72,24 @@ export default function AccountPage() {
 
 		try {
 			setIsLoading(true);
-			toast.promise(
-				updateProfile({
-					id: profile.id,
-					username: data.username,
-					// Email is can not be changed
-				}),
-				{
-					loading: "Updating...",
-					success: "Your profile has been updated!",
-					error: "Something went wrong. Please try again.",
-				},
-			);
+			// TODO:
+			// toast.promise(
+			// 	updateProfile({
+			// 		id: profile.id,
+			// 		username: data.username,
+			// 		// Email is can not be changed
+			// 		email: user?.email ?? "",
+			// 		displayName: profile.displayName,
+			// 		avatarUrl: profile.avatarUrl,
+			// 		createdAt: profile.createdAt,
+			// 		updatedAt: profile.updatedAt,
+			// 	}),
+			// 	{
+			// 		loading: "Updating...",
+			// 		success: "Your profile has been updated!",
+			// 		error: "Something went wrong. Please try again.",
+			// 	},
+			// );
 		} catch (error) {
 			toast.error("Something went wrong. Please try again.");
 
@@ -116,7 +122,7 @@ export default function AccountPage() {
 						<div className="flex items-center gap-4 mb-6">
 							<Avatar className="h-20 w-20">
 								<AvatarImage
-									src={profile?.avatar_url ?? ""}
+									src={profile?.avatarUrl ?? ""}
 									alt={profile?.username ?? ""}
 								/>
 								<AvatarFallback className="bg-muted text-muted-foreground">
